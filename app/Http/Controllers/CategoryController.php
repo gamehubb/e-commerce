@@ -120,4 +120,11 @@ class CategoryController extends Controller
         notify()->success('Category Deleted Successfully');
         return redirect('/auth/category/index');
     }
+    public function behaviourOfStatus(Request $request)
+    {
+        $obj = new \stdClass();
+        $obj =Category::where('id',$request->id)->update(['status' => $request->status]); 
+        return $obj;
+        
+    }
 }

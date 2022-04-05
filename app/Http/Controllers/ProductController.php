@@ -145,4 +145,11 @@ class ProductController extends Controller
         $subcategory = Subcategory::where('category_id',"=",$id)->pluck('name','id');
         return response()->json($subcategory);
     }
+    public function behaviourOfStatus(Request $request)
+    {
+        $obj = new \stdClass();
+        $obj =Product::where('id',$request->id)->update(['status' => $request->status]); 
+        return $obj;
+        
+    }
 }

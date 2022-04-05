@@ -71,6 +71,32 @@
         </div>
       </div>
     </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap4"
+        aria-expanded="true" aria-controls="collapseBootstrap2">
+        <i class="far fa-fw fa-window-maximize"></i>
+        <span>Users</span>
+      </a>
+      <div id="collapseBootstrap4" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">Users</h6>
+          <a class="collapse-item" href="/auth/users">View</a>
+        </div>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap5"
+        aria-expanded="true" aria-controls="collapseBootstrap2">
+        <i class="far fa-fw fa-window-maximize"></i>
+        <span>Orders</span>
+      </a>
+      <div id="collapseBootstrap5" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">Orders</h6>
+          <a class="collapse-item" href="/auth/orders">View</a>
+        </div>
+      </div>
+    </li>
     <hr class="sidebar-divider">
     <li class="nav-item">
         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

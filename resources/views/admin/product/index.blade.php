@@ -23,6 +23,7 @@
               <th>Additional Info</th>
               <th>Price</th>
               <th>Category</th>
+              <th>Status</th>
               <th>Edit</th>
               <th>Delete</th>
             </tr>
@@ -37,6 +38,9 @@
               <td>{!!$product->additional_info!!}</td>
               <td>{{$product->price}}</td>
               <td>{{$product->category->name}}</td>
+              <td>
+                <input data-id ="{{$product->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" data-size="xs" id="catcat" {{$product->status ? 'checked' : ''}}>
+              </td>
               <td><a href="/auth/product/edit/{{$product->id}}"><button class="btn btn-primary">Edit</button></a></td>
               <td>
                 <form action="/auth/product/delete/{{$product->id}}" method="POST">@csrf
@@ -53,4 +57,30 @@
       </div>
     </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript">
+     $(document).ready(function(){
+      $(function(){
+          $('.toggle-class').change(function(){
+             var status = $(this).prop('checked') == true ? 1 : 0;
+            var product_id = $(this).data('id');
+            // var category_id = $("#catcat").val();
+             $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+                  } 
+              });
+              $.ajax({
+                type: "GET",
+                url: '/auth/changedProductStatus',
+                dataType: "json",
+                data: {'id' : product_id, 'status' : status},
+                success:function(data){
+                 alert("Status Changed")
+                }
+          });
+          });
+      });
+     });
+  </script>
 @endsection

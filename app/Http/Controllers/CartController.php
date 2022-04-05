@@ -65,6 +65,16 @@ class CartController extends Controller
         }
         return view('checkout',compact('amount','cart'));
     }
+    public function generateVoucherNumber(){
+        $characters = 'MV4560GM678ZA0B0E1D';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+            for ($i = 0; $i < 6; $i++) {
+              $randomString .= $characters[rand(0, $charactersLength - 1)];
+              $finalvouchernumber = 'GH#' .$randomString;
+         }
+         return $finalvouchernumber;
+    }
     public function charge(Request $request){
         $charge = Stripe::charges()->create([
             'currency'=>"USD",
@@ -82,6 +92,7 @@ class CartController extends Controller
         \Mail::to(auth()->user()->email)->send(new Sendmail($cart));
         if($chargeId){
             auth()->user()->orders()->create([
+                'voucher_code' => $this->generateVoucherNumber(),
                 'cart'=>serialize(session()->get('cart'))
             ]);
             session()->forget('cart');
@@ -91,11 +102,25 @@ class CartController extends Controller
             return redirect()->back();
         }
     }
+    //For LoggedIn User
     public function order(){
         $orders = auth()->user()->orders;
         $carts = $orders->transform(function($cart,$key){
             return unserialize($cart->cart);
         });
         return view('order',compact('carts'));
+    }
+    //For Admin
+    public function userorder(){
+        $orders = Order::latest()->get();
+        return view('admin.order.index',compact('orders'));
+    }
+    public function viewUserOrder($userid,$orderid){
+        $user = User::find($userid);
+        $orders = $user->orders->where('id',$orderid);
+        $carts = $orders->transform(function($cart,$key){
+            return unserialize($cart->cart); 
+        });
+        return view('admin.order.show',compact('carts'));
     }
 }

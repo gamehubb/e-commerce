@@ -63,12 +63,24 @@ Route::group(['prefix'=>'auth','middleware'=>['auth','isAdmin']],function(){
     Route::post('/product/delete/{id}',[App\Http\Controllers\ProductController::class, 'destroy']);
 //In Product to get Subcategory based on choosen Category
     Route::get('/subcategories/{id}',[App\Http\Controllers\ProductController::class, 'loadSubCategories']);
+//Status to get 
+    Route::get('/orderstatus/{orderid}/{status}',[App\Http\Controllers\OrderController::class, 'loadStatus']);
+//Status Category 
+    Route::get('/changedCategoryStatus',[App\Http\Controllers\CategoryController::class, 'behaviourOfStatus']);
+//Status SubCategory 
+    Route::get('/changedSubCategoryStatus',[App\Http\Controllers\SubCategoryController::class, 'behaviourOfStatus']);
+//Status Product 
+    Route::get('/changedProductStatus',[App\Http\Controllers\ProductController::class, 'behaviourOfStatus']);
 //Slider 
     Route::post('/slider/create',[App\Http\Controllers\SliderController::class, 'store']);
     Route::get('/slider/create',[App\Http\Controllers\SliderController::class, 'create']);
     Route::get('/slider/index',[App\Http\Controllers\SliderController::class, 'index']);
     Route::delete('slider/{id}',[App\Http\Controllers\SliderController::class, 'destroy'])->name('slider.destroy');
-
+//Users
+    Route::get('users',[App\Http\Controllers\UserController::class, 'index']);
+//Orders
+    Route::get('orders',[App\Http\Controllers\CartController::class, 'userorder']);
+    Route::get('orders/{userid}/{orderid}',[App\Http\Controllers\CartController::class, 'viewUserOrder'])->name('user.order');
 });
 
 

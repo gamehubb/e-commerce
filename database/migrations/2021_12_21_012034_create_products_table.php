@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->text('additional_info');
             $table->integer('category_id');
             $table->integer('subcategory_id')->nullable();
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

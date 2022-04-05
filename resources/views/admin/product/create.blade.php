@@ -109,7 +109,7 @@
         $("document").ready(function(){
             $('select[name="category"]').on('change',function(){
                var catId = $(this).val();
-               if(catId){
+               if(catId){ 
                    $.ajax({
                        url: '/auth/subcategories/'+catId,
                        type: "GET",

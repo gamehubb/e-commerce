@@ -112,4 +112,11 @@ class SubCategoryController extends Controller
         notify()->success('Sub-category Deleted Successfully');
         return redirect('/subcategory/index');
     }
+    public function behaviourOfStatus(Request $request)
+    {
+        $obj = new \stdClass();
+        $obj =SubCategory::where('id',$request->id)->update(['status' => $request->status]); 
+        return $obj;
+        
+    }
 }

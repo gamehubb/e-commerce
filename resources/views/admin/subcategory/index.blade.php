@@ -25,6 +25,7 @@
                   <th>SN</th>
                   <th>Name</th>
                   <th>Category</th>
+                  <th>Status</th>
                   <th>Action</th>
                   <th></th>
                 </tr>
@@ -36,6 +37,9 @@
                   <td><a href="#">{{$key+1}}</a></td>
                   <td>{{$subcategory->name}}</td>
                   <td>{{$subcategory->category->name}}</td>
+                  <td> 
+                    <input data-id ="{{$subcategory->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" data-size="xs" id="catcat" {{$subcategory->status ? 'checked' : ''}}>
+                  </td>
                   <td><a href="/auth/subcategory/edit/{{$subcategory->id}}"><button class="btn btn-primary">Edit</button></a></td>
                   <td>
                     <form action="/auth/subcategory/delete/{{$subcategory->id}}" method="POST">@csrf
@@ -82,4 +86,30 @@
     </div>
 
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+   $(document).ready(function(){
+    $(function(){
+        $('.toggle-class').change(function(){
+           var status = $(this).prop('checked') == true ? 1 : 0;
+          var subcategory_id = $(this).data('id');
+          // var category_id = $("#catcat").val();
+           $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+                } 
+            });
+            $.ajax({
+              type: "GET",
+              url: '/auth/changedSubCategoryStatus',
+              dataType: "json",
+              data: {'id' : subcategory_id, 'status' : status},
+              success:function(data){
+               alert("Status Changed")
+              }
+        });
+        });
+    });
+   });
+</script>
 @endsection

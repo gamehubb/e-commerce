@@ -15,8 +15,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('voucher_code');
             $table->unsignedInteger('user_id');
             $table->text('cart');
+            $table->integer('status')->default(true);
             $table->timestamps();
         });
     }

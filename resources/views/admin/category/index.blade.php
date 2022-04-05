@@ -26,6 +26,7 @@
                   <th>Image</th>
                   <th>Name</th>
                   <th>Description</th>
+                  <th>Status</th>
                   <th>Action</th>
                   <th></th>
                 </tr>
@@ -38,6 +39,9 @@
                   <td><img src="{{Storage::url($category->image)}}" width="100" alt=""></td>
                   <td>{{$category->name}}</td>
                   <td>{{$category->description}}</td>
+                  <td>
+                    <input data-id ="{{$category->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" data-size="xs" id="catcat" {{$category->status ? 'checked' : ''}}>
+                  </td>
                   <td><a href="/auth/category/edit/{{$category->id}}"><button class="btn btn-primary">Edit</button></a></td>
                   <td>
                     <form action="/auth/category/delete/{{$category->id}}" method="POST">@csrf
@@ -84,4 +88,30 @@
     </div>
 
   </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+   $(document).ready(function(){
+    $(function(){
+        $('.toggle-class').change(function(){
+           var status = $(this).prop('checked') == true ? 1 : 0;
+          var category_id = $(this).data('id');
+          // var category_id = $("#catcat").val();
+           $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+                } 
+            });
+            $.ajax({
+              type: "GET",
+              url: '/auth/changedCategoryStatus',
+              dataType: "json",
+              data: {'id' : category_id, 'status' : status},
+              success:function(data){
+               alert("Status Changed")
+              }
+        });
+        });
+    });
+   });
+</script>
 @endsection
