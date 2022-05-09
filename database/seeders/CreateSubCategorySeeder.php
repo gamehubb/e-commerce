@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 class CreateSubCategorySeeder extends Seeder
 {
     /**
@@ -13,39 +13,39 @@ class CreateSubCategorySeeder extends Seeder
      */
     public function run()
     {
-        Subcategory::create([
+        SubCategory::create([
             'category_id' => 1,
             'name' => 'Dell',
         ]);
-        Subcategory::create([
+        SubCategory::create([
             'category_id' => 1,
             'name' => 'HP',
         ]);
-        Subcategory::create([
+        SubCategory::create([
             'category_id' => 1,
             'name' => 'lenovo',
         ]);
-        Subcategory::create([
+        SubCategory::create([
             'category_id' => 2,
             'name' => 'Apple',
         ]);
-        Subcategory::create([
+        SubCategory::create([
             'category_id' => 2,
             'name' => 'Samsung',
         ]);
-        Subcategory::create([
+        SubCategory::create([
             'category_id' => 2,
             'name' => 'Huawei',
         ]);
-        Subcategory::create([
+        SubCategory::create([
             'category_id' => 3,
             'name' => 'LG',
         ]);
-        Subcategory::create([
+        SubCategory::create([
             'category_id' => 3,
             'name' => 'Hitachi',
         ]);
-        Subcategory::create([
+        SubCategory::create([
             'category_id' => 3,
             'name' => 'Toshiba',
         ]);

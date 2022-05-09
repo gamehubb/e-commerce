@@ -3,13 +3,13 @@
 @section('content')
     <div class="container">
         <main>
-            <section class="py-5 text-center container">
+            <section class="text-center">
                 <div class="container">
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                         @foreach($sliders as $key=>$slider)
                           <div class="carousel-item {{$key == 0 ? 'active' : ''}}">
-                            <img src="{{Storage::url($slider->image)}}" class="d-block w-100" alt="...">
+                            <img src="{{Storage::url($slider->image)}}"  style="  height:12rem; display: inline-block; !important" alt="...">
                           </div>
                         @endforeach
                         </div>
@@ -26,7 +26,8 @@
             </section>
             <h2>Category</h2>
             @foreach($categories as $category)
-                <a href="/category/{{$category->slug}}"><button class="btn btn-secondary">{{$category->name}}</button></a>
+                <img src="{{Storage::url($category->image)}}"  style="  height:12rem; display: inline-block; !important" alt="...">
+
             @endforeach
             <div class="album py-5 bg-light">
                 <div class="container">
@@ -57,10 +58,11 @@
                         @endforeach
                     </div>
                 </div>
-                <center class="mt-5">
+                <div class="mt-5">
                     <a href="{{route('more.product')}}">
-                        <button class="btn btn-success">More Products</button></center>
+                        <button class="btn btn-success">More Products</button>
                     </a>
+                </div>
             </div>
             <div class="jumbotron">
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">

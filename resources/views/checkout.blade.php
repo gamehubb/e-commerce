@@ -90,14 +90,6 @@
                             </div>
                             <div class="mt-3">
                                 <input type="hidden" name="amount" value="{{$amount}}">
-                                <div class="mt-3">
-                                    <label for="card-element">Credit or Debit Card</label>
-                                    <div id="card-element" class="mt-2">
-                                        {{-- A strip element will be inserted here --}}
-                                    </div>
-                                    {{-- Used to display form errors --}}
-                                    <div id="card-error" role="alert"></div>
-                                </div>
                                 <button class="btn btn-primary mt-3" type="submit">Submit</button>
                             </div>
                         </form>

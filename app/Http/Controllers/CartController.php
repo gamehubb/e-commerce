@@ -26,6 +26,7 @@ class CartController extends Controller
         return redirect()->back();
         // return redirect('/auth/subcategory/index');
     }
+
     public function showCart(){
         if(session()->has('cart')){
             $cart = new Cart(session()->get('cart'));
@@ -35,6 +36,7 @@ class CartController extends Controller
         }
         return view('cart',compact('cart'));
     }
+
     public function updateCart(Request $request, Product $product){
         $request->validate([
             'qty'=>'required|numeric|min:1'
@@ -45,6 +47,7 @@ class CartController extends Controller
         notify()->success('Cart Updated Successfully');
         return redirect()->back();
     } 
+
     public function removeCart(Product $product){
         $cart = new Cart(session()->get('cart'));
         $cart->remove($product->id);
@@ -56,6 +59,7 @@ class CartController extends Controller
         notify()->success('Cart Removed Successfully');
         return redirect()->back(); 
     }
+    
     public function checkout($amount){
         if(session()->has('cart')){
             $cart = new Cart(session()->get('cart'));
@@ -65,6 +69,7 @@ class CartController extends Controller
         }
         return view('checkout',compact('amount','cart'));
     }
+
     public function generateVoucherNumber(){
         $characters = 'MV4560GM678ZA0B0E1D';
         $charactersLength = strlen($characters);
@@ -75,6 +80,7 @@ class CartController extends Controller
          }
          return $finalvouchernumber;
     }
+
     public function charge(Request $request){
         $charge = Stripe::charges()->create([
             'currency'=>"USD",

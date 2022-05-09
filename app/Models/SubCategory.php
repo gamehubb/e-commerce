@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 
-class Subcategory extends Model
+class SubCategory extends Model
 {
     use HasFactory; 
+    protected $table = 'subcategories';
     protected $fillable = ['name','category_id'];
 
     //Category can have manay SubCategory so the subcategory is now belongsTo category

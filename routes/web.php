@@ -27,7 +27,7 @@ Route::post('/product/{product}',[App\Http\Controllers\CartController::class, 'r
 Route::get('/index/test',function() {
     return view('test');
 });
-Route::get('/checkout/{amount}',[App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout') ->middleware('auth');
+Route::get('/checkout/{amount}',[App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 Route::get('/orders',[App\Http\Controllers\CartController::class, 'order'])->name('order')->middleware('auth');
 Route::post('/charge',[App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
 
