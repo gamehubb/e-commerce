@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubcategoriesTable extends Migration
+class CreateBrandsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateSubcategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('subcategories', function (Blueprint $table) {
-            $table->id();
-            $table->integer('category_id');
+        Schema::create('brands', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('name');
+            $table->string('slug');
+            $table->text('image')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

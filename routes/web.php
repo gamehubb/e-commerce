@@ -24,9 +24,7 @@ Route::get('/addToCart/{product}',[App\Http\Controllers\CartController::class, '
 Route::get('/cart',[App\Http\Controllers\CartController::class, 'showCart'])->name('cart.show');
 Route::post('/products/{product}',[App\Http\Controllers\CartController::class, 'updateCart'])->name('cart.update');
 Route::post('/product/{product}',[App\Http\Controllers\CartController::class, 'removeCart'])->name('cart.remove');
-Route::get('/index/test',function() {
-    return view('test');
-});
+
 Route::get('/checkout/{amount}',[App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 Route::get('/orders',[App\Http\Controllers\CartController::class, 'order'])->name('order')->middleware('auth');
 Route::post('/charge',[App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
@@ -47,13 +45,8 @@ Route::group(['prefix'=>'auth','middleware'=>['auth','isAdmin']],function(){
     Route::get('/category/edit/{id}', [App\Http\Controllers\CategoryController::class, 'edit']);
     Route::get('/category/index',[App\Http\Controllers\CategoryController::class, 'index']);
     Route::post('/category/delete/{id}',[App\Http\Controllers\CategoryController::class, 'destroy']);
-//SubCategory 
-    Route::post('/subcategory/create',[App\Http\Controllers\SubCategoryController::class, 'store']);
-    Route::get('/subcategory/create',[App\Http\Controllers\SubCategoryController::class, 'create']);
-    Route::post('/subcategory/update/{id}',[App\Http\Controllers\SubCategoryController::class, 'update']);
-    Route::get('/subcategory/edit/{id}', [App\Http\Controllers\SubCategoryController::class, 'edit']);
-    Route::get('/subcategory/index',[App\Http\Controllers\SubCategoryController::class, 'index']);
-    Route::post('/subcategory/delete/{id}',[App\Http\Controllers\SubCategoryController::class, 'destroy']);
+//Brand 
+    Route::resource('/brand',App\Http\Controllers\BrandController::class);
 //Product 
     Route::post('/product/create',[App\Http\Controllers\ProductController::class, 'store']);
     Route::get('/product/create',[App\Http\Controllers\ProductController::class, 'create']);
@@ -71,11 +64,6 @@ Route::group(['prefix'=>'auth','middleware'=>['auth','isAdmin']],function(){
     Route::get('/changedSubCategoryStatus',[App\Http\Controllers\SubCategoryController::class, 'behaviourOfStatus']);
 //Status Product 
     Route::get('/changedProductStatus',[App\Http\Controllers\ProductController::class, 'behaviourOfStatus']);
-//Slider 
-    Route::post('/slider/create',[App\Http\Controllers\SliderController::class, 'store']);
-    Route::get('/slider/create',[App\Http\Controllers\SliderController::class, 'create']);
-    Route::get('/slider/index',[App\Http\Controllers\SliderController::class, 'index']);
-    Route::delete('slider/{id}',[App\Http\Controllers\SliderController::class, 'destroy'])->name('slider.destroy');
 //Users
     Route::get('users',[App\Http\Controllers\UserController::class, 'index']);
 //Orders

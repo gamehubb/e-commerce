@@ -102,7 +102,6 @@ class CategoryController extends Controller
         $category->save();
         notify()->success('Updated Successfully');
         return redirect('/auth/category/index');
-        // dd($category->image);
     }
 
     /**
@@ -120,6 +119,7 @@ class CategoryController extends Controller
         notify()->success('Category Deleted Successfully');
         return redirect('/auth/category/index');
     }
+    
     public function behaviourOfStatus(Request $request)
     {
         $obj = new \stdClass();

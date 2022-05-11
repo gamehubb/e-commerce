@@ -33,13 +33,13 @@
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap1"
         aria-expanded="true" aria-controls="collapseBootstrap1">
         <i class="far fa-fw fa-window-maximize"></i>
-        <span>Sub Category</span>
+        <span>Brand</span>
       </a>
       <div id="collapseBootstrap1" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Category</h6>
-          <a class="collapse-item" href="/auth/subcategory/index">View</a>
-          <a class="collapse-item" href="/auth/subcategory/create">Add New</a>
+          <a class="collapse-item" href="{{ route('brand.index') }}">View</a>
+          <a class="collapse-item" href="{{ route('brand.create') }}">Add New</a>
         </div>
       </div>
     </li>

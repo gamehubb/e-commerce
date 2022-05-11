@@ -31,8 +31,8 @@
                 </tr>
               </thead>
               <tbody>
-                @if(count($subcategories) > 0)
-                @foreach($subcategories as $key=>$subcategory)
+                @if(count($brands) > 0)
+                @foreach($brands as $key=>$subcategory)
                 <tr>
                   <td><a href="#">{{$key+1}}</a></td>
                   <td>{{$subcategory->name}}</td>

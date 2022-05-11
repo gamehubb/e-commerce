@@ -18,8 +18,8 @@ class FrontProductListController extends Controller
         }
         $randomItemProducts = Product::whereNotIn('id',$randomActiveProductId)->limit(3)->get();
         $categories = Category::get();
-        $sliders = Slider::get();
-        return view('product',compact('products','categories','randomItemProducts','randomActiveProducts','sliders'));
+        //  $sliders = Product::where()
+        return view('product',compact('products','categories','randomItemProducts','randomActiveProducts'));
         // return($randomItemProducts);
         // return($randomActiveProductId);
         // dd($randomActiveProducts);

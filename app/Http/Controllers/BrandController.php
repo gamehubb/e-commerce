@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Subcategory;
+use App\Models\Brand;
 use App\Models\Category;
+use Illuminate\Support\Str;
 
-class SubCategoryController extends Controller
+
+class BrandController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +17,9 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $subcategories = Subcategory::get();
-        $context = ['subcategories'=>$subcategories];
-        return view('admin.subcategory.index',$context); 
+        $brands = Brand::where('status','1')->get();
+        $context = ['brands'=>$brands];
+        return view('admin.brand.index',$context); 
     }
 
     /**
@@ -27,10 +29,7 @@ class SubCategoryController extends Controller
      */
     public function create()
     {
-        $select_category = Category::all();
-        $context = ['select_category' => $select_category];
-        return view('admin.subcategory.create',$context);
-        
+        return view('admin.brand.create');
     }
 
     /**
@@ -42,15 +41,14 @@ class SubCategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'subcategory_name' => 'required|min:3',
-            'category' => 'required'
+            'brand' => 'required|min:3',
         ]);
         SubCategory::create([
-            'name' => $request->get('subcategory_name'),
-            'category_id' => $request->get('category')
+            'name' => $request->get('name'),
+            'slug' => Str::slug($request->get('name')),
         ]);
-        notify()->success('SubCategory Created Successfully');
-        return redirect('/auth/subcategory/index');
+        notify()->success('Creation Succeed');
+        return redirect('/auth/brand/index');
     }
 
     /**
@@ -72,10 +70,9 @@ class SubCategoryController extends Controller
      */
     public function edit($id)
     {
-        $subcategory = Subcategory::find($id);
-        $select_category = Category::all();
-        $context = ['subcategory'=>$subcategory,'select_category'=>$select_category];
-        return view('admin.subcategory.edit',$context);
+        $brand = Brand::findorFail($id);
+        $context = ['brand'=>$brand];
+        return view('admin.brand.edit',$context);
     }
 
     /**
@@ -88,15 +85,14 @@ class SubCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'subcategory_name'=>'required',
-            'category' => 'required'
+            'name'=>'required',
         ]);
         $subcategory = Subcategory::find($id);
         $subcategory->name = $request->subcategory_name;
         $subcategory->category_id = $request->category;
         $subcategory->save();
-        notify()->success('SubCategory Updated Successfully');
-        return redirect('/auth/subcategory/index');
+        notify()->success('Updated :)');
+        return redirect('/auth/brand/index');
     }
 
     /**
@@ -109,8 +105,8 @@ class SubCategoryController extends Controller
     {
         $subcategory = Subcategory::find($id);
         $subcategory->delete();
-        notify()->success('Sub-category Deleted Successfully');
-        return redirect('/subcategory/index');
+        notify()->success('Deleted :)');
+        return redirect('/brand/index');
     }
     public function behaviourOfStatus(Request $request)
     {
