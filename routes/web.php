@@ -48,20 +48,13 @@ Route::group(['prefix'=>'auth','middleware'=>['auth','isAdmin']],function(){
 //Brand 
     Route::resource('/brand',App\Http\Controllers\BrandController::class);
 //Product 
-    Route::post('/product/create',[App\Http\Controllers\ProductController::class, 'store']);
-    Route::get('/product/create',[App\Http\Controllers\ProductController::class, 'create']);
-    Route::post('/product/update/{id}',[App\Http\Controllers\ProductController::class, 'update']);
-    Route::get('/product/edit/{id}',[App\Http\Controllers\ProductController::class, 'edit']);
-    Route::get('/product/index',[App\Http\Controllers\ProductController::class, 'index']);
-    Route::post('/product/delete/{id}',[App\Http\Controllers\ProductController::class, 'destroy']);
+    Route::resource('/product',App\Http\Controllers\ProductController::class);
 //In Product to get Subcategory based on choosen Category
     Route::get('/subcategories/{id}',[App\Http\Controllers\ProductController::class, 'loadSubCategories']);
 //Status to get 
     Route::get('/orderstatus/{orderid}/{status}',[App\Http\Controllers\OrderController::class, 'loadStatus']);
 //Status Category 
     Route::get('/changedCategoryStatus',[App\Http\Controllers\CategoryController::class, 'behaviourOfStatus']);
-//Status SubCategory 
-    Route::get('/changedSubCategoryStatus',[App\Http\Controllers\SubCategoryController::class, 'behaviourOfStatus']);
 //Status Product 
     Route::get('/changedProductStatus',[App\Http\Controllers\ProductController::class, 'behaviourOfStatus']);
 //Users

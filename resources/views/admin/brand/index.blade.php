@@ -3,11 +3,11 @@
 @section ('content')
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">All Sub-Categories</h1>
+      <h1 class="h3 mb-0 text-gray-800">All Brands</h1>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="./">Home</a></li>
         <li class="breadcrumb-item">Table</li>
-        <li class="breadcrumb-item active" aria-current="page">Sub-Categories Table</li>
+        <li class="breadcrumb-item active" aria-current="page">Brands</li>
       </ol>
     </div>
 
@@ -16,15 +16,15 @@
         <!-- Simple Tables -->
         <div class="card">
           <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Sub-Categories Table</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Brands </h6>
           </div>
           <div class="table-responsive">
             <table class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
                   <th>SN</th>
+                  <th>Image</th>
                   <th>Name</th>
-                  <th>Category</th>
                   <th>Status</th>
                   <th>Action</th>
                   <th></th>
@@ -32,25 +32,25 @@
               </thead>
               <tbody>
                 @if(count($brands) > 0)
-                @foreach($brands as $key=>$subcategory)
+                @foreach($brands as $key=>$value)
                 <tr>
                   <td><a href="#">{{$key+1}}</a></td>
-                  <td>{{$subcategory->name}}</td>
-                  <td>{{$subcategory->category->name}}</td>
+                  <td><img src="{{Storage::url($value->image)}}" width="100" alt=""></td>
+                  <td>{{$value->name}}</td>
                   <td> 
-                    <input data-id ="{{$subcategory->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" data-size="xs" id="catcat" {{$subcategory->status ? 'checked' : ''}}>
+                    <input data-id ="{{$value->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" data-size="xs" id="catcat" {{$value->status ? 'checked' : ''}}>
                   </td>
-                  <td><a href="/auth/subcategory/edit/{{$subcategory->id}}"><button class="btn btn-primary">Edit</button></a></td>
+                  <td><a href="{{ route('brand.edit', $value->id) }}"><button class="btn btn-primary">Edit</button></a></td>
                   <td>
-                    <form action="/auth/subcategory/delete/{{$subcategory->id}}" method="POST">@csrf
-                      {{-- {{method_field('DELETE')}} --}}
+                    <form action="{{ route('brand.destroy',$value->id) }}" method="POST">@csrf
+                      @method('DELETE')   
                       <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                   </td>
                 </tr>
                 @endforeach
                 @else
-                  <td>No Sub-Categories Are Created.</td>
+                  <td>No brands listing yet.</td>
                 @endif
                
                     

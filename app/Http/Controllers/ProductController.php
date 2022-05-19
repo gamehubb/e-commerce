@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\Product;
+use App\Models\Brand;
+use App\Models\ProductDetail;
+
+use Auth;
  
 class ProductController extends Controller
 {
@@ -17,8 +21,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $select_all_products = Product::get();
-        $context = ['select_all_products'=>$select_all_products];
+        $products = Product::all();
+
+        foreach($products as $product){
+
+            $product_details = ProductDetail::where('product_id',$product->id)->get();
+
+        }
+        
+        $context = ['products'=>$products, 'product_details' => $product_details];
         return view('admin.product.index',$context);
     }
 
@@ -29,8 +40,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $select_category = Category::all();
-        $context = ['select_category'=>$select_category];
+        $select_category = Category::where('status','1')->get();
+        $select_brand = Brand::where('status','1')->get();
+        $context = ['categories'=>$select_category ,'brands' => $select_brand];
         return view('admin.product.create',$context);
     }
 
@@ -42,26 +54,42 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'product_name' =>'required',
-            'product_description' =>'required|min:3',
-            'product_image'=>'required|mimes:jpeg,png',
-            'product_price'=>'required|numeric',
-            'product_additionalinfo'=>'required',
-            'category'=> 'required'
-        ]);
-        $image = $request->file('product_image')->store('public/product');
-        Product::create([
-            'name'=>$request->product_name,
-            'price'=>$request->product_price,
-            'description'=>$request->product_description,
-            'additional_info'=>$request->product_additionalinfo,
-            'category_id'=>$request->category,
-            'subcategory_id'=>$request->subcategory,
-            'image'=>$image
-        ]);
+        $product = new Product();
+        $id = Auth::id();
+
+        $product_id = $product->create([
+
+            'name' => $request->product_name,
+            'code' => $request->product_code,
+            'category_id' => $request->category,
+            'brand_id' => $request->brand,
+            'user_id' => $id,
+            'wireless' => $request->wired_option,
+            'description' => $request->product_description,
+            'additional_info' => $request->product_additional_info
+
+        ])->id;
+
+        $count_product = count($request->color);
+
+        for($x = 0; $x < $count_product; $x++) {
+            
+            $image = $request->file('product_image')[$x]->store('public/product');
+
+            ProductDetail::create([
+                'product_id' => $product_id,
+                'color' => $request->color[$x],
+                'price' => $request->product_price[$x],
+                'image' => $image,
+                'quantity' => $request->quantity[$x],
+                'discount' => empty($request->discount[$x]) == true ? '0' : $request->discount[$x],
+                'product_type' => $request->product_type[$x],
+                'is_special' => empty($request->special[$x]) == true ? '0' : $request->special[$x] ,
+            ]);
+        }
+
         notify()->success('Product Created Successfully!');
-        return redirect('/auth/product/index');
+        return redirect('auth/product');
     }
 
     /**
@@ -83,10 +111,14 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $select_product = Product::find($id);
-        $select_category = Category::all();
-        // $context = ['select_category'=>$select_category];
-        $context = ['select_product'=>$select_product,'select_category'=>$select_category];
+        $select_product = Product::findorfail($id);
+        $select_category = Category::where('status','1')->get();
+        $select_brand = Brand::where('status','1')->get();
+        $product_detail = ProductDetail::where('product_id',$id)->get();
+        $product_types = ['1' => 'in-stock', '2' => 'pre-order'];
+
+        $context = ['product'=>$select_product,'categories'=>$select_category,'brands' => $select_brand,'productDetail' => $product_detail,
+                    'product_types' => $product_types];
         return view('admin.product.edit',$context);
     }
 
@@ -99,32 +131,77 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $user_id = Auth::id();
+
         $product = Product::find($id);
         $product->name = $request->product_name;
-        $old_image = $product->image;
-        $new_image = $request->file('product_image');
-        $product->description = $request->product_description;
-        $product->price = $request->product_price;
-        $product->additional_info = $request->product_additionalinfo;
+        $product->code = $request->product_code;
         $product->category_id = $request->category;
-        $product->subcategory_id = $request->subcategory;
-        if($new_image != null){
-            Storage::delete($old_image);
-            $product->image = $request->file('product_image')->store('public/product');
-        }
-        else{
-            $product->name = $request->product_name;
-            $product->description = $request->product_description;
-            $product->price = $request->product_price;
-            $product->additional_info = $request->product_additionalinfo;
-            $product->category_id = $request->category;
-            $product->subcategory_id = $request->subcategory;
-            $product->image = $old_image;
+        $product->brand_id = $request->brand;
+        $product->user_id = $user_id;
+        $product->wireless = $request->wired_option;
+        $product->description = $request->product_description;
+        $product->additional_info = $request->product_additionalinfo;
 
-        }
         $product->save();
-        notify()->success('Product Updated Successfully');
-        return redirect('/auth/product/index');
+
+        $product_details = ProductDetail::where('product_id',$id)->get();
+        foreach($product_details as $product){
+
+            $PD = ProductDetail::find($product->id);
+
+            if(!empty($request->product_id))
+            {
+                $PD->image = $request->file('product_image')[$id]->store('public/product');
+            }else{
+                $PD->image = $product->image;
+            }   
+
+            print_r($request->file('product_image[23]'));
+
+            // echo "<img src=".Storage::url($PD->image)." width=100>";
+
+            print_r($request->product_detail_id);
+        
+
+
+        //     $old_image[] = $product->image;
+
+        //     Storage::delete($product->image); 
+        //     $product->delete();
+        // }
+
+        //     $count_product = count($request->color);
+
+        //     for($x = 0; $x < $count_product; $x++) {
+
+        //         if(!empty($request->product_image[$x]))
+        //         {
+        //         $image = $request->file('product_image')[$x]->store('public/product');
+        //         }else{
+        //         $image = $old_image;
+        //         }
+
+        //         ProductDetail::create([
+        //             'product_id' => $id,
+        //             'color' => $request->color[$x],
+        //             'price' => $request->product_price[$x],
+        //             'image' => $image,
+        //             'quantity' => $request->quantity[$x],
+        //             'discount' => empty($request->discount[$x]) == true ? '0' : $request->discount[$x],
+        //             'product_type' => $request->product_type[$x],
+        //             'is_special' => empty($request->special[$x]) == true ? '0' : $request->special[$x],
+        //         ]);
+
+                // $PD->save();
+
+
+            };
+
+        
+        // notify()->success('Product Updated Successfully');
+        // return redirect('/auth/product');
     }
     /**
      * Remove the specified resource from storage.

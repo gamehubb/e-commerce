@@ -21,9 +21,10 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('brand_id');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->integer('user_id');
-            $table->string('name');
             $table->text('description')->nullable();
             $table->text('additional_info')->nullable();
+            $table->integer('wireless')->default(false)->nullable();
+            $table->integer('status')->default(true)->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

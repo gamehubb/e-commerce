@@ -17,31 +17,29 @@
         <table class="table align-items-center table-flush table-hover" id="dataTableHover">
           <thead class="thead-light">
             <tr>
-              <th>Image</th>
               <th>Name</th>
-              <th>Description</th>
-              <th>Additional Info</th>
-              <th>Price</th>
-              <th>Category</th>
+              <th>Brand</th>
+              <th>Category</th>         
               <th>Status</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th>Image</th>
+              <th colspan="2">Actions</th>     
             </tr>
           </thead>
           <tbody>
-            @if(count($select_all_products)>0)
-            @foreach($select_all_products as $product)
+            @if(count($products)>0)
+
+            @foreach($products as $product)
             <tr>
-              <td><img src="{{Storage::url($product->image)}}" width="100" alt=""></td>
+              
+              <td><img src="{{Storage::url($product_detail->image)}}" width="100" alt=""></td>
               <td>{{$product->name }}</td>
-              <td>{!!$product->description!!}</td>
-              <td>{!!$product->additional_info!!}</td>
-              <td>{{$product->price}}</td>
               <td>{{$product->category->name}}</td>
+              <td>{{$product->brand->name}}</td>
               <td>
                 <input data-id ="{{$product->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" data-size="xs" id="catcat" {{$product->status ? 'checked' : ''}}>
               </td>
-              <td><a href="/auth/product/edit/{{$product->id}}"><button class="btn btn-primary">Edit</button></a></td>
+               
+              <td><a href="{{route('product.edit', $product->id)}}"><button class="btn btn-primary">Edit</button></a></td>
               <td>
                 <form action="/auth/product/delete/{{$product->id}}" method="POST">@csrf
                   <button type="submit" class="btn btn-danger">Delete</button>
@@ -57,7 +55,7 @@
       </div>
     </div>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+  <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
   <script type="text/javascript">
      $(document).ready(function(){
       $(function(){

@@ -10,10 +10,11 @@
     </div> 
     <div class="row justify-content-center">
         <div class="col-lg-10">
+    
         @if(Session::has('message'))
             <div class="alert alert-success">{{Session::get('message')}}</div>
         @endif
-            <form action="{{ route('brand.store') }}" method="POST">@csrf
+            <form action="{{ route('brand.store') }}" method="POST" enctype="multipart/form-data">@csrf
                 <div class="card mb-6">
                     <div class="card-header py-3 d-flex flex-row align-item-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">
@@ -23,8 +24,8 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="">Name</label>
-                            <input type="text" name="subcategory_name" class="form-control @error('subcategory_name') is-invalid @enderror" id="" aria-describedby="" placeholder="Brand Name">
-                            @error('subcategory_name')
+                            <input type="text" name="brand_name" class="form-control @error('brand_name') is-invalid @enderror" id="" aria-describedby="" placeholder="Brand Name">
+                            @error('brand_name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -33,8 +34,8 @@
                         <div class="form-group">
                             <div class="custom-file">
                                 <label for="" class="custom-file-label">Choose File</label>
-                                <input type="file" class="custom-file-input @error('category_image') is-invalid @enderror" id="customFile" name="category_image">
-                                @error('category_image')
+                                <input type="file" class="custom-file-input @error('brand_image') is-invalid @enderror" id="customFile" name="brand_image">
+                                @error('brand_image')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
