@@ -91,7 +91,7 @@
 
                                 <div class="bg-light container-fluid">
                                     <div class="container">
-                                        <table class="table text-gray" id="product_info_table">
+                                        <table class="table text-gray" id="product_info_table" name="table">
                                             <thead>
                                                 <tr>
                                                     <td>Color</td>
@@ -108,28 +108,28 @@
                                             <tbody>
                                                 @foreach ($productDetail as $product)
                                                     
-                                                <tr id="row_1">
+                                                <tr id="row_{{ $product->id }}">
                                                     <td>
-                                                        <input type="text" name="product_detail_id[{{$product->id}}]" id="product_id_1" value="{{$product->id}}" style="width:30px;">
+                                                        <input type="text" name="product_detail_id[]" id="product_id_{{$product->id}}" value="{{$product->id}}" style="width:30px;">
                                                     </td>
                                                     <td>
-                                                        <input type="color" name="color[]" id="colorpicker_1" value="{{$product->color}}" style="width:30px;">
+                                                        <input type="color" name="color[{{$product->id}}]" id="colorpicker_1" value="{{$product->color}}" style="width:30px;">
                                                     </td>
                                                     
                                                     <td>
-                                                        <input type="number" name="product_price[]" id="product_price_1" value="{{$product->price}}" style="width:100px;height:42px;margin-left:-17px;border:1px solid black;" required>
+                                                        <input type="number" name="product_price[{{$product->id}}]" id="product_price_1" value="{{$product->price}}" style="width:100px;height:42px;margin-left:-17px;border:1px solid black;" required>
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" name="quantity[]" id="quantity_1" value="{{$product->quantity}}" style="width:62px;height:42px;border:1px solid black;" required>
+                                                        <input type="number" name="quantity[{{$product->id}}]" id="quantity_1" value="{{$product->quantity}}" style="width:62px;height:42px;border:1px solid black;" required>
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" name="discount[]" id="discount_1" value="{{$product->discount}}" class="form-control" min="0">
+                                                        <input type="number" name="discount[{{$product->id}}]" id="discount_1" value="{{$product->discount}}" class="form-control" min="0">
                                                     </td>
 
                                                     <td>
-                                                        <select name="product_type[]" id="product_type_1" style="height:42px;" required>
+                                                        <select name="product_type[{{$product->id}}]" id="product_type_1" style="height:42px;" required>
                                                             @foreach ($product_types as $key => $value)
                                                             <option value={{$key}} {{ $product->product_type == $key ? 'selected' : '' }}>{{$value}}</option>
                                                             @endforeach
@@ -137,18 +137,25 @@
                                                     </td>
 
                                                     <td>
-                                                        <input id="is_special_1" type="checkbox" name="special[]" value="1" class="form-control" {{ $product->is_special == 1 ? 'checked' : '' }}>
+                                                        <input id="is_special_1" type="checkbox" name="special[{{$product->id}}]" value="1" class="form-control" {{ $product->is_special == 1 ? 'checked' : '' }}>
                                                     </td>
 
-                                                    <td class="upload-btn-wrapper" id="img_1">
-                                                        @if($product->image)
-                                                        <img src="{{Storage::url($product->image)}}" style="width:14%;cursor:pointer;"/>
-                                                        @endif
-                                                        <span class="button" id="button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>
+                                                    <td class="upload-btn-wrapper" id="first_img_1">
+                                                        <span class="button" id="first_button_1"><img src="{{Storage::url($product->image_1)}}" style="width:62%;cursor:pointer;" alt="first image"></span>
+                                                        <input type="file" id="fist_product_image_1" name="product_image_1[{{$product->id}}]" onchange="loadFile(event)" data-id="1" data-row="first" >
+                                                        <span id="first_image_text_1"></span>
+                                                    </td>
 
-                                                        <input type="file" id="product_image_1" name="product_image[{{$product->id}}]" onchange="loadFile(event)" data-id="1"/>
-                                                        
-                                                        <span id="image_text_1"></span>
+                                                    <td class="upload-btn-wrapper" id="second_img_1">
+                                                        <span class="button" id="se cond_button_1"><img src="@if ($product->image_2 == 'no-img') https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png @else {{ Storage::url($product->image_2) }} @endif" style="width:62%;cursor:pointer;" alt="second image"/></span>
+                                                        <input type="file" id="second_product_image_1" name="product_image_2[{{$product->id}}]" onchange="loadFile(event)" data-id="1" data-row="second">
+                                                        <span id="second_image_text_1"></span>
+                                                    </td>
+
+                                                    <td class="upload-btn-wrapper" id="third_img_1">
+                                                        <span class="button" id="third_button_1"><img src="@if ($product->image_3 == 'no-img') https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png @else {{ Storage::url($product->image_3) }} @endif" style="width:62%;cursor:pointer;" alt="second image"/></span>
+                                                        <input type="file" id="third_product_image_1" name="product_image_3[{{$product->id}}]" onchange="loadFile(event)" data-id="1" data-row="third">
+                                                        <span id="third_image_text_1"></span>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -206,7 +213,7 @@
         var count_table_tbody_tr = $("#product_info_table tbody tr").length;
         var row_id = count_table_tbody_tr + 1;
         var html = '<tr id="row_'+row_id+'">'+
-            '<td><input type="text" name="product_detail_id[0]" id="product_id_'+row_id+'"  style="width:30px;">'+
+            '<td><input type="text" name="product_detail_id[]" id="product_id_'+row_id+'" value="0" style="width:30px;">'+
             '<td><input type="color" name="color[]" id="colorpicker_'+row_id+'" value="#0000ff" style="width:30px;"></td>'+ 
             '<td><input type="number" name="product_price[]" id="product_price_'+row_id+'" style="width:100px;height:42px;margin-left:-17px;border:1px solid black;"></td>'+
             '<td><input type="number" name="quantity[]" id="quantity_'+row_id+'" style="width:62px;height:42px;border:1px solid black;"></td>'+
@@ -224,10 +231,22 @@
                 '<input id="is_special_'+row_id+'" type="checkbox"  name="special[]" value="1" class="form-control">'+
             '</td>'+
             
-            '<td class="upload-btn-wrapper" id="img_'+row_id+'">'+
-                '<span class="button" id="button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>'+
-                '<input type="file" id="product_image'+row_id+'" name="product_image[]" onchange="loadFile(event)" data-id='+row_id+' />'+
-                '<span id="image_text_'+row_id+'"></span>'+
+            '<td class="upload-btn-wrapper" id="frist_img_'+row_id+'">'+
+                '<span class="button" id="frist_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>'+
+                '<input type="file" id="frist_product_image'+row_id+'" name="product_image_1[]" onchange="loadFile(event)" data-id='+row_id+' required data-row="first" />'+
+                '<span id="first_image_text_'+row_id+'"></span>'+
+            '</td>'+
+
+            '<td class="upload-btn-wrapper" id="second_img_'+row_id+'">'+
+                '<span class="button" id="second_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>'+
+                '<input type="file" id="second_product_image_'+row_id+'" name="product_image_2[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="second"/>'+
+                '<span id="second_image_text_'+row_id+'"></span>'+
+            '</td>'+
+
+            '<td class="upload-btn-wrapper" id="third_img_'+row_id+'">'+
+                '<span class="button" id="third_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>'+
+                '<input type="file" id="third_product_image_'+row_id+'" name="product_image_3[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="third"/>'+
+                '<span id="third_image_text_'+row_id+'"></span>'+
             '</td>'+
             '<td><button type="button" class="btn btn-default bg-white" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-minus"></i></button></td>'+
             '</tr>';
@@ -249,9 +268,9 @@
     var loadFile = function(event) {
         for(var i =0; i< event.target.files.length; i++){
             var row_id = event.target.getAttribute('data-id');
+            var img_row_id = event.target.getAttribute('data-row');
             var src = URL.createObjectURL(event.target.files[i]);
-            $("#image_text_"+row_id).text('file uploaded');
-            alert($("#product_image_"+row_id).val());
+            $('#'+img_row_id+'_image_text_'+row_id).text('file uploaded');
 
         }
     };

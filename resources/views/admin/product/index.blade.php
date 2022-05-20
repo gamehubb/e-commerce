@@ -31,7 +31,8 @@
             @foreach($products as $product)
             <tr>
               
-              <td><img src="{{Storage::url($product_detail->image)}}" width="100" alt=""></td>
+              <td style="">
+                <img src="{{Storage::url($product->productDetail->image_1)}}" width="100" alt="Image-1" class="index_image">
               <td>{{$product->name }}</td>
               <td>{{$product->category->name}}</td>
               <td>{{$product->brand->name}}</td>

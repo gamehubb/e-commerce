@@ -22,14 +22,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-
-        foreach($products as $product){
-
-            $product_details = ProductDetail::where('product_id',$product->id)->get();
-
-        }
-        
-        $context = ['products'=>$products, 'product_details' => $product_details];
+        $context = ['products'=>$products];
         return view('admin.product.index',$context);
     }
 
@@ -74,13 +67,18 @@ class ProductController extends Controller
 
         for($x = 0; $x < $count_product; $x++) {
             
-            $image = $request->file('product_image')[$x]->store('public/product');
+            $image_1 = $request->file('product_image_1')[$x]->store('public/product');
+            $image_2 = empty($request->file('product_image_2')[$x]) == true ? 'no-img' : $request->file('product_image_2')[$x]->store('public/product');
+            $image_3 = empty($request->file('product_image_3')[$x]) == true ? 'no-img' : $request->file('product_image_3')[$x]->store('public/product');
+
 
             ProductDetail::create([
                 'product_id' => $product_id,
                 'color' => $request->color[$x],
                 'price' => $request->product_price[$x],
-                'image' => $image,
+                'image_1' => $image_1,
+                'image_2' => $image_2,
+                'image_3' => $image_3,
                 'quantity' => $request->quantity[$x],
                 'discount' => empty($request->discount[$x]) == true ? '0' : $request->discount[$x],
                 'product_type' => $request->product_type[$x],
@@ -147,22 +145,71 @@ class ProductController extends Controller
         $product->save();
 
         $product_details = ProductDetail::where('product_id',$id)->get();
-        foreach($product_details as $product){
 
-            $PD = ProductDetail::find($product->id);
+        $value = $request->product_detail_id;
 
-            if(!empty($request->product_id))
-            {
-                $PD->image = $request->file('product_image')[$id]->store('public/product');
-            }else{
-                $PD->image = $product->image;
-            }   
+        $product_id = array_diff($request->product_detail_id,[0]);
+                            
 
-            print_r($request->file('product_image[23]'));
+        foreach($product_id as $id) {
+
+            // print_r(empty($request->product_image_1[$id]) == true ? ProductDetail::find($id)->value('image_1') : $request->file('roduct_image_1')[$id]);
+            // print_r("<br/>");
+            // print_r(empty($request->product_image_2[$id]) == true ? ProductDetail::find($id)->value('image_2') : $request->file('product_image_2')[$id]);
+            // print_r("<br/>");
+            // print_r(empty($request->product_image_3[$id]) == true ? ProductDetail::find($id)->value('image_3') : $request->file('product_image_3')[$id]);
+            // print_r("<br/>");
+            ProductDetail::where('id',$id)->update(
+                [
+                    'color' => $request->color[$id],
+                    'price' => $request->product_price[$id],
+                    'quantity' => $request->quantity[$id],
+                    'image_1' => empty($request->product_image_1[$id]) == true ? ProductDetail::find($id)->value('image_1') : $request->file('product_image_2')[$id],
+                    'image_2' => empty($request->product_image_2[$id]) == true ? ProductDetail::find($id)->value('image_2') : $request->file('product_image_2')[$id],
+                    'image_3' => empty($request->product_image_3[$id]) == true ? ProductDetail::find($id)->value('image_3') : $request->file('product_image_3')[$id],
+                    'discount' => empty($request->discount[$id]) == true ? '0' : $request->discount[$id],
+                    'product_type' => $request->product_type[$id],
+                    'is_special' => empty($request->special[$id]) == true ? '0' : $request->special[$id] ,
+
+                ]
+            );
+
+        }
+
+        // foreach($product_details as $product){
+
+        //     $PD = ProductDetail::find($product->id);
+
+          
+        //     if(!empty($request->file('product_image')))
+        //     {
+
+        //         foreach($request->file('product_image') as $key => $chk){
+        //             $PD->image = $request->file('product_image')[$key]->store('public/product');
+        //         }
+                
+        //         $PD->image;
+        //     }else{
+        //         $PD->image_1 = $product->image_1;
+        //         $PD->image_2 = $product->image_2;
+        //         $PD->image_3 = $product->image_3;
+        //     }   
+
+
+            
+                    // $request->product_price,
+                    // $request->quantity,
+                    // empty($request->discount) == true ? '0' : $request->discount,
+                    // $request->product_type,
+                    // empty($request->special) == true ? '0' : $request->special);
+                    
+            
+
+         
 
             // echo "<img src=".Storage::url($PD->image)." width=100>";
 
-            print_r($request->product_detail_id);
+            // $request->product_detail_id;
         
 
 
@@ -197,7 +244,7 @@ class ProductController extends Controller
                 // $PD->save();
 
 
-            };
+            // };
 
         
         // notify()->success('Product Updated Successfully');

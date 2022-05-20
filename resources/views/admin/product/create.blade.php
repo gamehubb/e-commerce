@@ -134,11 +134,24 @@
                                                         <input id="is_special_1" type="checkbox" name="special[]" value="1" class="form-control">
                                                     </td>
 
-                                                    <td class="upload-btn-wrapper" id="img_1">
-                                                        <span class="button" id="button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>
-                                                        <input type="file" id="product_image_1" name="product_image[]" onchange="loadFile(event)" data-id="1" required/>
-                                                        <span id="image_text_1"></span>
+                                                    <td class="upload-btn-wrapper" id="first_img_1">
+                                                        <span class="button" id="first_button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;" alt="first image"></span>
+                                                        <input type="file" id="fist_product_image_1" name="product_image_1[]" onchange="loadFile(event)" data-id="1" required data-row="first" >
+                                                        <span id="first_image_text_1"></span>
                                                     </td>
+
+                                                    <td class="upload-btn-wrapper" id="second_img_1">
+                                                        <span class="button" id="second_button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;" alt="second image"/></span>
+                                                        <input type="file" id="second_product_image_1" name="product_image_2[]" onchange="loadFile(event)" data-id="1" data-row="second">
+                                                        <span id="second_image_text_1"></span>
+                                                    </td>
+
+                                                    <td class="upload-btn-wrapper" id="third_img_1">
+                                                        <span class="button" id="third_button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;" alt="third image"/></span>
+                                                        <input type="file" id="third_product_image_1" name="product_image_3[]" onchange="loadFile(event)" data-id="1" data-row="third">
+                                                        <span id="third_image_text_1"></span>
+                                                    </td>
+                                                    
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -210,10 +223,22 @@
                 '<input id="is_special_'+row_id+'" type="checkbox"  name="special[]" value="1" class="form-control">'+
             '</td>'+
             
-            '<td class="upload-btn-wrapper" id="img_'+row_id+'">'+
-                '<span class="button" id="button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>'+
-                '<input type="file" id="product_image'+row_id+'" name="product_image[]" onchange="loadFile(event)" data-id='+row_id+' />'+
-                '<span id="image_text_'+row_id+'"></span>'+
+            '<td class="upload-btn-wrapper" id="frist_img_'+row_id+'">'+
+                '<span class="button" id="frist_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>'+
+                '<input type="file" id="frist_product_image'+row_id+'" name="product_image_1[]" onchange="loadFile(event)" data-id='+row_id+' required data-row="first" />'+
+                '<span id="first_image_text_'+row_id+'"></span>'+
+            '</td>'+
+
+            '<td class="upload-btn-wrapper" id="second_img_'+row_id+'">'+
+                '<span class="button" id="second_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>'+
+                '<input type="file" id="second_product_image_'+row_id+'" name="product_image_2[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="second"/>'+
+                '<span id="second_image_text_'+row_id+'"></span>'+
+            '</td>'+
+
+            '<td class="upload-btn-wrapper" id="third_img_'+row_id+'">'+
+                '<span class="button" id="third_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>'+
+                '<input type="file" id="third_product_image_'+row_id+'" name="product_image_3[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="third"/>'+
+                '<span id="third_image_text_'+row_id+'"></span>'+
             '</td>'+
             '<td><button type="button" class="btn btn-default bg-white" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-minus"></i></button></td>'+
             '</tr>';
@@ -235,9 +260,10 @@
     var loadFile = function(event) {
         for(var i =0; i< event.target.files.length; i++){
             var row_id = event.target.getAttribute('data-id');
-            var src = URL.createObjectURL(event.target.files[i]);
-            $("#image_text_"+row_id).text('file uploaded');
+            var img_row_id = event.target.getAttribute('data-row');
 
+            var src = URL.createObjectURL(event.target.files[i]);
+            $('#'+img_row_id+'_image_text_'+row_id).text('file uploaded');
         }
     };
 
