@@ -12,7 +12,7 @@ use App\Models\ProductDetail;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','code','description','image','price','additional_info','category_id','brand_id','user_id','subcategory_id'];
+    protected $fillable = ['name','code','description','image','price','additional_info','category_id','brand_id','user_id','subcategory_id','wireless'];
 
     public function category(){
         return $this->hasOne(Category::class,'id','category_id');

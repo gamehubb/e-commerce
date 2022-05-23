@@ -115,7 +115,7 @@ class ProductController extends Controller
         $product_detail = ProductDetail::where('product_id',$id)->get();
         $product_types = ['1' => 'in-stock', '2' => 'pre-order'];
 
-        $context = ['product'=>$select_product,'categories'=>$select_category,'brands' => $select_brand,'productDetail' => $product_detail,
+        $context = ['s_product'=>$select_product,'categories'=>$select_category,'brands' => $select_brand,'productDetail' => $product_detail,
                     'product_types' => $product_types];
         return view('admin.product.edit',$context);
     }
@@ -148,27 +148,26 @@ class ProductController extends Controller
 
         $value = $request->product_detail_id;
 
-        $product_id = array_diff($request->product_detail_id,[0]);
+        $product_id = $request->product_detail_id;
                             
         foreach($product_id as $id) {
 
-            print_r(empty($request->file('product_image_1')[$id]) == true ? ProductDetail::find($id)->value('image_1') : $request->file('product_image_1')[$id]."|".$id);
+            print_r(empty($request->file('product_image_1')[$id]) == true ? '<img src='.Storage::url(ProductDetail::where('id',$id)->value('image_1')).' style="width:100px;">'.'|'.$id.'|'.ProductDetail::where('id',$id)->value('image_1') : '<img src='.Storage::url($request->file('product_image_1')[$id]->store('public/product')).' style="width:100px;">'.'|'.ProductDetail::find($id)->value('image_1'));
             print_r("<br/>");
-            print_r(empty($request->file('product_image_2')[$id]) == true ? ProductDetail::find($id)->value('image_2') : $request->file('product_image_2')[$id]);
+            print_r(empty($request->file('product_image_2')[$id]) == true ? '<img src='.Storage::url(ProductDetail::where('id',$id)->value('image_2')).' style="width:100px;">'.'|'.$id.'|'.ProductDetail::where('id',$id)->value('image_2') : '<img src='.Storage::url($request->file('product_image_2')[$id]->store('public/product')).' style="width:100px;">'.'|'.ProductDetail::find($id)->value('image_1'));
             print_r("<br/>");
-            print_r(empty($request->file('product_image_3')[$id]) == true ? ProductDetail::find($id)->value('image_3') : $request->file('product_image_3')[$id]);
+            print_r(empty($request->file('product_image_3')[$id]) == true ? '<img src='.Storage::url(ProductDetail::where('id',$id)->value('image_3')).' style="width:100px;">'.'|'.$id.'|'.ProductDetail::where('id',$id)->value('image_3') : '<img src='.Storage::url($request->file('product_image_3')[$id]->store('public/product')).' style="width:100px;">'.'|'.ProductDetail::find($id)->value('image_1'));
             print_r("<br/>");
 
-            // print_r(empty($request->file('product_image_2')[$id]) == true ? ProductDetail::find($id)->value('image_2') : $request->file('product_image_2')[$id]);
 
             ProductDetail::where('id',$id)->update(
                 [
                     'color' => $request->color[$id],
                     'price' => $request->product_price[$id],
                     'quantity' => $request->quantity[$id],
-                    'image_1' => empty($request->file('product_image_1')[$id]) == true ? ProductDetail::find($id)->value('image_1') : $request->file('product_image_1')[$id]->store('public/product'),
-                    'image_2' => empty($request->file('product_image_2')[$id]) == true ? ProductDetail::find($id)->value('image_2') : $request->file('product_image_2')[$id]->store('public/product'),
-                    'image_3' => empty($request->file('product_image_3')[$id]) == true ? ProductDetail::find($id)->value('image_3') : $request->file('product_image_3')[$id]->store('public/product'),
+                    'image_1' => empty($request->file('product_image_1')[$id]) == true ? ProductDetail::where('id',$id)->value('image_1') : $request->file('product_image_1')[$id]->store('public/product'),
+                    'image_2' => empty($request->file('product_image_2')[$id]) == true ? ProductDetail::where('id',$id)->value('image_2') : $request->file('product_image_2')[$id]->store('public/product'),
+                    'image_3' => empty($request->file('product_image_3')[$id]) == true ? ProductDetail::where('id',$id)->value('image_3') : $request->file('product_image_3')[$id]->store('public/product'),
                     'discount' => empty($request->discount[$id]) == true ? '0' : $request->discount[$id],
                     'product_type' => $request->product_type[$id],
                     'is_special' => empty($request->special[$id]) == true ? '0' : $request->special[$id] ,
@@ -249,8 +248,8 @@ class ProductController extends Controller
             // };
 
         
-        // notify()->success('Product Updated Successfully');
-        // return redirect('/auth/product');
+        notify()->success('Product Updated Successfully');
+        return redirect('/auth/product');
     }
     /**
      * Remove the specified resource from storage.

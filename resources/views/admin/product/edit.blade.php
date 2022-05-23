@@ -36,7 +36,7 @@
         @if(Session::has('message'))
             <div class="alert alert-success">{{Session::get('message')}}</div>
         @endif
-            <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">@csrf
+            <form action="{{ route('product.update', $s_product->id) }}" method="POST" enctype="multipart/form-data">@csrf
                 @method('PATCH')
                 <div class="card mb-6">
                     <div class="card-header py-3 d-flex flex-row align-item-center justify-content-between">
@@ -48,12 +48,12 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="">Name</label>
-                                <input type="text" name="product_name" class="form-control @error('product_name') is-invalid @enderror" value="{{ $product->name }}" id="" aria-describedby="" placeholder="Enter name of product" required>
+                                <input type="text" name="product_name" class="form-control @error('product_name') is-invalid @enderror" value="{{ $s_product->name }}" id="" aria-describedby="" placeholder="Enter name of product" required>
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="">Code</label>
-                                <input type="text" name="product_code" class="form-control" value="{{ $product->code }}" required>
+                                <input type="text" name="product_code" class="form-control" value="{{ $s_product->code }}" required>
                             </div>
                         </div>
 
@@ -63,7 +63,7 @@
                                 <select name="category" id="" class="form-control @error ('category') is-invalid @enderror" required>
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
-                                    <option value="{{$category->id}}" {{ $product->category_id == $category->id ? 'selected' : '' }}>{{$category->name}}</option>
+                                    <option value="{{$category->id}}" {{ $s_product->category_id == $category->id ? 'selected' : '' }}>{{$category->name}}</option>
                                     @endforeach 
                                 </select>
                                 @error('category')
@@ -78,7 +78,7 @@
                                 <select name="brand" id="" class="form-control @error ('brand') is-invalid @enderror" required>
                                     <option value="">Select Brand</option>
                                     @foreach ($brands as $brand)
-                                    <option value="{{$brand->id}}" {{ $product->brand_id == $brand->id ? 'selected' : '' }}>{{$brand->name}}</option>
+                                    <option value="{{$brand->id}}" {{ $s_product->brand_id == $brand->id ? 'selected' : '' }}>{{$brand->name}}</option>
                                     @endforeach 
                                 </select>
                                 @error('brand')
@@ -142,7 +142,7 @@
 
                                                     <td class="upload-btn-wrapper" id="first_img_{{$product->id}}">
                                                         <span class="button" id="first_button_{{$product->id}}"><img src="{{Storage::url($product->image_1)}}" style="width:62%;cursor:pointer;" alt="first image"></span>
-                                                        <input type="file" id="fist_product_image_{{$product->id}}" name="product_image_1[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="first" >
+                                                        <input type="file" id="first_product_image_{{$product->id}}" name="product_image_1[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="first" >
                                                         <span id="first_image_text_{{$product->id}}"></span>
                                                     </td>
 
@@ -172,7 +172,7 @@
 
                                 <div class="form-group">
                                     <label for="">Description</label>
-                                    <textarea name="product_description" id="summernote" cols="30" rows="6" class="form-control @error ('product_description') is-invalid @enderror">{{ $product->description }}</textarea>
+                                    <textarea name="product_description" id="summernote" cols="30" rows="6" class="form-control @error ('product_description') is-invalid @enderror">{{ $s_product->description }}</textarea>
                                     @error('product_description')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -182,7 +182,7 @@
                             
                                 <div class="form-group">
                                     <label for="">Additional Information</label>
-                                    <textarea name="product_additionalinfo" id="summernote1" cols="30" rows="3" class="form-control @error ('product_additionalinfo') is-invalid @enderror">{{ $product->additional_info }}</textarea>
+                                    <textarea name="product_additionalinfo" id="summernote1" cols="30" rows="3" class="form-control @error ('product_additionalinfo') is-invalid @enderror">{{ $s_product->additional_info }}</textarea>
                                     @error('product_additionalinfo')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -192,7 +192,7 @@
 
                                 <div class="form-group">
                                     <label for="">Wired Option</label>
-                                    <input type="checkbox" name="wired_option" value="1" {{ $product->wireless == 1 ? 'checked' : '' }} />
+                                    <input type="checkbox" name="wired_option" value="1" {{ $s_product->wireless == 1 ? 'checked' : '' }} />
                                 </div>
                                 
                         <div class="form-group float-right">
