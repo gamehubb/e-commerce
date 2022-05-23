@@ -150,23 +150,25 @@ class ProductController extends Controller
 
         $product_id = array_diff($request->product_detail_id,[0]);
                             
-
         foreach($product_id as $id) {
 
-            // print_r(empty($request->product_image_1[$id]) == true ? ProductDetail::find($id)->value('image_1') : $request->file('roduct_image_1')[$id]);
-            // print_r("<br/>");
-            // print_r(empty($request->product_image_2[$id]) == true ? ProductDetail::find($id)->value('image_2') : $request->file('product_image_2')[$id]);
-            // print_r("<br/>");
-            // print_r(empty($request->product_image_3[$id]) == true ? ProductDetail::find($id)->value('image_3') : $request->file('product_image_3')[$id]);
-            // print_r("<br/>");
+            print_r(empty($request->file('product_image_1')[$id]) == true ? ProductDetail::find($id)->value('image_1') : $request->file('product_image_1')[$id]."|".$id);
+            print_r("<br/>");
+            print_r(empty($request->file('product_image_2')[$id]) == true ? ProductDetail::find($id)->value('image_2') : $request->file('product_image_2')[$id]);
+            print_r("<br/>");
+            print_r(empty($request->file('product_image_3')[$id]) == true ? ProductDetail::find($id)->value('image_3') : $request->file('product_image_3')[$id]);
+            print_r("<br/>");
+
+            // print_r(empty($request->file('product_image_2')[$id]) == true ? ProductDetail::find($id)->value('image_2') : $request->file('product_image_2')[$id]);
+
             ProductDetail::where('id',$id)->update(
                 [
                     'color' => $request->color[$id],
                     'price' => $request->product_price[$id],
                     'quantity' => $request->quantity[$id],
-                    'image_1' => empty($request->product_image_1[$id]) == true ? ProductDetail::find($id)->value('image_1') : $request->file('product_image_2')[$id],
-                    'image_2' => empty($request->product_image_2[$id]) == true ? ProductDetail::find($id)->value('image_2') : $request->file('product_image_2')[$id],
-                    'image_3' => empty($request->product_image_3[$id]) == true ? ProductDetail::find($id)->value('image_3') : $request->file('product_image_3')[$id],
+                    'image_1' => empty($request->file('product_image_1')[$id]) == true ? ProductDetail::find($id)->value('image_1') : $request->file('product_image_1')[$id]->store('public/product'),
+                    'image_2' => empty($request->file('product_image_2')[$id]) == true ? ProductDetail::find($id)->value('image_2') : $request->file('product_image_2')[$id]->store('public/product'),
+                    'image_3' => empty($request->file('product_image_3')[$id]) == true ? ProductDetail::find($id)->value('image_3') : $request->file('product_image_3')[$id]->store('public/product'),
                     'discount' => empty($request->discount[$id]) == true ? '0' : $request->discount[$id],
                     'product_type' => $request->product_type[$id],
                     'is_special' => empty($request->special[$id]) == true ? '0' : $request->special[$id] ,

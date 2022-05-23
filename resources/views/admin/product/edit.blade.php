@@ -113,23 +113,23 @@
                                                         <input type="text" name="product_detail_id[]" id="product_id_{{$product->id}}" value="{{$product->id}}" style="width:30px;">
                                                     </td>
                                                     <td>
-                                                        <input type="color" name="color[{{$product->id}}]" id="colorpicker_1" value="{{$product->color}}" style="width:30px;">
+                                                        <input type="color" name="color[{{$product->id}}]" id="colorpicker_{{$product->id}}" value="{{$product->color}}" style="width:30px;">
                                                     </td>
                                                     
                                                     <td>
-                                                        <input type="number" name="product_price[{{$product->id}}]" id="product_price_1" value="{{$product->price}}" style="width:100px;height:42px;margin-left:-17px;border:1px solid black;" required>
+                                                        <input type="number" name="product_price[{{$product->id}}]" id="product_price_{{$product->id}}" value="{{$product->price}}" style="width:100px;height:42px;margin-left:-17px;border:1px solid black;" required>
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" name="quantity[{{$product->id}}]" id="quantity_1" value="{{$product->quantity}}" style="width:62px;height:42px;border:1px solid black;" required>
+                                                        <input type="number" name="quantity[{{$product->id}}]" id="quantity_{{$product->id}}" value="{{$product->quantity}}" style="width:62px;height:42px;border:1px solid black;" required>
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" name="discount[{{$product->id}}]" id="discount_1" value="{{$product->discount}}" class="form-control" min="0">
+                                                        <input type="number" name="discount[{{$product->id}}]" id="discount_{{$product->id}}" value="{{$product->discount}}" class="form-control" min="0">
                                                     </td>
 
                                                     <td>
-                                                        <select name="product_type[{{$product->id}}]" id="product_type_1" style="height:42px;" required>
+                                                        <select name="product_type[{{$product->id}}]" id="product_type_{{$product->id}}" style="height:42px;" required>
                                                             @foreach ($product_types as $key => $value)
                                                             <option value={{$key}} {{ $product->product_type == $key ? 'selected' : '' }}>{{$value}}</option>
                                                             @endforeach
@@ -137,25 +137,25 @@
                                                     </td>
 
                                                     <td>
-                                                        <input id="is_special_1" type="checkbox" name="special[{{$product->id}}]" value="1" class="form-control" {{ $product->is_special == 1 ? 'checked' : '' }}>
+                                                        <input id="is_special_{{$product->id}}" type="checkbox" name="special[{{$product->id}}]" value="1" class="form-control" {{ $product->is_special == 1 ? 'checked' : '' }}>
                                                     </td>
 
-                                                    <td class="upload-btn-wrapper" id="first_img_1">
-                                                        <span class="button" id="first_button_1"><img src="{{Storage::url($product->image_1)}}" style="width:62%;cursor:pointer;" alt="first image"></span>
-                                                        <input type="file" id="fist_product_image_1" name="product_image_1[{{$product->id}}]" onchange="loadFile(event)" data-id="1" data-row="first" >
-                                                        <span id="first_image_text_1"></span>
+                                                    <td class="upload-btn-wrapper" id="first_img_{{$product->id}}">
+                                                        <span class="button" id="first_button_{{$product->id}}"><img src="{{Storage::url($product->image_1)}}" style="width:62%;cursor:pointer;" alt="first image"></span>
+                                                        <input type="file" id="fist_product_image_{{$product->id}}" name="product_image_1[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="first" >
+                                                        <span id="first_image_text_{{$product->id}}"></span>
                                                     </td>
 
-                                                    <td class="upload-btn-wrapper" id="second_img_1">
-                                                        <span class="button" id="se cond_button_1"><img src="@if ($product->image_2 == 'no-img') https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png @else {{ Storage::url($product->image_2) }} @endif" style="width:62%;cursor:pointer;" alt="second image"/></span>
-                                                        <input type="file" id="second_product_image_1" name="product_image_2[{{$product->id}}]" onchange="loadFile(event)" data-id="1" data-row="second">
-                                                        <span id="second_image_text_1"></span>
+                                                    <td class="upload-btn-wrapper" id="second_img_{{$product->id}}">
+                                                        <span class="button" id="second_button_{{$product->id}}"><img src="@if ($product->image_2 == 'no-img') https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png @else {{ Storage::url($product->image_2) }} @endif" style="width:62%;cursor:pointer;" alt="second image"/></span>
+                                                        <input type="file" id="second_product_image_{{$product->id}}" name="product_image_2[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="second">
+                                                        <span id="second_image_text_{{$product->id}}"></span>
                                                     </td>
 
-                                                    <td class="upload-btn-wrapper" id="third_img_1">
-                                                        <span class="button" id="third_button_1"><img src="@if ($product->image_3 == 'no-img') https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png @else {{ Storage::url($product->image_3) }} @endif" style="width:62%;cursor:pointer;" alt="second image"/></span>
-                                                        <input type="file" id="third_product_image_1" name="product_image_3[{{$product->id}}]" onchange="loadFile(event)" data-id="1" data-row="third">
-                                                        <span id="third_image_text_1"></span>
+                                                    <td class="upload-btn-wrapper" id="third_img_{{$product->id}}">
+                                                        <span class="button" id="third_button_{{$product->id}}"><img src="@if ($product->image_3 == 'no-img') https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png @else {{ Storage::url($product->image_3) }} @endif" style="width:62%;cursor:pointer;" alt="second image"/></span>
+                                                        <input type="file" id="third_product_image_{{$product->id}}" name="product_image_3[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="third">
+                                                        <span id="third_image_text_{{$product->id}}"></span>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -233,7 +233,7 @@
             
             '<td class="upload-btn-wrapper" id="frist_img_'+row_id+'">'+
                 '<span class="button" id="frist_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;"/></span>'+
-                '<input type="file" id="frist_product_image'+row_id+'" name="product_image_1[]" onchange="loadFile(event)" data-id='+row_id+' required data-row="first" />'+
+                '<input type="file" id="frist_product_image_'+row_id+'" name="product_image_1[]" onchange="loadFile(event)" data-id='+row_id+' required data-row="first" />'+
                 '<span id="first_image_text_'+row_id+'"></span>'+
             '</td>'+
 
