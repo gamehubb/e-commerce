@@ -119,14 +119,14 @@
                         <li class="nav-item">
                             <i class="nav-item fa fa-user text-white m-2" style="font-size:20px;"></i>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" onclick="openModel()" style="cursor:pointer">
                             {{-- <a href="{{route('cart.show')}}" > --}}
-                            <a href="{{route('cart.checkout' , 2)}}">
-                                <i class="fa fa-shopping-cart text-white  m-2" style="font-size:20px;">
-                                    {{-- <sup>  ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}})</sup>
-                                    --}}
-                                </i>
-                            </a>
+                            <!-- <a href="{{route('cart.checkout' , 2)}}"> -->
+                            <i class="fa fa-shopping-cart text-white  m-2" style="font-size:20px;">
+                                <sup> ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}})</sup>
+
+                            </i>
+                            <!-- </a> -->
                         </li>
                         <li class="nav-item">
                             <i class="nav-item fa fa-game"></i>
@@ -136,11 +136,63 @@
                 </div>
             </div>
         </nav>
+        <!-- Modal HTML -->
+        <div id="myModal" class="modal fade text-white" tabindex="-1">
+            <div class="modal-dialog bg-dark"
+                style="width: 20%;height: 100%;position: absolute;right: 0;margin: 0rem;height: 100vh;">
+                <div class="modal-content bg-dark ">
+                    <div class=" p-1" style="background-color: #aa0000;">
+                        <p class="text-center h3">Gamehub Myanmar</p>
+                        <button type="button" class="close" data-dismiss="modal"
+                            style="position: absolute; top:5px; right:10px;">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <p class="col-md-8 h4"><b>YOUR CART</b></p>
+                            <p class="col-md-4  h4"> ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}}
+                                items) </p>
+                            <p>
+                                @if(session()->has('cart'))
+                                @foreach(session()->get('cart') as $drug => $d)
+                                {{ json_encode($d)  }}
+                                @endforeach
 
+                                @endif
+
+
+
+                            </p>
+
+                        </div>
+                        <hr class="mx-auto" style="width:95%; color: #aa0000; height: 3px; ">
+                    </div>
+                    <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
+                    <div class="row m-3">
+
+                        <p class="col-md-6"><b>Total Price:</b></p>
+                        <p class="col-md-6"> <b>MMKs 6000</b> </p>
+                    </div>
+                    <div class="text-center m-3">
+                        <a href="{{route('cart.checkout' , 2)}}">
+                            <button type="button" class="btn btn-sm mx-auto mt-3 text-white"
+                                style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+    function openModel() {
+        $("#myModal").modal('show');
+    }
+    </script>
 </body>
 
 </html>

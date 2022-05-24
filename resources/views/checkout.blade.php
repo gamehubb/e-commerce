@@ -82,7 +82,7 @@
             </div>
         </div>
         <div class="col-md-6  bg-black text-white">
-
+            <!-- 
             <form action="/charge" method="post" id="payment-form" style="width:60%;float: right;">@csrf
                 <lable class="row h5 mb-2"><b>YOUR ORDER <small>(Deivery Info.)
                         </small></b>
@@ -125,7 +125,7 @@
                         style="border-radius : 20px;width:100%; background-color : #aa0000;">Continue to
                         Payment</button>
                 </a>
-            </form>
+            </form> -->
         </div>
     </div>
     <div class="row mt-10">
