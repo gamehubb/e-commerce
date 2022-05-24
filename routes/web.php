@@ -16,53 +16,50 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/',[App\Http\Controllers\FrontProductListController::class, 'index']);
-Route::get('/product/{id}',[App\Http\Controllers\FrontProductListController::class, 'show']);
+Route::get('/', [App\Http\Controllers\FrontProductListController::class, 'index']);
+Route::get('/product/{id}', [App\Http\Controllers\FrontProductListController::class, 'show']);
 
-Route::get('/category/{name}',[App\Http\Controllers\FrontProductListController::class, 'allProduct']);
-Route::get('/addToCart/{product}',[App\Http\Controllers\CartController::class, 'addToCart'])->name('add.cart');
-Route::get('/cart',[App\Http\Controllers\CartController::class, 'showCart'])->name('cart.show');
-Route::post('/products/{product}',[App\Http\Controllers\CartController::class, 'updateCart'])->name('cart.update');
-Route::post('/product/{product}',[App\Http\Controllers\CartController::class, 'removeCart'])->name('cart.remove');
+Route::get('/category/{name}', [App\Http\Controllers\FrontProductListController::class, 'allProduct']);
+Route::get('/addToCart/{product}', [App\Http\Controllers\CartController::class, 'addToCart'])->name('add.cart')->middleware('auth');
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'showCart'])->name('cart.show');
+Route::post('/products/{product}', [App\Http\Controllers\CartController::class, 'updateCart'])->name('cart.update');
+Route::post('/product/{product}', [App\Http\Controllers\CartController::class, 'removeCart'])->name('cart.remove');
 
-Route::get('/checkout/{amount}',[App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
-Route::get('/orders',[App\Http\Controllers\CartController::class, 'order'])->name('order')->middleware('auth');
-Route::post('/charge',[App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
+Route::get('/checkout/{amount}', [App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
+Route::get('/orders', [App\Http\Controllers\CartController::class, 'order'])->name('order')->middleware('auth');
+Route::post('/charge', [App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
 
 Auth::routes();
-Route::get('all/products',[App\Http\Controllers\FrontProductListController::class, 'moreProducts'])->name('more.product');
+Route::get('all/products', [App\Http\Controllers\FrontProductListController::class, 'moreProducts'])->name('more.product');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::group(['prefix'=>'auth','middleware'=>['auth','isAdmin']],function(){
-    Route::get('/dashboard',function(){
+Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
+    Route::get('/dashboard', function () {
         return view('admin.dashboard');
     });
-//To View Order
-    
-//Category
-    Route::post('/category/create',[App\Http\Controllers\CategoryController::class, 'store']);
-    Route::get('/category/create',[App\Http\Controllers\CategoryController::class, 'create']);
-    Route::post('/category/update/{id}',[App\Http\Controllers\CategoryController::class, 'update']);
+    //To View Order
+
+    //Category
+    Route::post('/category/create', [App\Http\Controllers\CategoryController::class, 'store']);
+    Route::get('/category/create', [App\Http\Controllers\CategoryController::class, 'create']);
+    Route::post('/category/update/{id}', [App\Http\Controllers\CategoryController::class, 'update']);
     Route::get('/category/edit/{id}', [App\Http\Controllers\CategoryController::class, 'edit']);
-    Route::get('/category/index',[App\Http\Controllers\CategoryController::class, 'index']);
-    Route::post('/category/delete/{id}',[App\Http\Controllers\CategoryController::class, 'destroy']);
-//Brand 
-    Route::resource('/brand',App\Http\Controllers\BrandController::class);
-//Product 
-    Route::resource('/product',App\Http\Controllers\ProductController::class);
-//In Product to get Subcategory based on choosen Category
-    Route::get('/subcategories/{id}',[App\Http\Controllers\ProductController::class, 'loadSubCategories']);
-//Status to get 
-    Route::get('/orderstatus/{orderid}/{status}',[App\Http\Controllers\OrderController::class, 'loadStatus']);
-//Status Category 
-    Route::get('/changedCategoryStatus',[App\Http\Controllers\CategoryController::class, 'behaviourOfStatus']);
-//Status Product 
-    Route::get('/changedProductStatus',[App\Http\Controllers\ProductController::class, 'behaviourOfStatus']);
-//Users
-    Route::get('users',[App\Http\Controllers\UserController::class, 'index']);
-//Orders
-    Route::get('orders',[App\Http\Controllers\CartController::class, 'userorder']);
-    Route::get('orders/{userid}/{orderid}',[App\Http\Controllers\CartController::class, 'viewUserOrder'])->name('user.order');
+    Route::get('/category/index', [App\Http\Controllers\CategoryController::class, 'index']);
+    Route::post('/category/delete/{id}', [App\Http\Controllers\CategoryController::class, 'destroy']);
+    //Brand 
+    Route::resource('/brand', App\Http\Controllers\BrandController::class);
+    //Product 
+    Route::resource('/product', App\Http\Controllers\ProductController::class);
+    //In Product to get Subcategory based on choosen Category
+    Route::get('/subcategories/{id}', [App\Http\Controllers\ProductController::class, 'loadSubCategories']);
+    //Status to get 
+    Route::get('/orderstatus/{orderid}/{status}', [App\Http\Controllers\OrderController::class, 'loadStatus']);
+    //Status Category 
+    Route::get('/changedCategoryStatus', [App\Http\Controllers\CategoryController::class, 'behaviourOfStatus']);
+    //Status Product 
+    Route::get('/changedProductStatus', [App\Http\Controllers\ProductController::class, 'behaviourOfStatus']);
+    //Users
+    Route::get('users', [App\Http\Controllers\UserController::class, 'index']);
+    //Orders
+    Route::get('orders', [App\Http\Controllers\CartController::class, 'userorder']);
+    Route::get('orders/{userid}/{orderid}', [App\Http\Controllers\CartController::class, 'viewUserOrder'])->name('user.order');
 });
-
-
-

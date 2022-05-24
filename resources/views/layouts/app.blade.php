@@ -152,11 +152,13 @@
                             <p class="col-md-4  h4"> ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}}
                                 items) </p>
                             <p>
-                                @foreach( session()->get('cart') as $drug => $d)
-
-
-
+                                @if(session()->has('cart'))
+                                @foreach(session()->get('cart') as $drug => $d)
+                                {{ json_encode($d)  }}
                                 @endforeach
+
+                                @endif
+
 
 
                             </p>
