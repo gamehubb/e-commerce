@@ -24,9 +24,10 @@ class CartController extends Controller
         $cart->add($product);
 
         session()->put('cart', $cart);
+
         notify()->success('Added To Cart Successfully');
         return redirect()->back();
-        return redirect('/auth/subcategory/index');
+        // return redirect('/auth/subcategory/index');
     }
 
     public function showCart()

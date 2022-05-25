@@ -18,9 +18,6 @@ class CreateOrdersTable extends Migration
             $table->string('voucher_code');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('status');
-            $table->integer('voucher_type')->nullable();
-            $table->string('payment_status');   
             $table->string('del_name');
             $table->text('del_address');
             $table->text('del_city');
@@ -28,6 +25,8 @@ class CreateOrdersTable extends Migration
             $table->string('del_phone_number');
             $table->float('total_amount');
             $table->longText('additional_info')->nullable();
+            $table->integer('voucher_type')->nullable();
+            $table->string('status');
             $table->integer('is_deleted')->default(0);
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();

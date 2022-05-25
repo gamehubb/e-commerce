@@ -152,20 +152,36 @@
                             <p class="col-md-4"> ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}}
                                 @if(session()->has('cart'))
 
-                                {{session()->get('cart')->totalQty == 1 ?'item' :'items'}}) </p>
+                                    {{session()->get('cart')->totalQty == 1 ?'item' :'items'}}) </p>    
+
                                 @endif
                             <p>
                                 @if(session()->has('cart'))
-                                @foreach(session()->get('cart')->items as $key => $value)
-                                   <div class="col-md-6">
-                                        <img src="{{Storage::url($value['image'])}}" style="width:100%;">
-                                   </div>
-                                   <div class="col-md-6">
-                                        {{$value['name']}} x {{$value['qty']}}
-                                   </div>
+                                    @foreach(session()->get('cart')->items as $key => $value)
+                                    <div class="row" style="border:1px solid #fff;margin:auto;padding:5px;">
+                                        <div class="col-md-6">
+                                            <img src="{{Storage::url($value['image'])}}" style="width:100%;">
+                                        </div>
+                                        <div class="col-md-6">
+                                            
+                                            <span>{{$value['name']}}</span><br/><br/>
+                                            <span>MMK {{$value['price']}}</span><br/><br>
+                                            <i class="fas fa-plus" style=" padding: 6px;
+                                            background: #fff;
+                                            color: #000;
+                                            border-radius: 17px;"></i>        
+                                            {{$value['qty']}}       
+                                            <i class="fas fa-minus" 
+                                            style=" padding: 6px;
+                                            background: #fff;
+                                            color: #000;
+                                            border-radius: 17px;">
+                                            </i>
+                                        
+                                        </div>
+                                    </div>
 
-                                @endforeach
-
+                                    @endforeach
 
                                 @endif
 
@@ -180,7 +196,13 @@
                     <div class="row m-3">
 
                         <p class="col-md-6"><b>Total Price:</b></p>
-                        <p class="col-md-6"> <b>MMKs 6000</b> </p>
+                        <p class="col-md-6">
+                            <b>
+                                @if(session()->has('cart'))
+                                    {{ json_encode(session()->get('cart')->totalPrice) }}
+                                @endif
+                            </b> 
+                        </p>
                     </div>
                     <div class="text-center m-3">
                         <a href="{{route('cart.checkout' , 2)}}">
