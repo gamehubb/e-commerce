@@ -24,9 +24,9 @@ class Cart{
         $item = [
             'id' => $product->id,
             'name' => $product->name,
-            'price' => $product->price,
+            'price' => $product->productDetail->price,
             'qty' => 0,
-            'image' => $product->image
+            'image' => $product->productDetail->image_1
         ];
         if(!array_key_exists($product->id,$this->items)){
             $this->items[$product->id] = $item;

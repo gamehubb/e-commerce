@@ -35,7 +35,8 @@ class ProductController extends Controller
     {
         $select_category = Category::where('status','1')->get();
         $select_brand = Brand::where('status','1')->get();
-        $context = ['categories'=>$select_category ,'brands' => $select_brand];
+        $product_types = ['1' => 'in-stock', '2' => 'pre-order'];
+        $context = ['categories'=>$select_category ,'brands' => $select_brand, 'product_types' => $product_types];
         return view('admin.product.create',$context);
     }
 
@@ -58,6 +59,8 @@ class ProductController extends Controller
             'brand_id' => $request->brand,
             'user_id' => $id,
             'wireless' => $request->wired_option,
+            'product_type' => $request->product_type,
+            'is_special' => $request->is_special,
             'description' => $request->product_description,
             'additional_info' => $request->product_additional_info
 
@@ -81,8 +84,6 @@ class ProductController extends Controller
                 'image_3' => $image_3,
                 'quantity' => $request->quantity[$x],
                 'discount' => empty($request->discount[$x]) == true ? '0' : $request->discount[$x],
-                'product_type' => $request->product_type[$x],
-                'is_special' => empty($request->special[$x]) == true ? '0' : $request->special[$x] ,
             ]);
         }
 
@@ -139,6 +140,8 @@ class ProductController extends Controller
         $product->brand_id = $request->brand;
         $product->user_id = $user_id;
         $product->wireless = $request->wired_option;
+        $product->product_type = $request->product_type;
+        $product->is_special = $request->is_special;
         $product->description = $request->product_description;
         $product->additional_info = $request->product_additionalinfo;
 
@@ -150,103 +153,46 @@ class ProductController extends Controller
 
         $product_id = $request->product_detail_id;
                             
-        foreach($product_id as $id) {
+        foreach($product_id as $p_id) {
 
-            print_r(empty($request->file('product_image_1')[$id]) == true ? '<img src='.Storage::url(ProductDetail::where('id',$id)->value('image_1')).' style="width:100px;">'.'|'.$id.'|'.ProductDetail::where('id',$id)->value('image_1') : '<img src='.Storage::url($request->file('product_image_1')[$id]->store('public/product')).' style="width:100px;">'.'|'.ProductDetail::find($id)->value('image_1'));
-            print_r("<br/>");
-            print_r(empty($request->file('product_image_2')[$id]) == true ? '<img src='.Storage::url(ProductDetail::where('id',$id)->value('image_2')).' style="width:100px;">'.'|'.$id.'|'.ProductDetail::where('id',$id)->value('image_2') : '<img src='.Storage::url($request->file('product_image_2')[$id]->store('public/product')).' style="width:100px;">'.'|'.ProductDetail::find($id)->value('image_1'));
-            print_r("<br/>");
-            print_r(empty($request->file('product_image_3')[$id]) == true ? '<img src='.Storage::url(ProductDetail::where('id',$id)->value('image_3')).' style="width:100px;">'.'|'.$id.'|'.ProductDetail::where('id',$id)->value('image_3') : '<img src='.Storage::url($request->file('product_image_3')[$id]->store('public/product')).' style="width:100px;">'.'|'.ProductDetail::find($id)->value('image_1'));
-            print_r("<br/>");
-
-
-            ProductDetail::where('id',$id)->update(
+            ProductDetail::where('id',$p_id)->update(
                 [
-                    'color' => $request->color[$id],
-                    'price' => $request->product_price[$id],
-                    'quantity' => $request->quantity[$id],
-                    'image_1' => empty($request->file('product_image_1')[$id]) == true ? ProductDetail::where('id',$id)->value('image_1') : $request->file('product_image_1')[$id]->store('public/product'),
-                    'image_2' => empty($request->file('product_image_2')[$id]) == true ? ProductDetail::where('id',$id)->value('image_2') : $request->file('product_image_2')[$id]->store('public/product'),
-                    'image_3' => empty($request->file('product_image_3')[$id]) == true ? ProductDetail::where('id',$id)->value('image_3') : $request->file('product_image_3')[$id]->store('public/product'),
-                    'discount' => empty($request->discount[$id]) == true ? '0' : $request->discount[$id],
-                    'product_type' => $request->product_type[$id],
-                    'is_special' => empty($request->special[$id]) == true ? '0' : $request->special[$id] ,
-
+                    'color' => $request->color[$p_id],
+                    'price' => $request->product_price[$p_id],
+                    'quantity' => $request->quantity[$p_id],
+                    'image_1' => empty($request->file('product_image_1')[$p_id]) == true ? ProductDetail::where('id',$p_id)->value('image_1') : $request->file('product_image_1')[$p_id]->store('public/product'),
+                    'image_2' => empty($request->file('product_image_2')[$p_id]) == true ? ProductDetail::where('id',$p_id)->value('image_2') : $request->file('product_image_2')[$p_id]->store('public/product'),
+                    'image_3' => empty($request->file('product_image_3')[$p_id]) == true ? ProductDetail::where('id',$p_id)->value('image_3') : $request->file('product_image_3')[$p_id]->store('public/product'),
+                    'discount' => empty($request->discount[$p_id]) == true ? '0' : $request->discount[$p_id],
                 ]
             );
 
         }
 
-        // foreach($product_details as $product){
+        $count_product = empty($request->product_new_detail_id) == true ? 0 : count($request->product_new_detail_id);
 
-        //     $PD = ProductDetail::find($product->id);
+        if($count_product != 0){
 
-          
-        //     if(!empty($request->file('product_image')))
-        //     {
+            for($x = 0; $x < $count_product; $x++) {
 
-        //         foreach($request->file('product_image') as $key => $chk){
-        //             $PD->image = $request->file('product_image')[$key]->store('public/product');
-        //         }
-                
-        //         $PD->image;
-        //     }else{
-        //         $PD->image_1 = $product->image_1;
-        //         $PD->image_2 = $product->image_2;
-        //         $PD->image_3 = $product->image_3;
-        //     }   
+                print_r($id);
 
+                $image_1 = empty($request->file('new_product_image_1')[$x]) == true ? 'no-img' : $request->file('new_product_image_1')[$x]->store('public/product');
+                $image_2 = empty($request->file('new_product_image_2')[$x]) == true ? 'no-img' : $request->file('new_product_image_2')[$x]->store('public/product');
+                $image_3 = empty($request->file('new_product_image_3')[$x]) == true ? 'no-img' : $request->file('new_product_image_3')[$x]->store('public/product');
 
-            
-                    // $request->product_price,
-                    // $request->quantity,
-                    // empty($request->discount) == true ? '0' : $request->discount,
-                    // $request->product_type,
-                    // empty($request->special) == true ? '0' : $request->special);
-                    
-            
-
-         
-
-            // echo "<img src=".Storage::url($PD->image)." width=100>";
-
-            // $request->product_detail_id;
-        
-
-
-        //     $old_image[] = $product->image;
-
-        //     Storage::delete($product->image); 
-        //     $product->delete();
-        // }
-
-        //     $count_product = count($request->color);
-
-        //     for($x = 0; $x < $count_product; $x++) {
-
-        //         if(!empty($request->product_image[$x]))
-        //         {
-        //         $image = $request->file('product_image')[$x]->store('public/product');
-        //         }else{
-        //         $image = $old_image;
-        //         }
-
-        //         ProductDetail::create([
-        //             'product_id' => $id,
-        //             'color' => $request->color[$x],
-        //             'price' => $request->product_price[$x],
-        //             'image' => $image,
-        //             'quantity' => $request->quantity[$x],
-        //             'discount' => empty($request->discount[$x]) == true ? '0' : $request->discount[$x],
-        //             'product_type' => $request->product_type[$x],
-        //             'is_special' => empty($request->special[$x]) == true ? '0' : $request->special[$x],
-        //         ]);
-
-                // $PD->save();
-
-
-            // };
-
+                    ProductDetail::create([
+                        'product_id' => $id,
+                        'color' => $request->new_color[$x],
+                        'price' => $request->new_product_price[$x],
+                        'image_1' => $image_1,
+                        'image_2' => $image_2,
+                        'image_3' => $image_3,
+                        'quantity' => $request->new_quantity[$x],
+                        'discount' => empty($request->new_discount[$x]) == true ? '0' : $request->new_discount[$x],
+                    ]);
+            }
+        }
         
         notify()->success('Product Updated Successfully');
         return redirect('/auth/product');

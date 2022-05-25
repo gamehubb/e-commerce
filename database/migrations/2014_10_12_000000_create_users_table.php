@@ -23,8 +23,11 @@ class CreateUsersTable extends Migration
             $table->string('address')->nullable();
             $table->integer('role')->default(1);
             $table->integer('is_admin')->default(0);
+            $table->integer('status')->default(true);
             $table->rememberToken();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
         });
     }
 

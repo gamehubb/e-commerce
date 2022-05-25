@@ -149,13 +149,23 @@
                     <div class="modal-body">
                         <div class="row">
                             <p class="col-md-8 h4"><b>YOUR CART</b></p>
-                            <p class="col-md-4  h4"> ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}}
-                                items) </p>
+                            <p class="col-md-4"> ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}}
+                                @if(session()->has('cart'))
+
+                                {{session()->get('cart')->totalQty == 1 ?'item' :'items'}}) </p>
+                                @endif
                             <p>
                                 @if(session()->has('cart'))
-                                @foreach(session()->get('cart') as $drug => $d)
-                                {{ json_encode($d)  }}
+                                @foreach(session()->get('cart')->items as $key => $value)
+                                   <div class="col-md-6">
+                                        <img src="{{Storage::url($value['image'])}}" style="width:100%;">
+                                   </div>
+                                   <div class="col-md-6">
+                                        {{$value['name']}} x {{$value['qty']}}
+                                   </div>
+
                                 @endforeach
+
 
                                 @endif
 

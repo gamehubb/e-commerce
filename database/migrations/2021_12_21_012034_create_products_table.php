@@ -25,6 +25,8 @@ class CreateProductsTable extends Migration
             $table->text('description')->nullable();
             $table->text('additional_info')->nullable();
             $table->integer('wireless')->default(false)->nullable();
+            $table->integer('product_type')->default(1);
+            $table->integer('is_special')->default(0)->nullable();
             $table->integer('status')->default(true)->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();

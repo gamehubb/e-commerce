@@ -13,7 +13,7 @@ class DeliveryInfo extends Migration
      */
     public function up()
     {
-        Schema::create('deivery_infos', function (Blueprint $table) {
+        Schema::create('delivery_infos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

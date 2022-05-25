@@ -98,9 +98,7 @@
                                                     <td>Price</td>
                                                     <td>Quantity</td>
                                                     <td>Discount</td>
-                                                    <td>Product Type</td>
-                                                    <td>Special</td>
-                                                    <td>Upload Image</td>
+                                                    <td>Image</td>
                                                     <td><button type="button" id="add_row" class="btn btn-default bg-white"><i class="fa fa-plus"></i></button></td>
                                                 </tr>
                                             </thead>
@@ -123,31 +121,20 @@
                                                         <input type="number" name="discount[]" id="discount_1" class="form-control" min="0">
                                                     </td>
 
-                                                    <td>
-                                                        <select name="product_type[]" id="product_type_1" style="height:42px;" required>
-                                                            <option value="1">In-stock</option>
-                                                            <option value="2">Pre-Order</option>
-                                                        </select>
-                                                    </td>
-
-                                                    <td>
-                                                        <input id="is_special_1" type="checkbox" name="special[]" value="1" class="form-control">
-                                                    </td>
-
                                                     <td class="upload-btn-wrapper" id="first_img_1">
-                                                        <span class="button" id="first_button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;" alt="first image"></span>
+                                                        <span class="button" id="first_button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:12%;cursor:pointer;" alt="first image"></span>
                                                         <input type="file" id="fist_product_image_1" name="product_image_1[]" onchange="loadFile(event)" data-id="1" required data-row="first" >
                                                         <span id="first_image_text_1"></span>
                                                     </td>
 
                                                     <td class="upload-btn-wrapper" id="second_img_1">
-                                                        <span class="button" id="second_button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;" alt="second image"/></span>
+                                                        <span class="button" id="second_button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:12%;cursor:pointer;" alt="second image"/></span>
                                                         <input type="file" id="second_product_image_1" name="product_image_2[]" onchange="loadFile(event)" data-id="1" data-row="second">
                                                         <span id="second_image_text_1"></span>
                                                     </td>
 
                                                     <td class="upload-btn-wrapper" id="third_img_1">
-                                                        <span class="button" id="third_button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:62%;cursor:pointer;" alt="third image"/></span>
+                                                        <span class="button" id="third_button_1"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:12%;cursor:pointer;" alt="third image"/></span>
                                                         <input type="file" id="third_product_image_1" name="product_image_3[]" onchange="loadFile(event)" data-id="1" data-row="third">
                                                         <span id="third_image_text_1"></span>
                                                     </td>
@@ -186,6 +173,20 @@
                                 <div class="form-group">
                                     <label for="">Wired Option</label>
                                     <input type="checkbox" name="wired_option" value="1" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="product_type">Type</label>
+                                    <select name="product_type">
+                                        @foreach($product_types as $key => $value)
+                                        <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="is_special">Is Special</label>
+                                    <input type="checkbox" name="is_special" value="1" />
                                 </div>
                                 
                         <div class="form-group float-right">
