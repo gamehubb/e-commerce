@@ -139,7 +139,7 @@
         <!-- Modal HTML -->
         <div id="myModal" class="modal fade text-white" tabindex="-1">
             <div class="modal-dialog bg-dark"
-                style="width: 20%;height: 100%;position: absolute;right: 0;margin: 0rem;height: 100vh;">
+                style="width: 30%;height: 100%;position: absolute;right: 0;margin: 0rem;height: 100vh;">
                 <div class="modal-content bg-dark ">
                     <div class=" p-1" style="background-color: #aa0000;">
                         <p class="text-center h3">Gamehub Myanmar</p>
@@ -151,36 +151,37 @@
                             <p class="col-md-8 h4"><b>YOUR CART</b></p>
                             <p class="col-md-4"> ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}}
                                 @if(session()->has('cart'))
-
                                 {{session()->get('cart')->totalQty == 1 ?'item' :'items'}}) </p>
                                 @endif
-                            <p>
-                                @if(session()->has('cart'))
-                                @foreach(session()->get('cart')->items as $key => $value)
-                                   <div class="col-md-6">
-                                        <img src="{{Storage::url($value['image'])}}" style="width:100%;">
-                                   </div>
-                                   <div class="col-md-6">
-                                        {{$value['name']}} x {{$value['qty']}}
-                                   </div>
-
-                                @endforeach
-
-
-                                @endif
-
-
-
-                            </p>
-
+                            </p>        
                         </div>
-                        <hr class="mx-auto" style="width:95%; color: #aa0000; height: 3px; ">
+                        <hr class="mx-auto mb-3" style="width:95%; color: #ec0606; height: 3px; ">
+                    
+                        @if(session()->has('cart'))
+                        @foreach(session()->get('cart')->items as $key => $value)
+                        <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;">
+                           <div class="col-md-4">
+                                <img src="{{Storage::url($value['image'])}}" style="width:100px;  height:100px;">
+                           </div>
+                           <div class="col-md-8">
+                               <p>{{$value['name']}} </p>
+                               <p><b>MMKS {{$value['price']}}</b> </p>
+                               <div class="row mt-1">
+                                <i class="fa fa-minus col-md-1"></i>
+                                <p class="col-lg-1">{{$value['qty']}}</p>
+                                <i class=" fa fa-plus col-md-1"></i> 
+
+                               </div>
+                           </div> 
+                        </div> 
+                        @endforeach
+                        @endif
                     </div>
                     <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
                     <div class="row m-3">
 
                         <p class="col-md-6"><b>Total Price:</b></p>
-                        <p class="col-md-6"> <b>MMKs 6000</b> </p>
+                        <p class="col-md-6"> <b>MMKs {{session()->has('cart')?session()->get('cart')->totalPrice:'0'}}</b> </p>
                     </div>
                     <div class="text-center m-3">
                         <a href="{{route('cart.checkout' , 2)}}">
