@@ -11,7 +11,7 @@ use App\Models\Brand;
 use App\Models\ProductDetail;
 
 use Auth;
- 
+
 class ProductController extends Controller
 {
     /**
@@ -22,8 +22,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        $context = ['products'=>$products];
-        return view('admin.product.index',$context);
+        $context = ['products' => $products];
+        return view('admin.product.index', $context);
     }
 
     /**
@@ -33,11 +33,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $select_category = Category::where('status','1')->get();
-        $select_brand = Brand::where('status','1')->get();
+        $select_category = Category::where('status', '1')->get();
+        $select_brand = Brand::where('status', '1')->get();
         $product_types = ['1' => 'in-stock', '2' => 'pre-order'];
-        $context = ['categories'=>$select_category ,'brands' => $select_brand, 'product_types' => $product_types];
-        return view('admin.product.create',$context);
+        $context = ['categories' => $select_category, 'brands' => $select_brand, 'product_types' => $product_types];
+        return view('admin.product.create', $context);
     }
 
     /**
@@ -70,8 +70,8 @@ class ProductController extends Controller
 
         $count_product = count($request->color);
 
-        for($x = 0; $x < $count_product; $x++) {
-            
+        for ($x = 0; $x < $count_product; $x++) {
+
             $image_1 = $request->file('product_image_1')[$x]->store('public/product');
             $image_2 = empty($request->file('product_image_2')[$x]) == true ? 'no-img' : $request->file('product_image_2')[$x]->store('public/product');
             $image_3 = empty($request->file('product_image_3')[$x]) == true ? 'no-img' : $request->file('product_image_3')[$x]->store('public/product');
@@ -113,14 +113,16 @@ class ProductController extends Controller
     public function edit($id)
     {
         $select_product = Product::findorfail($id);
-        $select_category = Category::where('status','1')->get();
-        $select_brand = Brand::where('status','1')->get();
-        $product_detail = ProductDetail::where('product_id',$id)->get();
+        $select_category = Category::where('status', '1')->get();
+        $select_brand = Brand::where('status', '1')->get();
+        $product_detail = ProductDetail::where('product_id', $id)->get();
         $product_types = ['1' => 'in-stock', '2' => 'pre-order'];
 
-        $context = ['s_product'=>$select_product,'categories'=>$select_category,'brands' => $select_brand,'productDetail' => $product_detail,
-                    'product_types' => $product_types];
-        return view('admin.product.edit',$context);
+        $context = [
+            's_product' => $select_product, 'categories' => $select_category, 'brands' => $select_brand, 'productDetail' => $product_detail,
+            'product_types' => $product_types
+        ];
+        return view('admin.product.edit', $context);
     }
 
     /**
@@ -151,33 +153,32 @@ class ProductController extends Controller
 
         $product->save();
 
-        $product_details = ProductDetail::where('product_id',$id)->get();
+        $product_details = ProductDetail::where('product_id', $id)->get();
 
         $value = $request->product_detail_id;
 
         $product_id = $request->product_detail_id;
-                            
-        foreach($product_id as $p_id) {
 
-            ProductDetail::where('id',$p_id)->update(
+        foreach ($product_id as $p_id) {
+
+            ProductDetail::where('id', $p_id)->update(
                 [
                     'color' => $request->color[$p_id],
                     'price' => $request->product_price[$p_id],
                     'quantity' => $request->quantity[$p_id],
-                    'image_1' => empty($request->file('product_image_1')[$p_id]) == true ? ProductDetail::where('id',$p_id)->value('image_1') : $request->file('product_image_1')[$p_id]->store('public/product'),
-                    'image_2' => empty($request->file('product_image_2')[$p_id]) == true ? ProductDetail::where('id',$p_id)->value('image_2') : $request->file('product_image_2')[$p_id]->store('public/product'),
-                    'image_3' => empty($request->file('product_image_3')[$p_id]) == true ? ProductDetail::where('id',$p_id)->value('image_3') : $request->file('product_image_3')[$p_id]->store('public/product'),
+                    'image_1' => empty($request->file('product_image_1')[$p_id]) == true ? ProductDetail::where('id', $p_id)->value('image_1') : $request->file('product_image_1')[$p_id]->store('public/product'),
+                    'image_2' => empty($request->file('product_image_2')[$p_id]) == true ? ProductDetail::where('id', $p_id)->value('image_2') : $request->file('product_image_2')[$p_id]->store('public/product'),
+                    'image_3' => empty($request->file('product_image_3')[$p_id]) == true ? ProductDetail::where('id', $p_id)->value('image_3') : $request->file('product_image_3')[$p_id]->store('public/product'),
                     'discount' => empty($request->discount[$p_id]) == true ? '0' : $request->discount[$p_id],
                 ]
             );
-
         }
 
         $count_product = empty($request->product_new_detail_id) == true ? 0 : count($request->product_new_detail_id);
 
-        if($count_product != 0){
+        if ($count_product != 0) {
 
-            for($x = 0; $x < $count_product; $x++) {
+            for ($x = 0; $x < $count_product; $x++) {
 
                 print_r($id);
 
@@ -185,19 +186,19 @@ class ProductController extends Controller
                 $image_2 = empty($request->file('new_product_image_2')[$x]) == true ? 'no-img' : $request->file('new_product_image_2')[$x]->store('public/product');
                 $image_3 = empty($request->file('new_product_image_3')[$x]) == true ? 'no-img' : $request->file('new_product_image_3')[$x]->store('public/product');
 
-                    ProductDetail::create([
-                        'product_id' => $id,
-                        'color' => $request->new_color[$x],
-                        'price' => $request->new_product_price[$x],
-                        'image_1' => $image_1,
-                        'image_2' => $image_2,
-                        'image_3' => $image_3,
-                        'quantity' => $request->new_quantity[$x],
-                        'discount' => empty($request->new_discount[$x]) == true ? '0' : $request->new_discount[$x],
-                    ]);
+                ProductDetail::create([
+                    'product_id' => $id,
+                    'color' => $request->new_color[$x],
+                    'price' => $request->new_product_price[$x],
+                    'image_1' => $image_1,
+                    'image_2' => $image_2,
+                    'image_3' => $image_3,
+                    'quantity' => $request->new_quantity[$x],
+                    'discount' => empty($request->new_discount[$x]) == true ? '0' : $request->new_discount[$x],
+                ]);
             }
         }
-        
+
         notify()->success('Product Updated Successfully');
         return redirect('/auth/product');
     }
@@ -216,15 +217,15 @@ class ProductController extends Controller
         notify()->success('Category Deleted Successfully');
         return redirect('/auth/product/index');
     }
-    public function loadSubCategories(Request $request,$id){
-        $subcategory = Subcategory::where('category_id',"=",$id)->pluck('name','id');
+    public function loadSubCategories(Request $request, $id)
+    {
+        $subcategory = Subcategory::where('category_id', "=", $id)->pluck('name', 'id');
         return response()->json($subcategory);
     }
     public function behaviourOfStatus(Request $request)
     {
         $obj = new \stdClass();
-        $obj =Product::where('id',$request->id)->update(['status' => $request->status]); 
+        $obj = Product::where('id', $request->id)->update(['status' => $request->status]);
         return $obj;
-        
     }
 }

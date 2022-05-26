@@ -139,7 +139,7 @@
         <!-- Modal HTML -->
         <div id="myModal" class="modal fade text-white" tabindex="-1">
             <div class="modal-dialog bg-dark"
-                style="width: 20%;height: 100%;position: absolute;right: 0;margin: 0rem;height: 100vh;">
+                style="width: 30%;height: 100%;position: absolute;right: 0;margin: 0rem;height: 100vh;">
                 <div class="modal-content bg-dark ">
                     <div class=" p-1" style="background-color: #aa0000;">
                         <p class="text-center h3">Gamehub Myanmar</p>
@@ -149,63 +149,41 @@
                     <div class="modal-body">
                         <div class="row">
                             <p class="col-md-8 h4"><b>YOUR CART</b></p>
-                            <p class="col-md-4"> ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}}
+                            <p class="col-md-4"> 
                                 @if(session()->has('cart'))
-
-                                    {{session()->get('cart')->totalQty == 1 ?'item' :'items'}}) </p>    
-
+                              {{session()->get('cart')->totalQty }}  {{ session()->get('cart')->totalQty == 1 ?'item' :'items'}} 
                                 @endif
-                            <p>
-                                @if(session()->has('cart'))
-                                    @foreach(session()->get('cart')->items as $key => $value)
-                                    <div class="row" style="border:1px solid #fff;margin:auto;padding:5px;">
-                                        <div class="col-md-6">
-                                            <img src="{{Storage::url($value['image'])}}" style="width:100%;">
-                                        </div>
-                                        <div class="col-md-6">
-                                            
-                                            <span>{{$value['name']}}</span><br/><br/>
-                                            <span>MMK {{$value['price']}}</span><br/><br>
-                                            <i class="fas fa-plus" style=" padding: 6px;
-                                            background: #fff;
-                                            color: #000;
-                                            border-radius: 17px;"></i>        
-                                            {{$value['qty']}}       
-                                            <i class="fas fa-minus" 
-                                            style=" padding: 6px;
-                                            background: #fff;
-                                            color: #000;
-                                            border-radius: 17px;">
-                                            </i>
-                                        
-                                        </div>
-                                    </div>
-
-                                    @endforeach
-
-                                @endif
-
-
-
-                            </p>
-
+                            </p>        
                         </div>
-                        <hr class="mx-auto" style="width:95%; color: #aa0000; height: 3px; ">
+                        <hr class="mx-auto mb-3" style="width:95%; color: #ec0606; height: 3px; ">
+                    
+                        @if(session()->has('cart'))
+                        @foreach(session()->get('cart')->items as $key => $value)
+                        <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;">
+                           <div class="col-md-4">
+                                <img src="{{Storage::url($value['image'])}}" style="width:100px;  height:100px;">
+                           </div>
+                           <div class="col-md-8">
+                               <p>{{$value['name']}} </p>
+                               <p><b>MMKS {{$value['price']}}</b> </p>
+                               <div class="row mt-1">
+                                <i class="fa fa-minus col-md-1"></i>
+                                <p class="col-lg-1">{{$value['qty']}}</p>
+                                <i class=" fa fa-plus col-md-1"></i> 
+                               </div>
+                           </div> 
+                        </div> 
+                        @endforeach
+                        @endif
                     </div>
                     <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
                     <div class="row m-3">
 
                         <p class="col-md-6"><b>Total Price:</b></p>
-                        <p class="col-md-6">
-                            <b>
-                                @if(session()->has('cart'))
-                                    {{ json_encode(session()->get('cart')->totalPrice) }}
-                                @endif
-                            </b> 
-                        </p>
+                        <p class="col-md-6"> <b>MMKs {{session()->has('cart')?session()->get('cart')->totalPrice:'0'}}</b> </p>
                     </div>
                     <div class="text-center m-3">
-                        <a href="{{route('cart.checkout' , 2)}}">
+                        <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
                             <button type="button" class="btn btn-sm mx-auto mt-3 text-white"
                                 style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
                         </a>
@@ -217,9 +195,7 @@
             @yield('content')
         </main>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
     function openModel() {
         $("#myModal").modal('show');

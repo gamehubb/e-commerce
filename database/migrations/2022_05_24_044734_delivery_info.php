@@ -34,6 +34,6 @@ class DeliveryInfo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deivery_info');
+        Schema::dropIfExists('deivery_infos');
     }
 }

@@ -11,9 +11,7 @@ use App\Models\Brand;
 use App\Models\DeliveryInfo;
 use App\Mail\Sendmail;
 use Illuminate\Http\Request;
-
 use Auth;
-
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 
 class CartController extends Controller
@@ -95,28 +93,33 @@ class CartController extends Controller
 
     public function checkout($amount)
     {
+        $userId = Auth::id();
         if (session()->has('cart')) {
             $carts = new Cart(session()->get('cart'));
         } else {
             $carts = null;
         }
-        foreach(session()->get('cart')->items as $key => $value){
-            $carts = [
-                        'id' => $value['id'],
-                        'name' => $value['name'],
-                        'code' => $value['code'],
-                        'category' => Category::find($value['category'])->value('name'),
-                        'brand' => Brand::find($value['brand'])->value('name'),
-                        'product_type' => $value['product_type'],
-                        'price' => $value['price'],
-                        'discount' => $value['discount'],
-                        'color' => $value['color'],
-                        'qty' => $value['qty'],
-                        'image' => $value['image'],
-                    ];
+
+        if($carts != null){
+            foreach(session()->get('cart')->items as $key => $value){
+                $carts = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'code' => $value['code'],
+                            'category' => Category::find($value['category'])->value('name'),
+                            'brand' => Brand::find($value['brand'])->value('name'),
+                            'product_type' => $value['product_type'],
+                            'price' => $value['price'],
+                            'discount' => $value['discount'],
+                            'color' => $value['color'],
+                            'qty' => $value['qty'],
+                            'image' => $value['image'],
+                        ];
+            }
         }
 
-        $delivery_info = DeliveryInfo::where('user_id', 1)->get();
+
+        $delivery_info = DeliveryInfo::where('user_id', $userId)->get();
         return view('checkout', compact('amount', 'carts', 'delivery_info'));
     }
 
