@@ -33,29 +33,37 @@
 <div class="container">
     <div class="row">
         <div class="col-6 col-md-5  text-white">
-            <i class="nav-item fa fa-user m-2 mb-4"> Hi Treasa!</i>
+            <i class="nav-item fa fa-user m-2 mb-4"> Hi {{Auth::getUser()->name}}</i>
             <div class="row mb-3" style="border:1px solid #808080; border-radius: 10px;">
-                <div class="col-md-4">
-                    <img src="{{Storage::url('public/files/xCCWSBMZi929D5ZL1RH4Tqoc7luuNjcpJtqbqNex.png')}}"
-                        class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:5rem; " alt="...">
-                </div>
-                <div class="col-md-4 mt-2 ">
-                    <p><u><b>Arti Pro H001 </b></u></p>
-                    <p class="m-2"> Product Code: 224 </p>
-                    <p class="m-2"> Category: Headphone </p>
-                    <p class="m-2"> Quantity:1 </p>
-                    <p class="m-2"> Waiting Time: 3weeks </p>
-                </div>
-                <div class="col-md-4 mt-2 ">
-                    <p></p>
-                    <p class="mt-4 ml-2"> Color: Pink </p>
-                    <p class="m-2"> Brand: Anti </p>
-                    <p class="m-2"> Status: Preorder </p>
-                </div>
-                <hr class="mx-auto" style="width:90%;  ">
-                <div class="text-right">
-                    <p class="m-2"><b>MMKs: 10000</b></p>
-                </div>
+                @if($carts != null)
+
+                    @foreach(session()->get('cart')->items as $key => $value)
+                        <div class="col-md-4">
+                            <img src="{{Storage::url($value['image'])}}"
+                                class="floar-right m-3 mx-auto" style=" border-radius: 20px; " alt="...">
+                        </div>
+                        <div class="col-md-4 mt-2 ">
+                            <p><u><b>{{$value['name']}} </b></u></p>
+                            <p class="m-2"> Product Code:{{$value['code']}} </p>
+                            <p class="m-2"> Category: {{$value['category']}} </p>
+                            <p class="m-2"> Quantity:1 </p>
+                            @if($value['product_type'] == 2) 
+                                <p class="m-2"> Waiting Time: 3weeks </p>
+                            @endif
+                            
+                        </div>
+                        <div class="col-md-4 mt-2 ">
+                            <p></p>
+                            <p class="mt-4 ml-2"> Color: Pink </p>
+                            <p class="m-2"> Brand: Anti </p>
+                            <p class="m-2"> Status: Preorder </p>
+                        </div>
+                        <hr class="mx-auto" style="width:90%;  ">
+                        <div class="text-right">
+                            <p class="m-2"><b>MMKs: 10000</b></p>
+                        </div>
+                    @endforeach
+                @endif
             </div>
             <div class="row" style="border:1px solid #808080; border-radius: 10px;">
                 <div class="col-md-4">
@@ -82,15 +90,14 @@
             </div>
         </div>
         <div class="col-md-6  bg-black text-white">
-            <!-- 
             <form action="/charge" method="post" id="payment-form" style="width:60%;float: right;">@csrf
-                <lable class="row h5 mb-2"><b>YOUR ORDER <small>(Deivery Info.)
+                <label class="row h5 mb-2"><b>YOUR ORDER <small>(Deivery Info.)
                         </small></b>
-                </lable>
+                </label>
                 <div class="form-group m-2">
                     <label>Name</label>
                     <input type="text" name="name" id="name" class="form-control" value={{auth()->user()->name}}
-                        readonly="" required>
+                        readonly required>
                 </div>
                 <div class="form-group m-2">
                     <label>Address</label>
@@ -125,7 +132,7 @@
                         style="border-radius : 20px;width:100%; background-color : #aa0000;">Continue to
                         Payment</button>
                 </a>
-            </form> -->
+            </form>
         </div>
     </div>
     <div class="row mt-10">
@@ -148,7 +155,7 @@
     </div>
     <div class="mt-3">
         <i class="fa fa-warning fa-xl m-2 mb-4" style="color: red"> </i>
-        <lable class="text-white">Don't forget to save your payment vocher.</lable>
+        <label class="text-white">Don't forget to save your payment vocher.</label>
     </div>
     <div class="mt-3 text-white text-center">
         <label for="upload-photo">Upload you voucher</label>

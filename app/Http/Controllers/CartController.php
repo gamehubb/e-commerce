@@ -6,9 +6,13 @@ use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Brand;
 use App\Models\DeliveryInfo;
 use App\Mail\Sendmail;
 use Illuminate\Http\Request;
+
+use Auth;
 
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 
@@ -25,9 +29,33 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
+        // foreach($cart as $data){
+        //     print_r($data[1]);
+        // }
+
+        // $cart = new Cart();
+        // $user_id = Auth::id();
+
+        // $cart->create([
+
+        //     'user_id' => $user_id,
+        //     'code' => $request->product_code,
+        //     'model_name' => $request->model_name,
+        //     'category_id' => $request->category,
+        //     'brand_id' => $request->brand,
+        //     'user_id' => $id,
+        //     'wireless' => $request->wired_option,
+        //     'warranty' => $request->warranty,
+        //     'product_type' => $request->product_type,
+        //     'is_special' => $request->is_special,
+        //     'description' => $request->product_description,
+        //     'additional_info' => $request->product_additional_info
+
+        // ])->id;
+
         notify()->success('Added To Cart Successfully');
         return redirect()->back();
-        // return redirect('/auth/subcategory/index');
+        return redirect('/auth/subcategory/index');
     }
 
     public function showCart()
@@ -68,12 +96,28 @@ class CartController extends Controller
     public function checkout($amount)
     {
         if (session()->has('cart')) {
-            $cart = new Cart(session()->get('cart'));
+            $carts = new Cart(session()->get('cart'));
         } else {
-            $cart = null;
+            $carts = null;
         }
+        foreach(session()->get('cart')->items as $key => $value){
+            $carts = [
+                        'id' => $value['id'],
+                        'name' => $value['name'],
+                        'code' => $value['code'],
+                        'category' => Category::find($value['category'])->value('name'),
+                        'brand' => Brand::find($value['brand'])->value('name'),
+                        'product_type' => $value['product_type'],
+                        'price' => $value['price'],
+                        'discount' => $value['discount'],
+                        'color' => $value['color'],
+                        'qty' => $value['qty'],
+                        'image' => $value['image'],
+                    ];
+        }
+
         $delivery_info = DeliveryInfo::where('user_id', 1)->get();
-        return view('checkout', compact('amount', 'cart', 'delivery_info'));
+        return view('checkout', compact('amount', 'carts', 'delivery_info'));
     }
 
     public function generateVoucherNumber()

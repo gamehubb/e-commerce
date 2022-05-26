@@ -9,7 +9,7 @@
                     <div class="carousel-inner">
                         @foreach($sliders as $key=>$slider)
                         <div class="carousel-item {{$key == 0 ? 'active' : ''}}">
-                            <img src="{{Storage::url($slider->image_1)}}"
+                            <img src="{{Storage::url($slider->productDetail->image_1)}}"
                                 style="  height:12rem; display: inline-block; !important" alt="...">
                         </div>
                         @endforeach
@@ -39,7 +39,7 @@
         <div class="row m-3">
             <div class="col-md-4 m-10">
                 <div class="row m-4">
-                    <div class="col-md-1  mt-2">
+                    <div class="col-md-1 mt-2">
                         <i class="fa fa-truck fa-2x " style="color: #aa0000;"></i>
                     </div>
                     <div class="col-md-6 ml-4">
@@ -48,12 +48,12 @@
                     </div>
                 </div>
                 <div class="row  m-4">
-                    <div class="col-md-1  mt-2">
+                    <div class="col-md-1 mt-2">
                         <i class="fa fa-bicycle fa-2x " style="color: #aa0000;"></i>
                     </div>
                     <div class="col-md-6 ml-4">
                         <label class="text-white ">Delivery</label> <br />
-                        <small class="text-white ">Cash on deliv, Prepaid</small>
+                        <small class="text-white ">Cash on delivery, Prepaid</small>
                     </div>
                 </div>
                 <div class="row  m-4">
@@ -84,7 +84,7 @@
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     @foreach($products as $product)
-                    <div class="col" style="width: 20% !important">
+                    <div class="col-md-2">
                         <div class="card shadow-sm " style="background-color : #aa0000;border-radius : 25px; ">
                             <img src="{{Storage::url($product->productDetail->image_1)}}" alt=""
                                 style=" object-fit: contain;border-radius : 25px;">

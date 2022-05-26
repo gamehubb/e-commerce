@@ -25,7 +25,7 @@ Route::get('/cart', [App\Http\Controllers\CartController::class, 'showCart'])->n
 Route::post('/products/{product}', [App\Http\Controllers\CartController::class, 'updateCart'])->name('cart.update');
 Route::post('/product/{product}', [App\Http\Controllers\CartController::class, 'removeCart'])->name('cart.remove');
 
-Route::get('/checkout/{amount}', [App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
+Route::get('/checkout/{username}', [App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 Route::get('/orders', [App\Http\Controllers\CartController::class, 'order'])->name('order')->middleware('auth');
 Route::post('/charge', [App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
 

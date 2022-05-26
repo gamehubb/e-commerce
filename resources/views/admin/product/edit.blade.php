@@ -46,19 +46,24 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="">Name</label>
                                 <input type="text" name="product_name" class="form-control @error('product_name') is-invalid @enderror" value="{{ $s_product->name }}" id="" aria-describedby="" placeholder="Enter name of product" required>
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="">Code</label>
                                 <input type="text" name="product_code" class="form-control" value="{{ $s_product->code }}" required>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="">Model Name</label>
+                                <input type="text" name="model_name" class="form-control" value="{{ $s_product->model_name }}">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="">Choose Category</label>
                                 <select name="category" id="" class="form-control @error ('category') is-invalid @enderror" required>
                                     <option value="">Select Category</option>
@@ -73,7 +78,7 @@
                                 @enderror
                             </div>
                         
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="">Choose Brand</label>
                                 <select name="brand" id="" class="form-control @error ('brand') is-invalid @enderror" required>
                                     <option value="">Select Brand</option>
@@ -86,6 +91,11 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="">Warranty</label>
+                                <input type="text" name="warranty" class="form-control" value="{{ $s_product->warranty }}">
                             </div>
                         </div>
 
@@ -126,22 +136,26 @@
 
                                                 
 
-                                                    <td class="upload-btn-wrapper" id="first_img_{{$product->id}}">
-                                                        <span class="button" id="first_button_{{$product->id}}"><img src="{{Storage::url($product->image_1)}}" style="width:12%;cursor:pointer;" alt="first image"></span>
-                                                        <input type="file" id="first_product_image_{{$product->id}}" name="product_image_1[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="first" >
-                                                        <span id="first_image_text_{{$product->id}}"></span>
-                                                    </td>
+                                                    <td class="upload-btn-wrapper" id="img_{{$product->id}}">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <span class="button" id="first_button_{{$product->id}}"><img src="{{Storage::url($product->image_1)}}" style="width:100%;cursor:pointer;" alt="first image"></span>
+                                                                <input type="file" id="first_product_image_{{$product->id}}" name="product_image_1[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="first" >
+                                                                <span id="first_image_text_{{$product->id}}"></span>
+                                                            </div>
 
-                                                    <td class="upload-btn-wrapper" id="second_img_{{$product->id}}">
-                                                        <span class="button" id="second_button_{{$product->id}}"><img src="@if ($product->image_2 == 'no-img') https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png @else {{ Storage::url($product->image_2) }} @endif" style="width:12%;cursor:pointer;" alt="second image"/></span>
-                                                        <input type="file" id="second_product_image_{{$product->id}}" name="product_image_2[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="second">
-                                                        <span id="second_image_text_{{$product->id}}"></span>
-                                                    </td>
-
-                                                    <td class="upload-btn-wrapper" id="third_img_{{$product->id}}">
-                                                        <span class="button" id="third_button_{{$product->id}}"><img src="@if ($product->image_3 == 'no-img') https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png @else {{ Storage::url($product->image_3) }} @endif" style="width:12%;cursor:pointer;" alt="second image"/></span>
-                                                        <input type="file" id="third_product_image_{{$product->id}}" name="product_image_3[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="third">
-                                                        <span id="third_image_text_{{$product->id}}"></span>
+                                                            <div class="col-md-3">
+                                                                <span class="button" id="second_button_{{$product->id}}"><img src="@if ($product->image_2 == 'no-img') https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png @else {{ Storage::url($product->image_2) }} @endif" style="width:100%;cursor:pointer;" alt="second image"/></span>
+                                                                <input type="file" id="second_product_image_{{$product->id}}" name="product_image_2[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="second">
+                                                                <span id="second_image_text_{{$product->id}}"></span>
+                                                            </div>
+                                                            
+                                                            <div class="col-md-3">
+                                                                <span class="button" id="third_button_{{$product->id}}"><img src="@if ($product->image_3 == 'no-img') https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png @else {{ Storage::url($product->image_3) }} @endif" style="width:100%;cursor:pointer;" alt="second image"/></span>
+                                                                <input type="file" id="third_product_image_{{$product->id}}" name="product_image_3[{{$product->id}}]" onchange="loadFile(event)" data-id="{{$product->id}}" data-row="third">
+                                                                <span id="third_image_text_{{$product->id}}"></span>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -220,24 +234,28 @@
             '<td>'+
                 '<input type="number" name="new_discount[]" id="discount_'+row_id+'" class="form-control" min="0">'+
             '</td>'+
-       
-            
-            '<td class="upload-btn-wrapper" id="frist_img_'+row_id+'">'+
-                '<span class="button" id="frist_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:12%;cursor:pointer;"/></span>'+
-                '<input type="file" id="frist_product_image_'+row_id+'" name="new_product_image_1[]" onchange="loadFile(event)" data-id='+row_id+' required data-row="first" />'+
-                '<span id="first_image_text_'+row_id+'"></span>'+
-            '</td>'+
+    
+            '<td class="upload-btn-wrapper" id="img_'+row_id+'">'+
+                '<div class="row">'+
+                    '<div class="col-md-3">'+
+                        '<span class="button" id="frist_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:100%;cursor:pointer;"/></span>'+
+                        '<input type="file" id="frist_product_image'+row_id+'" name="product_image_1[]" onchange="loadFile(event)" data-id='+row_id+' required data-row="first" />'+
+                        '<span id="first_image_text_'+row_id+'"></span>'+
+                    '</div>'+
+                    '<div class="col-md-3">'+
 
-            '<td class="upload-btn-wrapper" id="second_img_'+row_id+'">'+
-                '<span class="button" id="second_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:12%;cursor:pointer;"/></span>'+
-                '<input type="file" id="second_product_image_'+row_id+'" name="new_product_image_2[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="second"/>'+
-                '<span id="second_image_text_'+row_id+'"></span>'+
-            '</td>'+
+                        '<span class="button" id="second_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:100%;cursor:pointer;"/></span>'+
+                        '<input type="file" id="second_product_image_'+row_id+'" name="product_image_2[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="second"/>'+
+                        '<span id="second_image_text_'+row_id+'"></span>'+
+                    '</div>'+
+                    '<div class="col-md-3">'+
 
-            '<td class="upload-btn-wrapper" id="third_img_'+row_id+'">'+
-                '<span class="button" id="third_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:12%;cursor:pointer;"/></span>'+
-                '<input type="file" id="third_product_image_'+row_id+'" name="new_product_image_3[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="third"/>'+
-                '<span id="third_image_text_'+row_id+'"></span>'+
+                        '<span class="button" id="third_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:100%;cursor:pointer;"/></span>'+
+                        '<input type="file" id="third_product_image_'+row_id+'" name="product_image_3[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="third"/>'+
+                        '<span id="third_image_text_'+row_id+'"></span>'+
+                    '</div>'+
+                    
+                '</div>'+
             '</td>'+
             '<td><button type="button" class="btn btn-default bg-white" onclick="removeRow(\''+row_id+'\')"><i class="fa fa-minus"></i></button></td>'+
             '</tr>';

@@ -12,7 +12,7 @@ class FrontProductListController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->limit(6)->get();
+        $products = Product::latest()->where('status',1)->limit(6)->get();
         $randomActiveProducts = Product::inRandomOrder()->limit(3)->get();
         $randomActiveProductId = [];
         foreach ($randomActiveProducts as $product) {

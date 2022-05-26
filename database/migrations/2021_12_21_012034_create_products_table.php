@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->integer('user_id');
             $table->integer('wireless')->default(false)->nullable();
             $table->integer('product_type')->default(1);
-            $table->integer('warranty')->nullable();
+            $table->float('warranty')->nullable();
             $table->integer('is_special')->default(0)->nullable();
             $table->integer('status')->default(true)->nullable();
             $table->text('description')->nullable();
