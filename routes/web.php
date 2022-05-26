@@ -28,6 +28,8 @@ Route::post('/product/{product}', [App\Http\Controllers\CartController::class, '
 Route::get('/checkout/{amount}', [App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 Route::get('/orders', [App\Http\Controllers\CartController::class, 'order'])->name('order')->middleware('auth');
 Route::post('/charge', [App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
+//delivery Info 
+Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::class);
 
 Auth::routes();
 Route::get('all/products', [App\Http\Controllers\FrontProductListController::class, 'moreProducts'])->name('more.product');

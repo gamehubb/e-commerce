@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\DeliveryInfo;
 use App\Mail\Sendmail;
 use Illuminate\Http\Request;
-
+use Auth;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 
 class CartController extends Controller
@@ -66,12 +66,13 @@ class CartController extends Controller
 
     public function checkout($amount)
     {
+        $userId = Auth::id();
         if (session()->has('cart')) {
             $cart = new Cart(session()->get('cart'));
         } else {
             $cart = null;
         }
-        $delivery_info = DeliveryInfo::where('user_id', 1)->get();
+        $delivery_info = DeliveryInfo::where('user_id',  $userId)->get();
         return view('checkout', compact('amount', 'cart', 'delivery_info'));
     }
 

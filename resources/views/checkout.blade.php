@@ -1,49 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-.StripeElement {
-    box-sizing: border-box;
-
-    height: 40px;
-
-    padding: 10px 12px;
-
-    border: 1px solid transparent;
-    border-radius: 4px;
-    background-color: white;
-
-    box-shadow: 0 1px 3px 0 #e6ebf1;
-    -webkit-transition: box-shadow 150ms ease;
-    transition: box-shadow 150ms ease;
-}
-
-.StripeElement--focus {
-    box-shadow: 0 1px 3px 0 #cfd7df;
-}
-
-.StripeElement--invalid {
-    border-color: #fa755a;
-}
-
-.StripeElement--webkit-autofill {
-    background-color: #fefde5 !important;
-}
-</style>
 <div class="container">
     <div class="row">
         <div class="col-6 col-md-5  text-white">
             <i class="nav-item fa fa-user m-2 mb-4"> Hi Treasa!</i>
+     
+        @if(count($cart->items)>0)
+        @foreach($cart->items as $carts) 
             <div class="row mb-3" style="border:1px solid #808080; border-radius: 10px;">
                 <div class="col-md-4">
-                    <img src="{{Storage::url('public/files/xCCWSBMZi929D5ZL1RH4Tqoc7luuNjcpJtqbqNex.png')}}"
-                        class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:5rem; " alt="...">
+                    <img src="{{Storage::url($carts['image'])}}"
+                        class="floar-right m-3 mx-auto" style=" border-radius: 20px;  " alt="...">
                 </div>
                 <div class="col-md-4 mt-2 ">
-                    <p><u><b>Arti Pro H001 </b></u></p>
+                    <p><u><b>{{$carts['name']}} </b></u></p>
                     <p class="m-2"> Product Code: 224 </p>
                     <p class="m-2"> Category: Headphone </p>
-                    <p class="m-2"> Quantity:1 </p>
+                    <p class="m-2"> Quantity:{{$carts['qty']}}</p>
                     <p class="m-2"> Waiting Time: 3weeks </p>
                 </div>
                 <div class="col-md-4 mt-2 ">
@@ -54,78 +28,49 @@
                 </div>
                 <hr class="mx-auto" style="width:90%;  ">
                 <div class="text-right">
-                    <p class="m-2"><b>MMKs: 10000</b></p>
+                    <p class="m-2"><b>MMKs {{$carts['price'] * $carts['qty']}} </b></p>
                 </div>
             </div>
-            <div class="row" style="border:1px solid #808080; border-radius: 10px;">
-                <div class="col-md-4">
-                    <img src="{{Storage::url('public/files/xCCWSBMZi929D5ZL1RH4Tqoc7luuNjcpJtqbqNex.png')}}"
-                        class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:5rem; " alt="...">
-                </div>
-                <div class="col-md-4 mt-2 ">
-                    <p><u><b>Arti Pro H001 </b></u></p>
-                    <p class="m-2"> Product Code: 224 </p>
-                    <p class="m-2"> Category: Headphone </p>
-                    <p class="m-2"> Quantity:1 </p>
-                    <p class="m-2"> Waiting Time: 3weeks </p>
-                </div>
-                <div class="col-md-4 mt-2 ">
-                    <p></p>
-                    <p class="mt-4 ml-2"> Color: Pink </p>
-                    <p class="m-2"> Brand: Anti </p>
-                    <p class="m-2"> Status: Preorder </p>
-                </div>
-                <hr class="mx-auto" style="width:90%;  ">
-                <div class="text-right">
-                    <p class="m-2"><b>MMKs: 10000</b></p>
-                </div>
+            @endforeach
+           @endif
+           <hr class="mx-auto" style="width:100%;  ">
+           <div class="row mb-3">
+            <div class="col-md-8 mt-2 ">
+                <p class="m-2  h6"> Subtotal :</p>
+                <p class="m-2  h6">Delivery :</p>
             </div>
+            <div class="col-md-4 mt-2 ">
+                <p class="m-2 h6">MMKs {{$cart->totalPrice}} </p>
+                <p class="m-2 h6">MMKs 0</p>
+            </div>
+           </div>
+           <hr class="mx-auto" style="width:100%;  ">
+           <div class="row mb-3">
+            <div class="col-md-8 mt-2 ">
+                <p class="m-2 h5"><b>TOTAL :</b></p>      
+            </div>
+            <div class="col-md-4 mt-2 ">
+                <p class="m-2 h5"><b>MMKs {{$cart->totalPrice}} </b></p>
+               
+            </div>
+           </div>
         </div>
-        <div class="col-md-6  bg-black text-white">
-            <!-- 
-            <form action="/charge" method="post" id="payment-form" style="width:60%;float: right;">@csrf
-                <lable class="row h5 mb-2"><b>YOUR ORDER <small>(Deivery Info.)
-                        </small></b>
-                </lable>
-                <div class="form-group m-2">
-                    <label>Name</label>
-                    <input type="text" name="name" id="name" class="form-control" value={{auth()->user()->name}}
-                        readonly="" required>
+        <div class="col-md-4 text-white  mt-4"  >
+            <a href="{{route('deliveryInfo.create')}}"  style="width: 18rem; float: right;" > 
+             <u><i class="fa fa-plus"></i>Add New Address </i></u>
+            </a>
+            @if(count($delivery_info)>0)
+            @foreach($delivery_info as $delInfo)     
+            <div class="card bg-dark m-2 border-secondary card-pf-view-single-select"  style="width: 18rem;  float: right;" >         
+                <div class="card-body">
+                <h4 class="card-title"> <b>{{$delInfo->name}}</b></h4>
+                <p class="card-text"> {{$delInfo->phoneNumber}}</p>
+                <p class="card-text">{{$delInfo->address}} ,{{$delInfo->township}},{{$delInfo->city}},{{$delInfo->state_region}}</p>
+                <input type="radio" name ="delInfo" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;">
                 </div>
-                <div class="form-group m-2">
-                    <label>Address</label>
-                    <input type="text" name="address" id="address" class="form-control" required>
-                </div>
-                <div class="form-group m-2">
-                    <label>City</label>
-                    <input type="text" name="city" id="city" class="form-control" required>
-                </div>
-                <div class="form-group m-2">
-                    <label>Delivery Township</label>
-                    <input type="text" name="deltownship" id="deltownship" class="form-control" required>
-                </div>
-                <div class="form-group m-2">
-                    <label>State/Region</label>
-                    <input type="text" name="state" id="state" class="form-control" required>
-                </div>
-                <div class="form-group m-2">
-                    <label>PhoneNumber</label>
-                    <input type="number" name="phonenumber" id="phonenumber" class="form-control" required>
-                </div>
-                <div class="form-group m-2">
-                    <label class="h4"><b>Price: 1000 MMKs</b></label>
-                    <input type="hidden" name="amount" value="{{$amount}}">
-                </div>
-                <div class="form-group m-3">
-                    <input type="checkbox" name="saveInfo">
-                    <label>Save this Info for next time.</label>
-                </div>
-                <a href=" ">
-                    <button type="button" class="btn btn-sm mx-auto mt-3 text-white"
-                        style="border-radius : 20px;width:100%; background-color : #aa0000;">Continue to
-                        Payment</button>
-                </a>
-            </form> -->
+          </div>
+            @endforeach
+            @endif
         </div>
     </div>
     <div class="row mt-10">
@@ -164,7 +109,21 @@
     </div>
 </div>
 <script src="https://js.stripe.com/v3/"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+  $(document).ready(function() {
+    // Card Single Select
+    $('.card-pf-view-single-select').click(function() {
+        if ($(this).hasClass('border-secondary'))
+        {
+            $('.card-pf-view-single-select').removeClass('border-success');
+            $('.card-pf-view-single-select').addClass('border-secondary');
+           $(this).removeClass('border-secondary'); 
+           $(this).addClass('border-success'); 
+           $(this).find('input').prop('checked', true)  ;  
+        } 
+    });
+  });
 // Create a Stripe client.
 window.onload = function() {
     var stripe = Stripe(
