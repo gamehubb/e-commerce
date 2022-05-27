@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<form action="{{route('cart.final-checkout')}}" method="POST" enctype="multipart/form-data">@csrf
+
 <div class="container">
     <div class="row">
         <div class="col-6 col-md-5  text-white">
@@ -33,7 +35,6 @@
                             <p class="m-2"><b>{{$carts['price'] * $carts['qty']}}</b></p>
                         </div>
 
-                @endif
             </div>
            <hr class="mx-auto" style="width:100%;  ">
            <div class="row mb-3">
@@ -42,7 +43,7 @@
                 <p class="m-2  h6">Delivery :</p>
             </div>
             <div class="col-md-4 mt-2 ">
-                <p class="m-2 h6">MMKs  {{ session()->get('cart')->totalPrice }}</p>
+                <p class="m-2 h6">MMKs {{session()->has('cart')?session()->get('cart')->totalPrice:'0'}}</p>
                 <p class="m-2 h6">MMKs 0</p>
             </div>
            </div>
@@ -52,7 +53,7 @@
                 <p class="m-2 h5"><b>TOTAL :</b></p>      
             </div>
             <div class="col-md-4 mt-2 ">
-                <p class="m-2 h5"><b>MMKs  {{session()->get('cart')->totalPrice}} </b></p>
+                <p class="m-2 h5"><b>MMKs {{session()->has('cart')?session()->get('cart')->totalPrice:'0'}} </b></p>
                
             </div>
            </div>
@@ -68,9 +69,9 @@
                 <h4 class="card-title"> <b>{{$delInfo->name}}</b></h4>
                 <p class="card-text"> {{$delInfo->phoneNumber}}</p>
                 <p class="card-text">{{$delInfo->address}} ,{{$delInfo->township}},{{$delInfo->city}},{{$delInfo->state_region}}</p>
-                <input type="radio" name ="delInfo" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;">
+                <input type="radio" name ="delInfo" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;" required>
                 </div>
-          </div>
+            </div>
             @endforeach
             @endif
         </div>
@@ -79,12 +80,12 @@
         <div class="col-md-6 text-white bg-dark">
             <label class="h5 p-3"><b>CHOOSE PAYMENT METHOD</b></label><br />
             <div class="m-1 mb-5">
-                <input type="radio" id="kbzpay" name="payment" class="form-check-input m-3" value="1">
+                <input type="radio" id="kbzpay" name="payment_type" class="form-check-input m-3" value="1">
                 <label class="h5 mt-2" for="kbzpay">KBZ Pay</label><br />
-                <input type="radio" id="wavepay" name="payment" class=" form-check-input m-3" value="2">
+                <input type="radio" id="wavepay" name="payment_typ" class="form-check-input m-3" value="2">
                 <label class="h5 mt-2" for="wavepay">Wave Pay</label><br />
                 @if($carts['product_type'] != 2)
-                    <input type="radio" id="cod" name="payment" class=" form-check-input m-3" value="3">
+                    <input type="radio" id="cod" name="payment_type" class="form-check-input m-3" value="3">
                     <label class="h5 mt-2" for="cod">Cash On Delivery</label><br />
                 @endif
             </div>
@@ -102,19 +103,18 @@
     </div>
     <div class="mt-3 text-white text-center">
         <label for="upload-photo">Upload you voucher</label>
-        <input class="m-auto" type="file" name="photo" id="upload-photo" style="width: 95px;" onchange="return fileValidation()"/><br />
+        <input class="m-auto" type="file" name="payment_slip" id="upload-photo" style="width: 95px;" onchange="return fileValidation()"/><br />
         <div id="imagePreview"></div>
-        <a href=" ">
-            <button type="button" class="btn btn-sm  mt-3 text-white bg-dark "
-                style="border-radius:20px; background-color:#aa0000; width:10%">Checkout</button>
-        </a>
+        <input type="submit" class="btn btn-sm  mt-3 text-white bg-dark"
+        value="Checkout" style="border-radius:20px; background-color:#aa0000; width:10%">
     </div>
-</form>
+    @endif
     <hr style="margin-top: 20px;color:white;" />
     <div class="mt-3 text-white text-center">
         <p>Questions about this payment? Contact <a href=" "><u> GameHub Myanmar</u></a></p>
     </div>
 </div>
+</form>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">

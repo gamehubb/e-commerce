@@ -19,10 +19,11 @@ class CreatePaymentsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->integer('payment_type');
             $table->text('payment_slip');
             $table->integer('total_amount');
-            $table->integer('paid_amount');
-            $table->integer('status');
+            $table->integer('paid_amount')->nullable();
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
     }

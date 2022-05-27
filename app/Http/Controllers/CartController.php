@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\User;
+use App\Models\Payment;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\DeliveryInfo;
@@ -125,7 +127,7 @@ class CartController extends Controller
 
     public function generateVoucherNumber()
     {
-        $characters = 'MV4560GM678ZA0B0E1D';
+        $characters = '1234567890';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < 6; $i++) {
@@ -135,31 +137,81 @@ class CartController extends Controller
         return $finalvouchernumber;
     }
 
-    public function charge(Request $request)
+    public function finalCheckout(Request $request)
     {
-        $charge = Stripe::charges()->create([
-            'currency' => "USD",
-            'source' => $request->stripeToken,
-            'amount' => $request->amount,
-            'description' => 'Test'
-        ]);
-        $chargeId = $charge['id'];
         if (session()->has('cart')) {
-            $cart = new Cart(session()->get('cart'));
-        } else {
-            $cart = null;
-        }
-        Mail::to(auth()->user()->email)->send(new Sendmail($cart));
-        if ($chargeId) {
-            auth()->user()->orders()->create([
-                'voucher_code' => $this->generateVoucherNumber(),
-                'cart' => serialize(session()->get('cart'))
-            ]);
-            session()->forget('cart');
-            notify()->success('Transaction Completed');
-            return redirect()->to('/');
-        } else {
-            return redirect()->back();
+
+            $delivery_info = DeliveryInfo::where('id',$request->delInfo)->get()->first();
+
+            foreach(session()->get('cart')->items as $key => $value){
+                $carts = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'code' => $value['code'],
+                            'category' => Category::find($value['category'])->value('name'),
+                            'brand' => Brand::find($value['brand'])->value('name'),
+                            'product_type' => $value['product_type'],
+                            'price' => $value['price'],
+                            'discount' => $value['discount'],
+                            'color' => $value['color'],
+                            'qty' => $value['qty'],
+                            'image' => $value['image'],
+                        ];
+            }
+
+            $voucher = $this->generateVoucherNumber();
+
+            $userId = Auth::id();
+    
+            $status = 2;
+    
+            $del_name = $delivery_info->name;
+            $del_ph_number = $delivery_info->phoneNumber;
+            $del_address = $delivery_info->address;
+            $del_city = $delivery_info->city;
+            $del_township = $delivery_info->township.'/'.$delivery_info->state_region;
+    
+            $total_amount = session()->get('cart')->totalPrice;
+
+            $order_id = Order::create([
+                'voucher_code' => $voucher,
+                'user_id' => $userId,
+                'status' => $status,
+                'payment_status' => 4,
+                'del_name' => $del_name,
+                'del_address' => $del_address,
+                'del_city' => $del_city,
+                'del_township' => $del_township,
+                'del_phone_number' => $del_ph_number,
+                'total_amount' => $total_amount,
+            ])->id;
+
+            if($order_id > 0){
+
+                if($request->file('payment_slip')){
+                   $image = $request->file('payment_slip')->store('public/payment_slip');
+               
+                    Payment::create([
+                        'user_id' => $userId,
+                        'order_id' => $order_id,
+                        'payment_type' => $request->payment,
+                        'payment_slip' => $image,
+                        'total_amount'  => $total_amount,
+                    ]);
+                }
+
+                OrderItem::create([
+                    'order_id' => $order_id,
+                    'product_id' => $carts['id'],
+                    'product_name' => $carts['name'],
+                    'color' => $carts['color'],
+                    'quantity' => $carts['qty'],
+                    'price' => $carts['price'],
+                    'discount' => $carts['discount'],
+                ]);
+
+                session()->forget('cart');
+            }
         }
     }
     //For LoggedIn User

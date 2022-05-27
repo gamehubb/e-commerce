@@ -183,10 +183,12 @@
                         <p class="col-md-6"> <b>MMKs {{session()->has('cart')?session()->get('cart')->totalPrice:'0'}}</b> </p>
                     </div>
                     <div class="text-center m-3">
+                        @auth
                         <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
                             <button type="button" class="btn btn-sm mx-auto mt-3 text-white"
                                 style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
                         </a>
+                        @endauth
                     </div>
                 </div>
             </div>
