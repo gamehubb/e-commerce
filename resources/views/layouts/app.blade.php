@@ -38,7 +38,7 @@
             </div>
         </header>
 
-        <nav class="navbar k navbar-expand-md shadow-sm  bg-dark">
+        <nav class="navbar k navbar-expand-md shadow-sm  bg-dark" style="z-index: -1;">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

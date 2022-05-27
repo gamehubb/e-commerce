@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Carts;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
@@ -20,6 +21,22 @@ class CartController extends Controller
 {
     public function addToCart(Product $product)
     {
+
+        $carts = new Carts();
+        $user_id = Auth::id();
+        $cart_id = $carts->create([
+            'user_id' => $user_id,
+            'product_id' => $product->id,
+            'product_name' => $product->name,
+            'category_id' => 1,
+            'image' => $product->productDetail->image_1,
+            'quantity' => 1,
+            'price' => $product->productDetail->price,
+            'total_amount' => $product->productDetail->price,
+            'color' => "",
+            'discount' =>  ""
+        ])->id;
+
         if (session()->has('cart')) {
             $cart = new Cart(session()->get('cart'));
         } else {
@@ -55,7 +72,7 @@ class CartController extends Controller
 
         notify()->success('Added To Cart Successfully');
         return redirect()->back();
-        return redirect('/auth/subcategory/index');
+        //   return redirect('/auth/subcategory/index');
     }
 
     public function showCart()
