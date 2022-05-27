@@ -28,6 +28,7 @@ Route::post('/product/{product}', [App\Http\Controllers\CartController::class, '
 Route::get('/checkout/{username}', [App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 Route::get('/orders', [App\Http\Controllers\CartController::class, 'order'])->name('order')->middleware('auth');
 Route::post('/charge', [App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
+Route::post('/complete-checkout', [App\Http\Controllers\CartController::class, 'finalCheckout'])->name('cart.final-checkout')->middleware('auth');
 //delivery Info 
 Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::class);
 
