@@ -8,6 +8,16 @@
                 <div class="card-header h3 text-center">REGISTER</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
+                        @if(Session::get('fail'))
+                        <div class="alert alert-danger">
+                            {{ Session::get('fail') }}
+                        </div>
+                    @endif
+                    @if(Session::get('success'))
+                        <div class="alert alert-info">
+                            {{ Session::get('success')}}
+                        </div>
+                    @endif
                         @csrf
                         <div class="row mb-3">
                             <label for="name" class="col-md-3 col-form-label text-right">Name</label>

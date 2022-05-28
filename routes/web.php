@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+
+
+
 Route::get('/', [App\Http\Controllers\FrontProductListController::class, 'index']);
 Route::get('/product/{id}', [App\Http\Controllers\FrontProductListController::class, 'show']);
 
@@ -31,13 +36,21 @@ Route::post('/charge', [App\Http\Controllers\CartController::class, 'charge'])->
 //delivery Info 
 Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::class);
 
-Auth::routes();
+// Auth::routes();
+Auth::routes(['verify' => true]);
+Route::get('/verify',[App\Http\Controllers\UserController::class, 'verify'])->name('verify');
 Route::get('all/products', [App\Http\Controllers\FrontProductListController::class, 'moreProducts'])->name('more.product');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
+
+Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin', 'is_user_verify_email']], function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     });
+   
+    // Route::get('/email/verify', function () {
+    //     return view('auth.verify');
+    // });
+    // Route::get('/email/verify',[App\Http\Auth]);
     //To View Order
 
     //Category

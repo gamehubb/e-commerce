@@ -31,4 +31,4 @@ class Sendmail extends Mailable
     {
         return $this->view('emails.mail');
     }
-}
+} 

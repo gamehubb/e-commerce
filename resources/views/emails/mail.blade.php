@@ -18,7 +18,7 @@
                 <th>{{$product['price']}}</th>
                 <th>{{$product['qty']}}</th>
             </tr>
-        @endforeach
+        @endforeach 
         <br>
         <span>Total Price:: {{$cart->totalPrice}}</span>
         <span>Please Click the link to view yours order. <a href="{{url('/orders')}}">Click Here</a></span>
