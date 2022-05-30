@@ -34,13 +34,11 @@ class CartController extends Controller
 
         foreach($cart->items as $c){
             
-            $product_id = Carts::where('product_id',$c['id'])->pluck('id'); 
+            $product_id = Carts::where('product_id',$c['id'])->pluck('id')->count(); 
 
-            print_r(is_null($product_id));
+            if($product_id == 0){ 
 
-            if(empty($product_id)){
-
-                    $cart_id = $carts->create([
+                $carts->create([
                     'user_id' => $user_id,
                     'product_id' => $c['id'],
                     'product_name' => $c['name'],
@@ -55,18 +53,19 @@ class CartController extends Controller
                     'color' => $c['color'],
                     'discount' =>  $c['discount']
 
-                ])->id;
+                ]);
 
             }else{
 
-                $cart = Carts::where('product_id',$product_id)->update(
+                Carts::where('product_id',$c['id'])->update(
                     [
                         'product_name' => $c['name'],
                         'product_code' => $c['code'],
                         'category' => Category::find($c['category'])->value('name'),
                         'brand' => Brand::find($c['brand'])->value('name'),
                         'product_type' => $c['product_type'],
-                        'image' => $c['qty'],
+                        'image' => $c['image'],
+                        'quantity' => $c['qty'],
                         'price' => $c['price'],
                         'total_amount' => $c['qty'] * $c['price'],
                         'color' => $c['color'],
@@ -81,8 +80,8 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
-        // notify()->success('Added To Cart Successfully');
-        // return redirect()->back();
+        notify()->success('Added To Cart Successfully');
+        return redirect()->back();
     }
 
     public function showCart()
@@ -149,7 +148,8 @@ class CartController extends Controller
 
 
         $delivery_info = DeliveryInfo::where('user_id', $userId)->get();
-        return view('checkout', compact('amount', 'carts', 'delivery_info'));
+        $payments = ['1' => 'kpay', '2' => 'wpay', '3' => 'cod' ];
+        return view('checkout', compact('amount', 'carts', 'delivery_info', 'payments'));
     }
 
     public function generateVoucherNumber()

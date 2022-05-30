@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Brand;
 use App\Models\SubCategory;
 use App\Models\ProductDetail;
 use Illuminate\Http\Request;
@@ -20,9 +21,11 @@ class FrontProductListController extends Controller
         }
         $randomItemProducts = Product::whereNotIn('id', $randomActiveProductId)->limit(3)->get();
         $categories = Category::get();
+        $brands = Brand::get();
+
 
         $sliders = Product::where('is_special', '1')->get();
-        return view('product', compact('products', 'categories', 'randomItemProducts', 'randomActiveProducts', 'sliders'));
+        return view('product', compact('products', 'categories', 'brands', 'randomItemProducts', 'randomActiveProducts', 'sliders'));
     }
     public function show($id)
     {

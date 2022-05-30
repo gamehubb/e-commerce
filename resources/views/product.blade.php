@@ -84,13 +84,13 @@
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     @foreach($products as $product)
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="card shadow-sm " style="background-color : #aa0000;border-radius : 25px; ">
                             <img src="{{Storage::url($product->productDetail->image_1)}}" alt=""
                                 style=" object-fit: contain;border-radius : 25px;">
                             <div class="card-body text-white">
                                 <p><b> {{$product->name}}</b></p>
-                                <small> Colors- </small>
+                                <small> Colors- <input type="color" value={{$product->productDetail->color}} readonly></small>
                                 <p><b>MMKs {{$product->price}} </b> </p>
                                 <small class="card-text">{!!Str::limit($product->description,120)!!}</small>
                                 <a href="{{ route('add.cart',[$product->id]) }}">
@@ -194,15 +194,16 @@
                     <div class="row">
                         <div class="col-md-4 mt-2">
                             <p><b>Category</b></p>
-                            <p> Airpods </p>
-                            <p> Headphone </p>
-                            <p> Keyboard </p>
-                            <p> Mouse </p>
+                            @foreach ($categories as $category )
+                               {{$category->name}}
+                            @endforeach
+                           
                         </div>
                         <div class="col-md-4  mt-2">
                             <p><b>Brand</b></p>
-                            <p> Logitech </p>
-                            <p> Fantech </p>
+                            @foreach ($brands as $brand )
+                               {{$brand->name}}
+                            @endforeach
                         </div>
                         <div class="col-md-4  mt-2">
                             <p><b>Company</b></p>

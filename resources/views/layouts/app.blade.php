@@ -116,14 +116,19 @@
                         <li class="nav-item">
                             <i class="nav-item fa fa-gamepad text-white m-2" style="font-size:20px;"></i>
                         </li>
-                        <li class="nav-item">
-                            <i class="nav-item fa fa-user text-white m-2" style="font-size:20px;"></i>
+                        {{-- <li class="nav-item">
+                            {{-- <i class="nav-item fa fa-user text-white m-2 menu"  onclick="this.classList.toggle('open')" style="font-size:20px;"></i> --}}
+                        {{-- </li>  --}}
+                        <li class="menu" onclick="this.classList.toggle('open')">
+                            <div class="button"></div>
+                            <div class="button"></div>
+                            <div class="button"></div>
                         </li>
                         <li class="nav-item" onclick="openModel()" style="cursor:pointer">
                             {{-- <a href="{{route('cart.show')}}" > --}}
                             <!-- <a href="{{route('cart.checkout' , 2)}}"> -->
                             <i class="fa fa-shopping-cart text-white  m-2" style="font-size:20px;">
-                                <sup> ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}})</sup>
+                                <sup> ({{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }})</sup>
 
                             </i>
                             <!-- </a> -->

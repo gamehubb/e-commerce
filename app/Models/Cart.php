@@ -51,7 +51,7 @@ class Cart
             $this->totalQty += 1;
             $this->totalPrice += $product->productDetail->price;
         } else {
-            // $this->totalQty+=1;
+            $this->totalQty+=1;
 
             $this->totalPrice += $product->productDetail->price;
         }

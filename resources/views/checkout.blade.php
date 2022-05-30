@@ -80,34 +80,41 @@
         <div class="col-md-6 text-white bg-dark">
             <label class="h5 p-3"><b>CHOOSE PAYMENT METHOD</b></label><br />
             <div class="m-1 mb-5">
-                <input type="radio" id="kbzpay" name="payment_type" class="form-check-input m-3" value="1">
-                <label class="h5 mt-2" for="kbzpay">KBZ Pay</label><br />
-                <input type="radio" id="wavepay" name="payment_typ" class="form-check-input m-3" value="2">
-                <label class="h5 mt-2" for="wavepay">Wave Pay</label><br />
-                @if($carts['product_type'] != 2)
-                    <input type="radio" id="cod" name="payment_type" class="form-check-input m-3" value="3">
-                    <label class="h5 mt-2" for="cod">Cash On Delivery</label><br />
-                @endif
+                @foreach($payments as $key => $value)
+                    <input type="radio" id="{{$value}}" name="payment_type" class="form-check-input m-3" value="{{$key}}">
+                    <label class="h5 mt-2" for="{{$value}}"> @if ($key ==1) KBZ PAY @elseif ($key == 2) Wave Pay @elseif ($key == 3) Cash On Delivery @endif</label><br/>
+                    {{-- <label class="h5 mt-2" for="kbzpay">KBZ Pay</label><br /> --}}
+                    {{-- <input type="radio" id="wavepay" name="payment_type" class="form-check-input m-3" value="2">
+                    <label class="h5 mt-2" for="wavepay">Wave Pay</label><br />
+                    @if($carts['product_type'] != 2) --}}
+                        {{-- <input type="radio" id="cod" name="payment_type" class="form-check-input m-3" value="3">
+                        <label class="h5 mt-2" for="cod">Cash On Delivery</label><br />
+                    @endif --}}
+                @endforeach
+
             </div>
         </div>
         <div class="col-md-5 text-white" style="border:1px solid #808080;">
             <label class="h5 p-1" id="kpay"><b>Account Name - Gamehub</b></label><br />
             <label class="h5 p-1" id="kpay"><b>Phone Number - 09986715035</b></label><br />
-            <img src="{{asset('images/kpay.jpg')}}" width="50px" height="50px" id="kpay" style="display:none;width: 260px;height: 300px;" alt="Kpay"/>
-            <img src="{{asset('images/wave-money.jpg')}}" width="50px" height="50px" id="wpay" style="display:none;width: 260px;height: 300px;" alt="WavePay">         
+            <img src="{{asset('images/kpay.jpg')}}" width="50px" height="50px" id="kpay" style="display:none;width: 260px;height: 300px; margin: auto;" alt="Kpay"/>
+            <img src="{{asset('images/wave-money.jpg')}}" width="50px" height="50px" id="wpay" style="display:none;width: 260px;height: 300px;margin: auto;" alt="WavePay">         
         </div>
     </div>
-    <div class="mt-3">
-        <i class="fa fa-warning fa-xl m-2 mb-4" style="color: red"> </i>
-        <label class="text-white">Don't forget to save your payment vocher.</label>
+    <div id="payment">
+        <div class="mt-3">
+            <i class="fa fa-warning fa-xl m-2 mb-4" style="color: red"> </i>
+            <label class="text-white">Don't forget to save your payment vocher.</label>
+        </div>
+        <div class="mt-3 text-white text-center">
+            <label for="upload-photo">Upload you voucher</label>
+            <input class="m-auto" type="file" name="payment_slip" id="upload-photo" style="width: 95px" onchange="return fileValidation()"/><br />
+            <div id="imagePreview"></div>
+        </div>
     </div>
-    <div class="mt-3 text-white text-center">
-        <label for="upload-photo">Upload you voucher</label>
-        <input class="m-auto" type="file" name="payment_slip" id="upload-photo" style="width: 95px;" onchange="return fileValidation()"/><br />
-        <div id="imagePreview"></div>
-        <input type="submit" class="btn btn-sm  mt-3 text-white bg-dark"
-        value="Checkout" style="border-radius:20px; background-color:#aa0000; width:10%">
-    </div>
+
+    <input type="submit" class="btn btn-sm  mt-3 text-white bg-dark"
+            value="Checkout" style="border-radius:20px; background-color:#aa0000; width:12%">
     @endif
     <hr style="margin-top: 20px;color:white;" />
     <div class="mt-3 text-white text-center">
@@ -115,8 +122,8 @@
     </div>
 </div>
 </form>
-<script src="https://js.stripe.com/v3/"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+
 <script type="text/javascript">
   $(document).ready(function() {
     // Card Single Select
@@ -127,7 +134,7 @@
             $('.card-pf-view-single-select').addClass('border-secondary');
            $(this).removeClass('border-secondary'); 
            $(this).addClass('border-success'); 
-           $(this).find('input').prop('checked', true)  ;  
+           $(this).find('input').prop('checked', true);  
         } 
     });
   });
@@ -138,19 +145,22 @@
             {
             $('[id=kpay]').show();
             $('#wpay').hide();
+            $('#payment').show();
             }
         else if(value == 2)
             {
             $('[id=kpay]').hide();
             $('#wpay').show();
+            $('#payment').show();
             }
-        else if(value == '3')
+        else if(value == 3)
             {
             $('[id=kpay]').hide();
             $('#wpay').hide();
+            $('#payment').hide();
             }
         
-        });
+    });
 
         function fileValidation() {
             var fileInput =

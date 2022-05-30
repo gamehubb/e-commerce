@@ -34,7 +34,7 @@ Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::cl
 
 Auth::routes();
 Route::get('all/products', [App\Http\Controllers\FrontProductListController::class, 'moreProducts'])->name('more.product');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\FrontProductListController::class, 'index'])->name('home');
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
