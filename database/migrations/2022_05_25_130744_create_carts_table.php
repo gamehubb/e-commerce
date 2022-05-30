@@ -18,13 +18,16 @@ class CreateCartsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('product_id');
-            $table->string('product_name');
+            $table->text('product_name');
+            $table->string('category');
+            $table->string('brand');
+            $table->string('product_type');
             $table->text('image');
             $table->integer('quantity');
-            $table->integer('price');
-            $table->integer('total_amount');
+            $table->string('price');
+            $table->float('total_amount');
             $table->string('color');
-            $table->string('discount');
+            $table->text('discount');
             $table->timestamps();
         });
     }

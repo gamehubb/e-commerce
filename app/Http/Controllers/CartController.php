@@ -24,18 +24,6 @@ class CartController extends Controller
 
         $carts = new Carts();
         $user_id = Auth::id();
-        $cart_id = $carts->create([
-            'user_id' => $user_id,
-            'product_id' => $product->id,
-            'product_name' => $product->name,
-            'category_id' => 1,
-            'image' => $product->productDetail->image_1,
-            'quantity' => 1,
-            'price' => $product->productDetail->price,
-            'total_amount' => $product->productDetail->price,
-            'color' => "",
-            'discount' =>  ""
-        ])->id;
 
         if (session()->has('cart')) {
             $cart = new Cart(session()->get('cart'));
@@ -44,35 +32,57 @@ class CartController extends Controller
         }
         $cart->add($product);
 
+        foreach($cart->items as $c){
+            
+            $product_id = Carts::where('product_id',$c['id'])->pluck('id'); 
+
+            print_r(is_null($product_id));
+
+            if(empty($product_id)){
+
+                    $cart_id = $carts->create([
+                    'user_id' => $user_id,
+                    'product_id' => $c['id'],
+                    'product_name' => $c['name'],
+                    'product_code' => $c['code'],
+                    'category' => Category::find($c['category'])->value('name'),
+                    'brand' => Brand::find($c['brand'])->value('name'),
+                    'product_type' => $c['product_type'],
+                    'image' => $c['image'],
+                    'quantity' => $c['qty'],
+                    'price' => $c['price'],
+                    'total_amount' => $c['qty'] * $c['price'],
+                    'color' => $c['color'],
+                    'discount' =>  $c['discount']
+
+                ])->id;
+
+            }else{
+
+                $cart = Carts::where('product_id',$product_id)->update(
+                    [
+                        'product_name' => $c['name'],
+                        'product_code' => $c['code'],
+                        'category' => Category::find($c['category'])->value('name'),
+                        'brand' => Brand::find($c['brand'])->value('name'),
+                        'product_type' => $c['product_type'],
+                        'image' => $c['qty'],
+                        'price' => $c['price'],
+                        'total_amount' => $c['qty'] * $c['price'],
+                        'color' => $c['color'],
+                        'discount' => $c['discount']
+                    ]
+
+                );
+
+            }
+
+        }
+
         session()->put('cart', $cart);
 
-        // foreach($cart as $data){
-        //     print_r($data[1]);
-        // }
-
-        // $cart = new Cart();
-        // $user_id = Auth::id();
-
-        // $cart->create([
-
-        //     'user_id' => $user_id,
-        //     'code' => $request->product_code,
-        //     'model_name' => $request->model_name,
-        //     'category_id' => $request->category,
-        //     'brand_id' => $request->brand,
-        //     'user_id' => $id,
-        //     'wireless' => $request->wired_option,
-        //     'warranty' => $request->warranty,
-        //     'product_type' => $request->product_type,
-        //     'is_special' => $request->is_special,
-        //     'description' => $request->product_description,
-        //     'additional_info' => $request->product_additional_info
-
-        // ])->id;
-
-        notify()->success('Added To Cart Successfully');
-        return redirect()->back();
-        //   return redirect('/auth/subcategory/index');
+        // notify()->success('Added To Cart Successfully');
+        // return redirect()->back();
     }
 
     public function showCart()

@@ -38,7 +38,7 @@
             </div>
         </header>
 
-        <nav class="navbar k navbar-expand-md shadow-sm  bg-dark" style="z-index: -1;">
+        <nav class="navbar k navbar-expand-md shadow-sm  bg-dark">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -197,7 +197,7 @@
             @yield('content')
         </main>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
     <script>
     function openModel() {
         $("#myModal").modal('show');
