@@ -18239,15 +18239,14 @@ textarea.form-control-lg {
 }
 .menu {
   position: relative;
-  top: 40px;
-  padding: 30px;
+  top: -11px;
+  right: -50px;
   background: #e8e8f3;
   border-radius: 100%;
   cursor: pointer;
-  box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15), -7px -7px 20px white, inset 0px 0px 4px rgba(255, 255, 255, 0.2), inset 7px 7px 15px rgba(55, 84, 170, 0), inset -7px -7px 20px rgba(255, 255, 255, 0), 0px 0px 4px rgba(255, 255, 255, 0);
 }
 .menu::before, .menu::after {
-  content: "";
+  content: "<i/>";
   background: #c3c2c7;
   border-radius: 5px;
   width: 30px;
