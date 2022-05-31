@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\VerifyUser;
 class UserController extends Controller
 {
     /**
@@ -17,6 +18,7 @@ class UserController extends Controller
         return view('admin.user.index',compact('users'));
     }
 
+   
     /**
      * Show the form for creating a new resource.
      *
@@ -81,5 +83,23 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function verify(Request $request)
+    {
+        $token = $request->token;
+        $verifyUser = VerifyUser::where('token',$token)->first();
+        if(!is_null($verifyUser)){
+            $user = $verifyUser->user;
+            if(!$user->email_verified){
+                $verifyUser->user->email_verified = 1;
+                $verifyUser->user->save();
+                return redirect()->route('login')->with('info','Your email is verified successfully. You can now login')->with('verifiedEmail',$user->email);
+                // return view('login')->with('verifiedEmail',$user->email);
+            } 
+            else{
+                return redirect()->route('login')->with('infoconfirm','Your email already verified successfully. You can now login')->with('verifiedEmail',$user->email);
+                // return 'Already Verified';
+            }
+        }
     }
 }

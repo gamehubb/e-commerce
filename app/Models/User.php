@@ -8,7 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Order;
-class User extends Authenticatable
+// use App\Models\VerifyEmaill;
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'email_verified',
     ];
 
     /**
@@ -33,6 +35,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    //  public function sendEmailVerificationNotification()
+    // {
+    //     $this->notify(new VerifyEmail);
+    // }
     /**
      * The attributes that should be cast.
      *
