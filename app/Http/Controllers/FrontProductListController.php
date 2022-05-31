@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Brand;
 use App\Models\SubCategory;
 use App\Models\ProductDetail;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class FrontProductListController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->limit(6)->get();
+        $products = Product::latest()->where('status', 1)->limit(6)->get();
         $randomActiveProducts = Product::inRandomOrder()->limit(3)->get();
         $randomActiveProductId = [];
         foreach ($randomActiveProducts as $product) {
@@ -20,9 +21,11 @@ class FrontProductListController extends Controller
         }
         $randomItemProducts = Product::whereNotIn('id', $randomActiveProductId)->limit(3)->get();
         $categories = Category::get();
+        $brands = Brand::get();
+
 
         $sliders = Product::where('is_special', '1')->get();
-        return view('product', compact('products', 'categories', 'randomItemProducts', 'randomActiveProducts', 'sliders'));
+        return view('product', compact('products', 'categories', 'brands', 'randomItemProducts', 'randomActiveProducts', 'sliders'));
     }
     public function show($id)
     {
@@ -30,6 +33,17 @@ class FrontProductListController extends Controller
         $productFromSameCategories = Product::inRandomOrder()->where('category_id', $product->category_id)->where('id', '!=', $product->id)->limit(3)->get();
         return view('show', compact('product', 'productFromSameCategories'));
     }
+    public function allProductByCategory($id)
+    {
+        $products = Product::where('category_id', $id)->get();
+        return view('filteredProduct', compact('products'));
+    }
+    public function allProductByBrand($id)
+    {
+        $products = Product::where('brand_id', $id)->get();
+        return view('filteredProduct', compact('products'));
+    }
+
     public function allProduct($name, Request $request)
     {
         $category = Category::where('slug', $name)->first();

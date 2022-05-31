@@ -25,14 +25,20 @@ Route::get('/', [App\Http\Controllers\FrontProductListController::class, 'index'
 Route::get('/product/{id}', [App\Http\Controllers\FrontProductListController::class, 'show']);
 
 Route::get('/category/{name}', [App\Http\Controllers\FrontProductListController::class, 'allProduct']);
+Route::get('/productCategory/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByCategory'])->name('productCategory');
+Route::get('/productBrand/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByCategory'])->name('productBrand');
+
+
+
 Route::get('/addToCart/{product}', [App\Http\Controllers\CartController::class, 'addToCart'])->name('add.cart')->middleware('auth');
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'showCart'])->name('cart.show');
 Route::post('/products/{product}', [App\Http\Controllers\CartController::class, 'updateCart'])->name('cart.update');
 Route::post('/product/{product}', [App\Http\Controllers\CartController::class, 'removeCart'])->name('cart.remove');
 
-Route::get('/checkout/{amount}', [App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
+Route::get('/checkout/{username}', [App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 Route::get('/orders', [App\Http\Controllers\CartController::class, 'order'])->name('order')->middleware('auth');
 Route::post('/charge', [App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
+Route::post('/complete-checkout', [App\Http\Controllers\CartController::class, 'finalCheckout'])->name('cart.final-checkout')->middleware('auth');
 //delivery Info 
 Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::class);
 
@@ -40,9 +46,8 @@ Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::cl
 Auth::routes(['verify' => true]);
 Route::get('/verify',[App\Http\Controllers\UserController::class, 'verify'])->name('verify');
 Route::get('all/products', [App\Http\Controllers\FrontProductListController::class, 'moreProducts'])->name('more.product');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin', 'is_user_verify_email']], function () {
+Route::get('/home', [App\Http\Controllers\FrontProductListController::class, 'index'])->name('home');
+Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     });

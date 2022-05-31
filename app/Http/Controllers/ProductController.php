@@ -55,10 +55,12 @@ class ProductController extends Controller
 
             'name' => $request->product_name,
             'code' => $request->product_code,
+            'model_name' => $request->model_name,
             'category_id' => $request->category,
             'brand_id' => $request->brand,
             'user_id' => $id,
             'wireless' => $request->wired_option,
+            'warranty' => $request->warranty,
             'product_type' => $request->product_type,
             'is_special' => $request->is_special,
             'description' => $request->product_description,
@@ -138,10 +140,12 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->name = $request->product_name;
         $product->code = $request->product_code;
+        $product->model_name = $request->model_name;
         $product->category_id = $request->category;
         $product->brand_id = $request->brand;
         $product->user_id = $user_id;
         $product->wireless = $request->wired_option;
+        $product->warranty = $request->warranty;
         $product->product_type = $request->product_type;
         $product->is_special = $request->is_special;
         $product->description = $request->product_description;

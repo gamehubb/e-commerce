@@ -39,7 +39,6 @@ class CategoryController extends Controller
     {
         $this->validate($request,[
             'category_name'=>'required',
-            'category_description' => 'required',
             'category_image' => 'required|mimes:png,jpeg'
         ]); 
         $image = $request->file('category_image')->store('public/files');

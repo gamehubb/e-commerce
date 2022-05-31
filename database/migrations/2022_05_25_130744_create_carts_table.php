@@ -18,14 +18,17 @@ class CreateCartsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('product_id');
+            $table->string('product_code');
             $table->text('product_name');
-            $table->text('category_id');
-            $table->text('image')->nullable();
+            $table->string('category');
+            $table->string('brand');
+            $table->string('product_type');
+            $table->text('image');
             $table->integer('quantity');
             $table->string('price');
             $table->float('total_amount');
             $table->string('color');
-            $table->text('discount')->nullable();
+            $table->text('discount');
             $table->timestamps();
         });
     }
@@ -37,6 +40,6 @@ class CreateCartsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carts');
+        //
     }
 }

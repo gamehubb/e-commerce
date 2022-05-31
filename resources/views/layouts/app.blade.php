@@ -28,17 +28,16 @@
     <div id="app">
         <header class="header-box">
             <div class="container">
-                <div class="col-md-12 col-sm-12 col-xs-12 text-left site-icon">
-                    <h1>
-                        <a href="/">
-                            <span class="firstletter">Gamehub</span> <sub class="secondletter">Myanmar</sub>
+                <div class="col-md-12  text-center site-icon m-1">              
+                        <a href="/"   style="color: #aa0000;">
+                            <span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar</sub>
                         </a>
-                    </h1>
+                   
                 </div>
             </div>
         </header>
 
-        <nav class="navbar k navbar-expand-md shadow-sm  bg-dark" style="z-index: -1;">
+        <nav class="navbar k navbar-expand-md shadow-sm  bg-dark">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -116,14 +115,19 @@
                         <li class="nav-item">
                             <i class="nav-item fa fa-gamepad text-white m-2" style="font-size:20px;"></i>
                         </li>
-                        <li class="nav-item">
-                            <i class="nav-item fa fa-user text-white m-2" style="font-size:20px;"></i>
+                        {{-- <li class="nav-item">
+                            {{-- <i class="nav-item fa fa-user text-white m-2 menu"  onclick="this.classList.toggle('open')" style="font-size:20px;"></i> --}}
+                        {{-- </li>  --}}
+                        <li class="menu" onclick="this.classList.toggle('open')">
+                            <div class="button"></div>
+                            <div class="button"></div>
+                            <div class="button"></div>
                         </li>
                         <li class="nav-item" onclick="openModel()" style="cursor:pointer">
                             {{-- <a href="{{route('cart.show')}}" > --}}
                             <!-- <a href="{{route('cart.checkout' , 2)}}"> -->
                             <i class="fa fa-shopping-cart text-white  m-2" style="font-size:20px;">
-                                <sup> ({{session()->has('cart')?session()->get('cart')->totalQty:'0'}})</sup>
+                                <sup> ({{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }})</sup>
 
                             </i>
                             <!-- </a> -->
@@ -183,10 +187,12 @@
                         <p class="col-md-6"> <b>MMKs {{session()->has('cart')?session()->get('cart')->totalPrice:'0'}}</b> </p>
                     </div>
                     <div class="text-center m-3">
-                        <a href="{{route('cart.checkout' , 2)}}">
+                        @auth
+                        <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
                             <button type="button" class="btn btn-sm mx-auto mt-3 text-white"
                                 style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
                         </a>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -195,7 +201,7 @@
             @yield('content')
         </main>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
     <script>
     function openModel() {
         $("#myModal").modal('show');
