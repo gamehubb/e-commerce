@@ -32,9 +32,11 @@
             <hr class="mx-auto" style="width:10%; color: #aa0000; height: 3px; ">
         </div>
         @foreach($categories as $category)
+        <a href="{{ route('productCategory',[$category->id]) }}">
         <img src="{{Storage::url($category->image)}}" class="m-3"
             style=" border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important"
             alt="...">
+        </a>    
         @endforeach
         <div class="row m-3">
             <div class="col-md-4 m-10">
@@ -86,16 +88,25 @@
                     @foreach($products as $product)
                     <div class="col-md-3">
                         <div class="card shadow-sm " style="background-color : #aa0000;border-radius : 25px; ">
-                            <img src="{{Storage::url($product->productDetail->image_1)}}" alt=""
+                            <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
                                 style=" object-fit: contain;border-radius : 25px;">
                             <div class="card-body text-white">
+                                {{$product->productDetail[0]['image_1']}}
                                 <p><b> {{$product->name}}</b></p>
-                                <small> Colors- <input type="color" value={{$product->productDetail->color}} readonly></small>
-                                <p><b>MMKs {{$product->price}} </b> </p>
+
+                                <small> Colors- 
+                                    @foreach ($product->productDetail as $item)
+                                    <label  style="color: {{$item->color}} ; width : 20px">●</label>
+                                    @endforeach
+                                  
+                                
+                                </small>
+
+                                <p><b>MMKs {{$product->productDetail[0]['price']}} </b> </p>  
                                 <small class="card-text">{!!Str::limit($product->description,120)!!}</small>
                                 <a href="{{ route('add.cart',[$product->id]) }}">
                                     <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"
-                                        style="border-radius : 20px;">Shop Now</button>
+                                        style="border-radius : 20px;">Add to cart</button>
                                 </a>
 
                             </div>
@@ -104,78 +115,7 @@
                     @endforeach
                 </div>
             </div>
-
-            <!-- <div class="jumbotron">
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="row">
-                              @foreach($randomActiveProducts as $product)
-                              <div class="col-4">
-                                <div class="card shadow-sm">
-                                  <img src="{{Storage::url($product->image)}}" alt="" style="height: 300px;
-                                  object-fit: contain;">
-                                  <div class="card-body">
-
-
-                                      <p><b>{{$product->name}}</b></p>
-                                      <p class="card-text">{!!Str::limit($product->description,120)!!}</p>
-                                      <div class="d-flex justify-content-between align-items-center">
-                                          <div class="btn-group">
-                                              <a href="/product/{{$product->id}}">
-                                              <button type="button" class="btn btn-sm btn-outline-success">View</button>
-                                              </a>
-                                              <a href="{{ route('add.cart',[$product->id]) }}">
-                                                <button type="button" class="btn btn-sm btn-outline-primary">Add to cart</button>
-                                              </a>
-                                          </div>
-                                          <small class="text-muted">{{$product->price}} MMK</small>
-                                      </div>
-
-                                      
-                                  </div>
-                              </div>
-                              </div>
-                              @endforeach
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row">
-                              @foreach($randomItemProducts as $product)
-                              <div class="col-4">
-                                <div class="card shadow-sm">
-                                  <img src="{{Storage::url($product->image)}}" alt="" style="height: 300px;
-                                  object-fit: contain;">
-                                  <div class="card-body">
-                                      <p><b>{{$product->name}}</b></p>
-                                      <p class="card-text">{!!Str::limit($product->description,120)!!}</p>
-                                      <div class="d-flex justify-content-between align-items-center">
-                                          <div class="btn-group">
-                                              <a href="/product/{{$product->id}}">
-                                              <button type="button" class="btn btn-sm btn-outline-success">View</button>
-                                              </a>
-                                              <button type="button" class="btn btn-sm btn-outline-primary">Add to cart</button>
-                                          </div>
-                                          <small class="text-muted">{{$product->price}} MMK</small>
-                                      </div>
-                                  </div>
-                              </div>
-                              </div>
-                              @endforeach
-                            </div>
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
-                  </div>
-            </div> -->
-
+        </div>
     </main>
     <p class="float-end p-3">
         <a href="#"> <i class="fa fa-chevron-circle-up fa-2x " style="color: #aa0000;"></i></a>
@@ -195,14 +135,18 @@
                         <div class="col-md-4 mt-2">
                             <p><b>Category</b></p>
                             @foreach ($categories as $category )
-                               {{$category->name}}
+                            <a href="{{ route('productCategory',[$category->id]) }}">
+                              <p> {{$category->name}}  </p> 
+                            </a>
                             @endforeach
                            
                         </div>
                         <div class="col-md-4  mt-2">
                             <p><b>Brand</b></p>
                             @foreach ($brands as $brand )
-                               {{$brand->name}}
+                            <a href="{{ route('productBrand',[$brand->id]) }}">
+                                <p> {{$brand->name}}  </p> 
+                            </a>
                             @endforeach
                         </div>
                         <div class="col-md-4  mt-2">

@@ -28,12 +28,11 @@
     <div id="app">
         <header class="header-box">
             <div class="container">
-                <div class="col-md-12 col-sm-12 col-xs-12 text-left site-icon">
-                    <h1>
-                        <a href="/">
-                            <span class="firstletter">Gamehub</span> <sub class="secondletter">Myanmar</sub>
+                <div class="col-md-12  text-center site-icon m-1">              
+                        <a href="/"   style="color: #aa0000;">
+                            <span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar</sub>
                         </a>
-                    </h1>
+                   
                 </div>
             </div>
         </header>
