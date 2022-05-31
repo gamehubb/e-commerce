@@ -97,7 +97,7 @@ class UserController extends Controller
                 // return view('login')->with('verifiedEmail',$user->email);
             } 
             else{
-                return redirect()->route('login')->with('info','Your email already verified successfully. You can now login')->with('verifiedEmail',$user->email);
+                return redirect()->route('login')->with('infoconfirm','Your email already verified successfully. You can now login')->with('verifiedEmail',$user->email);
                 // return 'Already Verified';
             }
         }

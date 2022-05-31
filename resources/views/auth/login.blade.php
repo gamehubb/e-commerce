@@ -8,6 +8,16 @@
                 <div class="card-header h3 text-center">LOGIN</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
+                        @if(Session::get('info'))
+                        <div class="alert alert-danger">
+                            {{ Session::get('fail') }}
+                        </div>
+                    @endif
+                    @if(Session::get('infoconfirm'))
+                        <div class="alert alert-info">
+                            {{ Session::get('success')}}
+                        </div>
+                    @endif
                         @csrf
                         <div class="row mb-3">
                             <label for="email"
