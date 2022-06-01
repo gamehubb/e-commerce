@@ -12,20 +12,20 @@ use App\Models\ProductDetail;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','code','description','image','price','additional_info','category_id','brand_id','user_id','subcategory_id','wireless'];
+    protected $fillable = ['name', 'code', 'description', 'image', 'price', 'additional_info', 'category_id', 'brand_id', 'user_id', 'subcategory_id', 'wireless'];
 
-    public function category(){
-        return $this->hasOne(Category::class,'id','category_id');
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id');
     }
 
-    public function brand(){
+    public function brand()
+    {
         return $this->hasOne(Brand::class, 'id', 'brand_id');
     }
 
     public function productDetail()
     {
-        return $this->hasOne(ProductDetail::class, 'product_id', 'id');
+        return $this->hasMany(ProductDetail::class, 'product_id', 'id');
     }
-
-    
-} 
+}

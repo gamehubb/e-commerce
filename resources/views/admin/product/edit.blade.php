@@ -134,8 +134,6 @@
                                                         <input type="number" name="discount[{{$product->id}}]" id="discount_{{$product->id}}" value="{{$product->discount}}" class="form-control" min="0">
                                                     </td>
 
-                                                
-
                                                     <td class="upload-btn-wrapper" id="img_{{$product->id}}">
                                                         <div class="row">
                                                             <div class="col-md-3">

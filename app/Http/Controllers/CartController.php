@@ -30,6 +30,7 @@ class CartController extends Controller
         } else {
             $cart = new Cart();
         }
+
         $cart->add($product);
 
         foreach($cart->items as $c){
@@ -154,7 +155,7 @@ class CartController extends Controller
 
     public function generateVoucherNumber()
     {
-        $characters = '1234567890';
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < 6; $i++) {

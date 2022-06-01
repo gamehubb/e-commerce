@@ -32,7 +32,7 @@
             <tr>
               
               <td style="">
-                <img src="{{Storage::url($product->productDetail->image_1)}}" width="100" alt="Image-1" class="index_image">
+                <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" width="100" alt="Image-1" class="index_image">
               <td>{{$product->name }}</td>
               <td>{{$product->category->name}}</td>
               <td>{{$product->brand->name}}</td>
