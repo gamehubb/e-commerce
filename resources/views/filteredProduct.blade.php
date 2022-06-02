@@ -19,7 +19,7 @@
                                     @endforeach
                                 </span>
                                 <p><b>MMKs {{$product->productDetail[0]['price']}} </b> </p>  
-                                <small class="card-text">{!!Str::limit($product->description,120)!!}</small>
+                                <p class="card-text">{!!Str::limit($product->description,120)!!}</p>
                                 <a href="{{ route('add.cart',[$product->id]) }}">
                                     <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"
                                         style="border-radius : 20px;">Add to cart</button>

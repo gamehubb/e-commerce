@@ -33,17 +33,22 @@ class FrontProductListController extends Controller
         return view('show', compact('product', 'productFromSameCategories'));
     }
     public function allProductByCategory($slug)
-    {   
-        $id = Category::where('slug',$slug)->pluck('id');
-        // $products = Product::where('category_id', $id)->get();
-        // return view('filteredProduct', compact('products'));
-    }
-    public function allProductByBrand($id)
     {
+        $id = Category::where('slug', $slug)->pluck('id');
+        $products = Product::where('category_id', $id)->get();
+        return view('filteredProduct', compact('products'));
+    }
+    public function allProductByBrand($slug)
+    {
+        $id = Brand::where('slug', $slug)->pluck('id');
         $products = Product::where('brand_id', $id)->get();
         return view('filteredProduct', compact('products'));
     }
-
+    public function productDetail($id)
+    {
+        $products = Product::where('id', $id)->get()->first();
+        return view('productDetail', compact('products'));
+    }
     public function allProduct($name, Request $request)
     {
         $category = Category::where('slug', $name)->first();

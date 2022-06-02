@@ -26,8 +26,8 @@ Route::get('/product/{id}', [App\Http\Controllers\FrontProductListController::cl
 
 Route::get('/category/{name}', [App\Http\Controllers\FrontProductListController::class, 'allProduct']);
 Route::get('/productCategory/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByCategory'])->name('productCategory');
-Route::get('/productBrand/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByCategory'])->name('productBrand');
-
+Route::get('/productBrand/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByBrand'])->name('productBrand');
+Route::get('/productDetail/{id}', [App\Http\Controllers\FrontProductListController::class, 'productDetail'])->name('productDetail');
 
 Route::get('/addToCart/{product}', [App\Http\Controllers\CartController::class, 'addToCart'])->name('add.cart')->middleware('auth');
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'showCart'])->name('cart.show');
@@ -43,14 +43,14 @@ Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::cl
 
 // Auth::routes();
 Auth::routes(['verify' => true]);
-Route::get('/verify',[App\Http\Controllers\UserController::class, 'verify'])->name('verify');
+Route::get('/verify', [App\Http\Controllers\UserController::class, 'verify'])->name('verify');
 Route::get('all/products', [App\Http\Controllers\FrontProductListController::class, 'moreProducts'])->name('more.product');
 Route::get('/home', [App\Http\Controllers\FrontProductListController::class, 'index'])->name('home');
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     });
-   
+
     // Route::get('/email/verify', function () {
     //     return view('auth.verify');
     // });
