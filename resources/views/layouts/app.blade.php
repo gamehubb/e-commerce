@@ -82,7 +82,7 @@
                         @else
                         
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        {{-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             @if(Auth::check())
                             <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
                             @endif
@@ -94,8 +94,8 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
-                        </div>
-                        </li>
+                        </div> --}}
+                        {{-- </li> --}}
                         <li class="nav-item">
                             <div class="container">
                                 <div class="input-group col-sm-7">
@@ -146,7 +146,9 @@
                             {{-- <a href="{{route('cart.show')}}" > --}}
                             <!-- <a href="{{route('cart.checkout' , 2)}}"> -->
                             <i class="fa fa-shopping-cart text-white  m-2" style="font-size:20px;">
-                                <sup id="cartcount"> ({{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }})</sup>
+                                <sup id="cartcount" style="background: #AA2B25;
+                                border-radius: 77px;
+                                border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
 
                             </i>
                             <!-- </a> -->
@@ -174,7 +176,7 @@
                             <p class="col-md-8 h4"><b>YOUR CART</b></p>
                             <p class="col-md-4"> 
                                 @if(session()->has('cart'))
-                              {{session()->get('cart')->totalQty }} {{ session()->get('cart')->totalQty == 1 ?'item' :'items'}} 
+                              {{-- {{session()->get('cart')->totalQty }} {{ session()->get('cart')->totalQty == 1 ?'item' :'items'}}  --}}
                                 @endif
                             </p>        
                         </div>

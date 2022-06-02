@@ -103,13 +103,16 @@ class CartController extends Controller
         $cart = new Cart(session()->get('cart'));
         $cart->updateQty($product->id, $request->qty);
         session()->put('cart', $cart);
-        $carts = [
-            'qty' => $request->qty,
-            'total_price' => session()->get('cart')->totalPrice,
-            'total_quantity' => session()->get('cart')->totalQty
-        ];
+        foreach($cart->items as $cart_data){
+            $carts = [
+                'qty' => $request->qty,
+                'total_price' => session()->get('cart')->totalPrice,
+                'product_price' => $cart_data['price'] * $request->qty,
+                'total_quantity' => session()->get('cart')->totalQty
+            ];
+        }
 
-        Carts::where('product_id',$product->id)->update(['quantity' => $carts['qty'], 'total_amount' => $carts['total_price']]);
+        Carts::where('product_id',$product->id)->update(['quantity' => $carts['qty'], 'total_amount' => $carts['product_price']]);
  
         echo json_encode($carts);
     }
@@ -133,8 +136,36 @@ class CartController extends Controller
         $userId = Auth::id();
     
         $delivery_info = DeliveryInfo::where('user_id', $userId)->get();
-        $payments = ['1' => 'kpay', '2' => 'wpay', '3' => 'cod' ];
-        return view('checkout', compact('amount', 'delivery_info', 'payments'));
+        $payments = ['1_k' => 'kpay', '2_w' => 'wpay', '3_c' => 'cod' ];
+
+        $cart_data = null;
+
+        if (session()->has('cart')) {
+            $cart = new Cart(session()->get('cart'));
+
+            foreach($cart->items as $c){
+                
+                    $cart_data[] = [
+                        'user_id' => $userId,
+                        'product_id' => $c['id'],
+                        'product_name' => $c['name'],
+                        'product_code' => $c['code'],
+                        'category' => Category::find($c['category'])->value('name'),
+                        'brand' => Brand::find($c['brand'])->value('name'),
+                        'product_type' => $c['product_type'],
+                        'image' => $c['image'],
+                        'quantity' => $c['qty'],
+                        'price' => $c['price'],
+                        'total_amount' => $c['qty'] * $c['price'],
+                        'color' => $c['color'],
+                        'discount' =>  $c['discount']
+
+                    ];
+
+            }
+        }
+
+        return view('checkout', compact('amount', 'delivery_info', 'payments', 'cart_data'));
     }
 
     public function generateVoucherNumber()

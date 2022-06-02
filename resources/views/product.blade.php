@@ -32,7 +32,7 @@
             <hr class="mx-auto" style="width:10%; color: #aa0000; height: 3px; ">
         </div>
         @foreach($categories as $category)
-        <a href="{{ route('productCategory',[$category->id]) }}">
+        <a href="{{ route('productCategory',[$category->slug]) }}">
         <img src="{{Storage::url($category->image)}}" class="m-3"
             style=" border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important"
             alt="...">
@@ -130,7 +130,7 @@
                             <p><b>Category</b></p>
                             @foreach ($categories as $category )
                             <a href="{{ route('productCategory',[$category->slug]) }}">
-                              <p> {{$category->name}}  </p> 
+                              <p>{{$category->name}}</p> 
                             </a>
                             @endforeach
                            

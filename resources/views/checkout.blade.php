@@ -1,26 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{route('cart.final-checkout')}}" method="POST" enctype="multipart/form-data">@csrf
+<form action="{{route('cart.final-checkout')}}" method="POST" enctype="multipart/form-data" id="form">@csrf
 
 <div class="container">
     <div class="row">
         <div class="col-6 col-md-5  text-white">
             <i class="nav-item fa fa-user m-2 mb-4"> Hi {{Auth::getUser()->name}}</i>
             <div class="row mb-3" style="border:1px solid #808080; border-radius: 10px;">
-                @if(session()->has('cart'))
+                @if($cart_data != null)
 
-                @foreach(session()->get('cart')->items as $key => $carts)
-
+                @foreach($cart_data as $key => $carts)
                         <div class="col-md-4">
                             <img src="{{Storage::url($carts['image'])}}"
                                 class="floar-right m-3 mx-auto" style=" border-radius: 20px; " alt="...">
                         </div>
                         <div class="col-md-4 mt-2 ">
-                            <p><u><b>{{$carts['name']}} </b></u></p>
-                            <p class="m-2"> Product Code:{{$carts['code']}} </p>
+                            <p><u><b>{{$carts['product_name']}} </b></u></p>
+                            <p class="m-2"> Product Code:{{$carts['product_code']}} </p>
                             <p class="m-2"> Category: {{$carts['category']}} </p>
-                            <p class="m-2"> Quantity: {{$carts['qty']}} </p>
+                            <p class="m-2"> Quantity: {{$carts['quantity']}} </p>
                             @if($carts['product_type'] == 2) 
                                 <p class="m-2"> Waiting Time: 3weeks </p>
                             @endif
@@ -34,7 +33,7 @@
                         </div>
                         <hr class="mx-auto" style="width:90%;  ">
                         <div class="text-right">
-                            <p class="m-2"><b>{{$carts['price'] * $carts['qty']}}</b></p>
+                            <p class="m-2"><b>{{$carts['price'] * $carts['quantity']}}</b></p>
                         </div>
                 @endforeach
 
@@ -73,7 +72,10 @@
                 <h4 class="card-title"> <b>{{$delInfo->name}}</b></h4>
                 <p class="card-text"> {{$delInfo->phoneNumber}}</p>
                 <p class="card-text">{{$delInfo->address}} ,{{$delInfo->township}},{{$delInfo->city}},{{$delInfo->state_region}}</p>
-                <input type="radio" name ="delInfo" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;" required>
+                <input type="radio" name ="delInfo" id="address" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;" required>
+                <span class="invalid-feedback" role="alert">
+                    <strong>Please select address</strong>
+                </span>
                 </div>
             </div>
                 @endforeach
@@ -90,7 +92,7 @@
             <label class="h5 p-3"><b>CHOOSE PAYMENT METHOD</b></label><br />
             <div class="m-1 mb-5">
                 @foreach($payments as $key => $value)
-                    <input type="radio" name="payment_type" class="form-check-input m-3" value="{{$key}}">
+                    <input type="radio" name="payment_type" id="payment_radio" class="form-check-input m-3" value="{{$key}}">
                     <label class="h5 mt-2" for="{{$value}}"> @if ($key ==1) KBZ PAY @elseif ($key == 2) Wave Pay @elseif ($key == 3) Cash On Delivery @endif</label><br/>
                     {{-- <label class="h5 mt-2" for="kbzpay">KBZ Pay</label><br /> --}}
                     {{-- <input type="radio" id="wavepay" name="payment_type" class="form-check-input m-3" value="2">
@@ -121,7 +123,7 @@
             <div id="imagePreview"></div>
         </div>
     </div>
-
+</form>
     <input type="submit" class="btn btn-sm  mt-3 text-white bg-dark" id="submit"
             value="Checkout" style="border-radius:20px; background-color:#aa0000; width:12%">
     @endif
@@ -130,11 +132,16 @@
         <p>Questions about this payment? Contact <a href=" "><u> GameHub Myanmar</u></a></p>
     </div>
 </div>
-</form>
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
 
 <script type="text/javascript">
   $(document).ready(function() {
+
+    if($('#address').is(':checked')){
+
+        $('#address').removeClass('is-invalid');
+
+    }
     // Card Single Select
     $('.card-pf-view-single-select').click(function() {
         if ($(this).hasClass('border-secondary'))
@@ -150,19 +157,19 @@
 // Create a Stripe client.
     $("input:radio[type=radio]").click(function() {
         var value = $(this).val();
-        if(value == 1)
+        if(value == '1_k')
             {
             $('[id=kpay]').show();
             $('#wpay').hide();
             $('#payment').show();
             }
-        else if(value == 2)
+        else if(value == '2_w')
             {
             $('[id=kpay]').hide();
             $('#wpay').show();
             $('#payment').show();
             }
-        else if(value == 3)
+        else if(value == "3_c")
             {
             $('[id=kpay]').hide();
             $('#wpay').hide();
@@ -170,6 +177,14 @@
             }
         
     });
+
+    $("#submit").click(function(){
+        if($('#address').is(':checked') && $('#payment_radio').is(':checked')){
+            $('#myForm').submit();
+        }else{
+            $('#address').addClass('is-invalid');
+        }
+    })
 
         function fileValidation() {
             var fileInput =
