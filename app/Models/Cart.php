@@ -9,7 +9,7 @@ class CartModel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'product_id', 'product_name','product_code','category','brand', 'image', 'quantity', 'price', 'total_amount', 'color', 'discount'];
+    protected $fillable = ['user_id', 'product_id', 'product_name', 'product_code', 'category', 'brand', 'image', 'quantity', 'price', 'total_amount', 'color', 'discount'];
 }
 
 class Cart
@@ -76,12 +76,12 @@ class Cart
             'image' => $product->productDetail[0]->image_1
         ];
         if (!array_key_exists($product->id, $this->items)) {
-            
+
             $this->items[$product->id] = $item;
             $this->totalQty += 1;
             $this->totalPrice += $product->productDetail[0]->price;
         } else {
-            $this->totalQty+=1;
+            $this->totalQty += 1;
 
             $this->totalPrice += $product->productDetail[0]->price;
         }
