@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Carts;
+use App\Models\Cart;
 use App\Models\SubCategory;
 use App\Models\ProductDetail;
 use Illuminate\Http\Request;
+
+use Auth;
 
 class FrontProductListController extends Controller
 {
@@ -24,6 +28,8 @@ class FrontProductListController extends Controller
         $brands = Brand::get();
 
         $sliders = Product::where('is_special', '1')->get();
+
+
         return view('product', compact('products', 'categories', 'brands', 'randomItemProducts', 'randomActiveProducts', 'sliders'));
     }
     public function show($id)
@@ -34,12 +40,14 @@ class FrontProductListController extends Controller
     }
     public function allProductByCategory($slug)
     {   
+
         $id = Category::where('slug',$slug)->pluck('id');
-        // $products = Product::where('category_id', $id)->get();
-        // return view('filteredProduct', compact('products'));
+        $products = Product::where('category_id', $id)->get();
+        return view('filteredProduct', compact('products'));
     }
     public function allProductByBrand($id)
     {
+        $id = Brand::where('slug',$slug)->pluck('id');
         $products = Product::where('brand_id', $id)->get();
         return view('filteredProduct', compact('products'));
     }

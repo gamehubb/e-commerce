@@ -7,7 +7,9 @@
             <div class="card bg-black text-white">
                 <div class="card-header h3 text-center">LOGIN</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login-user') }}">
+                        @csrf
+
                         @if(Session::get('info'))
                         <div class="alert alert-danger">
                             {{ Session::get('fail') }}
@@ -18,13 +20,21 @@
                             {{ Session::get('success')}}
                         </div>
                     @endif
-                        @csrf
+                    @if (Session::has('message'))
+                        <div class="alert alert-danger" id="alert-message">
+                            <ul class="list-unstyled">
+                                <li>
+                                    {{ Session::get('message') }}
+                                </li>
+                            </ul>
+                        </div>
+                    @endif
                         <div class="row mb-3">
                             <label for="email"
                                 class="col-md-3 col-form-label text-right">{{ __('E-Mail Address') }}</label>
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{Session::get('verifiedEmail') ? Session::get('verifiedEmail'):old('email')}}" required autocomplete="email" autofocus>
+                                    name="email" value="{{old('email')}}" required autocomplete="email" autofocus>
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -63,9 +73,8 @@
                         </div>
 
                         <div class="col-md-6 offset-md-3 mt-3">
-                            <button type="submit" class="btn text-white" style="background-color : #aa0000;">
-                                LogIn
-                            </button>
+                            <input type="submit" class="btn text-white" style="background-color : #aa0000;"
+                                value="LogIn" >
                         </div>
                         <div class="col-md-6 offset-md-3 mt-3 ">
                             @if (Route::has('password.request'))

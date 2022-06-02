@@ -8,7 +8,9 @@
         <div class="col-6 col-md-5  text-white">
             <i class="nav-item fa fa-user m-2 mb-4"> Hi {{Auth::getUser()->name}}</i>
             <div class="row mb-3" style="border:1px solid #808080; border-radius: 10px;">
-                @if($carts != null)
+                @if(session()->has('cart'))
+
+                @foreach(session()->get('cart')->items as $key => $carts)
 
                         <div class="col-md-4">
                             <img src="{{Storage::url($carts['image'])}}"
@@ -34,6 +36,7 @@
                         <div class="text-right">
                             <p class="m-2"><b>{{$carts['price'] * $carts['qty']}}</b></p>
                         </div>
+                @endforeach
 
             </div>
            <hr class="mx-auto" style="width:100%;  ">
@@ -62,8 +65,9 @@
             <a href="{{route('deliveryInfo.create')}}"  style="width: 18rem; float: right;" > 
              <u><i class="fa fa-plus"></i>Add New Address </i></u>
             </a>
+          
             @if(count($delivery_info)>0)
-            @foreach($delivery_info as $delInfo)     
+                @foreach($delivery_info as $delInfo)     
             <div class="card bg-dark m-2 border-secondary card-pf-view-single-select"  style="width: 18rem;  float: right;" >         
                 <div class="card-body">
                 <h4 class="card-title"> <b>{{$delInfo->name}}</b></h4>
@@ -72,7 +76,12 @@
                 <input type="radio" name ="delInfo" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;" required>
                 </div>
             </div>
-            @endforeach
+                @endforeach
+            @else
+                <span class="is-invalid"></span>
+                <span class="invalid-feedback" role="alert">
+                    <strong id="address-alert">No address Found. Please register now. </strong>
+                </span>
             @endif
         </div>
     </div>
@@ -81,7 +90,7 @@
             <label class="h5 p-3"><b>CHOOSE PAYMENT METHOD</b></label><br />
             <div class="m-1 mb-5">
                 @foreach($payments as $key => $value)
-                    <input type="radio" id="{{$value}}" name="payment_type" class="form-check-input m-3" value="{{$key}}">
+                    <input type="radio" name="payment_type" class="form-check-input m-3" value="{{$key}}">
                     <label class="h5 mt-2" for="{{$value}}"> @if ($key ==1) KBZ PAY @elseif ($key == 2) Wave Pay @elseif ($key == 3) Cash On Delivery @endif</label><br/>
                     {{-- <label class="h5 mt-2" for="kbzpay">KBZ Pay</label><br /> --}}
                     {{-- <input type="radio" id="wavepay" name="payment_type" class="form-check-input m-3" value="2">
@@ -113,7 +122,7 @@
         </div>
     </div>
 
-    <input type="submit" class="btn btn-sm  mt-3 text-white bg-dark"
+    <input type="submit" class="btn btn-sm  mt-3 text-white bg-dark" id="submit"
             value="Checkout" style="border-radius:20px; background-color:#aa0000; width:12%">
     @endif
     <hr style="margin-top: 20px;color:white;" />

@@ -138,7 +138,7 @@ class BrandController extends Controller
         $randomString = '';
         for ($i = 0; $i < 6; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
-            $finalvouchernumber = 'GH#' . $randomString;
+            $finalvouchernumber = 'GH' . $randomString;
         }
         return $finalvouchernumber;
     }
