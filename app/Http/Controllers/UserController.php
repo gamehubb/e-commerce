@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Brand;
 use App\Models\VerifyUser;
+use Auth;
+
 class UserController extends Controller
 {
     /**
@@ -14,11 +18,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('is_admin','!=',1)->get();
-        return view('admin.user.index',compact('users'));
+        $users = User::where('is_admin', '!=', 1)->get();
+        return view('admin.user.index', compact('users'));
     }
 
-   
+
     /**
      * Show the form for creating a new resource.
      *
@@ -26,7 +30,6 @@ class UserController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -87,19 +90,26 @@ class UserController extends Controller
     public function verify(Request $request)
     {
         $token = $request->token;
-        $verifyUser = VerifyUser::where('token',$token)->first();
-        if(!is_null($verifyUser)){
+        $verifyUser = VerifyUser::where('token', $token)->first();
+        if (!is_null($verifyUser)) {
             $user = $verifyUser->user;
-            if(!$user->email_verified){
+            if (!$user->email_verified) {
                 $verifyUser->user->email_verified = 1;
                 $verifyUser->user->save();
-                return redirect()->route('login')->with('info','Your email is verified successfully. You can now login')->with('verifiedEmail',$user->email);
+                return redirect()->route('login')->with('info', 'Your email is verified successfully. You can now login')->with('verifiedEmail', $user->email);
                 // return view('login')->with('verifiedEmail',$user->email);
-            } 
-            else{
-                return redirect()->route('login')->with('infoconfirm','Your email already verified successfully. You can now login')->with('verifiedEmail',$user->email);
+            } else {
+                return redirect()->route('login')->with('infoconfirm', 'Your email already verified successfully. You can now login')->with('verifiedEmail', $user->email);
                 // return 'Already Verified';
             }
         }
+    }
+    public function userAccountInfo()
+    {
+        $user_id = Auth::id();
+        $userInfo = User::where('id', $user_id)->get()->first();
+        $categories = Category::get();
+        $brands = Brand::get();
+        return view('auth.accountInfo', compact('userInfo', 'categories', 'brands'));
     }
 }
