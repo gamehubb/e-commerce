@@ -19,8 +19,9 @@ class CreatePaymentsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->integer('payment_type');
-            $table->text('payment_slip');
+            $table->string('payment_type');
+            $table->string('account_name')->nullable();
+            $table->string('phone_number')->nullable();
             $table->integer('total_amount');
             $table->integer('paid_amount')->nullable();
             $table->integer('status')->nullable();

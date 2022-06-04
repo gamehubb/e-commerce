@@ -52,11 +52,10 @@ class FrontProductListController extends Controller
     }
     public function productDetail($id)
     {
-        
         $products = Product::where('id', $id)->get()->first();
         if($products == '')
         {
-            return about('404');
+            return abort('404');
         }else{
         return view('productDetail', compact('products'));
         }

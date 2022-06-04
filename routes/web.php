@@ -45,7 +45,7 @@ Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::cl
 
 // Auth::routes();
 Auth::routes(['verify' => true]);
-Route::get('/verify', [App\Http\Controllers\UserController::class, 'verify'])->name('verify');
+Route::get('/verify', [App\Http\Controllers\userAccountInfo::class, 'verify'])->name('verify');
 Route::get('all/products', [App\Http\Controllers\FrontProductListController::class, 'moreProducts'])->name('more.product');
 Route::get('/home', [App\Http\Controllers\FrontProductListController::class, 'index'])->name('home');
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
@@ -83,4 +83,5 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     //Orders
     Route::get('orders', [App\Http\Controllers\CartController::class, 'userorder']);
     Route::get('orders/{userid}/{orderid}', [App\Http\Controllers\CartController::class, 'viewUserOrder'])->name('user.order');
+    Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'userAccountInfo'])->name('user.accountInfo');
 });

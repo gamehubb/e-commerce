@@ -48,13 +48,26 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
-                        <li class="nav-item">
-                            <a class="nav-link text-white dropdown-toggle">Category</a>
+                        <li class="nav-item dropdown">   
+                                <a  class="nav-link dropdown-toggle  text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Category
+                                </a>       
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">                         
+                                    <a class="dropdown-item" href="{{ route('productCategory',["12345"]) }}">cat</a>
+                                    <a class="dropdown-item" href="{{ route('productCategory',["12345"]) }}" > cat1
+                                    </a>                  
+                            </div>
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link text-white dropdown-toggle">Brand</a>
+                            <a  class="nav-link dropdown-toggle  text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Brand
+                            </a>      
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">                         
+                                <a class="dropdown-item" href="{{ route('productBrand',["dfa"]) }}">b</a>
+                                <a class="dropdown-item" href="{{ route('productBrand',["dfa"]) }}" > b1
+                                </a>                  
+                        </div>
                         </li>
 
                         <li class="nav-item dropdown">
@@ -83,8 +96,9 @@
                         
 
                         {{-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            @if(Auth::check())
-                            <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
+                            <a class="dropdown-item" href="{{route('order')}}">My Accunt</a>
+                            @if(Auth::check())                           
+                            <a class="dropdown-item" href="{{route('order')}}">My Orders</a>                
                             @endif
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -124,6 +138,7 @@
                             {{-- </a> --}}
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @if(Auth::check())
+                                    <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Accunt</a>
                                     <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -149,7 +164,6 @@
                                 <sup id="cartcount" style="background: #AA2B25;
                                 border-radius: 77px;
                                 border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
-
                             </i>
                             <!-- </a> -->
                         </li>
@@ -176,6 +190,7 @@
                             <p class="col-md-8 h4"><b>YOUR CART</b></p>
                             <p class="col-md-4"> 
                                 @if(session()->has('cart'))
+                              {{-- {{session()->get('cart')->totalQty }} {{ session()->get('cart')->totalQty == 1 ?'item' :'items'}}  --}}
                               {{-- {{session()->get('cart')->totalQty }} {{ session()->get('cart')->totalQty == 1 ?'item' :'items'}}  --}}
                                 @endif
                             </p>        

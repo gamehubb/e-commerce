@@ -165,7 +165,10 @@ class CartController extends Controller
             }
         }
 
-        return view('checkout', compact('amount', 'delivery_info', 'payments', 'cart_data'));
+        $categories = Category::get();
+        $brands = Brand::get();
+
+        return view('checkout', compact('amount', 'delivery_info', 'payments', 'cart_data','categories','brands'));
     }
 
     public function generateVoucherNumber()
@@ -231,14 +234,14 @@ class CartController extends Controller
 
             if($order_id > 0){
 
-                if($request->file('payment_slip')){
-                   $image = $request->file('payment_slip')->store('public/payment_slip');
+                if($request->input('account')){
                
                     Payment::create([
                         'user_id' => $userId,
                         'order_id' => $order_id,
-                        'payment_type' => $request->payment,
-                        'payment_slip' => $image,
+                        'payment_type' => $request->payment_type,
+                        'account_name' => $request->account,
+                        'phone_number' => $request->phone,
                         'total_amount'  => $total_amount,
                     ]);
                 }
