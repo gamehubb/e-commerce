@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Carts;
+use App\Models\Cart;
 use App\Models\SubCategory;
 use App\Models\ProductDetail;
 use Illuminate\Http\Request;
+
+use Auth;
 
 class FrontProductListController extends Controller
 {
@@ -23,8 +27,9 @@ class FrontProductListController extends Controller
         $categories = Category::get();
         $brands = Brand::get();
 
-
         $sliders = Product::where('is_special', '1')->get();
+
+
         return view('product', compact('products', 'categories', 'brands', 'randomItemProducts', 'randomActiveProducts', 'sliders'));
     }
     public function show($id)
@@ -33,17 +38,28 @@ class FrontProductListController extends Controller
         $productFromSameCategories = Product::inRandomOrder()->where('category_id', $product->category_id)->where('id', '!=', $product->id)->limit(3)->get();
         return view('show', compact('product', 'productFromSameCategories'));
     }
-    public function allProductByCategory($id)
+    public function allProductByCategory($slug)
     {
+        $id = Category::where('slug', $slug)->pluck('id');
         $products = Product::where('category_id', $id)->get();
         return view('filteredProduct', compact('products'));
     }
-    public function allProductByBrand($id)
+    public function allProductByBrand($slug)
     {
+        $id = Brand::where('slug', $slug)->pluck('id');
         $products = Product::where('brand_id', $id)->get();
         return view('filteredProduct', compact('products'));
     }
-
+    public function productDetail($id)
+    {
+        $products = Product::where('id', $id)->get()->first();
+        if($products == '')
+        {
+            return abort('404');
+        }else{
+        return view('productDetail', compact('products'));
+        }
+    }
     public function allProduct($name, Request $request)
     {
         $category = Category::where('slug', $name)->first();

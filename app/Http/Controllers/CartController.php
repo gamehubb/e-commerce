@@ -30,6 +30,7 @@ class CartController extends Controller
         } else {
             $cart = new Cart();
         }
+
         $cart->add($product);
 
         foreach($cart->items as $c){
@@ -43,8 +44,8 @@ class CartController extends Controller
                     'product_id' => $c['id'],
                     'product_name' => $c['name'],
                     'product_code' => $c['code'],
-                    'category' => Category::find($c['category'])->value('name'),
-                    'brand' => Brand::find($c['brand'])->value('name'),
+                    'category' => $c['category'],
+                    'brand' => $c['brand'],
                     'product_type' => $c['product_type'],
                     'image' => $c['image'],
                     'quantity' => $c['qty'],
@@ -61,8 +62,8 @@ class CartController extends Controller
                     [
                         'product_name' => $c['name'],
                         'product_code' => $c['code'],
-                        'category' => Category::find($c['category'])->value('name'),
-                        'brand' => Brand::find($c['brand'])->value('name'),
+                        'category' => $c['category'],
+                        'brand' => $c['brand'],
                         'product_type' => $c['product_type'],
                         'image' => $c['image'],
                         'quantity' => $c['qty'],
@@ -102,13 +103,24 @@ class CartController extends Controller
         $cart = new Cart(session()->get('cart'));
         $cart->updateQty($product->id, $request->qty);
         session()->put('cart', $cart);
-        notify()->success('Cart Updated Successfully');
-        return redirect()->back();
+        foreach($cart->items as $cart_data){
+            $carts = [
+                'qty' => $request->qty,
+                'total_price' => session()->get('cart')->totalPrice,
+                'product_price' => $cart_data['price'] * $request->qty,
+                'total_quantity' => session()->get('cart')->totalQty
+            ];
+        }
+
+        Carts::where('product_id',$product->id)->update(['quantity' => $carts['qty'], 'total_amount' => $carts['product_price']]);
+ 
+        echo json_encode($carts);
     }
 
     public function removeCart(Product $product)
     {
         $cart = new Cart(session()->get('cart'));
+        Carts::where('product_id',$product->id)->delete();
         $cart->remove($product->id);
         if ($cart->totalQty <= 0) {
             session()->forget('cart');
@@ -122,39 +134,46 @@ class CartController extends Controller
     public function checkout($amount)
     {
         $userId = Auth::id();
-        if (session()->has('cart')) {
-            $carts = new Cart(session()->get('cart'));
-        } else {
-            $carts = null;
-        }
+    
+        $delivery_info = DeliveryInfo::where('user_id', $userId)->get();
+        $payments = ['1_k' => 'kpay', '2_w' => 'wpay', '3_c' => 'cod' ];
 
-        if($carts != null){
-            foreach(session()->get('cart')->items as $key => $value){
-                $carts = [
-                            'id' => $value['id'],
-                            'name' => $value['name'],
-                            'code' => $value['code'],
-                            'category' => Category::find($value['category'])->value('name'),
-                            'brand' => Brand::find($value['brand'])->value('name'),
-                            'product_type' => $value['product_type'],
-                            'price' => $value['price'],
-                            'discount' => $value['discount'],
-                            'color' => $value['color'],
-                            'qty' => $value['qty'],
-                            'image' => $value['image'],
-                        ];
+        $cart_data = null;
+
+        if (session()->has('cart')) {
+            $cart = new Cart(session()->get('cart'));
+
+            foreach($cart->items as $c){
+                
+                    $cart_data[] = [
+                        'user_id' => $userId,
+                        'product_id' => $c['id'],
+                        'product_name' => $c['name'],
+                        'product_code' => $c['code'],
+                        'category' => Category::find($c['category'])->value('name'),
+                        'brand' => Brand::find($c['brand'])->value('name'),
+                        'product_type' => $c['product_type'],
+                        'image' => $c['image'],
+                        'quantity' => $c['qty'],
+                        'price' => $c['price'],
+                        'total_amount' => $c['qty'] * $c['price'],
+                        'color' => $c['color'],
+                        'discount' =>  $c['discount']
+
+                    ];
+
             }
         }
 
+        $categories = Category::get();
+        $brands = Brand::get();
 
-        $delivery_info = DeliveryInfo::where('user_id', $userId)->get();
-        $payments = ['1' => 'kpay', '2' => 'wpay', '3' => 'cod' ];
-        return view('checkout', compact('amount', 'carts', 'delivery_info', 'payments'));
+        return view('checkout', compact('amount', 'delivery_info', 'payments', 'cart_data','categories','brands'));
     }
 
     public function generateVoucherNumber()
     {
-        $characters = '1234567890';
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < 6; $i++) {
@@ -215,14 +234,14 @@ class CartController extends Controller
 
             if($order_id > 0){
 
-                if($request->file('payment_slip')){
-                   $image = $request->file('payment_slip')->store('public/payment_slip');
+                if($request->input('account')){
                
                     Payment::create([
                         'user_id' => $userId,
                         'order_id' => $order_id,
-                        'payment_type' => $request->payment,
-                        'payment_slip' => $image,
+                        'payment_type' => $request->payment_type,
+                        'account_name' => $request->account,
+                        'phone_number' => $request->phone,
                         'total_amount'  => $total_amount,
                     ]);
                 }
@@ -231,11 +250,16 @@ class CartController extends Controller
                     'order_id' => $order_id,
                     'product_id' => $carts['id'],
                     'product_name' => $carts['name'],
+                    'product_type' => $carts['product_type'],
+                    'vendor_id' => $userId,
+                    'product_name' => $carts['name'],
                     'color' => $carts['color'],
                     'quantity' => $carts['qty'],
                     'price' => $carts['price'],
                     'discount' => $carts['discount'],
                 ]);
+
+                Carts::where('user_id',$userId)->delete();
 
                 session()->forget('cart');
             }

@@ -102,16 +102,19 @@ class RegisterController extends Controller
                     ->from($mail_data['fromEmail'], $mail_data['fromName'])
                     ->subject($mail_data['subject']);
         });
-        if($save){
+
+        $this->guard()->login($user_create);
+
+        // if($save){
             // return redirect()->back()->with('success','You need to verify your account. We have sent you an activation link, please check your mail');
             return redirect('/register')->with('success','You need to verify your account. We have sent you an activation link, please check your mail');
             // return $user_create;
             // return redirect('register')->with('success','Please Check Your Email');
-        }else{
-            return redirect('/register')->with('fail','Somethig went wrong');
+        // }else{
+            // return redirect('/register')->with('fail','Somethig went wrong');
             // return redirect('register')->with('fail','Somethig went wrong');
-        }
-        // return $save;
+        // }
+        return $save;
     }
     public function generateTokenVerify()
     {

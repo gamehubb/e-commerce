@@ -53,7 +53,7 @@ class BrandController extends Controller
 
         Brand::create([
             'name' => $request->get('brand_name'),
-            'slug' => Str::slug($request->get('brand_name')),
+            'slug' => $this->slug(),
             'image' => $image
         ]);
 
@@ -130,4 +130,17 @@ class BrandController extends Controller
         $obj =Brand::where('id',$request->id)->update(['status' => $request->status]); 
         return $obj;
     }
+
+    private function slug()
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 6; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $finalvouchernumber = 'GH' . $randomString;
+        }
+        return $finalvouchernumber;
+    }
+
 }

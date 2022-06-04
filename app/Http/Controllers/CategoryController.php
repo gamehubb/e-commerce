@@ -44,7 +44,7 @@ class CategoryController extends Controller
         $image = $request->file('category_image')->store('public/files');
         Category::create([
             'name' => $request->get('category_name'),
-            'slug' => Str::slug($request->get('category_name')),
+            'slug' => $this->slug(),
             'description' => $request->get('category_description'),
             'image' =>  $image
         ]);
@@ -125,5 +125,17 @@ class CategoryController extends Controller
         $obj =Category::where('id',$request->id)->update(['status' => $request->status]); 
         return $obj;
         
+    }
+
+    private function slug()
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 6; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $finalvouchernumber = 'GH' . $randomString;
+        }
+        return $finalvouchernumber;
     }
 }

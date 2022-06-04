@@ -9,7 +9,7 @@ class CartModel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'product_id', 'product_name','product_code','category','brand', 'image', 'quantity', 'price', 'total_amount', 'color', 'discount'];
+    protected $fillable = ['user_id', 'product_id', 'product_name', 'product_code', 'category', 'brand', 'image', 'quantity', 'price', 'total_amount', 'color', 'discount'];
 }
 
 class Cart
@@ -30,6 +30,36 @@ class Cart
             $this->totalQty = 0;
         }
     }
+
+    public function fetchCart($product)
+    {
+        foreach($product as $data){
+            $item = [
+                'id' => $data['product_id'],
+                'name' => $data['product_name'],
+                'code' => $data['product_code'],
+                'category' => $data['category'],
+                'brand' => $data['brand'],
+                'product_type' => $data['product_type'],
+                'price' => $data['price'],
+                'discount' => $data['discount'],
+                'color' => $data['color'],
+                'qty' => $data['quantity'],
+                'image' => $data['image']
+            ];
+            if (!array_key_exists($data['product_id'], $this->items)) {
+                
+                $this->items[$data['product_id']] = $item;
+                $this->totalQty += $data['quantity'];
+                $this->totalPrice += $data['total_amount'];
+            } 
+
+            $this->items[$data['product_id']]['qty'] = $data['quantity'];       
+        }
+        
+
+    }
+
     public function add($product)
     {
         $item = [
@@ -39,21 +69,21 @@ class Cart
             'category' => $product->category_id,
             'brand' => $product->brand_id,
             'product_type' => $product->product_type,
-            'price' => $product->productDetail->price,
-            'discount' => $product->productDetail->discount,
-            'color' => $product->productDetail->color,
+            'price' => $product->productDetail[0]->price,
+            'discount' => $product->productDetail[0]->discount,
+            'color' => $product->productDetail[0]->color,
             'qty' => 0,
-            'image' => $product->productDetail->image_1
+            'image' => $product->productDetail[0]->image_1
         ];
         if (!array_key_exists($product->id, $this->items)) {
-            
+
             $this->items[$product->id] = $item;
             $this->totalQty += 1;
-            $this->totalPrice += $product->productDetail->price;
+            $this->totalPrice += $product->productDetail[0]->price;
         } else {
-            $this->totalQty+=1;
+            $this->totalQty += 1;
 
-            $this->totalPrice += $product->productDetail->price;
+            $this->totalPrice += $product->productDetail[0]->price;
         }
         $this->items[$product->id]['qty'] += 1;
     }
