@@ -112,4 +112,7 @@ class UserController extends Controller
         $brands = Brand::get();
         return view('auth.accountInfo', compact('userInfo', 'categories', 'brands'));
     }
+    public function changePassword(){
+        return view('auth.passwords.changepassword');
+    }
 }
