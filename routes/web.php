@@ -28,6 +28,7 @@ Route::get('/category/{name}', [App\Http\Controllers\FrontProductListController:
 Route::get('/productCategory/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByCategory'])->name('productCategory');
 Route::get('/productBrand/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByCategory'])->name('productBrand');
 
+Route::post('/register', 'Auth\RegisterController@created')->name('register');
 
 
 Route::get('/addToCart/{product}', [App\Http\Controllers\CartController::class, 'addToCart'])->name('add.cart')->middleware('auth');
