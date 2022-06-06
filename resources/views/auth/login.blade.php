@@ -17,7 +17,7 @@
                     @endif
                     @if(Session::get('infoconfirm'))
                         <div class="alert alert-info">
-                            {{ Session::get('success')}}
+                            {{ Session::get('infoconfirm')}}
                         </div>
                     @endif
                     @if (Session::has('message'))
@@ -51,7 +51,8 @@
                                 <input id="password" type="password"
                                     class="form-control @error('password') is-invalid @enderror" name="password"
                                     required autocomplete="current-password">
-
+                                    <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password text-dark"
+                                    style = " float: right;margin-right : 10px; margin-top: -25px;position: relative;z-index: 2;"></span>
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -95,4 +96,17 @@
         </div>
     </div>
 </div>
+<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+
+<script type="text/javascript">
+$(".toggle-password").click(function() {
+$(this).toggleClass("fa-eye fa-eye-slash");
+  var input = $($(this).attr("toggle"));
+  if (input.attr("type") == "password") {
+    input.attr("type", "text");
+  } else {
+    input.attr("type", "password");
+  }
+});
+</script>
 @endsection

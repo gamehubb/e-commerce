@@ -53,11 +53,11 @@ class FrontProductListController extends Controller
     public function productDetail($id)
     {
         $products = Product::where('id', $id)->get()->first();
-        if($products == '')
-        {
+        $cat_products = Product::where('category_id', $products->category_id)->get();
+        if ($products == '') {
             return abort('404');
-        }else{
-        return view('productDetail', compact('products'));
+        } else {
+            return view('productDetail', compact('products', 'cat_products'));
         }
     }
     public function allProduct($name, Request $request)

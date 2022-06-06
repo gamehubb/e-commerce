@@ -7,19 +7,9 @@
             <div class="card bg-black text-white">
                 <div class="card-header h3 text-center">Change Passowrd</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login-user') }}">
+                    <form method="POST" action="{{ route('user.changePasswordPost') }}">
                         @csrf
-
-                        @if(Session::get('info'))
-                        <div class="alert alert-danger">
-                            {{ Session::get('fail') }}
-                        </div>
-                    @endif
-                    @if(Session::get('infoconfirm'))
-                        <div class="alert alert-info">
-                            {{ Session::get('success')}}
-                        </div>
-                    @endif
+ 
                     @if (Session::has('message'))
                         <div class="alert alert-danger" id="alert-message">
                             <ul class="list-unstyled">

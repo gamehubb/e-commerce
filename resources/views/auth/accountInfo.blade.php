@@ -7,18 +7,20 @@
             <div class="container text-white">    
                 <p class="mb-5 text-center h4"><b>Manage Your Account</b></p>
                 <p class="m-2 h5"><b>Account Info</b></p>   
-                <div class="row m-3">
-                    <div class = "col-md-3">
-                        <p  class="m-1">Account Name</p>
-                        <p class="m-1">Email</p>
-                        <p class="m-1">Passowrd </p>
-                    </div>
-                    <div class = "col-md-9">
-                        <p class="m-1">{{ $userInfo->name}}</p>
-                        <p class="m-1">{{ $userInfo->email}}</p>
-                        <p  class="m-1">******** <a  class="text-red" href= "{{route('user.changePassword')}}">&nbsp;&nbsp;Change passwrod? </a></p>
-                    </div>
-                </div>
+                <table  class="m-3">
+                    <tr>
+                        <td><p class="m-2">Account Name</p></td>
+                        <td><p  class="ml-4">{{ $userInfo->name}}</p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="m-2">Email</p></td>
+                        <td><p  class="ml-4">{{ $userInfo->email}}</p></td>
+                    </tr>
+                     <tr  >
+                        <td><p class="m-2">Passowrd</p></td>
+                        <td><p  class="ml-4">********  <a  class="text-red" href= "{{route('user.changePassword')}}"><small class="ml-4">Change passwrod? </small> </a></p></td>
+                    </tr>
+                </table>
                 <hr class="mx-auto" style="width:100%; color: #ffffff; height: 1px; ">
                 <p class="m-2 h5"><b>Personal Info</b></p>  
                 <div class="row m-3">
@@ -35,7 +37,7 @@
         </div>
 
     </main>
-    <footer class="py-4 mt-5 container fixed-bottom text-white" style="background-color : #202020; border-radius: 10px">
+    <footer class="py-4 mt-5 container text-white" style="background-color : #202020; border-radius: 10px">
         <div class="row">
             <div class="col-md-7">
                 <div class="container ">

@@ -53,9 +53,9 @@
                                     Category
                                 </a>       
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">    
-                                @foreach ($allCategory as $cat)                     
+                                {{-- @foreach ($allCategory as $cat)                     
                                     <a class="dropdown-item" href="{{ route('productCategory',[$cat->slug]) }}">{{$cat->name}}</a>      
-                                @endforeach              
+                                @endforeach               --}}
                             </div>
                         </li>
 
@@ -64,9 +64,9 @@
                                 Brand
                             </a>      
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> 
-                                 @foreach ($allBrand as $brand)                                
+                                 {{-- @foreach ($allBrand as $brand)                                
                                 <a class="dropdown-item" href="{{ route('productBrand',[$brand->slug]) }}">{{$brand->name}}</a>
-                                @endforeach               
+                                @endforeach                --}}
                         </div>
                         </li>
 
@@ -145,7 +145,6 @@
                                                             document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>

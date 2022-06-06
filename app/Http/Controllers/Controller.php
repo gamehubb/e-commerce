@@ -12,16 +12,16 @@ use App\Models\Brand;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
+
     protected $allCategory;
 
     protected $allBrand;
 
-     public function __construct()
+    public function __construct()
     {
 
         $allCategory = Category::get();
         $allBrand = Brand::get();
-        view()->share(['allCategory' => $allCategory, 'allBrand' => $allBrand]);   
+        view()->share(['allCategory' => $allCategory, 'allBrand' => $allBrand]);
     }
 }
