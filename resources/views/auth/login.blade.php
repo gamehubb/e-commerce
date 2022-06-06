@@ -11,13 +11,13 @@
                         @csrf
 
                         @if(Session::get('info'))
-                        <div class="alert alert-danger">
-                            {{ Session::get('fail') }}
+                        <div class="alert alert-info">
+                            {{ Session::get('info') }}
                         </div>
                     @endif
                     @if(Session::get('infoconfirm'))
                         <div class="alert alert-info">
-                            {{ Session::get('success')}}
+                            {{ Session::get('infoconfirm')}}
                         </div>
                     @endif
                     @if (Session::has('message'))
@@ -29,12 +29,21 @@
                             </ul>
                         </div>
                     @endif
+                    @if (Session::has('success'))
+                    <div class="alert alert-danger" id="alert-message">
+                        <ul class="list-unstyled">
+                            <li>
+                                {{ Session::get('success') }}
+                            </li>
+                        </ul>
+                    </div>
+                @endif
                         <div class="row mb-3">
                             <label for="email"
                                 class="col-md-3 col-form-label text-right">{{ __('E-Mail Address') }}</label>
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{old('email')}}" required autocomplete="email" autofocus>
+                                    name="email" value="{{old('email')}}" required autocomplete="email">
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

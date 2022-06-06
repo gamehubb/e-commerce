@@ -77,7 +77,7 @@
             <div class="col-md-4 text-white  mt-4"  >
                 <a href="{{route('deliveryInfo.create')}}"  style="width: 18rem; float: right;" > 
                 <u><i class="fa fa-plus" id="address"></i>Add New Address </i></u>
-                <span id="no_address_alert" style="display:none;color:#aa0000;"></span>
+                <span id="no_address_text" style="color:#aa0000;"></span>
                 </a>
 
                 @if(count($delivery_info)>0)
@@ -87,7 +87,7 @@
                     <h4 class="card-title"> <b>{{$delInfo->name}}</b></h4>
                     <p class="card-text"> {{$delInfo->phoneNumber}}</p>
                     <p class="card-text">{{$delInfo->address}} ,{{$delInfo->township}},{{$delInfo->city}},{{$delInfo->state_region}}</p>
-                    <input type="radio" name ="delInfo" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;" required>
+                    <input type="radio" name ="delInfo" value="existing_address" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;" required>
                     <span class="invalid-feedback" role="alert">
                         <strong>Please select address</strong>
                     </span>
@@ -97,7 +97,7 @@
                     <input type="hidden" id="no_address" value={{count($delivery_info)}} >
 
                 @else
-                <input type="hidden" id="no_address" value={{count($delivery_info)}} >
+                <input type="hidden" id="no_address" value={{count($delivery_info)}} ><br/>
                 @endif
 
                 
@@ -171,24 +171,21 @@
         </div>
         @endif
 
-        @if($cart_data != null)
-
-        <div class="col-md-12 text-right" id="submit">
-            <input type="submit" class="btn btn-sm mt-3 text-white" id="submit"  value="Checkout" style="border-radius:20px; background-color:#aa0000;">
-        </div>
-
-        <hr style="margin-top: 20px;color:white;" />
-        <div class="mt-3 text-white text-center">
-            <p>Questions about this payment? Contact <a href=" "><u> GameHub Myanmar</u></a></p>
-        </div>
-
-        @endif
-
-            
     </form>
+
+    @if($cart_data != null)
+
+    <div class="col-md-12 text-right" id="submit">
+        <input type="submit" class="btn btn-sm mt-3 text-white" id="submit"  value="Checkout" style="border-radius:20px; background-color:#aa0000;">
+    </div>
+
+    <hr style="margin-top: 20px;color:white;" />
+    <div class="mt-3 text-white text-center">
+        <p>Questions about this payment? Contact <a href=" "><u> GameHub Myanmar</u></a></p>
+    </div>
+
+    @endif
        
-
-
         <footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">
             <div class="row">
                 <div class="col-md-7">
@@ -301,14 +298,18 @@
     });
 
     $("#submit").click(function(){
-        if($('#address').is(':checked') == false)
+        if($("#no_address").val() > 0 && $('#existing_address').is(':checked') == false)
         {   
-            var no_of_address = $("#no_address").val();
-            if(no_of_address != 0){
-                $('#address').addClass('is-invalid');
-            }else{
-                $('#no_address_alert').text('No address available');
-            }
+            $("#existing_address").addClass('is-invalid');
+
+            $('html, body').animate({
+                'scrollTop' : $("#existing_address").position().top
+            });
+
+        }else if($("#no_address").val() == 0 ){
+
+            $("#no_address_text").text("No address found");
+            
             $('html, body').animate({
                 'scrollTop' : $("#address").position().top
             });

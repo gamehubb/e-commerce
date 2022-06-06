@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->integer('is_admin')->default(0);
             $table->integer('status')->default(true);
             $table->integer('email_verified')->default(0);
-            $table->rememberToken();
+            $table->string('email_verify_token')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
 

@@ -234,17 +234,16 @@ class CartController extends Controller
 
             if($order_id > 0){
 
-                if($request->input('account')){
                
-                    Payment::create([
-                        'user_id' => $userId,
-                        'order_id' => $order_id,
-                        'payment_type' => $request->payment_type,
-                        'account_name' => $request->account,
-                        'phone_number' => $request->phone,
-                        'total_amount'  => $total_amount,
-                    ]);
-                }
+                Payment::create([
+                    'user_id' => $userId,
+                    'order_id' => $order_id,
+                    'payment_type' => $request->payment_type,
+                    'account_name' => $request->account,
+                    'phone_number' => $request->phone,
+                    'total_amount'  => $total_amount,
+                ]);
+                
 
                 OrderItem::create([
                     'order_id' => $order_id,

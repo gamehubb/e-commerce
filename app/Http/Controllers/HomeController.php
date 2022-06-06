@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Models\Cart;
 use App\Models\Carts;
+use Illuminate\Support\Facades\Hash;
 
 use Auth;
 
@@ -51,13 +53,13 @@ class HomeController extends Controller
     {
         if($request->validated())
         {
-            $data = User::where("email",'=',$request->email)->get();
+            $data = User::where("email",'=',$request->email)->get()->first();
 
-            print_r(count($data));
-
-            if(count($data) == 0)
+            if($data == null)
             {
                 return redirect('login')->with('message', "User does not exists");
+            }elseif($data->count() > 0 && $data->email_verified == 0){
+                return redirect('login')->with('message', "Please verify your email");
             }else{
                 $userCredentials = $request->only('email', 'password');
 
@@ -91,4 +93,50 @@ class HomeController extends Controller
         }
 
     } 
+
+    public function userRegister(RegisterRequest $request)
+    {
+        $user_create = new User();
+        $user_create->name = $request->name;
+        $user_create->email = $request->email;
+        $user_create->phone_number = $request->phone;
+        $user_create->password = Hash::make($request->password);
+        $save = $user_create->save();
+        $last_id = $user_create->id;
+        $hash = $this->generateTokenVerify();
+        $token = $last_id.$hash;
+        $verifyURL = route('verify',['token'=>$token,'service'=>'Email_verification']);
+        User::where('id',$last_id)->update([
+            'email_verify_token'=>$token,
+        ]);
+        $message = 'Dear <b>'.$request->name.'</b>';
+        $message = 'Thanks for singing up, we just need to verify your email address';
+        $mail_data=[
+            'recipient' =>$request->email,
+            'fromEmail' =>'info@gamehubmyanmar.com',
+            'fromName' =>'GameHub Myanmar',
+            'subject' =>'Email Verification',
+            'body'=>$message,
+            'actionLink' =>$verifyURL,
+        ];
+        \Mail::send('email-template',$mail_data,function($message) use ($mail_data){
+            $message->to($mail_data['recipient'])
+                    ->from($mail_data['fromEmail'], $mail_data['fromName'])
+                    ->subject($mail_data['subject']);
+        });
+       
+        return redirect('/login')->with('success','You need to verify your account. We have sent you an activation link, please check your mail');
+        } 
+
+    public function generateTokenVerify()
+    {
+        $characters = 'MV4560GM678ZA0B0E1DABCDEFGHIJKLM';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 6; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $finalVerifynumber = 'GH' . $randomString;
+        }
+        return $finalVerifynumber;
+    }
 }

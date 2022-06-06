@@ -5,15 +5,16 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "cartalyst/stripe-laravel": "^13.0",
         "php": "^7.3|^8.0",
+        "cartalyst/stripe-laravel": "^13.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.65",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "mckenziearts/laravel-notify": "^2.1"
+        "mckenziearts/laravel-notify": "^2.1",
+        "nesbot/carbon": "^2.58"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

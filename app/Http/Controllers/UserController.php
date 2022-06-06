@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\VerifyUser;
 use Auth;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -90,16 +91,16 @@ class UserController extends Controller
     public function verify(Request $request)
     {
         $token = $request->token;
-        $verifyUser = VerifyUser::where('token', $token)->first();
+        $verifyUser = User::where('email_verify_token', $token)->first();
         if (!is_null($verifyUser)) {
-            $user = $verifyUser->user;
-            if (!$user->email_verified) {
-                $verifyUser->user->email_verified = 1;
-                $verifyUser->user->save();
-                return redirect()->route('login')->with('info', 'Your email is verified successfully. You can now login')->with('verifiedEmail', $user->email);
+            if (!$verifyUser->email_verified) {
+                $verifyUser->email_verified = 1;
+                $verifyUser->email_verified_at = Carbon::now()->toDateTimeString();
+                $verifyUser->save();
+                return redirect()->route('login')->with('info', 'Your email is verified successfully. You can now login')->with('verifiedEmail', $verifyUser->email);
                 // return view('login')->with('verifiedEmail',$user->email);
             } else {
-                return redirect()->route('login')->with('infoconfirm', 'Your email already verified successfully. You can now login')->with('verifiedEmail', $user->email);
+                return redirect()->route('login')->with('infoconfirm', 'Your email already verified successfully. You can now login')->with('verifiedEmail', $verifyUser->email);
                 // return 'Already Verified';
             }
         }

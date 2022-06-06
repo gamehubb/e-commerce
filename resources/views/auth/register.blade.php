@@ -7,7 +7,7 @@
             <div class="card  bg-black text-white">
                 <div class="card-header h3 text-center">REGISTER</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register-user') }}">
                         @if(Session::get('fail'))
                         <div class="alert alert-danger">
                             {{ Session::get('fail') }}
@@ -18,6 +18,7 @@
                             {{ Session::get('success')}}
                         </div>
                     @endif
+                    
                         @csrf
                         <div class="row mb-3">
                             <label for="name" class="col-md-3 col-form-label text-right">Name</label>
@@ -33,7 +34,20 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-3 col-form-label text-right"> E-Mail Address </label>
+                            <label for="phone" class="col-md-3 col-form-label text-right"> Phone Number </label>
+                            <div class="col-md-6">
+                                <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror"
+                                    name="phone" value="{{ old('phone') }}" required pattern="[0-9]{11}" placeholder="09123456789">
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="email" class="col-md-3 col-form-label text-right"> E-mail </label>
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email') }}" required>
@@ -53,9 +67,9 @@
                                     required autocomplete="new-password">
 
                                 @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
                                 @enderror
                             </div>
                         </div>
@@ -64,8 +78,13 @@
                             <label for="password-confirm" class="col-md-3 col-form-label text-right"> Confirm
                                 Password </label>
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control"
+                                <input id="password-confirm" type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
                                     name="password_confirmation" required autocomplete="new-password">
+                                @error('password_confirmation')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6 offset-md-3 mt-3">

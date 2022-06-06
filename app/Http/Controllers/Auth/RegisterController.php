@@ -118,12 +118,12 @@ class RegisterController extends Controller
     }
     public function generateTokenVerify()
     {
-        $characters = 'MV4560GM678ZA0B0E1D';
+        $characters = 'MV4560GM678ZA0B0E1DABCDEFGHIJKLM';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < 6; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
-            $finalVerifynumber = 'GH#' . $randomString;
+            $finalVerifynumber = $randomString;
         }
         return $finalVerifynumber;
     }

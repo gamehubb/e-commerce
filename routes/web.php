@@ -28,6 +28,9 @@ Route::get('/category/{name}', [App\Http\Controllers\FrontProductListController:
 Route::get('/productCategory/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByCategory'])->name('productCategory');
 
 Route::post('/login-user',[App\Http\Controllers\HomeController::class,'userLogin'])->name('login-user');
+Route::post('/register-user',[App\Http\Controllers\HomeController::class,'userRegister'])->name('register-user');
+
+Route::post('/register-user',[App\Http\Controllers\HomeController::class,'userRegister'])->name('register-user');
 Route::get('/productBrand/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByBrand'])->name('productBrand');
 Route::get('/productDetail/{id}', [App\Http\Controllers\FrontProductListController::class, 'productDetail'])->name('productDetail');
 
@@ -45,7 +48,7 @@ Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::cl
 
 // Auth::routes();
 Auth::routes(['verify' => true]);
-Route::get('/verify', [App\Http\Controllers\userAccountInfo::class, 'verify'])->name('verify');
+Route::get('/verify', [App\Http\Controllers\UserController::class, 'verify'])->name('verify');
 Route::get('all/products', [App\Http\Controllers\FrontProductListController::class, 'moreProducts'])->name('more.product');
 Route::get('/home', [App\Http\Controllers\FrontProductListController::class, 'index'])->name('home');
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
