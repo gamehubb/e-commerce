@@ -29,7 +29,6 @@ class FrontProductListController extends Controller
 
         $sliders = Product::where('is_special', '1')->get();
 
-
         return view('product', compact('products', 'categories', 'brands', 'randomItemProducts', 'randomActiveProducts', 'sliders'));
     }
     public function show($id)

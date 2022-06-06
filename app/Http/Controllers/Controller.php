@@ -19,9 +19,8 @@ class Controller extends BaseController
 
      public function __construct()
     {
-
-        $allCategory = Category::get();
-        $allBrand = Brand::get();
+        $allCategory = Category::where('status',1)->get();
+        $allBrand = Brand::where('status',1)->get();
         view()->share(['allCategory' => $allCategory, 'allBrand' => $allBrand]);   
     }
 }

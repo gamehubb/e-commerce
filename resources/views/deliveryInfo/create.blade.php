@@ -8,11 +8,11 @@
                 <div class="form-group m-2">
                     <label>Name</label>
                     <input type="text" name="name" id="name" class="form-control" value={{auth()->user()->name}}
-                        readonly="" required>
+                       >
                 </div>
                 <div class="form-group m-2">
                     <label>PhoneNumber</label>
-                    <input type="number" name="phoneNumber" id="phonenumber" class="form-control" required>
+                    <input type="number" name="phoneNumber" id="phonenumber" class="form-control" value={{auth()->user()->phone_number}} required>
                 </div>       
                 <div class="form-group m-2">
                     <label>Address</label>

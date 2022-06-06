@@ -74,7 +74,7 @@
                 </div>
             </div>
             </div>
-            <div class="col-md-4 text-white  mt-4"  >
+            <div class="col-md-4 text-white  mt-4" id="no_address_found"  >
                 <a href="{{route('deliveryInfo.create')}}"  style="width: 18rem; float: right;" > 
                 <u><i class="fa fa-plus" id="address"></i>Add New Address </i></u>
                 <span id="no_address_text" style="color:#aa0000;"></span>
@@ -87,7 +87,7 @@
                     <h4 class="card-title"> <b>{{$delInfo->name}}</b></h4>
                     <p class="card-text"> {{$delInfo->phoneNumber}}</p>
                     <p class="card-text">{{$delInfo->address}} ,{{$delInfo->township}},{{$delInfo->city}},{{$delInfo->state_region}}</p>
-                    <input type="radio" name ="delInfo" value="existing_address" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;" required>
+                    <input type="radio" name ="delInfo" id="existing_address" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;" required>
                     <span class="invalid-feedback" role="alert">
                         <strong>Please select address</strong>
                     </span>
@@ -97,7 +97,10 @@
                     <input type="hidden" id="no_address" value={{count($delivery_info)}} >
 
                 @else
-                <input type="hidden" id="no_address" value={{count($delivery_info)}} ><br/>
+                <input type="text" id="no_address" required style="display: none;" ><br/>
+                <span class="invalid-feedback text-center" role="alert">
+                    <strong>No address available</strong>
+                </span>
                 @endif
 
                 
@@ -111,7 +114,7 @@
                     @foreach($payments as $key => $value)
                         @if($key == '1_k' || $key == '2_w')
 
-                            <input type="radio" name="payment_type" id="payment_radio" class="form-check-input m-3" value="{{$key}}">
+                            <input type="radio" name="payment_type" id="payment_radio" class="form-check-input m-3" value="{{$key}}" required>
                         @else
                             <input type="radio" name="payment_type" id="payment_radio" class="form-check-input m-3" value="{{$key}}" {{$hidden}}>
                         @endif
@@ -134,17 +137,7 @@
         </div>
         <br/>
         <div id="payment" class="hidden">
-            {{-- <div class="mt-3">
-                <i class="fa fa-warning fa-xl m-2 mb-4" style="color: red"> </i>
-                <label class="text-white">Don't forget to save your payment vocher.</label>
-            </div>
-            <div class="mt-3 text-white text-center">
-                <label for="upload-photo">Upload you voucher</label>
-                <input class="m-auto" type="file" name="payment_slip" id="upload-photo" style="width: 95px" onchange="return fileValidation()"/><br />
-                <div id="imagePreview"></div>
-            </div> --}}
-
-            {{-- <div class="mt-3 text-white text-center"> --}}
+           
                 <div class="form-group row">
                     <div class="col-md-3">
                         <label class="text-white">Account</label>
@@ -152,7 +145,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label class="text-white">Phone number</label>
+                        <label class="text-white">Phone number</label>  
                         <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{11}">
                         <small class="text-white">Format: 09123456789</small>
                     </div>
@@ -171,20 +164,22 @@
         </div>
         @endif
 
+        @if($cart_data != null)
+
+        <div class="col-md-12 text-right" id="submit">
+            <input type="submit" class="btn btn-sm mt-3 text-white" id="submit"  value="Checkout" style="border-radius:20px; background-color:#aa0000;">
+        </div>
+    
+        <hr style="margin-top: 20px;color:white;" />
+        <div class="mt-3 text-white text-center">
+            <p>Questions about this payment? Contact <a href=" "><u> GameHub Myanmar</u></a></p>
+        </div>
+    
+        @endif
+
     </form>
 
-    @if($cart_data != null)
-
-    <div class="col-md-12 text-right" id="submit">
-        <input type="submit" class="btn btn-sm mt-3 text-white" id="submit"  value="Checkout" style="border-radius:20px; background-color:#aa0000;">
-    </div>
-
-    <hr style="margin-top: 20px;color:white;" />
-    <div class="mt-3 text-white text-center">
-        <p>Questions about this payment? Contact <a href=" "><u> GameHub Myanmar</u></a></p>
-    </div>
-
-    @endif
+   
        
         <footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">
             <div class="row">
@@ -302,16 +297,20 @@
         {   
             $("#existing_address").addClass('is-invalid');
 
+
             $('html, body').animate({
                 'scrollTop' : $("#existing_address").position().top
             });
 
         }else if($("#no_address").val() == 0 ){
 
-            $("#no_address_text").text("No address found");
+            // $("#no_address_text").text("No address found");
+
+            $("#no_address").addClass("is-invalid");
+
             
             $('html, body').animate({
-                'scrollTop' : $("#address").position().top
+                'scrollTop' : $("#no_address_found").position().top
             });
 
         }
@@ -319,16 +318,19 @@
         if($('[id=payment_radio]').is(':checked') == false)
         {
             $('[id=payment_radio]').addClass('is-invalid');
-        }else if($('[id=payment_radio]').is(':checked') == true){
-            $('[id=payment_radio]').removeClass('is-invalid');
-
         }
 
-        if($('#address').is(':checked') == true && $('[id=payment_radio]').is(':checked') == true)
+        if($('#existing_address').is(':checked') == true && $('[id=payment_radio]').is(':checked') == true)
         {
-            $("#form").submit();    
+            $("#form").submit();     
         }
     })
+
+        $('[id=payment_radio]').on('click',function(){
+            
+            $('[id=payment_radio]').removeClass('is-invalid');
+
+        });
 
         function fileValidation() {
             var fileInput =

@@ -28,8 +28,8 @@
     <div id="app">
         <header class="header-box">
             <div class="container">
-                <div class="col-md-12  text-center site-icon m-1">              
-                        <a href="/"   style="color: #aa0000;">
+                <div class="col-md-12 text-center site-icon m-1">              
+                        <a href="/" style="color: #aa0000;">
                             <span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar</sub>
                         </a>
                    
@@ -49,24 +49,24 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item dropdown">   
-                                <a  class="nav-link dropdown-toggle  text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a  class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Category
                                 </a>       
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">    
-                                @foreach ($allCategory as $cat)                     
+                                {{-- @foreach ($allCategory as $cat)                     
                                     <a class="dropdown-item" href="{{ route('productCategory',[$cat->slug]) }}">{{$cat->name}}</a>      
-                                @endforeach              
+                                @endforeach               --}}
                             </div>
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a  class="nav-link dropdown-toggle  text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a  class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Brand
                             </a>      
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> 
-                                 @foreach ($allBrand as $brand)                                
+                                 {{-- @foreach ($allBrand as $brand)                                
                                 <a class="dropdown-item" href="{{ route('productBrand',[$brand->slug]) }}">{{$brand->name}}</a>
-                                @endforeach               
+                                @endforeach                --}}
                         </div>
                         </li>
 
