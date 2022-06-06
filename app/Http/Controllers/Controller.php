@@ -12,12 +12,12 @@ use App\Models\Brand;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
+
     protected $allCategory;
 
     protected $allBrand;
 
-     public function __construct()
+    public function __construct()
     {
         $allCategory = Category::where('status',1)->get();
         $allBrand = Brand::where('status',1)->get();

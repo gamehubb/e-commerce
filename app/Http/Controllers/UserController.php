@@ -9,6 +9,7 @@ use App\Models\Brand;
 use App\Models\VerifyUser;
 use Auth;
 use Carbon\Carbon;
+use Hash;
 
 class UserController extends Controller
 {
@@ -113,7 +114,24 @@ class UserController extends Controller
         $brands = Brand::get();
         return view('auth.accountInfo', compact('userInfo', 'categories', 'brands'));
     }
-    public function changePassword(){
+    public function changePassword()
+    {
         return view('auth.passwords.changepassword');
+    }
+    public function changePasswordPost(Request $request)
+    {
+        if (!(Hash::check($request->get('oldpassword'), Auth::user()->password))) {
+            // The passwords matches
+            return redirect()->back()->with("message", "Your current password does not matches with the password.");
+        }
+        if ($request->get('newpassword') != $request->get('confpasowrd')) {
+            // Current password and new password same
+            return redirect()->back()->with("message", "New Password cannot be same as your current password.");
+        }
+        $user = Auth::user();
+        $user->password = bcrypt($request->get('newpassword'));
+        $user->save();
+        $request->session()->flush();
+        return redirect('login')->with('infoconfirm', 'Password Changed Successfully.Login again to continue.');
     }
 }

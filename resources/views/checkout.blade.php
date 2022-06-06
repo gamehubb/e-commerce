@@ -332,6 +332,8 @@
 
         });
 
+      
+
         function fileValidation() {
             var fileInput =
                 document.getElementById('upload-photo');

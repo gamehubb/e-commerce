@@ -223,7 +223,6 @@ class CartController extends Controller
                 'voucher_code' => $voucher,
                 'user_id' => $userId,
                 'status' => $status,
-                'payment_status' => 4,
                 'del_name' => $del_name,
                 'del_address' => $del_address,
                 'del_city' => $del_city,
@@ -262,6 +261,22 @@ class CartController extends Controller
 
                 session()->forget('cart');
             }
+
+            $payment_message = null;
+
+            $payment_type = null;
+
+            if($request->payment_type == '1_k' || $request->payment_type == '2_w')
+            {
+                $payment_type = $request->payment_type;
+                $payment_message = 'pay-amount-exists';
+            }
+
+
+            return view('complete-checkout',compact('payment_message','payment_type'));
+        }else{
+            return redirect('home');
+
         }
     }
     //For LoggedIn User

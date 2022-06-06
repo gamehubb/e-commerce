@@ -80,39 +80,39 @@ class RegisterController extends Controller
         $last_id = $user_create->id;
         // $token = $last_id.hash('GHM256',\Str::random(120));
         $hash = $this->generateTokenVerify();
-        $token = $last_id.$hash;
-        $verifyURL = route('verify',['token'=>$token,'service'=>'Email_verification']);
+        $token = $last_id . $hash;
+        $verifyURL = route('verify', ['token' => $token, 'service' => 'Email_verification']);
         VerifyUser::create([
-            'user_id'=>$last_id,
-            'token'=>$token,
+            'user_id' => $last_id,
+            'token' => $token,
         ]);
-         $message = 'Dear <b>'.$data['name'].'</b>';
+        $message = 'Dear <b>' . $data['name'] . '</b>';
         // $message = 'Dear YeLinnAung';
         $message = 'Thanks for singing up, we just need to verify your email address';
-        $mail_data=[
-            'recipient' =>$data['email'],
-            'fromEmail' =>$data['email'],
-            'fromName' =>$data['name'],
-            'subject' =>'Email Verification',
-            'body'=>$message,
-            'actionLink' =>$verifyURL,
+        $mail_data = [
+            'recipient' => $data['email'],
+            'fromEmail' => $data['email'],
+            'fromName' => $data['name'],
+            'subject' => 'Email Verification',
+            'body' => $message,
+            'actionLink' => $verifyURL,
         ];
-        \Mail::send('email-template',$mail_data,function($message) use ($mail_data){
+        \Mail::send('email-template', $mail_data, function ($message) use ($mail_data) {
             $message->to($mail_data['recipient'])
-                    ->from($mail_data['fromEmail'], $mail_data['fromName'])
-                    ->subject($mail_data['subject']);
+                ->from($mail_data['fromEmail'], $mail_data['fromName'])
+                ->subject($mail_data['subject']);
         });
 
         $this->guard()->login($user_create);
 
         // if($save){
-            // return redirect()->back()->with('success','You need to verify your account. We have sent you an activation link, please check your mail');
-            return redirect('/register')->with('success','You need to verify your account. We have sent you an activation link, please check your mail');
-            // return $user_create;
-            // return redirect('register')->with('success','Please Check Your Email');
+        // return redirect()->back()->with('success','You need to verify your account. We have sent you an activation link, please check your mail');
+        return redirect('/register')->with('success', 'You need to verify your account. We have sent you an activation link, please check your mail');
+        // return $user_create;
+        // return redirect('register')->with('success','Please Check Your Email');
         // }else{
-            // return redirect('/register')->with('fail','Somethig went wrong');
-            // return redirect('register')->with('fail','Somethig went wrong');
+        // return redirect('/register')->with('fail','Somethig went wrong');
+        // return redirect('register')->with('fail','Somethig went wrong');
         // }
         return $save;
     }
