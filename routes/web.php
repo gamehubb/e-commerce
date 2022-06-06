@@ -87,4 +87,5 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     Route::get('orders', [App\Http\Controllers\CartController::class, 'userorder']);
     Route::get('orders/{userid}/{orderid}', [App\Http\Controllers\CartController::class, 'viewUserOrder'])->name('user.order');
     Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'userAccountInfo'])->name('user.accountInfo');
+    Route::get('/changePassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('user.changePassword');
 });

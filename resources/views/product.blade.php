@@ -47,6 +47,7 @@
                     <div class="col-md-6 ml-4">
                         <label class="text-white ">Product Import</label> <br />
                         <small class="text-white ">Thai, China</small>
+                       
                     </div>
                 </div>
                 <div class="row  m-4">
@@ -182,7 +183,7 @@
                     <div class="row">
                         <div class="col-md-4 mt-2">
                             <p><b>Category</b></p>
-                            @foreach ($categories as $category )
+                            @foreach ($allCategory as $category )
                             <a href="{{ route('productCategory',[$category->slug]) }}">
                               <p>{{$category->name}}</p> 
                             </a>
@@ -191,7 +192,7 @@
                         </div>
                         <div class="col-md-4  mt-2">
                             <p><b>Brand</b></p>
-                            @foreach ($brands as $brand )
+                            @foreach ($allBrand as $brand )
                             <a href="{{ route('productBrand',[$brand->slug]) }}">
                                 <p> {{$brand->name}}  </p> 
                             </a>

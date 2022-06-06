@@ -52,10 +52,10 @@
                                 <a  class="nav-link dropdown-toggle  text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Category
                                 </a>       
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">                         
-                                    <a class="dropdown-item" href="{{ route('productCategory',["12345"]) }}">cat</a>
-                                    <a class="dropdown-item" href="{{ route('productCategory',["12345"]) }}" > cat1
-                                    </a>                  
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">    
+                                @foreach ($allCategory as $cat)                     
+                                    <a class="dropdown-item" href="{{ route('productCategory',[$cat->slug]) }}">{{$cat->name}}</a>      
+                                @endforeach              
                             </div>
                         </li>
 
@@ -63,10 +63,10 @@
                             <a  class="nav-link dropdown-toggle  text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Brand
                             </a>      
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">                         
-                                <a class="dropdown-item" href="{{ route('productBrand',["dfa"]) }}">b</a>
-                                <a class="dropdown-item" href="{{ route('productBrand',["dfa"]) }}" > b1
-                                </a>                  
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> 
+                                 @foreach ($allBrand as $brand)                                
+                                <a class="dropdown-item" href="{{ route('productBrand',[$brand->slug]) }}">{{$brand->name}}</a>
+                                @endforeach               
                         </div>
                         </li>
 
