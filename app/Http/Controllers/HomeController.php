@@ -100,6 +100,7 @@ class HomeController extends Controller
         $user_create->name = $request->name;
         $user_create->email = $request->email;
         $user_create->phone_number = $request->phone;
+        $user_create->role = $request->role ? $request->role : '1';
         $user_create->password = Hash::make($request->password);
         $save = $user_create->save();
         $last_id = $user_create->id;
@@ -124,9 +125,15 @@ class HomeController extends Controller
                     ->from($mail_data['fromEmail'], $mail_data['fromName'])
                     ->subject($mail_data['subject']);
         });
-       
-        return redirect('/login')->with('success','You need to verify your account. We have sent you an activation link, please check your mail');
-        } 
+
+        if($request->role == 2)
+        {
+            return redirect()->back();
+        }else{
+            return redirect('/login')->with('success','You need to verify your account. We have sent you an activation link, please check your mail');
+        }
+
+    } 
 
     public function generateTokenVerify()
     {

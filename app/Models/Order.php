@@ -20,4 +20,14 @@ class Order extends Model
     public function orderItems(){
         return $this->hasMany(OrderItem::class,'order_id','id');
     }
+    public function order(){
+        return $this->belongsTo(User::class);
+    }
+    public function payment(){
+        return $this->hasOne(Payment::class,'order_id','id');
+    }
+    public function orderitem(){
+        return $this->hasMany(OrderItem::class,'order_id','id');
+    }
+
 }

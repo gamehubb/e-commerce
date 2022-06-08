@@ -20,10 +20,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('is_admin', '!=', 1)->get();
+        $users = User::where(['is_admin' =>  0,'role' => 1])->get();
         return view('admin.user.index', compact('users'));
     }
 
+    public function vendorList()
+    {
+        $vendors = User::where('role','=','2')->get();
+        return view('admin.vendor.index',compact('vendors'));
+    }
+
+    public function vendorNew()
+    {
+        return view('admin.vendor.new');
+    }
 
     /**
      * Show the form for creating a new resource.

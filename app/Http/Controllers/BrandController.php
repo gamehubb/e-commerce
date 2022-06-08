@@ -17,7 +17,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::where('status','1')->get();
+        $brands = Brand::get();
         $context = ['brands'=>$brands];
         return view('admin.brand.index',$context); 
     }
@@ -124,12 +124,12 @@ class BrandController extends Controller
         notify()->success('Deleted :)');
         return redirect('/auth/brand');
     }
-    public function behaviourOfStatus(Request $request)
-    {
-        $obj = new \stdClass();
-        $obj =Brand::where('id',$request->id)->update(['status' => $request->status]); 
-        return $obj;
-    }
+    // public function behaviourOfStatus(Request $request)
+    // {
+    //     $obj = new \stdClass();
+    //     $obj =Brand::where('id',$request->id)->update(['status' => $request->status]); 
+    //     return $obj;
+    // }
 
     private function slug()
     {
@@ -141,6 +141,13 @@ class BrandController extends Controller
             $finalvouchernumber = 'GH' . $randomString;
         }
         return $finalvouchernumber;
+    }
+    public function behaviourOfStatusBrand(Request $request)
+    {
+        $obj = new \stdClass();
+        $obj =Brand::where('id',$request->id)->update(['status' => $request->status]); 
+        return $obj;
+        
     }
 
 }

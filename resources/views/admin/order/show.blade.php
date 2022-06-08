@@ -3,7 +3,7 @@
 @section ('content')
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">All Orders</h1>
+      <h1 class="h3 mb-0 text-gray-800">Order Detail</h1>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="./">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">Orders Tables</li>
@@ -12,26 +12,15 @@
 </div>
 <div class="row justify-content-center">
     <div class="col-md-8">
-        @foreach($carts as $cart)
+        @foreach($orders as $order)
+        @foreach($order->orderitem as $orderitem) 
         <div class="card mb-3">
             <div class="card-body">
-                @foreach($cart->items as $item)
-                    <span style="float:right">
-                        <img src="{{Storage::url($item['image'])}}" width="150" alt="">
-                    </span>
-                    <p>Name:{{$item['name']}}</p>
-                    <p>Price:{{$item['price']}}</p>
-                    <p>Quantity:{{$item['qty']}}</p>
-                @endforeach
+              <p> {{$order->del_name}}</p> 
+              <p>{{$orderitem->price}}</p> 
             </div>
         </div>
-        <p class="mb-3">
-            <button type="button" class="btn btn-warning">
-                <span class="badge badge-light">
-                    {{$cart->totalPrice}}
-                </span>
-            </button>
-        </p>
+        @endforeach
         @endforeach
     </div>
 </div>

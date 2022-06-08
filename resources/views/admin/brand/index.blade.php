@@ -10,7 +10,7 @@
         <li class="breadcrumb-item active" aria-current="page">Brands</li>
       </ol>
     </div>
-
+ 
     <div class="row">
       <div class="col-lg-12 mb-4">
         <!-- Simple Tables -->
@@ -38,7 +38,7 @@
                   <td><img src="{{Storage::url($value->image)}}" width="100" alt=""></td>
                   <td>{{$value->name}}</td>
                   <td> 
-                    <input data-id ="{{$value->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" data-size="xs" id="catcat" {{$value->status ? 'checked' : ''}}>
+                    <input data-id ="{{$value->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="Inactive" data-size="xs" id="brandbrand" {{$value->status ? 'checked' : ''}}>
                   </td>
                   <td><a href="{{ route('brand.edit', $value->id) }}"><button class="btn btn-primary">Edit</button></a></td>
                   <td>
@@ -92,7 +92,7 @@
     $(function(){
         $('.toggle-class').change(function(){
            var status = $(this).prop('checked') == true ? 1 : 0;
-          var subcategory_id = $(this).data('id');
+          var brand_id = $(this).data('id');
           // var category_id = $("#catcat").val();
            $.ajaxSetup({
                 headers: {
@@ -101,9 +101,9 @@
             });
             $.ajax({
               type: "GET",
-              url: '/auth/changedSubCategoryStatus',
+              url: '/auth/changedBrandStatus',
               dataType: "json",
-              data: {'id' : subcategory_id, 'status' : status},
+              data: {'id' : brand_id, 'status' : status},
               success:function(data){
                alert("Status Changed")
               }

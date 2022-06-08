@@ -9,6 +9,7 @@ use App\Models\Subcategory;
 use App\Models\Product;
 use App\Models\Brand;
 use App\Models\ProductDetail;
+use App\Models\User;
 
 use Auth;
 
@@ -35,8 +36,9 @@ class ProductController extends Controller
     {
         $select_category = Category::where('status', '1')->get();
         $select_brand = Brand::where('status', '1')->get();
+        $vendors = User::where('role','2')->get();
         $product_types = ['1' => 'in-stock', '2' => 'pre-order'];
-        $context = ['categories' => $select_category, 'brands' => $select_brand, 'product_types' => $product_types];
+        $context = ['categories' => $select_category, 'brands' => $select_brand, 'product_types' => $product_types, 'vendors' => $vendors];
         return view('admin.product.create', $context);
     }
 
@@ -54,6 +56,7 @@ class ProductController extends Controller
         $product_id = $product->create([
 
             'name' => $request->product_name,
+            'vendor' => $request->vendor_id,
             'code' => $request->product_code,
             'model_name' => $request->model_name,
             'category_id' => $request->category,
@@ -64,7 +67,8 @@ class ProductController extends Controller
             'product_type' => $request->product_type,
             'is_special' => $request->is_special,
             'description' => $request->product_description,
-            'additional_info' => $request->product_additional_info
+            'additional_info' => $request->product_additional_info,
+            'moto' => $request->moto
 
         ])->id;
 
@@ -115,12 +119,13 @@ class ProductController extends Controller
         $select_product = Product::findorfail($id);
         $select_category = Category::where('status', '1')->get();
         $select_brand = Brand::where('status', '1')->get();
+        $vendors = User::where('role','2')->get();
         $product_detail = ProductDetail::where('product_id', $id)->get();
         $product_types = ['1' => 'in-stock', '2' => 'pre-order'];
 
         $context = [
             's_product' => $select_product, 'categories' => $select_category, 'brands' => $select_brand, 'productDetail' => $product_detail,
-            'product_types' => $product_types
+            'product_types' => $product_types,'vendors' => $vendors
         ];
         return view('admin.product.edit', $context);
     }
@@ -139,6 +144,7 @@ class ProductController extends Controller
 
         $product = Product::find($id);
         $product->name = $request->product_name;
+        $product->vendor = $request->vendor_id;
         $product->code = $request->product_code;
         $product->model_name = $request->model_name;
         $product->category_id = $request->category;
@@ -150,6 +156,7 @@ class ProductController extends Controller
         $product->is_special = $request->is_special;
         $product->description = $request->product_description;
         $product->additional_info = $request->product_additionalinfo;
+        $product->moto = $request->moto;
 
         $product->save();
 

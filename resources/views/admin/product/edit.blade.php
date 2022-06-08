@@ -46,17 +46,26 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
+                                <label for="">Vendor</label>
+                                <select name="vendor_id" id="" class="form-control" required>
+                                    <option value="">Select Vendor</option>
+                                    @foreach ($vendors as $vendor)
+                                    <option value="{{$vendor->id}}" {{ $s_product->vendor == $vendor->id ? 'selected' : '' }}>{{$vendor->name}}</option>
+                                    @endforeach 
+                                </select>                            </div>
+
+                            <div class="form-group col-md-3">
                                 <label for="">Name</label>
                                 <input type="text" name="product_name" class="form-control @error('product_name') is-invalid @enderror" value="{{ $s_product->name }}" id="" aria-describedby="" placeholder="Enter name of product" required>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="">Code</label>
                                 <input type="text" name="product_code" class="form-control" value="{{ $s_product->code }}" required>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="">Model Name</label>
                                 <input type="text" name="model_name" class="form-control" value="{{ $s_product->model_name }}">
                             </div>
@@ -66,7 +75,6 @@
                             <div class="col-md-4">
                                 <label for="">Choose Category</label>
                                 <select name="category" id="" class="form-control @error ('category') is-invalid @enderror" required>
-                                    <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                     <option value="{{$category->id}}" {{ $s_product->category_id == $category->id ? 'selected' : '' }}>{{$category->name}}</option>
                                     @endforeach 
@@ -81,7 +89,6 @@
                             <div class="col-md-4">
                                 <label for="">Choose Brand</label>
                                 <select name="brand" id="" class="form-control @error ('brand') is-invalid @enderror" required>
-                                    <option value="">Select Brand</option>
                                     @foreach ($brands as $brand)
                                     <option value="{{$brand->id}}" {{ $s_product->brand_id == $brand->id ? 'selected' : '' }}>{{$brand->name}}</option>
                                     @endforeach 
@@ -189,6 +196,11 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="">Moto</label>
+                                    <textarea name="moto" cols="30" rows="3" class="form-control">{{$s_product->moto}}</textarea>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="">Wired Option</label>
                                     <input type="checkbox" name="wired_option" value="1" {{ $s_product->wireless == 1 ? 'checked' : '' }} />
                                 </div>
@@ -237,19 +249,19 @@
                 '<div class="row">'+
                     '<div class="col-md-3">'+
                         '<span class="button" id="frist_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:100%;cursor:pointer;"/></span>'+
-                        '<input type="file" id="frist_product_image'+row_id+'" name="product_image_1[]" onchange="loadFile(event)" data-id='+row_id+' required data-row="first" />'+
+                        '<input type="file" id="frist_product_image'+row_id+'" name="new_product_image_1[]" onchange="loadFile(event)" data-id='+row_id+' required data-row="first" />'+
                         '<span id="first_image_text_'+row_id+'"></span>'+
                     '</div>'+
                     '<div class="col-md-3">'+
 
                         '<span class="button" id="second_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:100%;cursor:pointer;"/></span>'+
-                        '<input type="file" id="second_product_image_'+row_id+'" name="product_image_2[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="second"/>'+
+                        '<input type="file" id="second_product_image_'+row_id+'" name="new_product_image_2[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="second"/>'+
                         '<span id="second_image_text_'+row_id+'"></span>'+
                     '</div>'+
                     '<div class="col-md-3">'+
 
                         '<span class="button" id="third_button_'+row_id+'"><img src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png" style="width:100%;cursor:pointer;"/></span>'+
-                        '<input type="file" id="third_product_image_'+row_id+'" name="product_image_3[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="third"/>'+
+                        '<input type="file" id="third_product_image_'+row_id+'" name="new_product_image_3[]" onchange="loadFile(event)" data-id="'+row_id+'" data-row="third"/>'+
                         '<span id="third_image_text_'+row_id+'"></span>'+
                     '</div>'+
                     

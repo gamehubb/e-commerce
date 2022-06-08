@@ -14,7 +14,7 @@ use App\Models\OrderItem;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'code', 'description', 'image', 'price', 'additional_info', 'category_id', 'brand_id', 'user_id', 'subcategory_id', 'wireless'];
+    protected $fillable = ['name','vendor','code', 'description', 'image', 'price', 'additional_info','moto','category_id', 'brand_id', 'user_id', 'subcategory_id', 'wireless'];
 
     public function category()
     {

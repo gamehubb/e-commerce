@@ -45,18 +45,28 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
+                                <label for="vendor_id">Vendor</label>
+                                <select name="vendor_id" id="" class="form-control" required>
+                                    <option value="">Select Vendor</option>
+                                    @foreach ($vendors as $vendor)
+                                    <option value="{{$vendor->id}}">{{$vendor->name}}</option>
+                                    @endforeach 
+                                </select>                                
+                            </div>
+                             
+                            <div class="form-group col-md-3">
                                 <label for="">Name</label>
-                                <input type="text" name="product_name" class="form-control @error('product_name') is-invalid @enderror" id="" aria-describedby="" placeholder="Enter name of product" required>
+                                <input type="text" name="product_name" class="form-control @error('product_name') is-invalid @enderror" id="" aria-describedby="" required>
                                
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="">Code</label>
                                 <input type="text" name="product_code" class="form-control" required>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="">Model name</label>
                                 <input type="text" name="model_name" class="form-control">
                             </div>
@@ -66,7 +76,6 @@
                             <div class="col-md-4">
                                 <label for="">Choose Category</label>
                                 <select name="category" id="" class="form-control @error ('category') is-invalid @enderror" required>
-                                    <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                     <option value="{{$category->id}}">{{$category->name}}</option>
                                     @endforeach 
@@ -81,7 +90,6 @@
                             <div class="col-md-4">
                                 <label for="">Choose Brand</label>
                                 <select name="brand" id="" class="form-control @error ('brand') is-invalid @enderror" required>
-                                    <option value="">Select Brand</option>
                                     @foreach ($brands as $brand)
                                     <option value="{{$brand->id}}">{{$brand->name}}</option>
                                     @endforeach 
@@ -180,6 +188,12 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label for="">Moto</label>
+                                    <textarea name="moto" cols="30" rows="3" class="form-control"></textarea>
                                 </div>
 
                                 <div class="form-group">

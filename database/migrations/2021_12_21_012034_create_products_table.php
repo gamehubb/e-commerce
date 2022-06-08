@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('vendor');
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('code')->unique();
@@ -31,6 +32,7 @@ class CreateProductsTable extends Migration
             $table->integer('status')->default(true)->nullable();
             $table->text('description')->nullable();
             $table->text('additional_info')->nullable();
+            $table->text('moto')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });
