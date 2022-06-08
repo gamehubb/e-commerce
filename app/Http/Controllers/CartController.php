@@ -286,10 +286,6 @@ class CartController extends Controller
         $user_id = Auth::id();
         $orders = Order::where('user_id',$user_id)->with('orderItems')->get();
 
-        // $orders = $user_id;
-
-        // print_r($orders);
-
         return view('order',compact('orders','user_id'));
     }
     //For Admin

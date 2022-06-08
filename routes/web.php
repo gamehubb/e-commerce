@@ -59,13 +59,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
         return view('admin.dashboard');
     });
 
-    // Route::get('/email/verify', function () {
-    //     return view('auth.verify');
-    // });
-    // Route::get('/email/verify',[App\Http\Auth]);
-    //To View Order
 
-    //Category
     Route::post('/category/create', [App\Http\Controllers\CategoryController::class, 'store']);
     Route::get('/category/create', [App\Http\Controllers\CategoryController::class, 'create']);
     Route::post('/category/update/{id}', [App\Http\Controllers\CategoryController::class, 'update']);
@@ -74,6 +68,10 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     Route::post('/category/delete/{id}', [App\Http\Controllers\CategoryController::class, 'destroy']);
     //Brand 
     Route::resource('/brand', App\Http\Controllers\BrandController::class);
+
+    Route::get('/vendor',[App\Http\Controllers\UserController::class, 'vendorList']);
+
+    Route::get('/vendor/new',[App\Http\Controllers\UserController::class, 'vendorNew']);
     //Product 
     Route::resource('/product', App\Http\Controllers\ProductController::class);
     //In Product to get Subcategory based on choosen Category
