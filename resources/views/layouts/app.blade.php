@@ -39,10 +39,11 @@
 
         <nav class="navbar k navbar-expand-md shadow-sm  bg-dark">
             <div class="container">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
+                    <i class="fa fa-bars  "></i>
+                    {{-- <span class="navbar-toggler-icon  text-white"></span> --}}
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -53,9 +54,9 @@
                                     Category
                                 </a>       
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">    
-                                {{-- @foreach ($allCategory as $cat)                     
+                                @foreach ($allCategory as $cat)                     
                                     <a class="dropdown-item" href="{{ route('productCategory',[$cat->slug]) }}">{{$cat->name}}</a>      
-                                @endforeach               --}}
+                                @endforeach              
                             </div>
                         </li>
 
@@ -64,9 +65,9 @@
                                 Brand
                             </a>      
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> 
-                                 {{-- @foreach ($allBrand as $brand)                                
+                                 @foreach ($allBrand as $brand)                                
                                 <a class="dropdown-item" href="{{ route('productBrand',[$brand->slug]) }}">{{$brand->name}}</a>
-                                @endforeach                --}}
+                                @endforeach               
                         </div>
                         </li>
 
