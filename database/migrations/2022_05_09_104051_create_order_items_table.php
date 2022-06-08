@@ -20,6 +20,7 @@ class CreateOrderItemsTable extends Migration
             $table->integer('product_id');
             $table->integer('product_type');
             $table->string('product_name');
+            $table->text('product_image');
             $table->integer('vendor_id');
             $table->string('color');
             $table->integer('quantity');

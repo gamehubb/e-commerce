@@ -247,6 +247,7 @@ class CartController extends Controller
                 OrderItem::create([
                     'order_id' => $order_id,
                     'product_id' => $carts['id'],
+                    'product_image' => $carts['image'],
                     'product_name' => $carts['name'],
                     'product_type' => $carts['product_type'],
                     'vendor_id' => $userId,
@@ -282,11 +283,14 @@ class CartController extends Controller
     //For LoggedIn User
     public function order()
     {
-        $orders = auth()->user()->orders;
-        $carts = $orders->transform(function ($cart, $key) {
-            return unserialize($cart->cart);
-        });
-        return view('order', compact('carts'));
+        $user_id = Auth::id();
+        $orders = Order::where('user_id',$user_id)->with('orderItems')->get();
+
+        // $orders = $user_id;
+
+        // print_r($orders);
+
+        return view('order',compact('orders','user_id'));
     }
     //For Admin
     public function userorder()

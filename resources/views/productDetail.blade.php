@@ -42,9 +42,9 @@
                 </tr>
                  
             </table>
-            <div class="col-md-6 mt-3"  >     
+            <div class="col-md-6 mt-3">     
                 <p  class="h5"> <b>Description </b></p> 
-                <p class="mt-1">{{$products->description}}</p> 
+                <p class="mt-1"><?php echo $products->description; ?></p> 
             </div>     
         </div>
     </div>

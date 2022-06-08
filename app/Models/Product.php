@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\ProductDetail;
+use App\Models\OrderItem;
+
 
 
 class Product extends Model
@@ -27,5 +29,10 @@ class Product extends Model
     public function productDetail()
     {
         return $this->hasMany(ProductDetail::class, 'product_id', 'id');
+    }
+
+    public function order_items()
+    {
+        return $this->belongsTo(OrderItem::class,'product_id','id');
     }
 }

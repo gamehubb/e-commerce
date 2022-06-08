@@ -127,12 +127,11 @@
 
                 </div>
             </div>
-            <div class="col-md-5 text-white" style="border:1px solid #808080;">
-                <label class="h5 p-1" id="kpay"><b>Account Name - Gamehub</b></label><br />
-                <label class="h5 p-1" id="kpay"><b>Phone Number - 09986715035</b></label><br />
-                <img src="{{asset('images/kpay.jpg')}}" width="50px" height="50px" id="kpay" style="display:none;width: 260px;height: 300px; margin: auto;" alt="Kpay"/>
-                <img src="{{asset('images/wave-money.jpg')}}" width="50px" height="50px" id="wpay" style="display:none;width: 260px;height: 300px;margin: auto;" alt="WavePay">         
-                <img src="{{asset('images/cod.gif')}}" width="50px" height="50px" id="cod" style="display:none; width: 100%" alt="Cosh on Delivery">         
+            <div class="col-md-5 text-white" style="border:1px solid #808080;" id="back-img">
+         
+                <img src="{{asset('images/kpay.png')}}" width="50px" height="50px" id="kpay" style="display:none;width: 260px;height: 300px; margin: auto;" alt="Kpay"/>
+                <img src="{{asset('images/wave-money.png')}}" width="50px" height="50px" id="wpay" style="display:none;width: 260px;height: 300px;margin: auto;" alt="WavePay">         
+                <img src="{{asset('images/cod.png')}}" width="50px" height="50px" id="cod" style="display:none; width: 100%" alt="Cosh on Delivery">         
             </div>
         </div>
         <br/>
@@ -263,31 +262,28 @@
         var value = $(this).val();
         if(value == '1_k')
             {
-            $('[id=kpay]').show();
-            $('#wpay').hide();
+            var img_src = document.getElementById('kpay').getAttribute('src');
+            $('#back-img').css({"background-image":"url("+img_src+")"});
             $('#payment').show();
             $('#account').prop('required',true);
             $('#phone').prop('required',true);
-            $("#cod").hide();
 
             }
         else if(value == '2_w')
             {
-            $('[id=kpay]').hide();
-            $('#wpay').show();
+            var img_src = document.getElementById('wpay').getAttribute('src');
+            $('#back-img').css({"background-image":"url("+img_src+")"});
             $('#payment').show();
             $('#account').prop('required',true);
             $('#phone').prop('required',true);
-            $("#cod").hide();
             }
         else if(value == "3_c")
             {
-            $('[id=kpay]').hide();
-            $('#wpay').hide();
+            var img_src = document.getElementById('cod').getAttribute('src');
+            $('#back-img').css({"background-image":"url("+img_src+")"});
             $('#payment').hide();
             $('#account').prop('required',false);
             $('#phone').prop('required',false);
-            $("#cod").show();
             }
         
     });

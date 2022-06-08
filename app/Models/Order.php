@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\User;
+use App\Models\OrderItem;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,10 @@ class Order extends Model
                             'del_phone_number','total_amount','additional_info','voucher_type','status'];
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
+    public function orderItems(){
+        return $this->hasMany(OrderItem::class,'order_id','id');
     }
 }

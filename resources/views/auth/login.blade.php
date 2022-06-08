@@ -71,7 +71,7 @@
                         </div>
 
 
-                        <div class="col-md-6 offset-md-3">
+                        {{-- <div class="col-md-6 offset-md-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="remember" id="remember"
                                     {{ old('remember') ? 'checked' : '' }}>
@@ -80,7 +80,7 @@
                                     {{ __('Remember Me') }}
                                 </label>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-6 offset-md-3 mt-3">
                             <input type="submit" class="btn text-white" style="background-color : #aa0000;"
