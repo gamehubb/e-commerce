@@ -82,6 +82,10 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     Route::get('users', [App\Http\Controllers\UserController::class, 'index']);
     //Orders
     Route::get('orders', [App\Http\Controllers\CartController::class, 'userorder']);
-    Route::get('orders/{userid}/{orderid}', [App\Http\Controllers\CartController::class, 'viewUserOrder'])->name('user.order');
+    Route::get('orders/{orderid}', [App\Http\Controllers\OrderController::class, 'show'])->name('user.order');
     Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'userAccountInfo'])->name('user.accountInfo');
+    // Brand Status
+    Route::get('/changedBrandStatus',[App\Http\Controllers\BrandController::class, 'behaviourOfStatusBrand']);
+    // Payemnt Status
+    Route::get('/paymentstatus/{orderidforpayment}/{statuspayment}',[App\Http\Controllers\OrderController::class, 'behaviourOfPaymentStatus']);
 });

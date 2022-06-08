@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Models\User;
 
 class OrderController extends Controller
 {
@@ -44,9 +46,10 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($orderid)
     {
-        //
+        $orders = Order::get();
+        return view('admin.order.show',compact('orders'));
     }
 
     /**
@@ -86,5 +89,9 @@ class OrderController extends Controller
     { 
         $status_update = Order::where('id',$orderid)->update(['status'=>$status]);
         return $status;
+    }
+    public function behaviourOfPaymentStatus($orderidforpayment,$statuspayment){
+        $status_update = Payment::where('order_id',$orderidforpayment)->update(['status'=>$statuspayment]);
+        return $statuspayment;
     }
 }

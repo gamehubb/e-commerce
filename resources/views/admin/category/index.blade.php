@@ -9,7 +9,7 @@
         <li class="breadcrumb-item">Tables</li>
         <li class="breadcrumb-item active" aria-current="page">Categories Tables</li>
       </ol>
-    </div>
+    </div> 
 
     <div class="row">
       <div class="col-lg-12 mb-4">

@@ -12,7 +12,14 @@ class Order extends Model
     protected $fillable = ['voucher_code','user_id','del_name','del_address','del_city','del_township',
                             'del_phone_number','total_amount','additional_info','voucher_type','status'];
 
-    public function user(){
+    public function order(){
         return $this->belongsTo(User::class);
     }
+    public function payment(){
+        return $this->hasOne(Payment::class,'order_id','id');
+    }
+    public function orderitem(){
+        return $this->hasMany(OrderItem::class,'order_id','id');
+    }
+
 }

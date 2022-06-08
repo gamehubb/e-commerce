@@ -26,7 +26,11 @@
                   <th>Name</th>
                   {{-- <th>Email</th> --}}
                   <th>Date</th>
-                  <th>Status</th>
+                  
+                  <th>Order Status</th>
+                  <th>Payment Status</th>
+                  <th>Type</th>
+                  <th>Amount</th>
                   <th>View</th>
                 </tr>
               </thead>
@@ -36,7 +40,7 @@
                 <tr>
                   <td>{{$key+1}}</td>
                   <td>{{$order->voucher_code}}</td>
-                  <td>{{$order->user->name}}</td>
+                  {{-- <td>{{$order->user->name}}</td> --}}
                   {{-- <td>{{$order->user->email}}</td> --}}
                   <td>{{date('d-M-y',strtotime($order->created_at))}}</td>
                   <td>
@@ -75,6 +79,37 @@
                         <option value="4">Declined</option>
                       @endif 
                     </select>
+                  </td>
+                  <td>
+                    <input type="hidden" value="{{$order->id}}" id="order_id_forpayment">
+                    <select class="form-select form-select-sm" name="payment_status" id="payment_status" aria-label=".form-select-sm example">
+                      <option value="" disabled selected>Select Status</option>
+                      @if($order->payment->status == 1)
+                        <option value="1" selected> Partial Paid</option>
+                        <option value="2">Full Paid</option>
+                        <option value="3">Cash On</option>
+                      @elseif($order->payment->status == 2)
+                        <option value="1"> Partial Paid</option>
+                        <option value="2" selected>Full Paid</option>
+                        <option value="3">Cash On</option>
+                      @elseif($order->payment->status == 3)
+                        <option value="1"> Partial Paid</option>
+                        <option value="2">Full Paid</option>
+                        <option value="3" selected>Cash On</option>
+                       @endif 
+                    </select>
+                  </td>
+                  <td>
+                    @if($order->payment->payment_type == '1_k')
+                    <p>KPAY</p>
+                    @elseif($order->payment->payment_type == '2_w')
+                    <p>WAVEPAY</p>
+                    @elseif($order->payment->payment_type == '3_c')
+                    <p>COD</p>
+                    @endif
+                  </td>
+                  <td>
+                    {{$order->payment->total_amount}}
                   </td>
                   <td><a href="{{route('user.order',[$order->user_id,$order->id])}}"><button class="btn btn-info">View Order</button></a></td>
                   
@@ -120,17 +155,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
   $(document).ready(function(){
-    $('select[name="order_status"]').on('change',function(){
-      var status = $(this).val();
-      var orderid =$("#order_id").val();
-      $.ajaxSetup({
+    $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
                 } 
             });
+    $('select[name="order_status"]').on('change',function(){
+      var status = $(this).val();
+      var orderid =$("#order_id").val();
       if(orderid && status){
         $.ajax({
           url: '/auth/orderstatus/'+orderid+'/'+status,
+          type: "GET",
+          dataType: "json",
+          success:function(data){  
+          alert('Status Changed');
+          // notify()->success('Status Changed');
+        }
+        });
+      }
+    })
+    $('select[name="payment_status"]').on('change',function(){
+      var statuspayment = $(this).val();
+      var orderidforpayment =$("#order_id_forpayment").val();
+      if(orderidforpayment && statuspayment){
+        $.ajax({
+          url: '/auth/paymentstatus/'+orderidforpayment+'/'+statuspayment,
           type: "GET",
           dataType: "json",
           success:function(data){  

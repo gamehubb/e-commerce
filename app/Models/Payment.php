@@ -11,4 +11,8 @@ class Payment extends Model
 
     protected $fillable = ['user_id','order_id','payment_type','account_name','phone_number','total_amount','paid_amount',
     'status'];
+
+    public function payment(){
+        return $this->belongsTo(Order::class);
+    }
 }

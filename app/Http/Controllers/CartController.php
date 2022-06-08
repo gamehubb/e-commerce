@@ -233,9 +233,6 @@ class CartController extends Controller
             ])->id;
 
             if($order_id > 0){
-
-                if($request->input('account')){
-               
                     Payment::create([
                         'user_id' => $userId,
                         'order_id' => $order_id,
@@ -244,8 +241,6 @@ class CartController extends Controller
                         'phone_number' => $request->phone,
                         'total_amount'  => $total_amount,
                     ]);
-                }
-
                 OrderItem::create([
                     'order_id' => $order_id,
                     'product_id' => $carts['id'],
@@ -277,16 +272,16 @@ class CartController extends Controller
     //For Admin
     public function userorder()
     {
-        $orders = Order::latest()->get();
+        $orders = Order::all();
         return view('admin.order.index', compact('orders'));
     }
-    public function viewUserOrder($userid, $orderid)
-    {
-        $user = User::find($userid);
-        $orders = $user->orders->where('id', $orderid);
-        $carts = $orders->transform(function ($cart, $key) {
-            return unserialize($cart->cart);
-        });
-        return view('admin.order.show', compact('carts'));
-    }
+    // public function viewUserOrder($userid, $orderid)
+    // {
+    //     $user = User::find($userid);
+    //     $orders = $user->orders->where('id', $orderid);
+    //     $carts = $orders->transform(function ($cart, $key) {
+    //         return unserialize($cart->cart);
+    //     });
+    //     return view('admin.order.show', compact('carts'));
+    // }
 }
