@@ -9,6 +9,7 @@ use App\Models\Carts;
 use App\Models\Cart;
 use App\Models\SubCategory;
 use App\Models\ProductDetail;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -27,7 +28,7 @@ class FrontProductListController extends Controller
         $categories = Category::get();
         $brands = Brand::get();
 
-        $sliders = Product::where('is_special', '1')->get();
+        $sliders = Slider::limit(5)->get();
 
         return view('product', compact('products', 'categories', 'brands', 'randomItemProducts', 'randomActiveProducts', 'sliders'));
     }

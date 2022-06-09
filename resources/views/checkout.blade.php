@@ -20,7 +20,20 @@
                                     <p><u><b>{{$carts['product_name']}} </b></u></p>
                                     <p class="m-2"> Product Code:{{$carts['product_code']}} </p>
                                     <p class="m-2"> Category: {{$carts['category']}} </p>
-                                    <p class="m-2"> Quantity: {{$carts['quantity']}} </p>
+                                    <p class="m-2"> Quantity:<i class="fa fa-minus col-md-1 ml-1" id="minus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" style="background: #802012;
+                                        width: 24px;
+                                        padding: 5px;
+                                        border-radius: 12px;
+                                        cursor: pointer;"></i>
+                                        <span class="col-lg-1" id="qty_{{$carts['product_id']}}">{{$carts['quantity']}}</span>
+                                        <i id="product_id" hidden>{{$carts['product_id']}}</i>
+                                        <i class=" fa fa-plus col-md-1" id="plus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" 
+                                        style="background: #802012;
+                                        width: 24px;
+                                        padding: 5px;
+                                        border-radius: 12px;
+                                        cursor: pointer;"></i> 
+                                    </p>
                                     @if($carts['product_type'] == 2) 
                                         <p class="m-2"> Waiting Time: 3weeks </p>
                                     @endif
@@ -31,6 +44,8 @@
                                     <p class="mt-4 ml-2"> Color: {{$carts['color']}} </p>
                                     <p class="m-2"> Brand: {{$carts['brand']}} </p>
                                     <p class="m-2"> Status: {{$carts['product_type'] ==1 ? 'Instock' : 'Preorder'}} </p>
+                                    <p class="m-2"> Price: <span id="price_{{$carts['product_id']}}">{{$carts['price'] }}</span> </p>
+
                                     <?php 
                                     
                                     $product_types[] = $carts['product_type'];
@@ -47,11 +62,12 @@
                                 </div>
                                 <hr class="mx-auto" style="width:90%;  ">
                                 <div class="text-right">
-                                    <p class="m-2"><b>{{$carts['price'] * $carts['quantity']}}</b></p>
+                                    <p class="m-2" id="total_price_{{$carts['product_id']}}"><b>{{number_format($carts['price'] * $carts['quantity'])}}</b></p>
                                 </div>
                         @endforeach
 
                 </div>
+                
             <hr class="mx-auto" style="width:100%;  ">
             <div class="row mb-3">
                 <div class="col-md-8 mt-2 ">
@@ -59,7 +75,8 @@
                     <p class="m-2  h6">Delivery :</p>
                 </div>
                 <div class="col-md-4 mt-2 ">
-                    <p class="m-2 h6">MMKs {{session()->has('cart')?session()->get('cart')->totalPrice:'0'}}</p>
+                    <p class="m-2 h6" >MMKs <span id="total_price_2">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span>
+                    </p>
                     <p class="m-2 h6">MMKs 0</p>
                 </div>
             </div>
@@ -69,7 +86,7 @@
                     <p class="m-2 h5"><b>TOTAL :</b></p>      
                 </div>
                 <div class="col-md-4 mt-2 ">
-                    <p class="m-2 h5"><b>MMKs {{session()->has('cart')?session()->get('cart')->totalPrice:'0'}} </b></p>
+                    <p class="m-2 h5"><b>MMKs <span id="total_price_3">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></b></p>
                 
                 </div>
             </div>
@@ -238,25 +255,102 @@
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
 
 <script type="text/javascript">
-  $(document).ready(function() {
 
-    if($('#address').is(':checked')){
-
-        $('#address').removeClass('is-invalid');
-
-    }
-    // Card Single Select
-    $('.card-pf-view-single-select').click(function() {
-        if ($(this).hasClass('border-secondary'))
+    function updateCheckout(icon)
         {
-            $('.card-pf-view-single-select').removeClass('border-success');
-            $('.card-pf-view-single-select').addClass('border-secondary');
-           $(this).removeClass('border-secondary'); 
-           $(this).addClass('border-success'); 
-           $(this).find('input').prop('checked', true);  
-        } 
+
+            if(icon.getAttribute('id') == 'plus'){
+
+                var id = icon.getAttribute('data-id');
+                var price = $("#price_"+id).text();
+                $("#qty_"+id).text(1+parseInt($("#qty_"+id).text()));
+                var qty = $("#qty_"+id).text();
+                $.ajax({
+                    type: "POST",
+                    url: '/products/'+id,
+                    data: { qty: qty, price: price }
+                }).done(function( response ) {
+                    var value = JSON.parse(response);
+                    $("#total_price_"+id).text(custom_number_format(value.product_price));
+                    $("#total_price_2").text(custom_number_format(value.total_price));
+                    $("#total_price_3").text(custom_number_format(0 + value.total_price));
+                    $("#cartcount").text(value.total_quantity);
+
+                });
+
+            }else{
+
+                var id = icon.getAttribute('data-id');
+                var qty = $("#qty_"+id).text();
+                var price = $("#price_"+id).text();
+
+                $("#qty_"+id).text(parseInt(qty)-1);
+
+                var qty_update = $("#qty_"+id).text();
+                
+                if(qty == 1) {
+                    $("#qty_"+id).text('1');
+                    alert("Minium amount reached");
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '/products/'+id,
+                    data: { qty: qty_update, price: price }
+                }).done(function( response ) {
+                    var value = JSON.parse(response);
+                    $("#total_price_"+id).text(custom_number_format(value.product_price));
+                    $("#total_price_2").text(custom_number_format(value.total_price));
+                    $("#total_price_3").text(custom_number_format(0 + value.total_price));
+                    $("#cartcount").text(value.total_quantity);
+                });
+            }
+        }
+
+        function custom_number_format( number_input, decimals, dec_point, thousands_sep ) {
+            var number = ( number_input + '' ).replace( /[^0-9+\-Ee.]/g, '' );
+            var finite_number   = !isFinite( +number ) ? 0 : +number;
+            var finite_decimals = !isFinite( +decimals ) ? 0 : Math.abs( decimals );
+            var seperater     = ( typeof thousands_sep === 'undefined' ) ? ',' : thousands_sep;
+            var decimal_pont   = ( typeof dec_point === 'undefined' ) ? '.' : dec_point;
+            var number_output   = '';
+            var toFixedFix = function ( n, prec ) {
+                if( ( '' + n ).indexOf( 'e' ) === -1 ) {
+                return +( Math.round( n + 'e+' + prec ) + 'e-' + prec );
+                } else {
+                var arr = ( '' + n ).split( 'e' );
+                let sig = '';
+                if ( +arr[1] + prec > 0 ) {
+                    sig = '+';
+                }
+                return ( +(Math.round( +arr[0] + 'e' + sig + ( +arr[1] + prec ) ) + 'e-' + prec ) ).toFixed( prec );
+                }
+            }
+            number_output = ( finite_decimals ? toFixedFix( finite_number, finite_decimals ).toString() : '' + Math.round( finite_number ) ).split( '.' );
+            if( number_output[0].length > 3 ) {
+                number_output[0] = number_output[0].replace( /\B(?=(?:\d{3})+(?!\d))/g, seperater );
+            }
+            if( ( number_output[1] || '' ).length < finite_decimals ) {
+                number_output[1] = number_output[1] || '';
+                number_output[1] += new Array( finite_decimals - number_output[1].length + 1 ).join( '0' );
+            }
+            return number_output.join( decimal_pont );
+        }
+
+    $(document).ready(function() {
+
+        // Card Single Select
+        $('.card-pf-view-single-select').click(function() {
+            if ($(this).hasClass('border-secondary'))
+            {
+                $('.card-pf-view-single-select').removeClass('border-success');
+                $('.card-pf-view-single-select').addClass('border-secondary');
+            $(this).removeClass('border-secondary'); 
+            $(this).addClass('border-success'); 
+            $(this).find('input').prop('checked', true);  
+            } 
+        });
     });
-  });
 // Create a Stripe client.
     $("input:radio[type=radio]").click(function() {
         var value = $(this).val();

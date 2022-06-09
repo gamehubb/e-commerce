@@ -13,7 +13,7 @@
         @if(Session::has('message'))
             <div class="alert alert-success">{{Session::get('message')}}</div>
         @endif
-            <form action="/auth/slider/create" method="POST" enctype="multipart/form-data">@csrf
+            <form action="{{route('slider.store')}}" method="POST" enctype="multipart/form-data">@csrf
                 <div class="card mb-6">
                     <div class="card-header py-3 d-flex flex-row align-item-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">
@@ -21,6 +21,22 @@
                         </h6>
                     </div>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="product_id">Product List</label>
+                                <select name="product_id" id="product_id" class="form-control" required>
+                                    @foreach ($products as $product)
+                                    <option value="{{$product->id}}">{{$product->name}}</option>
+                                    @endforeach 
+                                </select>                                
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" class="form-control" id="name" aria-describedby="" required>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="custom-file">
                                 <label for="" class="custom-file-label">Choose File</label>

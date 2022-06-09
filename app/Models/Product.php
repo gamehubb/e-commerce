@@ -8,8 +8,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\ProductDetail;
 use App\Models\OrderItem;
-
-
+use App\Models\Slider;
 
 class Product extends Model
 {
@@ -34,5 +33,11 @@ class Product extends Model
     public function order_items()
     {
         return $this->belongsTo(OrderItem::class,'product_id','id');
+    }
+
+    public function slider()
+
+    {
+        return $this->hasOne(Slider::class, 'product_id' ,'id');
     }
 }

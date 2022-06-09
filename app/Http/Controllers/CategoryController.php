@@ -46,7 +46,8 @@ class CategoryController extends Controller
             'name' => $request->get('category_name'),
             'slug' => $this->slug(),
             'description' => $request->get('category_description'),
-            'image' =>  $image
+            'image' =>  $image,
+            'is_special' => $request->get('is_special'),
         ]);
         notify()->success('Category Created Successfully');
         return redirect('/auth/category/index');
@@ -88,7 +89,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $old_image = $category->image;
         $new_image = $request->file('category_image');
-        
+        $category->is_special = $request->is_special;
         $category->name = $request->category_name;
         $category->description = $request->category_description;
         if($new_image != null){

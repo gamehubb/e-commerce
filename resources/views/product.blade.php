@@ -9,7 +9,7 @@
                     <div class="carousel-inner">
                         @foreach($sliders as $key=>$slider)
                         <div class="carousel-item {{$key == 0 ? 'active' : ''}}">
-                            <img src="{{Storage::url($slider->productDetail[0]->image_1)}}"
+                            <img src="{{Storage::url($slider->image)}}"
                                 style="  height:12rem; display: inline-block; !important" alt="...">
                         </div>
                         @endforeach

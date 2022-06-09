@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Slider;
+use App\Models\Product;
+
 class SliderController extends Controller
 {
     /**
@@ -14,7 +16,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::get();
+        $sliders = Slider::with('products')->get();
         return view('admin.slider.index',compact('sliders'));
     }
 
@@ -25,7 +27,8 @@ class SliderController extends Controller
      */
     public function create()
     {
-        return view('admin.slider.create');
+        $products = Product::where('is_special','1')->get();
+        return view('admin.slider.create',compact('products'));
     }
 
     /**
@@ -41,7 +44,9 @@ class SliderController extends Controller
         ]);
         $image = $request->file('slider_image')->store('public/sliders');
         Slider::create([
-            'image'=> $image 
+            'image'=> $image,
+            'name' => $request->name,
+            'product_id' => $request->product_id,
         ]);
         notify()->success("Slider Created Successfully");
         return redirect('/auth/slider/create');

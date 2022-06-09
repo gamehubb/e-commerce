@@ -109,7 +109,7 @@ class CartController extends Controller
             $carts = [
                 'qty' => $request->qty,
                 'total_price' => session()->get('cart')->totalPrice,
-                'product_price' => $cart_data['price'] * $request->qty,
+                'product_price' => $request->price * $request->qty,
                 'total_quantity' => session()->get('cart')->totalQty
             ];
         }

@@ -37,7 +37,7 @@
       </a>
       <div id="collapseBootstrap1" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header">Category</h6>
+          <h6 class="collapse-header">Actions</h6>
           <a class="collapse-item" href="{{ route('brand.index') }}">View</a>
           <a class="collapse-item" href="{{ route('brand.create') }}">Add New</a>
         </div>
@@ -51,7 +51,7 @@
       </a>
       <div id="collapseBootstrap2" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header">Category</h6>
+          <h6 class="collapse-header">Actions</h6>
           <a class="collapse-item" href="{{route('product.index')}}">View</a>
           <a class="collapse-item" href="{{route('product.create')}}">Add New</a>
         </div>
@@ -66,8 +66,8 @@
       <div id="collapseBootstrap3" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Slider</h6>
-          <a class="collapse-item" href="/auth/slider/index">View</a>
-          <a class="collapse-item" href="/auth/slider/create">Add New</a>
+          <a class="collapse-item" href="{{route('slider.index')}}">View</a>
+          <a class="collapse-item" href="{{route('slider.create')}}">Add New</a>
         </div>
       </div>
     </li>

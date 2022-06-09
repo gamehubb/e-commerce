@@ -30,7 +30,7 @@
                         </div>
                     @endif
                     @if (Session::has('success'))
-                    <div class="alert alert-danger" id="alert-message">
+                    <div class="alert alert-success" id="alert-message">
                         <ul class="list-unstyled">
                             <li>
                                 {{ Session::get('success') }}

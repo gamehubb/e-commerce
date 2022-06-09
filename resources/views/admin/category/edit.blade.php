@@ -51,6 +51,12 @@
                             </div>
                             <img src="{{Storage::url($category->image)}}" width="200" alt="" class="edit_category">
                         </div>
+
+                        <div class="form-group">
+                            <label for="is_special">Is Special</label>
+                            <input type="checkbox" id="is_special" name="is_special" value="1" {{ $category->is_special == 1 ? 'checked' : '' }} />
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </div>

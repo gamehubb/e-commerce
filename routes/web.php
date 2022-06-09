@@ -69,6 +69,8 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     //Brand 
     Route::resource('/brand', App\Http\Controllers\BrandController::class);
 
+    Route::resource('/slider',App\Http\Controllers\SliderController::class);
+
     Route::get('/vendor',[App\Http\Controllers\UserController::class, 'vendorList']);
 
     Route::get('/vendor/new',[App\Http\Controllers\UserController::class, 'vendorNew']);

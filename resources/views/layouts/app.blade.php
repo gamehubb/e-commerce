@@ -130,7 +130,14 @@
 
                             </div>
                         </li>
-                            <?php $route = 'checkout/'.Auth::getUser()->name; ?>
+                            <?php 
+                            if(Auth::user()){
+                            $route = 'checkout/'.Auth::getUser()->name;
+                            }else{
+                            $route = '';
+                            }
+                            
+                            ?>
                             @if(Request::path() == $route)
                                 <li class="nav-item" style="cursor:pointer">
                                     @if(session()->has('cart'))
@@ -176,90 +183,92 @@
             </div>
         </nav>
         <!-- Modal HTML -->
-        <div id="myModal" class="modal fade text-white" tabindex="-1">
-            <div class="modal-dialog bg-dark"
-                style="width: 30%;height: 100%;position: absolute;right: 0;margin: 0rem;height: 100vh;">
-                <div class="modal-content bg-dark ">
-                    <div class=" p-1" style="background-color: #aa0000;">
-                        <p class="text-center h3">Gamehub Myanmar</p>
-                        <button type="button" class="close" data-dismiss="modal"
-                            style="position: absolute; top:5px; right:10px;">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <p class="col-md-8 h4"><b>YOUR CART</b></p>
-                            <p class="col-md-4"> 
-                                @if(session()->has('cart'))
-                              {{-- {{session()->get('cart')->totalQty }} {{ session()->get('cart')->totalQty == 1 ?'item' :'items'}}  --}}
-                              {{-- {{session()->get('cart')->totalQty }} {{ session()->get('cart')->totalQty == 1 ?'item' :'items'}}  --}}
-                                @endif
-                            </p>        
-                        </div>
-                        <hr class="mx-auto mb-3" style="width:95%; color: #ec0606; height: 3px; ">
-                    
-                        @if(session()->has('cart'))
-                        @foreach(session()->get('cart')->items as $key => $value)
-                        <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;">
-                           <div class="col-md-4">
-                                <img src="{{Storage::url($value['image'])}}" style="width:100px;  height:100px;">
-                           </div>
-                           <div class="col-md-8">
-                               <p>{{$value['name']}} </p>
-                               <p><b>MMKS {{number_format($value['price'])}}</b> <span class="ml-4 bg-red" style="cursor:pointer;"><i class="fas fa-trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span></p>
-                               <div class="row mt-1">
-                                <i class="fa fa-minus col-md-1" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"></i>
-                                <p class="col-lg-1" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
-                                <i id="product_id" hidden>{{$value['id']}}</i>
-                                <i class=" fa fa-plus col-md-1" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"></i> 
-                               </div>
-                           </div> 
-                        </div> 
-                        @endforeach
-                        @endif
-                    </div>
-                    <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
-                    <div class="row m-3">
+        @auth
+        @if(Request::path() != $route)
+            <div id="myModal" class="modal fade text-white" tabindex="-1">
+                <div class="modal-dialog bg-dark"
+                    style="width: 30%;height: 100%;position: absolute;right: 0;margin: 0rem;height: 100vh;">
+                    <div class="modal-content bg-dark ">
+                            <div class=" p-1" style="background-color: #aa0000;">
+                                <p class="text-center h3">Gamehub Myanmar</p>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    style="position: absolute; top:5px; right:10px;">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                    <div class="row">
+                                        <p class="col-md-8 h4"><b>YOUR CART</b></p>
+                                    </div>
+                                    <hr class="mx-auto mb-3" style="width:95%; color: #ec0606; height: 3px; ">
+                            
+                                    @if(session()->has('cart'))
+                                        @foreach(session()->get('cart')->items as $key => $value)
+                                            <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;">
+                                                <div class="col-md-4">
+                                                        <img src="{{Storage::url($value['image'])}}" style="width:100px;  height:100px;">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <p>{{$value['name']}} </p>
+                                                    <p><b>MMKS <span id="#price_{{$value['id']}}">{{number_format($value['price'])}}</span></b> <span class="ml-4 bg-red" style="cursor:pointer;"><i class="fas fa-trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span></p>
+                                                    <div class="row mt-1">
+                                                        <i class="fa fa-minus col-md-1" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                        ></i>
+                                                        <p class="col-lg-1" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
+                                                        <i id="product_id" hidden>{{$value['id']}}</i>
+                                                        <i class=" fa fa-plus col-md-1" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                        ></i> 
+                                                    </div>
+                                                </div> 
+                                            </div> 
+                                        @endforeach
+                                    @endif
 
-                        <p class="col-md-6"><b>Total Price:</b></p>
-                        <p class="col-md-6"> <b>MMKs <span id="total_price">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
-                    </div>
-                    <div class="text-center m-3">
-                        @auth
-                        <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
-                            <button type="button" class="btn btn-sm mx-auto mt-3 text-white"
-                                style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
-                        </a>
-                        @endauth
+                            </div> 
+                        <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
+                        <div class="row m-3">
+
+                            <p class="col-md-6"><b>Total Price:</b></p>
+                            <p class="col-md-6"> <b>MMKs <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
+                        </div>
+                        <div class="text-center m-3">
+                            @auth
+                            <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
+                                <button type="button" class="btn btn-sm mx-auto mt-3 text-white"
+                                    style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
+                            </a>
+                            @endauth
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
+        @endauth
         <main class="py-4">
             @yield('content')
         </main>
     </div>
     <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
     <script>
+
     function openModel() {
         $("#myModal").modal('show');
     }
 
     function updateCart(icon)
         {
-
             if(icon.getAttribute('id') == 'plus'){
 
                 var id = icon.getAttribute('data-id');
                 $("#qty_"+id).text(1+parseInt($("#qty_"+id).text()));
                 var qty = $("#qty_"+id).text();
+                var price = $("#price_"+id).text();
+
                 $.ajax({
                     type: "POST",
                     url: '/products/'+id,
-                    data: { qty: qty }
+                    data: { qty: qty, price: price }
                 }).done(function( response ) {
                     var value = JSON.parse(response);
-                    $("#qty_"+id).text(value.qty);
-                    $("#total_price").text(value.total_price);
+                    $("#total_price").text(custom_number_format(value.total_price));
                     $("#cartcount").text(value.total_quantity);
 
                 });
@@ -268,7 +277,7 @@
 
                 var id = icon.getAttribute('data-id');
                 var qty = $("#qty_"+id).text();
-
+                var price = $("#price_"+id).text();
 
                 $("#qty_"+id).text(parseInt(qty)-1);
 
@@ -282,11 +291,10 @@
                 $.ajax({
                     type: "POST",
                     url: '/products/'+id,
-                    data: { qty: qty_update }
+                    data: { qty: qty_update, price: price }
                 }).done(function( response ) {
                     var value = JSON.parse(response);
-                    $("#qty_"+id).text(value.qty);
-                    $("#total_price").text(value.total_price);
+                    $("#total_price").text(custom_number_format(value.total_price));
                     $("#cartcount").text(value.total_quantity);
 
                 });
@@ -295,6 +303,36 @@
 
             
         }
+    
+    function custom_number_format( number_input, decimals, dec_point, thousands_sep ) {
+        var number = ( number_input + '' ).replace( /[^0-9+\-Ee.]/g, '' );
+        var finite_number   = !isFinite( +number ) ? 0 : +number;
+        var finite_decimals = !isFinite( +decimals ) ? 0 : Math.abs( decimals );
+        var seperater     = ( typeof thousands_sep === 'undefined' ) ? ',' : thousands_sep;
+        var decimal_pont   = ( typeof dec_point === 'undefined' ) ? '.' : dec_point;
+        var number_output   = '';
+        var toFixedFix = function ( n, prec ) {
+            if( ( '' + n ).indexOf( 'e' ) === -1 ) {
+            return +( Math.round( n + 'e+' + prec ) + 'e-' + prec );
+            } else {
+            var arr = ( '' + n ).split( 'e' );
+            let sig = '';
+            if ( +arr[1] + prec > 0 ) {
+                sig = '+';
+            }
+            return ( +(Math.round( +arr[0] + 'e' + sig + ( +arr[1] + prec ) ) + 'e-' + prec ) ).toFixed( prec );
+            }
+        }
+        number_output = ( finite_decimals ? toFixedFix( finite_number, finite_decimals ).toString() : '' + Math.round( finite_number ) ).split( '.' );
+        if( number_output[0].length > 3 ) {
+            number_output[0] = number_output[0].replace( /\B(?=(?:\d{3})+(?!\d))/g, seperater );
+        }
+        if( ( number_output[1] || '' ).length < finite_decimals ) {
+            number_output[1] = number_output[1] || '';
+            number_output[1] += new Array( finite_decimals - number_output[1].length + 1 ).join( '0' );
+        }
+        return number_output.join( decimal_pont );
+    }
 
     function removeCart(val)
     {

@@ -22,8 +22,11 @@
               <thead class="thead-light">
                 <tr>
                   <th>SN</th>
+                  <th>Product</th>
+                  <th>Name</th>
+                  <th>Status</th>
                   <th>Image</th>
-                  <th></th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -31,7 +34,10 @@
                 @foreach($sliders as $key=>$slider)
                 <tr>
                   <td>{{$key+1}}</td>
-                  <td><img src="{{Storage::url($slider->image)}}" width="300" alt=""></td>
+                  <td>{{$slider->products->name}}</td>
+                  <td>{{$slider->name}}</td>
+                  <td>{{$slider->status}}</td>
+                  <td><img src="{{Storage::url($slider->image)}}" style="width:80px;" alt=""></td>
                   <td>
                     <form action="{{route('slider.destroy',[$slider->id])}}" method="POST">@csrf
                       {{method_field('DELETE')}}
