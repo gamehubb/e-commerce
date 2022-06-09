@@ -14,15 +14,15 @@
         <div class="col-md-3 m-3"  >     
             <p class="h3"> <b>{{$products->name}} </b> </p>
             <p class="text-red-600 h4"><b>MMKs {{$products->productDetail[0]['price']}} </b> </p>  
-            <p class="card-text">Status: {{$products->productDetail[0]['status']}}</p>
-            <p class="card-text">Waiting Time: 3weeks - 4 weeks</p>
+            <p class="card-text">Status: {{$products->productDetail[0]['status'] == '1' ? 'In-stock' : 'Pre-Order'}}</p>
+            <p class="card-text">Waiting Time: @if ($products->productDetail[0]['status'] == '1') 3 - 4 days @else 10 - 12 days @endif</p>
             <a href="{{ route('add.cart',[$products->id]) }}">
                 <button type="button" class="btn btn-sm mx-auto mt-3 text-white"
                     style="border-radius : 20px;   background-color : #aa0000;">Add to cart</button>
             </a>
         </div>
         <div class="col-md-5 mt-3">      
-            <p  class="h5"> <b>Information </b></p>   
+            <p  class="h5"> <b>Information</b></p>   
             <table  class="ml-3">
                 <tr>
                     <td style="width:70%;"><p class="m-1"><b>Brand</b></p></td>

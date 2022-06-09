@@ -43,6 +43,7 @@ class CartController extends Controller
                     'user_id' => $user_id,
                     'product_id' => $c['id'],
                     'product_name' => $c['name'],
+                    'vendor' => $c['vendor'],
                     'product_code' => $c['code'],
                     'category' => $c['category'],
                     'brand' => $c['brand'],
@@ -61,6 +62,7 @@ class CartController extends Controller
                 Carts::where('product_id',$c['id'])->update(
                     [
                         'product_name' => $c['name'],
+                        'vendor' => $c['vendor'],
                         'product_code' => $c['code'],
                         'category' => $c['category'],
                         'brand' => $c['brand'],
@@ -149,6 +151,7 @@ class CartController extends Controller
                         'user_id' => $userId,
                         'product_id' => $c['id'],
                         'product_name' => $c['name'],
+                        'vendor' => $c['vendor'],
                         'product_code' => $c['code'],
                         'category' => Category::find($c['category'])->value('name'),
                         'brand' => Brand::find($c['brand'])->value('name'),
@@ -192,6 +195,7 @@ class CartController extends Controller
             foreach(session()->get('cart')->items as $key => $value){
                 $carts = [
                             'id' => $value['id'],
+                            'vendor' => $value['vendor'],
                             'name' => $value['name'],
                             'code' => $value['code'],
                             'category' => Category::find($value['category'])->value('name'),
@@ -232,8 +236,7 @@ class CartController extends Controller
             ])->id;
 
             if($order_id > 0){
-
-               
+            
                 Payment::create([
                     'user_id' => $userId,
                     'order_id' => $order_id,
@@ -243,14 +246,13 @@ class CartController extends Controller
                     'total_amount'  => $total_amount,
                 ]);
                 
-
                 OrderItem::create([
                     'order_id' => $order_id,
                     'product_id' => $carts['id'],
                     'product_image' => $carts['image'],
                     'product_name' => $carts['name'],
                     'product_type' => $carts['product_type'],
-                    'vendor_id' => $userId,
+                    'vendor_id' => $carts['vendor'],
                     'product_name' => $carts['name'],
                     'color' => $carts['color'],
                     'quantity' => $carts['qty'],
@@ -294,13 +296,5 @@ class CartController extends Controller
         $orders = Order::all();
         return view('admin.order.index', compact('orders'));
     }
-    // public function viewUserOrder($userid, $orderid)
-    // {
-    //     $user = User::find($userid);
-    //     $orders = $user->orders->where('id', $orderid);
-    //     $carts = $orders->transform(function ($cart, $key) {
-    //         return unserialize($cart->cart);
-    //     });
-    //     return view('admin.order.show', compact('carts'));
-    // }
+   
 }

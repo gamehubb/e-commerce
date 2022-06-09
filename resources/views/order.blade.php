@@ -22,10 +22,16 @@
                                 <p><b>Order Status</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     @switch($order->status)
                                         @case('1')
-                                            {{'Approved'}}
+                                            <span class="btn btn-info">Pending</span>
                                             @break
                                         @case('2')
-                                            <span class="btn btn-info">Pending</span>
+                                            <span class="btn btn-success">Approved</span>
+                                            @break
+                                        @case('3')
+                                            <span class="btn btn-warning">Declined</span>
+                                            @break
+                                        @case('4')
+                                            <span class="btn btn-danger">Cancelled</span>
                                             @break
                                     
                                         @default

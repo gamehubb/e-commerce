@@ -82,18 +82,20 @@
                         <!-- Authentication Links -->
 
                         @guest
-                        @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @endif
+                            @if (Route::has('login'))
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                            @endif
 
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                        @endif
-                        @else
+                            @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </li>
+                            @endif
+                            @else
+                        @endguest
+
                         
 
                         {{-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -127,50 +129,64 @@
                         <li class="nav-item">
                             <i class="nav-item fa fa-gamepad text-white m-2" style="font-size:20px;"></i>
                         </li>
-                        {{-- <li class="nav-item">
-                            <i class="nav-item fa fa-user text-white m-2"  onclick="this.classList.toggle('open')" style="font-size:20px;"></i>
-                       </li>  --}}
 
-                       <li class="nav-item dropdown">
-                            {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> --}}
-                                {{-- {{ Auth::user()->name }} --}}
-                                <i class="nav-item fa fa-user text-white m-2"  onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
 
-                            {{-- </a> --}}
+                        <li class="nav-item dropdown">
+                            <i class="nav-item fa fa-user text-white m-2"  onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    @if(Auth::check())
+                                @if(Auth::check())
                                     <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Accunt</a>
                                     <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
-                                    @endif
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                            document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                       </li>
-                        
-                        {{-- <li class="menu" onclick="this.classList.toggle('open')">
-                            <div class="button"></div>
-                            <div class="button"></div>
-                            <div class="button"></div>
-                        </li> --}}
-                        <li class="nav-item" onclick="openModel()" style="cursor:pointer">
-                            {{-- <a href="{{route('cart.show')}}" > --}}
-                            <!-- <a href="{{route('cart.checkout' , 2)}}"> -->
-                            <i class="fa fa-shopping-cart text-white  m-2" style="font-size:20px;">
-                                <sup id="cartcount" style="background: #AA2B25;
-                                border-radius: 77px;
-                                border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
-                            </i>
-                            <!-- </a> -->
+                                @endif
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
                         </li>
+                        <?php $route = 'checkout/'.Auth::getUser()->name; ?>
+                        @if(Request::path() == $route)
+                            <li class="nav-item" style="cursor:pointer">
+                                @if(session()->has('cart'))
+                                <a href="{{route('cart.checkout' , Auth::getUser()->name)}}" class="text-white">
+
+                                    <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;">
+                                        <sup id="cartcount" style="background: #AA2B25;
+                                        border-radius: 77px;
+                                        border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
+                                    </i>
+                                </a>
+                                @else
+                                    <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
+                                    </i>
+                                @endif
+                                
+
+                            </li>
+                        @else
+
+                            <li class="nav-item" onclick="openModel()" style="cursor:pointer">
+                                @if(session()->has('cart'))
+                                    <i class="fas fa-shopping-cart text-white  m-2" style="font-size:20px;">
+                                        <sup id="cartcount" style="background: #AA2B25;
+                                        border-radius: 77px;
+                                        border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
+                                    </i>
+                                @else
+                                    <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
+                                    </i>
+                                @endif
+
+                                <!-- </a> -->
+                            </li>
+
+                        @endif
                         <li class="nav-item">
                             <i class="nav-item fa fa-game"></i>
                         </li>
-                        @endguest
                     </ul>
                 </div>
             </div>
@@ -205,7 +221,7 @@
                            </div>
                            <div class="col-md-8">
                                <p>{{$value['name']}} </p>
-                               <p><b>MMKS {{$value['price']}}</b> <span class="ml-4 bg-red" style="cursor:pointer;"><i class="fas fa-trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span></p>
+                               <p><b>MMKS {{number_format($value['price'])}}</b> <span class="ml-4 bg-red" style="cursor:pointer;"><i class="fas fa-trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span></p>
                                <div class="row mt-1">
                                 <i class="fa fa-minus col-md-1" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"></i>
                                 <p class="col-lg-1" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
@@ -221,7 +237,7 @@
                     <div class="row m-3">
 
                         <p class="col-md-6"><b>Total Price:</b></p>
-                        <p class="col-md-6"> <b>MMKs <span id="total_price">{{session()->has('cart')?session()->get('cart')->totalPrice:'0'}}<span></b> </p>
+                        <p class="col-md-6"> <b>MMKs <span id="total_price">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
                     </div>
                     <div class="text-center m-3">
                         @auth

@@ -37,6 +37,7 @@ class Cart
             $item = [
                 'id' => $data['product_id'],
                 'name' => $data['product_name'],
+                'vendor' => $data['vendor'],
                 'code' => $data['product_code'],
                 'category' => $data['category'],
                 'brand' => $data['brand'],
@@ -65,8 +66,9 @@ class Cart
         $item = [
             'id' => $product->id,
             'name' => $product->name,
+            'vendor' => $product->vendor,
             'code' => $product->code,
-            'category' => $product->category_id,
+            'category' => $product->category_id,    
             'brand' => $product->brand_id,
             'product_type' => $product->product_type,
             'price' => $product->productDetail[0]->price,
