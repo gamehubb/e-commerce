@@ -27,11 +27,12 @@ Route::get('/product/{id}', [App\Http\Controllers\FrontProductListController::cl
 Route::get('/category/{name}', [App\Http\Controllers\FrontProductListController::class, 'allProduct']);
 Route::get('/productCategory/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByCategory'])->name('productCategory');
 
-Route::post('/login-user',[App\Http\Controllers\HomeController::class,'userLogin'])->name('login-user');
-Route::post('/register-user',[App\Http\Controllers\HomeController::class,'userRegister'])->name('register-user');
+Route::post('/login-user', [App\Http\Controllers\HomeController::class, 'userLogin'])->name('login-user');
+Route::post('/register-user', [App\Http\Controllers\HomeController::class, 'userRegister'])->name('register-user');
 
 Route::get('/productBrand/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByBrand'])->name('productBrand');
 Route::get('/productDetail/{id}', [App\Http\Controllers\FrontProductListController::class, 'productDetail'])->name('productDetail');
+Route::get('/search/{name}', [App\Http\Controllers\FrontProductListController::class, 'search'])->name('search');
 
 Route::get('/addToCart/{product}', [App\Http\Controllers\CartController::class, 'addToCart'])->name('add.cart')->middleware('auth');
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'showCart'])->name('cart.show');
@@ -69,9 +70,9 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     //Brand 
     Route::resource('/brand', App\Http\Controllers\BrandController::class);
 
-    Route::get('/vendor',[App\Http\Controllers\UserController::class, 'vendorList']);
+    Route::get('/vendor', [App\Http\Controllers\UserController::class, 'vendorList']);
 
-    Route::get('/vendor/new',[App\Http\Controllers\UserController::class, 'vendorNew']);
+    Route::get('/vendor/new', [App\Http\Controllers\UserController::class, 'vendorNew']);
     //Product 
     Route::resource('/product', App\Http\Controllers\ProductController::class);
     //In Product to get Subcategory based on choosen Category
@@ -89,7 +90,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     Route::get('orders/{orderid}', [App\Http\Controllers\OrderController::class, 'show'])->name('user.order');
     Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'userAccountInfo'])->name('user.accountInfo');
     // Brand Status
-    Route::get('/changedBrandStatus',[App\Http\Controllers\BrandController::class, 'behaviourOfStatusBrand']);
+    Route::get('/changedBrandStatus', [App\Http\Controllers\BrandController::class, 'behaviourOfStatusBrand']);
     // Payemnt Status
-    Route::get('/paymentstatus/{orderidforpayment}/{statuspayment}',[App\Http\Controllers\OrderController::class, 'behaviourOfPaymentStatus']);
+    Route::get('/paymentstatus/{orderidforpayment}/{statuspayment}', [App\Http\Controllers\OrderController::class, 'behaviourOfPaymentStatus']);
 });

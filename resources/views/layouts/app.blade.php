@@ -96,17 +96,14 @@
                         @else
 
                         <li class="nav-item">
-                            <div class="container">
-                                <div class="input-group col-sm-7">
-                                    <div class="input-group-append">
-                                    </div>
-                                    <input type="text" class="form-control">
-
-                                    <span class="input-group-text microphone bg-white">
-                                        <i class="fa fa-search fa-2x"></i>
-                                    </span>
-                                </div>
+                           
+                            <form action="{{  route('search',["GHGHV9Fg"]) }}" method="get" >
+                                @csrf
+                            <div class="inner-addon left-addon">
+                                <i class="fa fa-search " style="position: absolute;padding: 10px;pointer-events: none;"></i>
+                                <input type="text" class="form-control" style="padding-left:30px" placeholder="Search here..." />
                             </div>
+                            </form>
                         </li>
                         <li class="nav-item">
                             <i class="nav-item fa fa-gamepad text-white m-2" style="font-size:20px;"></i>

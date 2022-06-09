@@ -14,7 +14,7 @@ use App\Models\OrderItem;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','vendor','code', 'description', 'image', 'price', 'additional_info','moto','category_id', 'brand_id', 'user_id', 'subcategory_id', 'wireless'];
+    protected $fillable = ['name', 'vendor', 'code', 'slug', 'description', 'image', 'price', 'additional_info', 'moto', 'category_id', 'brand_id', 'user_id', 'subcategory_id', 'wireless'];
 
     public function category()
     {
@@ -33,6 +33,6 @@ class Product extends Model
 
     public function order_items()
     {
-        return $this->belongsTo(OrderItem::class,'product_id','id');
+        return $this->belongsTo(OrderItem::class, 'product_id', 'id');
     }
 }

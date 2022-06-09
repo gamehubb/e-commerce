@@ -49,6 +49,12 @@ class FrontProductListController extends Controller
         $products = Product::where('brand_id', $id)->get();
         return view('filteredProduct', compact('products'));
     }
+    public function search($name)
+    {
+        $id = Category::where('slug', $name)->pluck('id');
+        $products = Product::where('category_id', $id)->get();
+        return view('filteredProduct', compact('products'));
+    }
     public function productDetail($id)
     {
         $products = Product::where('id', $id)->get()->first();
