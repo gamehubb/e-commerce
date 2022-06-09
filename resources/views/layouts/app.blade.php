@@ -93,26 +93,8 @@
                                 <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
                             </li>
                             @endif
-                            @else
-                        @endguest
+                        @else
 
-                        
-
-                        {{-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{route('order')}}">My Accunt</a>
-                            @if(Auth::check())                           
-                            <a class="dropdown-item" href="{{route('order')}}">My Orders</a>                
-                            @endif
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div> --}}
-                        {{-- </li> --}}
                         <li class="nav-item">
                             <div class="container">
                                 <div class="input-group col-sm-7">
@@ -137,7 +119,6 @@
                                 @if(Auth::check())
                                     <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Accunt</a>
                                     <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
-                                @endif
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
@@ -145,45 +126,48 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
+                                @endif
+
                             </div>
                         </li>
-                        <?php $route = 'checkout/'.Auth::getUser()->name; ?>
-                        @if(Request::path() == $route)
-                            <li class="nav-item" style="cursor:pointer">
-                                @if(session()->has('cart'))
-                                <a href="{{route('cart.checkout' , Auth::getUser()->name)}}" class="text-white">
+                            <?php $route = 'checkout/'.Auth::getUser()->name; ?>
+                            @if(Request::path() == $route)
+                                <li class="nav-item" style="cursor:pointer">
+                                    @if(session()->has('cart'))
+                                    <a href="{{route('cart.checkout' , Auth::getUser()->name)}}" class="text-white">
 
-                                    <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;">
-                                        <sup id="cartcount" style="background: #AA2B25;
-                                        border-radius: 77px;
-                                        border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
-                                    </i>
-                                </a>
-                                @else
-                                    <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
-                                    </i>
-                                @endif
-                                
+                                        <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;">
+                                            <sup id="cartcount" style="background: #AA2B25;
+                                            border-radius: 77px;
+                                            border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
+                                        </i>
+                                    </a>
+                                    @else
+                                        <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
+                                        </i>
+                                    @endif
+                                    
 
-                            </li>
-                        @else
+                                </li>
+                            @else
 
-                            <li class="nav-item" onclick="openModel()" style="cursor:pointer">
-                                @if(session()->has('cart'))
-                                    <i class="fas fa-shopping-cart text-white  m-2" style="font-size:20px;">
-                                        <sup id="cartcount" style="background: #AA2B25;
-                                        border-radius: 77px;
-                                        border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
-                                    </i>
-                                @else
-                                    <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
-                                    </i>
-                                @endif
+                                <li class="nav-item" onclick="openModel()" style="cursor:pointer">
+                                    @if(session()->has('cart'))
+                                        <i class="fas fa-shopping-cart text-white  m-2" style="font-size:20px;">
+                                            <sup id="cartcount" style="background: #AA2B25;
+                                            border-radius: 77px;
+                                            border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
+                                        </i>
+                                    @else
+                                        <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
+                                        </i>
+                                    @endif
 
-                                <!-- </a> -->
-                            </li>
+                                    <!-- </a> -->
+                                </li>
 
-                        @endif
+                            @endif
+                        @endguest
                         <li class="nav-item">
                             <i class="nav-item fa fa-game"></i>
                         </li>
