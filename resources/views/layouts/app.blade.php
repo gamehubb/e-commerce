@@ -133,9 +133,9 @@
                             }else{
                             $route = '';
                             }
-                            
                             ?>
-                            @if(Request::path() == $route)
+                          
+                            @if(str_replace('%20',' ',Request::path()) == $route)
                                 <li class="nav-item" style="cursor:pointer">
                                     @if(session()->has('cart'))
                                     <a href="{{route('cart.checkout' , Auth::getUser()->name)}}" class="text-white">
@@ -181,7 +181,7 @@
         </nav>
         <!-- Modal HTML -->
         @auth
-        @if(Request::path() != $route)
+        @if(str_replace('%20',' ',Request::path()) != $route)
             <div id="myModal" class="modal fade text-white" tabindex="-1">
                 <div class="modal-dialog bg-dark"
                     style="width: 30%;height: 100%;position: absolute;right: 0;margin: 0rem;height: 100vh;">
