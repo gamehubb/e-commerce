@@ -97,11 +97,11 @@
 
                         <li class="nav-item">
                            
-                            <form action="{{  route('search',["GHGHV9Fg"]) }}" method="get" >
+                            <form action="{{  route('search',["GHGHV9Fg"]) }}" method="get" id= "searchForm" >
                                 @csrf
                             <div class="inner-addon left-addon">
-                                <i class="fa fa-search " style="position: absolute;padding: 10px;pointer-events: none;"></i>
-                                <input type="text" class="form-control" style="padding-left:30px" placeholder="Search here..." />
+                                <i class="fa fa-search " style="position: absolute;padding: 10px;cursor:pointer;"  onclick="search()" ></i>
+                                <input type="text" class="form-control" style="padding-left:30px" placeholder="Search here..."/>
                             </div>
                             </form>
                         </li>
@@ -348,7 +348,10 @@
         }
 
     }
+    function search(){
+        $("#searchForm").submit();
 
+    }
     $(document).ready(function(){
 
         $.ajaxSetup({
