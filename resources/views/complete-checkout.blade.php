@@ -1,35 +1,52 @@
-<html lang="en">
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-	<link href='https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat:700' rel='stylesheet' type='text/css'>
-	<style>
-		@import url(//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css);
-		@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
-	</style>
-	<link rel="stylesheet" href="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/default_thank_you.css">
-	<script src="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/jquery-1.9.1.min.js"></script>
-	<script src="https://2-22-4-dot-lead-pages.appspot.com/static/lp918/min/html5shiv.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'GameHub Myanmar') }}</title>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @notifyCss
+    @include('notify::messages')
+    @notifyJs
 </head>
-<body>
-	<header class="site-header" id="header">
-		<h1 class="site-header__title" data-lead-id="site-header-title">THANK YOU FOR SHOPPING WITH US!</h1>
+<body style="background:black;">
+	<header class="header-box">
+		<div class="container">
+			<div class="col-md-12  site-icon m-1">              
+					<a href="/" style="color: #aa0000;">
+						<span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar</sub>
+					</a>
+			   
+			</div>
+		</div>
 	</header>
 
-	<div class="main-content">
-		@if($payment_message == 'pay-amount-exists')
-			<p class="main-content__body" data-lead-id="main-content-body">As you have paid with {{$payment_type == '1_k' ? 'K-pay' : 'Wave Pay'}}, please wait till we confirm your payment confirmation</p>
-		@else
-			<p class="main-content__body" data-lead-id="main-content-body"></p>
-		@endif
-        <a href="{{route('home')}}" class="btn btn-primary">Home</a>
-        <a href="#" class="btn btn-info">order-history</a>
+		<div class="text-center mt-2" style=" background:  #d8d8d8;" >
+			<img src="{{asset('images/gift.jpeg')}}"     style="width: 370px;height: 300px; margin: auto;" alt="gift"/>
+			<h1 class="display-1"> <b>THANK YOU </b></h1>
+			<p  class="h3" >FOR SHOPPING WITH US!</p>
+			<img src="{{asset('images/gift2.jpeg')}}" style=" " alt="gift"/>
+		</div>
+	
+		<div style="background: #aa0000; padding-top: 36px; padding-bottom: 100px;" class="text-center">
+			<a href="{{route('order')}}">
+				<button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3" style="border-radius : 20px;">Check your order List</button>
+			</a> 
 	</div>
-
-	<footer class="site-footer" id="footer">
-		<p class="site-footer__fineprint" id="fineprint">Copyright ©2014 | All Rights Reserved</p>
-	</footer>
+ 
 </body>
 </html>
