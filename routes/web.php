@@ -83,6 +83,9 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     Route::get('/orderstatus/{orderid}/{status}', [App\Http\Controllers\OrderController::class, 'loadStatus']);
     //Status Category 
     Route::get('/changedCategoryStatus', [App\Http\Controllers\CategoryController::class, 'behaviourOfStatus']);
+    //Toggle IsSpecial
+    Route::get('/changeSpecialTag', [App\Http\Controllers\CategoryController::class, 'toggleSpeicalTag']);
+
     //Status Product 
     Route::get('/changedProductStatus', [App\Http\Controllers\ProductController::class, 'behaviourOfStatus']);
     //Users

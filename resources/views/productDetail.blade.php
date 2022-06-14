@@ -52,7 +52,7 @@
 <div class="container mt-3 text-white">
     <div class="text-center mt-4">
         <span class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
-           CATEGORY BASED ON YOUT TREND
+           CATEGORY BASED ON YOUR TREND
         </span>
         <hr class="mx-auto" style="width:360px; color: #aa0000; height: 3px; ">
     </div>

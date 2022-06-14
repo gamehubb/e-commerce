@@ -17,9 +17,10 @@
         <table class="table align-items-center table-flush table-hover" id="dataTableHover">
           <thead class="thead-light">
             <tr>
+              <th>Image</th>
               <th>Name</th>
-              <th>Brand</th>
               <th>Category</th>         
+              <th>Brand</th>
               <th>Status</th>
               <th>Image</th>
               <th colspan="2">Actions</th>     

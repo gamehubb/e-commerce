@@ -128,6 +128,14 @@ class CategoryController extends Controller
         
     }
 
+    public function toggleSpeicalTag(Request $request)
+    {
+        $obj = new \stdClass();
+        $obj = Category::where('id',$request->id)->update(['is_special' => $request->status]); 
+        return $obj;
+        
+    }
+
     private function slug()
     {
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';

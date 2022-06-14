@@ -58,7 +58,7 @@ class ProductController extends Controller
             'name' => $request->product_name,
             'vendor' => $request->vendor_id,
             'code' => $request->product_code,
-            'slug' => $request->product_code,
+            'slug' => $this->slug(),
             'model_name' => $request->model_name,
             'category_id' => $request->category,
             'brand_id' => $request->brand,
@@ -235,5 +235,17 @@ class ProductController extends Controller
         $obj = new \stdClass();
         $obj = Product::where('id', $request->id)->update(['status' => $request->status]);
         return $obj;
+    }
+
+    private function slug()
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 6; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $finalvouchernumber = 'GH' . $randomString;
+        }
+        return $finalvouchernumber;
     }
 }

@@ -24,13 +24,20 @@ class FrontProductListController extends Controller
         foreach ($randomActiveProducts as $product) {
             array_push($randomActiveProductId, $product->id);
         }
-        $randomItemProducts = Product::whereNotIn('id', $randomActiveProductId)->limit(3)->get();
-        $categories = Category::get();
+        $randomItemProducts = Product::whereNotIn('id', $randomActiveProductId)->limit(1)->get();
+        $categories = Category::limit(5)->get();
+        $s_categories = Category::where(['status' => '1','is_special' => '1'])->get();
+
+        foreach($s_categories as $s_category){
+            $product_list[$s_category->id] = Product::where('category_id',$s_category->id)->with('productDetail')->get();
+
+        }
+
         $brands = Brand::get();
 
         $sliders = Slider::limit(5)->get();
 
-        return view('product', compact('products', 'categories', 'brands', 'randomItemProducts', 'randomActiveProducts', 'sliders'));
+        return view('product', compact('products', 'categories', 'brands', 'randomItemProducts', 'randomActiveProducts', 'sliders', 'product_list'));
     }
     public function show($id)
     {

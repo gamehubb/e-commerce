@@ -69,33 +69,51 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 p-2" style="border:1px solid #808080; border-radius: 10px;">
-                <P class="h4 text-white text-center" style=" font-family: 'Times New Roman', Times, serif;">RECOMMENDED
-                </p>
-                <hr class="mx-auto" style="width:75%; color: #aa0000; height: 3px; ">
-                <img src="{{Storage::url('public/files/xCCWSBMZi929D5ZL1RH4Tqoc7luuNjcpJtqbqNex.png')}}"
-                    class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:12rem; " alt="...">
-            </div>
-        </div>
+            @foreach ($randomItemProducts as $product )
+                
+                <div class="col-md-8 p-2" style="border:1px solid #808080; border-radius: 10px;">
+                    <p class="h4 text-white text-center" style=" font-family: 'Times New Roman', Times, serif;">RECOMMENDED
+                    </p>
+                    <hr class="mx-auto" style="width:75%; color: #aa0000; height: 3px; ">
+                    <a href="{{route('productDetail',[$product->id])}}">
+                        <img src="{{Storage::url($product->productDetail[0]->image_1)}}"
+                            class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:12rem; " alt="...">
+                    </a>
+                </div>
+
+            @endforeach
+
+           
         <div class="text-center mt-4">
             <span class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
                 Life is all about Ecommerce around you. Shop with us.
             </span>
-        </div>
+        </div><br>
 
         <div class="album py-2 ">
             <div class="container">
+                @foreach($product_list as $key => $product)
+                {{-- @for ($x = 0; $x <= count($product); $x++) --}}
+
+                    
+                <h1 class="text-white m-4">{{$product[0]->category->name}}
+                    <hr class="mx-auto" style="color: #aa0000; height: 3px; padding:2;margin:10px; ">
+                </h1>
+                    
+                <br>
+
+                    
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    @foreach($products as $product)
+                    @foreach ($product as  $key => $p_count)
                         <div class="col-md-2">
-                            <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto">
+                            <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto">
                                 <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
-                                    <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
+                                    <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
                                         style=" object-fit: contain;border-radius : 25px;">
                                     <div class="card-body text-white">
-                                        <p><b> {{$product->name}}</b></p>
-                                        <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>                   
-                                        <a href="{{ route('add.cart',[$product->id]) }}">
+                                        <p><b> {{$product[$key]->name}}</b></p>
+                                        <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
+                                        <a href="{{ route('add.cart',[$product[$key]->id]) }}">
                                             <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"
                                                 style="border-radius : 20px;">Add to cart</button>
                                         </a>
@@ -103,14 +121,20 @@
                                 </div>
                             </a>
                         </div>
-                  
+
                     @endforeach
-    
+
                 </div>
+
+
+
+                {{-- @endfor --}}
+                @endforeach
+
             </div>
         </div>
     </main>
-    <p class="float-end p-3">
+    <p class="float-end">
         <a href="#"> <i class="fa fa-chevron-circle-up fa-2x " style="color: #aa0000;"></i></a>
     </p>
     <footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">

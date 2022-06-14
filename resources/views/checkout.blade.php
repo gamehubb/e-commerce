@@ -17,8 +17,10 @@
                                         class="floar-right m-3 mx-auto" style=" border-radius: 20px; " alt="...">
                                 </div>
                                 <div class="col-md-4 mt-2 ">
-                                    <p><u><b>{{$carts['product_name']}} </b></u></p>
-                                    <p class="m-2"> Product Code:{{$carts['product_code']}} </p>
+
+                                    <p><u><b>{{$carts['product_name']}} </b></u>
+                                    </p>
+                                    <p class="m-2"> Product-Code:{{$carts['product_code']}} </p>
                                     <p class="m-2"> Category: {{$carts['category']}} </p>
                                     <p class="m-2"> Quantity:<i class="fa fa-minus col-md-1 ml-1" id="minus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" style="background: #802012;
                                         width: 24px;
@@ -60,7 +62,10 @@
                                     
                                     ?>
                                 </div>
-                                <hr class="mx-auto" style="width:90%;  ">
+                                <hr class="mx-auto" style="width:90%;">
+                                {{-- <div class="text-center">
+                                    <p class="ml-4 bg-red" style="cursor:pointer;float:right;"><i class="fas fa-trash" onclick="removeCart(this)" data-id="{{$carts['product_id']}}"></i></span>
+                                </div> --}}
                                 <div class="text-right">
                                     <p class="m-2" id="total_price_{{$carts['product_id']}}"><b>{{number_format($carts['price'] * $carts['quantity'])}}</b></p>
                                 </div>
@@ -80,9 +85,9 @@
                     <p class="m-2 h6">MMKs 0</p>
                 </div>
             </div>
-            <hr class="mx-auto" style="width:100%;  ">
+            <hr class="mx-auto" style="width:100%;">
             <div class="row mb-3">
-                <div class="col-md-8 mt-2 ">
+                <div class="col-md-8 mt-2">
                     <p class="m-2 h5"><b>TOTAL :</b></p>      
                 </div>
                 <div class="col-md-4 mt-2 ">
@@ -165,10 +170,7 @@
                         <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{11}">
                         <small class="text-white">Format: 09123456789</small>
                     </div>
-                </div>
-
-            {{-- </div> --}}
-            
+                </div>            
         </div>
 
 
@@ -275,6 +277,7 @@
                     $("#total_price_2").text(custom_number_format(value.total_price));
                     $("#total_price_3").text(custom_number_format(0 + value.total_price));
                     $("#cartcount").text(value.total_quantity);
+                    $('#qty_'+id).text(qty);
 
                 });
 
