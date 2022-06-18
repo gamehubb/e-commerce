@@ -28,7 +28,7 @@
     <div id="app">
         <header class="header-box">
             <div class="container">
-                <div class="col-md-12 text-center site-icon m-1">              
+                <div class="col-md-12 text-left site-icon m-3">              
                         <a href="/" style="color: #aa0000;">
                             <span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar</sub>
                         </a>
@@ -71,9 +71,9 @@
                         </div>
                         </li>
 
-                        <li class="nav-item dropdown">
+                        {{-- <li class="nav-item dropdown">
                             <a class="nav-link text-white dropdown-toggle">More</a>
-                        </li>
+                        </li> --}}
 
                     </ul>
 

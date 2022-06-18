@@ -81,7 +81,6 @@
          -- }} --}}
         <div class="row text-center">
         @foreach($categories as $category)
-
             <div class="content_img">
                 <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important">
                 <div>{{$category->name}}</div>

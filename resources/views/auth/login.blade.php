@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@if(Auth::check())
+    {{ url()->previous() }}
+@endif
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

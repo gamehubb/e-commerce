@@ -19,6 +19,13 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 // });
 
 
+Route::get('/login', function () {
+    //
+})->middleware('guest:user');
+
+Route::get('/register', function () {
+    //
+})->middleware('guest:user');
 
 
 Route::get('/', [App\Http\Controllers\FrontProductListController::class, 'index']);
