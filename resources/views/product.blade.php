@@ -2,44 +2,39 @@
 
 @section('content')
 <style>
-.img-container {
-  position: relative;
-  width: 50%;
+/* Parent Container */
+.content_img{
+ position: relative;
+ width: 15rem;
+ }
+
+/* Child Text Container */
+.content_img div{
+ position: absolute;
+ bottom: 6px;
+ right: 27px;
+ background: black;
+ color: white;
+ margin-bottom: 5px;
+ font-family: sans-serif;
+ opacity: 0;
+ visibility: hidden;
+ -webkit-transition: visibility 0s, opacity 0.5s linear; 
+ transition: visibility 0s, opacity 0.5s linear;
 }
 
-.image {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
+/* Hover on Parent Container */
+.content_img:hover{
+ cursor: pointer;
 }
 
-.middle {
-  transition: .5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.img-container:hover .image {
-  opacity: 0.3;
-}
-
-.img-container:hover .middle {
-  opacity: 1;
-}
-
-.text {
-  background-color: #04AA6D;
-  color: white;
-  font-size: 16px;
-  padding: 16px 32px;
+.content_img:hover div{
+ width: 150px;
+ padding: 8px 15px;
+ visibility: visible;
+ opacity: 0.7; 
+ background:#aa0000;
+ color:#fff;
 }
 </style>
 <div class="container">
@@ -51,7 +46,7 @@
                         @foreach($sliders as $key=>$slider)
                         <div class="carousel-item {{$key == 0 ? 'active' : ''}}">
                             <img src="{{Storage::url($slider->image)}}"
-                                style="  height:12rem; display: inline-block; !important" alt="...">
+                                style="height:12rem; display: inline-block; !important" alt="...">
                         </div>
                         @endforeach
                     </div>
@@ -72,18 +67,28 @@
             <span class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">EXPLORE</span>
             <hr class="mx-auto" style="width:10%; color: #aa0000; height: 3px; ">
         </div>
-        @foreach($categories as $category)
-        <div class="img-container container row">
+        {{-- {{-- @foreach($categories as $category)
+        <div class="img-container">
             <a href="{{ route('productCategory',[$category->slug]) }}">
             <img src="{{Storage::url($category->image)}}" class="m-3"
                 style=" border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important"
-                alt="...">
+                alt="..." class="image">
             </a>    
             <div class="middle">
                 <div class="text">{{$category->name}}</div>
             </div>
         </div>
+         -- }} --}}
+        <div class="row text-center">
+        @foreach($categories as $category)
+
+            <div class="content_img">
+                <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important">
+                <div>{{$category->name}}</div>
+            </div>
         @endforeach
+        </div>
+
         <div class="row m-3">
             <div class="col-md-4 m-10">
                 <div class="row m-4">
