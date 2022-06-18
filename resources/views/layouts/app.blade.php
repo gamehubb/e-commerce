@@ -19,12 +19,24 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+   
+</head>
+
+<style>
+    
+</style>
+
+<body style="background:black;">
     @notifyCss
     @include('notify::messages')
     @notifyJs
-</head>
-
-<body style="background:black;">
+    <!-- about -->
+        {{-- <div class="about">
+            
+        </div> --}}
+        <!-- end about -->
+        
+           
     <div id="app">
         <header class="header-box">
             <div class="container">
@@ -50,7 +62,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item dropdown">   
-                                <a  class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Category
                                 </a>       
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">    
@@ -97,11 +109,11 @@
 
                         <li class="nav-item">
                            
-                            <form action="{{  route('search',["GHGHV9Fg"]) }}" method="get" id= "searchForm" >
+                            <form action="{{  route('search') }}" method="get" id= "searchForm" >
                                 @csrf
                             <div class="inner-addon left-addon">
                                 <i class="fa fa-search " style="position: absolute;padding: 10px;cursor:pointer;"  onclick="search()" ></i>
-                                <input type="text" class="form-control" style="padding-left:30px" placeholder="Search here..."/>
+                                <input type="text" name="name" id="p_name" class="form-control" style="padding-left:30px" placeholder="Search here..." required/>
                             </div>
                             </form>
                         </li>
@@ -138,7 +150,7 @@
                             @if(str_replace('%20',' ',Request::path()) == $route)
                                 <li class="nav-item" style="cursor:pointer">
                                     @if(session()->has('cart'))
-                                    <a href="{{route('cart.checkout' , Auth::getUser()->name)}}" class="text-white">
+                                    <a href="{{route('cart.checkout', Auth::getUser()->name)}}" class="text-white">
 
                                         <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;">
                                             <sup id="cartcount" style="background: #AA2B25;
@@ -185,13 +197,14 @@
             <div id="myModal" class="modal fade text-white" tabindex="-1">
                 <div class="modal-dialog bg-dark"
                     style="width: 30%;height: 100%;position: absolute;right: 0;margin: 0rem;height: 100vh;">
-                    <div class="modal-content bg-dark ">
-                            <div class=" p-1" style="background-color: #aa0000;">
+                    <div class="modal-content bg-dark " id="cartModel">
+                            <div class="p-1" style="background-color: #aa0000;">
                                 <p class="text-center h3">Gamehub Myanmar</p>
                                 <button type="button" class="close" data-dismiss="modal"
-                                    style="position: absolute; top:5px; right:10px;">&times;</button>
+                                    style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
                             </div>
                             <div class="modal-body">
+                                
                                     <div class="row">
                                         <p class="col-md-8 h4"><b>YOUR CART</b></p>
                                     </div>
@@ -207,11 +220,11 @@
                                                     <p>{{$value['name']}} </p>
                                                     <p><b>MMKS <span id="#price_{{$value['id']}}">{{number_format($value['price'])}}</span></b> <span class="ml-4 bg-red" style="cursor:pointer;"><i class="fas fa-trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span></p>
                                                     <div class="row mt-1">
-                                                        <i class="fa fa-minus col-md-1" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                        <i class="fa fa-minus col-md-1 m-1" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
                                                         ></i>
                                                         <p class="col-lg-1" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
                                                         <i id="product_id" hidden>{{$value['id']}}</i>
-                                                        <i class=" fa fa-plus col-md-1" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                        <i class=" fa fa-plus col-md-1 m-1" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
                                                         ></i> 
                                                     </div>
                                                 </div> 
@@ -229,7 +242,7 @@
                         <div class="text-center m-3">
                             @auth
                             <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
-                                <button type="button" class="btn btn-sm mx-auto mt-3 text-white"
+                                <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"
                                     style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
                             </a>
                             @endauth
@@ -250,6 +263,10 @@
         $("#myModal").modal('show');
     }
 
+    function closeModel(){
+        $("#myModal").modal('hide');
+    }
+
     function updateCart(icon)
         {
             if(icon.getAttribute('id') == 'plus'){
@@ -262,13 +279,18 @@
                 $.ajax({
                     type: "POST",
                     url: '/products/'+id,
-                    data: { qty: qty, price: price }
-                }).done(function( response ) {
+                    data: { qty: qty, price: price },
+                beforeSend: function(){
+                    $("#cartModel").css("display","none");
+                },
+                success: function( response ) {
                     var value = JSON.parse(response);
                     $("#total_price").text(custom_number_format(value.total_price));
                     $("#cartcount").text(value.total_quantity);
+                    $("#cartModel").css("opacity","1");
+                },
 
-                });
+            });
 
             }else{
 
@@ -285,16 +307,24 @@
                     alert("Minium amount reached");
                 }
 
-                $.ajax({
-                    type: "POST",
-                    url: '/products/'+id,
-                    data: { qty: qty_update, price: price }
-                }).done(function( response ) {
-                    var value = JSON.parse(response);
-                    $("#total_price").text(custom_number_format(value.total_price));
-                    $("#cartcount").text(value.total_quantity);
+                    $.ajax({
+                        type: "POST",
+                        url: '/products/'+id,
+                        data: { qty: qty_update, price: price },
+                    beforeSend: function(){
+                        $("#cartModel").css("opacity","0.3");
 
-                });
+                    },
+                    success: function( response ) {
+                        var value = JSON.parse(response);
+                        $("#total_price").text(custom_number_format(value.total_price));
+                        $("#cartcount").text(value.total_quantity);
+                        $("#cartModel").css("opacity","1");
+
+                    },
+                 });
+
+
 
             }
 
@@ -349,8 +379,9 @@
 
     }
     function search(){
-        $("#searchForm").submit();
-
+        if($("#p_name").val() !="" ){
+            $("#searchForm").submit();
+        }
     }
     $(document).ready(function(){
 

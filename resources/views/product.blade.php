@@ -146,9 +146,9 @@
                 {{-- @for ($x = 0; $x <= count($product); $x++) --}}
 
                     
-                <h1 class="text-white m-4">{{$product[0]->category->name}}
+                <h2 class="text-white m-4">{{$product[0]->category->name}}
                     <hr class="mx-auto" style="color: #aa0000; height: 3px; padding:2;margin:10px; ">
-                </h1>
+                </h2>
                     
                 <br>
 
@@ -156,10 +156,10 @@
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     @foreach ($product as  $key => $p_count)
                         <div class="col-md-2">
-                            <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto">
+                            <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto link-light">
                                 <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                                     <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
-                                        style=" object-fit: contain;border-radius : 25px;">
+                                        style=" object-fit: cover;border-radius : 25px;">
                                     <div class="card-body text-white">
                                         <p><b> {{$product[$key]->name}}</b></p>
                                         <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   

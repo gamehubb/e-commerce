@@ -23,7 +23,7 @@ class CreateOrdersTable extends Migration
             $table->text('del_city');
             $table->text('del_township');
             $table->string('del_phone_number');
-            $table->float('total_amount');
+            $table->integer('total_amount');
             $table->longText('additional_info')->nullable();
             $table->integer('voucher_type')->nullable();
             $table->string('status');

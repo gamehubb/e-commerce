@@ -24,7 +24,7 @@ class CreateOrderItemsTable extends Migration
             $table->integer('vendor_id');
             $table->string('color');
             $table->integer('quantity');
-            $table->float('price');
+            $table->integer('price');
             $table->string('discount')->nullable();        
             $table->timestamps();
         });

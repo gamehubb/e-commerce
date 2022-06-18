@@ -3,9 +3,12 @@
 @section('content')
 <div class="container">
     <main>
-        <div class="album py-2 ">
+        <div class="album">
             <div class="container">
+
+                <p class="h2 text-center text-white">{{$name}} </p>
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                  
                     @foreach($products as $product)
                     <div class="col-md-2">
                         <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto">

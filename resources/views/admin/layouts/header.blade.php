@@ -21,4 +21,4 @@
   @notifyCss
   @include('notify::messages')
         <x:notify-messages />
-        @notifyJs
+  @notifyJs

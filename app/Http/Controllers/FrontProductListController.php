@@ -47,21 +47,31 @@ class FrontProductListController extends Controller
     }
     public function allProductByCategory($slug)
     {
-        $id = Category::where('slug', $slug)->pluck('id');
-        $products = Product::where('category_id', $id)->get();
-        return view('filteredProduct', compact('products'));
+        $cat = Category::where('slug', $slug)->get()->first();
+        $products = Product::where('category_id', $cat->id)->get();
+        $name = $cat->name;
+        return view('filteredProduct', compact('products', 'name'));
     }
     public function allProductByBrand($slug)
     {
-        $id = Brand::where('slug', $slug)->pluck('id');
-        $products = Product::where('brand_id', $id)->get();
-        return view('filteredProduct', compact('products'));
+        $brand = Brand::where('slug', $slug)->get()->first();
+        $products = Product::where('brand_id', $brand->id)->get();
+        $name = $brand->name;
+        return view('filteredProduct', compact('products', 'name'));
     }
-    public function search($name)
+    public function search(Request $request)
     {
-        $id = Category::where('slug', $name)->pluck('id');
-        $products = Product::where('category_id', $id)->get();
-        return view('filteredProduct', compact('products'));
+        $name = $request->name;
+        $c_products = Product::where("status" , 1)->whereHas("Category", function ($query) use ($name) {
+            $query->where("name" , "like" , "%".$name ."%" );
+        })->get();
+        $b_products = Product::where("status" , 1)->whereHas("Brand", function ($query) use ($name) {
+            $query->where("name" , "like" , "%".$name ."%" );
+        })->get();
+
+        $p_products = Product::where("status" , 1)->where("name" , "like" , "%".$name ."%")->get();
+        $products= $p_products->merge($b_products)->merge($c_products);
+        return view('filteredProduct', compact('products', 'name'));
     }
     public function productDetail($id)
     {

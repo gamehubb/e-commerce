@@ -39,7 +39,7 @@ Route::post('/register-user', [App\Http\Controllers\HomeController::class, 'user
 
 Route::get('/productBrand/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByBrand'])->name('productBrand');
 Route::get('/productDetail/{id}', [App\Http\Controllers\FrontProductListController::class, 'productDetail'])->name('productDetail');
-Route::get('/search/{name}', [App\Http\Controllers\FrontProductListController::class, 'search'])->name('search');
+Route::get('/search', [App\Http\Controllers\FrontProductListController::class, 'search'])->name('search');
 
 Route::get('/addToCart/{product}', [App\Http\Controllers\CartController::class, 'addToCart'])->name('add.cart')->middleware('auth');
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'showCart'])->name('cart.show');
