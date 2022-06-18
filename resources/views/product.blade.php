@@ -1,6 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+.img-container {
+  position: relative;
+  width: 50%;
+}
+
+.image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.img-container:hover .image {
+  opacity: 0.3;
+}
+
+.img-container:hover .middle {
+  opacity: 1;
+}
+
+.text {
+  background-color: #04AA6D;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+}
+</style>
 <div class="container">
     <main>
         <section class="text-center">
@@ -32,11 +73,16 @@
             <hr class="mx-auto" style="width:10%; color: #aa0000; height: 3px; ">
         </div>
         @foreach($categories as $category)
-        <a href="{{ route('productCategory',[$category->slug]) }}">
-        <img src="{{Storage::url($category->image)}}" class="m-3"
-            style=" border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important"
-            alt="...">
-        </a>    
+        <div class="img-container container row">
+            <a href="{{ route('productCategory',[$category->slug]) }}">
+            <img src="{{Storage::url($category->image)}}" class="m-3"
+                style=" border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important"
+                alt="...">
+            </a>    
+            <div class="middle">
+                <div class="text">{{$category->name}}</div>
+            </div>
+        </div>
         @endforeach
         <div class="row m-3">
             <div class="col-md-4 m-10">

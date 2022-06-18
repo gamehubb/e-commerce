@@ -11,12 +11,12 @@
                         @csrf
 
                         @if(Session::get('info'))
-                        <div class="alert alert-info">
+                        <div class="alert alert-info" id="alert-message">
                             {{ Session::get('info') }}
                         </div>
                     @endif
                     @if(Session::get('infoconfirm'))
-                        <div class="alert alert-info">
+                        <div class="alert alert-info" id="alert-message">
                             {{ Session::get('infoconfirm')}}
                         </div>
                     @endif
@@ -108,6 +108,13 @@
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
 
 <script type="text/javascript">
+
+$(function(){
+    setTimeout(function(){
+        $("#alert-message").hide();
+        }, 4000);
+      });
+
 $(".toggle-password").click(function() {
 $(this).toggleClass("fa-eye fa-eye-slash");
   var input = $($(this).attr("toggle"));
@@ -116,6 +123,10 @@ $(this).toggleClass("fa-eye fa-eye-slash");
   } else {
     input.attr("type", "password");
   }
+});
+
+$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#success-alert").slideUp(500);
 });
 </script>
 @endsection
