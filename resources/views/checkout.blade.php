@@ -7,8 +7,17 @@
         @if($cart_data != null)
 
         <div class="row">
-            <div class="col-6 col-md-5  text-white">
+            {{-- <div class="col-md-6"> --}}
+            <div class="content" style="display: none;" id="cart-loader">
+                <div class="loading">
+                    <h3 style="color:#fff !important;">Updating</h3>
+                        <span style="color:#AA2B25;"></span>
+                </div>
+            </div>
+            {{-- </div> --}}
+            <div class="col-6 col-md-5  text-white" id="cart-view">
                 <i class="nav-item fa fa-user m-2 mb-4"> Hi {{Auth::getUser()->name}}</i>
+               
                 <div class="row mb-3" style="border:1px solid #808080; border-radius: 10px;">
 
                         @foreach($cart_data as $key => $carts)
@@ -270,16 +279,28 @@
                 $.ajax({
                     type: "POST",
                     url: '/products/'+id,
-                    data: { qty: qty, price: price }
-                }).done(function( response ) {
+                    data: { qty: qty, price: price },
+                
+                beforeSend: function(){
+                    $("#cart-loader").css("display",'grid');
+                    $("body").css("opacity","0.3");
+                    $("#cart-view").css("display",'none');
+
+                },
+                success: function( response ) {
                     var value = JSON.parse(response);
                     $("#total_price_"+id).text(custom_number_format(value.product_price));
                     $("#total_price_2").text(custom_number_format(value.total_price));
                     $("#total_price_3").text(custom_number_format(0 + value.total_price));
+                    $("#cart-loader").css("display",'none');
+                    $("#cart-view").css("display",'block');
+                    $("body").css("opacity","1");
                     $("#cartcount").text(value.total_quantity);
                     $('#qty_'+id).text(qty);
+                    
 
-                });
+                }
+            });
 
             }else{
 
@@ -294,19 +315,31 @@
                 if(qty == 1) {
                     $("#qty_"+id).text('1');
                     alert("Minium amount reached");
-                }
+                }else{
 
-                $.ajax({
-                    type: "POST",
-                    url: '/products/'+id,
-                    data: { qty: qty_update, price: price }
-                }).done(function( response ) {
-                    var value = JSON.parse(response);
-                    $("#total_price_"+id).text(custom_number_format(value.product_price));
-                    $("#total_price_2").text(custom_number_format(value.total_price));
-                    $("#total_price_3").text(custom_number_format(0 + value.total_price));
-                    $("#cartcount").text(value.total_quantity);
-                });
+                    $.ajax({
+                        type: "POST",
+                        url: '/products/'+id,
+                        data: { qty: qty_update, price: price },
+                        beforeSend: function(){
+                        $("#cart-loader").css("display",'grid');
+                        $("body").css("opacity","0.3");
+                        $("#cart-view").css("display",'none');
+
+                        },
+                        success: function( response ) {
+                            var value = JSON.parse(response);
+                            $("#total_price_"+id).text(custom_number_format(value.product_price));
+                            $("#total_price_2").text(custom_number_format(value.total_price));
+                            $("#total_price_3").text(custom_number_format(0 + value.total_price));
+                            $("#cart-loader").css("display",'none');
+                            $("#cart-view").css("display",'block');
+                            $("body").css("opacity","1");
+                            $("#cartcount").text(value.total_quantity);
+                        },
+                    });
+
+                }
             }
         }
 

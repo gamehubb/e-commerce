@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @if(Auth::check())
-    {{ url()->previous() }}
+   <script>
+        history.go(-1);
+   </script>
 @endif
 
 @section('content')

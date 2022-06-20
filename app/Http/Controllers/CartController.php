@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 use Auth;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 
+use DB;
+
 class CartController extends Controller
 {
     public function addToCart(Product $product)
@@ -58,6 +60,8 @@ class CartController extends Controller
                 ]);
 
             }else{
+
+                $total_amount = $c['qty'] * $c['price'];
 
                 Carts::where('product_id',$c['id'])->update(
                     [
@@ -193,7 +197,7 @@ class CartController extends Controller
             $delivery_info = DeliveryInfo::where('id',$request->delInfo)->get()->first();
 
             foreach(session()->get('cart')->items as $key => $value){
-                $carts = [
+                $carts[$key] = [
                             'id' => $value['id'],
                             'vendor' => $value['vendor'],
                             'name' => $value['name'],
@@ -207,7 +211,8 @@ class CartController extends Controller
                             'qty' => $value['qty'],
                             'image' => $value['image'],
                         ];
-            }
+
+                }
 
             $voucher = $this->generateVoucherNumber();
 
@@ -246,19 +251,22 @@ class CartController extends Controller
                     'total_amount'  => $total_amount,
                 ]);
                 
-                OrderItem::create([
-                    'order_id' => $order_id,
-                    'product_id' => $carts['id'],
-                    'product_image' => $carts['image'],
-                    'product_name' => $carts['name'],
-                    'product_type' => $carts['product_type'],
-                    'vendor_id' => $carts['vendor'],
-                    'product_name' => $carts['name'],
-                    'color' => $carts['color'],
-                    'quantity' => $carts['qty'],
-                    'price' => $carts['price'],
-                    'discount' => $carts['discount'],
-                ]);
+                foreach(session()->get('cart')->items as $key => $value){
+
+                    OrderItem::create([
+                        'order_id' => $order_id,
+                        'product_id' => $carts[$key]['id'],
+                        'product_image' => $carts[$key]['image'],
+                        'product_name' => $carts[$key]['name'],
+                        'product_type' => $carts[$key]['product_type'],
+                        'vendor_id' => $carts[$key]['vendor'],
+                        'product_name' => $carts[$key]['name'],
+                        'color' => $carts[$key]['color'],
+                        'quantity' => $carts[$key]['qty'],
+                        'price' => $carts[$key]['price'],
+                        'discount' => $carts[$key]['discount'],
+                    ]);
+                }
 
                 Carts::where('user_id',$userId)->delete();
 
@@ -286,7 +294,65 @@ class CartController extends Controller
     public function order()
     {
         $user_id = Auth::id();
-        $orders = Order::where('user_id',$user_id)->with('orderItems')->get();
+
+
+        $orders = DB::table('orders')->select('*')->join('order_items','order_items.order_id', '=' ,'orders.id')
+                    ->where(['user_id' => $user_id])->get();
+
+
+        foreach($orders as $order)
+        {
+            // print_r($order->product_image);
+        }
+        
+        // foreach($f_orders as $ot)
+        // {
+        //     $order_ids[] = $ot->id;
+
+        //     $order_items = OrderItem::whereIn('order_id',array_unique($order_ids))->groupBy('id')->get();
+
+        // }
+
+
+        // foreach($order_items as $ot)
+        // {
+        //     $order_ids1[] = $ot->order_id;
+
+
+        // }
+
+        // $orders = Order::whereIn('id',array_unique($order_ids))->get();
+
+        // foreach($orders as $order)
+        // {
+        //     echo $order->id."<br/>";
+        // }
+
+
+       
+        // foreach($orders as $ot)
+        // {
+        //     $order_ids[] = $ot->id;
+        // }
+        //     // $order_items = OrderItem::whereIn('order_id',$order_ids)->groupBY('created_at')->get();
+
+
+        //     $projectScope = function ($query) use ($order_ids) {
+        //         return $query->where('order_id', $order_ids);
+        //     };
+
+        //     print_r($projectScope);
+        //     print_r("<br>");
+    
+        //     $orders = Order::where('user_id',$user_id)->with(['orderItems' => $projectScope])
+        //                 ->whereHas('orderItems', $projectScope)
+        //                 ->get();
+
+        //     $order_items = OrderItem::whereHas('order', $projectScope)->get();
+                
+        // // print_r($order_items['id']);
+
+        //     print_r($order_items);
 
         return view('order',compact('orders','user_id'));
     }

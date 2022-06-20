@@ -5,10 +5,14 @@
     <main>
         <div class="album">
             <div class="container">
-
-                <p class="h2 text-center text-white">{{$name}} </p>
+                @if(Request::path() == 'search')
+                    <p class="h2 text-center text-white">You search result for keyword "{{$name}}" </p><br><br>
+                @else
+                    <h3 class="h3 text-uppercase">{{$name}}</h3><br><br>
+                @endif
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                  
+                    
+                    @if(count($products) != 0)
                     @foreach($products as $product)
                     <div class="col-md-2">
                         <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto">
@@ -27,6 +31,9 @@
                         </a>
                     </div>
                     @endforeach
+                    @else
+                    <p class="h2 text-center text-white m-auto">No search results found</p>
+                    @endif
                 </div>
             </div>
 

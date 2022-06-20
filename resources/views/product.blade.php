@@ -36,6 +36,21 @@
  background:#aa0000;
  color:#fff;
 }
+
+.product-list{
+  display: flex;
+  text-align: left;
+  color: #fff;
+}
+
+.product-list::before {
+  content: "";
+  display: inline-block;
+  border-bottom: 4px solid #aa0000;
+  width: 50px;
+  margin: 29px -23px 0px 0px;
+}
+
 </style>
 <div class="container">
     <main>
@@ -62,31 +77,21 @@
                     </button>
                 </div>
             </div>
-        </section>
+        </section><br><br>
         <div class="text-center mt-4">
-            <span class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">EXPLORE</span>
-            <hr class="mx-auto" style="width:10%; color: #aa0000; height: 3px; ">
+            <h3 class="h4">EXPLORE</h3><br/>
         </div>
-        {{-- {{-- @foreach($categories as $category)
-        <div class="img-container">
-            <a href="{{ route('productCategory',[$category->slug]) }}">
-            <img src="{{Storage::url($category->image)}}" class="m-3"
-                style=" border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important"
-                alt="..." class="image">
-            </a>    
-            <div class="middle">
-                <div class="text">{{$category->name}}</div>
-            </div>
-        </div>
-         -- }} --}}
+        
         <div class="row text-center">
         @foreach($categories as $category)
-            <div class="content_img">
+        <div class="content_img">
+            <a href="{{ route('productCategory',[$category->slug]) }}">
                 <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important">
                 <div>{{$category->name}}</div>
-            </div>
-        @endforeach
+            </a>
         </div>
+        @endforeach
+        </div><br/>
 
         <div class="row m-3">
             <div class="col-md-4 m-10">
@@ -122,13 +127,13 @@
             @foreach ($randomItemProducts as $product )
                 
                 <div class="col-md-8 p-2" style="border:1px solid #808080; border-radius: 10px;">
-                    <p class="h4 text-white text-center" style=" font-family: 'Times New Roman', Times, serif;">RECOMMENDED
-                    </p>
-                    <hr class="mx-auto" style="width:75%; color: #aa0000; height: 3px; ">
+                    <h3 class="h4 text-white text-center">Recommended product
+                    </h3>
                     <a href="{{route('productDetail',[$product->id])}}">
                         <img src="{{Storage::url($product->productDetail[0]->image_1)}}"
                             class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:12rem; " alt="...">
                     </a>
+                    <div class="text-white text-left"><?php echo $product->description; ?></div>
                 </div>
 
             @endforeach
@@ -145,13 +150,8 @@
                 @foreach($product_list as $key => $product)
                 {{-- @for ($x = 0; $x <= count($product); $x++) --}}
 
-                    
-                <h2 class="text-white m-4">{{$product[0]->category->name}}
-                    <hr class="mx-auto" style="color: #aa0000; height: 3px; padding:2;margin:10px; ">
-                </h2>
-                    
-                <br>
-
+                <p class="h4 text-white m-2 text-uppercase product-list">{{$product[0]->category->name}}
+                </p><br>
                     
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     @foreach ($product as  $key => $p_count)
@@ -174,7 +174,7 @@
 
                     @endforeach
 
-                </div>
+                </div><br>
 
 
 

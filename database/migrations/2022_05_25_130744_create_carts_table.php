@@ -28,7 +28,7 @@ class CreateCartsTable extends Migration
             $table->text('image');
             $table->integer('quantity');
             $table->string('price');
-            $table->float('total_amount');
+            $table->integer('total_amount');
             $table->string('color');
             $table->text('discount');
             $table->timestamps();
