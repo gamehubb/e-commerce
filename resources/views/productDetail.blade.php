@@ -4,7 +4,7 @@
 <div class="container  bg-dark">
     <div class="row text-white p-4">
         <div class="col-md-3 text-center p-2" style="border-width: 1px; border-color: rgb(27, 27, 27); border-radius : 25px;">             
-               <img src="{{Storage::url($products->productDetail[0]['image_1'])}}" alt="" id="productImg"
+               <img src="{{Storage::url($products->productDetail[0]['image_1'])}}" class="m-auto" alt="" id="productImg"
                style=" height: 200px;border-radius : 25px;">
                @foreach ($products->productDetail as $item)
                <span class="" style="color: {{$item->color}};font-size :35px ;cursor:pointer;"  onclick="changeImage('{{Storage::url($item->image_1)}}')">●</span>
@@ -65,7 +65,7 @@
                             style=" object-fit: contain;border-radius : 25px;">
                         <div class="card-body text-white">
                             <p><b> {{$product->name}}</b></p>
-                            <span > Colors- 
+                            <span> Colors- 
                                 @foreach ($product->productDetail as $item)
                                 <span  style="color: {{$item->color}};font-size : 35px" >●</span>
                                 @endforeach
