@@ -19,7 +19,6 @@ class CreateCartsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('vendor');
             $table->integer('product_id');
-            $table->integer('vendor');
             $table->string('product_code');
             $table->text('product_name');
             $table->string('category');

@@ -6,9 +6,12 @@
         <div class="col-md-3 text-center p-2" style="border-width: 1px; border-color: rgb(27, 27, 27); border-radius : 25px;">             
                <img src="{{Storage::url($products->productDetail[0]['image_1'])}}" class="m-auto" alt="" id="productImg"
                style=" height: 200px;border-radius : 25px;">
-               @foreach ($products->productDetail as $item)
-               <span class="" style="color: {{$item->color}};font-size :35px ;cursor:pointer;"  onclick="changeImage('{{Storage::url($item->image_1)}}')">●</span>
-               @endforeach                   
+               <div>
+               @foreach ($products->productDetail as $key=> $item)
+               <span class="m-1 mt-3 imgclass" id = "img{{$item->id}}" style="background-color: {{$item->color}}; {{$key == 0 ? 'border: 2px solid skyblue;' : ""}} display: inline-block;border-radius: 50%;width: 20px;height:20px;text-align: center;cursor:pointer;"  
+                onclick="changeImage('{{Storage::url($item->image_1)}}', {{$item->id}})"></span>
+               @endforeach  
+               </div>                 
            
         </div>
         <div class="col-md-3 m-3"  >     
@@ -87,9 +90,12 @@
 </div>
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
 <script type="text/javascript">
-    function changeImage(image) {
+    function changeImage(image , id) {
+       
         var img =  document.getElementById("productImg");
         img.src =image;
+        $('.imgclass').css({'border': ''});
+        $("#img" + id).css({'border': '2px solid skyblue'});
      }
 
 </script>

@@ -221,7 +221,7 @@
                                         @foreach(session()->get('cart')->items as $key => $value)
                                             <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;">
                                                 <div class="col-md-4 col-xs-4">
-                                                        <img src="{{Storage::url($value['image'])}}" style="width:100px;  height:100px;">
+                                                        <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:100%;">
                                                 </div>
                                                 <div class="col-md-8 col-xs-8">
                                                     <p>{{$value['name']}} </p>

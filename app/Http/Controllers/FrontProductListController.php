@@ -21,16 +21,16 @@ class FrontProductListController extends Controller
         $products = Product::latest()->where('status', 1)->limit(6)->get();
         $randomActiveProducts = Product::inRandomOrder()->limit(3)->get();
         $randomActiveProductId = [];
+        $product_list = [];
         foreach ($randomActiveProducts as $product) {
             array_push($randomActiveProductId, $product->id);
         }
         $randomItemProducts = Product::whereNotIn('id', $randomActiveProductId)->limit(1)->get();
         $categories = Category::limit(5)->get();
-        $s_categories = Category::where(['status' => '1','is_special' => '1'])->get();
+        $s_categories = Category::where(['status' => '1', 'is_special' => '1'])->get();
 
-        foreach($s_categories as $s_category){
-            $product_list[$s_category->id] = Product::where('category_id',$s_category->id)->with('productDetail')->get();
-
+        foreach ($s_categories as $s_category) {
+            $product_list[$s_category->id] = Product::where('category_id', $s_category->id)->with('productDetail')->get();
         }
 
         $brands = Brand::get();
@@ -62,15 +62,15 @@ class FrontProductListController extends Controller
     public function search(Request $request)
     {
         $name = $request->name;
-        $c_products = Product::where("status" , 1)->whereHas("Category", function ($query) use ($name) {
-            $query->where("name" , "like" , "%".$name ."%" );
+        $c_products = Product::where("status", 1)->whereHas("Category", function ($query) use ($name) {
+            $query->where("name", "like", "%" . $name . "%");
         })->get();
-        $b_products = Product::where("status" , 1)->whereHas("Brand", function ($query) use ($name) {
-            $query->where("name" , "like" , "%".$name ."%" );
+        $b_products = Product::where("status", 1)->whereHas("Brand", function ($query) use ($name) {
+            $query->where("name", "like", "%" . $name . "%");
         })->get();
 
-        $p_products = Product::where("status" , 1)->where("name" , "like" , "%".$name ."%")->get();
-        $products= $p_products->merge($b_products)->merge($c_products);
+        $p_products = Product::where("status", 1)->where("name", "like", "%" . $name . "%")->get();
+        $products = $p_products->merge($b_products)->merge($c_products);
         return view('filteredProduct', compact('products', 'name'));
     }
     public function productDetail($id)

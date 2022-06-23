@@ -18,8 +18,8 @@ class BrandController extends Controller
     public function index()
     {
         $brands = Brand::get();
-        $context = ['brands'=>$brands];
-        return view('admin.brand.index',$context); 
+        $context = ['brands' => $brands];
+        return view('admin.brand.index', $context);
     }
 
     /**
@@ -40,14 +40,13 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'brand_name' => 'required|min:3',
         ]);
 
-        if($request->file('brand_image') != null)
-        {
+        if ($request->file('brand_image') != null) {
             $image = $request->file('brand_image')->store('public/files');
-        }else{
+        } else {
             $image = null;
         }
 
@@ -58,7 +57,7 @@ class BrandController extends Controller
         ]);
 
         notify()->success('Creation Succeed');
-        return redirect('/auth/brand/index');
+        return redirect('/auth/brand');
     }
 
     /**
@@ -81,8 +80,8 @@ class BrandController extends Controller
     public function edit($id)
     {
         $brand = Brand::findorFail($id);
-        $context = ['brand'=>$brand];
-        return view('admin.brand.edit',$context);
+        $context = ['brand' => $brand];
+        return view('admin.brand.edit', $context);
     }
 
     /**
@@ -97,13 +96,12 @@ class BrandController extends Controller
         $brand = Brand::find($id);
         $old_image = $brand->image;
         $new_image = $request->file('brand_image');
-        
+
         $brand->name = $request->brand_name;
-        if($new_image != null){
-            Storage::delete($old_image); 
+        if ($new_image != null) {
+            Storage::delete($old_image);
             $brand->image = $request->file('brand_image')->store('public/files');
-        }
-        else{
+        } else {
             $brand->image = $old_image;
         }
         $brand->save();
@@ -145,9 +143,7 @@ class BrandController extends Controller
     public function behaviourOfStatusBrand(Request $request)
     {
         $obj = new \stdClass();
-        $obj =Brand::where('id',$request->id)->update(['status' => $request->status]); 
+        $obj = Brand::where('id', $request->id)->update(['status' => $request->status]);
         return $obj;
-        
     }
-
 }
