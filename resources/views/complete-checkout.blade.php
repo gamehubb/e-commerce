@@ -26,9 +26,9 @@
 <body style="background:black;">
 	<header class="header-box">
 		<div class="container">
-			<div class="col-md-12  site-icon m-1">              
+			<div class="col-md-12 text-left site-icon m-3">              
 					<a href="/" style="color: #aa0000;">
-						<span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar</sub>
+						<span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar<sub style="font-size:9px;">Shop</sub></sub>
 					</a>
 			   
 			</div>
