@@ -15,18 +15,15 @@
                 </div>
             </div>
             {{-- </div> --}}
-            <div class="col-6 col-md-5  text-white" id="cart-view">
-                <i class="nav-item fa fa-user m-2 mb-4"> Hi {{Auth::getUser()->name}}</i>
-               
+            <div class=" col-md-5  text-white" id="cart-view">
+                <i class="nav-item fa fa-user m-2 mb-4"> Hi {{Auth::getUser()->name}}</i>           
                 <div class="row mb-3" style="border:1px solid #808080; border-radius: 10px;">
-
                         @foreach($cart_data as $key => $carts)
                                 <div class="col-md-4">
                                     <img src="{{Storage::url($carts['image'])}}"
                                         class="floar-right m-3 mx-auto" style=" border-radius: 20px; " alt="...">
                                 </div>
                                 <div class="col-md-4 mt-2 ">
-
                                     <p><u><b>{{$carts['product_name']}} </b></u>
                                     </p>
                                     <p class="m-2"> Product-Code:{{$carts['product_code']}} </p>

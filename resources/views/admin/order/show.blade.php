@@ -12,7 +12,7 @@
 </div>
 <div class="row justify-content-center">
     <div class="col-md-8">
-        @foreach($orders as $order)
+        {{-- @foreach($orders as $order)
         @foreach($order->orderitem as $orderitem) 
         <div class="card mb-3">
             <div class="card-body">
@@ -21,7 +21,7 @@
             </div>
         </div>
         @endforeach
-        @endforeach
+        @endforeach --}}
     </div>
 </div>
 @endsection

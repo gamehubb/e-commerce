@@ -166,7 +166,8 @@
                             <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto link-light">
                                 <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                                     <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
-                                        style=" object-fit: cover;border-radius : 25px;">
+                                        style=" object-fit: cover;border-radius : 25px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))
+                                        ">
                                     <div class="card-body text-white">
                                         <p><b> {{$product[$key]->name}}</b></p>
                                         <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   

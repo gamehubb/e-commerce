@@ -15,13 +15,13 @@
                     @if(count($products) != 0)
                     @foreach($products as $product)
                     <div class="col-md-3">
-                        <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto">
+                        <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto link-light">
                         <div class="card shadow-sm " style="background-color : #aa0000;border-radius : 25px; ">
                             <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
-                                style=" object-fit: contain;border-radius : 25px;">
+                                style=" object-fit: contain;border-radius : 25px;filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))">
                             <div class="card-body text-white">
                                 <p><b> {{$product->name}}</b></p>
-                                <p><b>MMKs {{$product->productDetail[0]['price']}} </b> </p>                         
+                                <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>                         
                                 <a href="{{ route('add.cart',[$product->id]) }}">
                                     <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"
                                         style="border-radius : 20px;">Add to cart</button>
