@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container  bg-dark">
+<div class="container">
     <div class="row text-white p-4">
         <div class="col-md-3 text-center p-2" style="border-width: 1px; border-color: rgb(27, 27, 27); border-radius : 25px;">             
                <img src="{{Storage::url($products->productDetail[0]['image_1'])}}" class="m-auto" alt="" id="productImg"
@@ -31,18 +31,25 @@
                     <td style="width:70%;"><p class="m-1"><b>Brand</b></p></td>
                     <td>{{$products->brand->name}}</td>
                 </tr>
+                @if($products->model_name != null)
                 <tr>
                     <td><p class="m-1"><b>Model Name</b></p></td>
                     <td>{{$products->model_name}}</td>
                 </tr>
-                <tr>
-                    <td><p class="m-1"><b>Connectivity</b></p></td>
-                    <td>Wireless</td>
-                </tr>
+                @endif
+                @if($products->wireless == 0 || $products->wireless == 1)
+                    <tr>
+                        <td><p class="m-1"><b>Connectivity</b></p></td>
+                        <td>{{$products->wireless == 1 ? 'Wireless' : 'Wired'}}</td>
+                    </tr>
+                    
+                @endif
+                @if($products->warranty != null)
                 <tr>
                     <td><p class="m-1"><b>Warranty</b></p></td>
-                    <td>1 year</td>
+                    <td>{{$products->warranty}} {{$products->warranty == 1 ? 'year' : 'years' }}</td>
                 </tr>
+                @endif
                  
             </table>
             <div class="col-md-6 mt-3">     
@@ -51,42 +58,92 @@
             </div>     
         </div>
     </div>
-</div>
-<div class="container mt-3 text-white">
-    <div class="text-center mt-4">
-        <span class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
-           CATEGORY BASED ON YOUR TREND
-        </span>
-        <hr class="mx-auto" style="width:360px; color: #aa0000; height: 3px; ">
-    </div>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-3">
-        @foreach($cat_products as $product)
-            <div class="col-md-2">
-                <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto">
-                    <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
-                        <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
-                            style=" object-fit: contain;border-radius : 25px;">
-                        <div class="card-body text-white">
-                            <p><b> {{$product->name}}</b></p>
-                            <span> Colors- 
-                                @foreach ($product->productDetail as $item)
-                                <span  style="color: {{$item->color}};font-size : 35px" >●</span>
-                                @endforeach
-                            </span>
-                            <p><b>MMKs {{$product->productDetail[0]['price']}} </b> </p>  
-                            <small class="card-text"><p>{!!Str::limit($product->description,120)!!}</p></small>
-                            <a href="{{ route('add.cart',[$product->id]) }}">
-                                <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"
-                                    style="border-radius : 20px;">Add to cart</button>
-                            </a>
+    <div class="container mt-3 text-white">
+        <div class="text-center mt-4">
+            <span class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
+            CATEGORY BASED ON YOUR TREND
+            </span>
+            <hr class="mx-auto" style="width:360px; color: #aa0000; height: 3px; ">
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-3">
+            @foreach($cat_products as $product)
+                <div class="col-md-3">
+                    <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto link-light">
+                        <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
+                            <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
+                                style=" object-fit: contain;border-radius : 25px;">
+                            <div class="card-body text-white">
+                                <p><b> {{$product->name}}</b></p>
+                                    {{-- @foreach ($product->productDetail as $item)
+                                    <span  style="color: {{$item->color}};font-size : 35px" class="mt-2" title="Available in colors">●</span>
+                                    @endforeach --}}
+                                <p><b>MMKs {{$product->productDetail[0]['price']}} </b> </p>  
+                                {{-- <small class="card-text"><p>{!!Str::limit($product->description,120)!!}</p></small> --}}
+                                <a href="{{ route('add.cart',[$product->id]) }}">
+                                    <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"
+                                        style="border-radius : 20px;">Add to cart</button>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-      
-        @endforeach
+                    </a>
+                </div>
+        
+            @endforeach
 
+        </div>
     </div>
+
+<footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="container ">
+                <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
+                        MYANMAR</label></span> <br />
+                <label>A place where you can shop and download free games in this gaminig community. </label>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="container text-white">
+                <div class="row">
+                    <div class="col-md-4 mt-2">
+                        <p><b>Category</b></p>
+                        @foreach ($allCategory as $category )
+                        <a href="{{ route('productCategory',[$category->slug]) }}">
+                          <p>{{$category->name}}</p> 
+                        </a>
+                        @endforeach
+                       
+                    </div>
+                    <div class="col-md-4  mt-2">
+                        <p><b>Brand</b></p>
+                        @foreach ($allBrand as $brand )
+                        <a href="{{ route('productBrand',[$brand->slug]) }}">
+                            <p> {{$brand->name}}  </p> 
+                        </a>
+                        @endforeach
+                    </div>
+                    <div class="col-md-4  mt-2">
+                        <p><b>Company</b></p>
+                        <p> Terms & Condition </p>
+                        <p> Privacy Policy </p>
+                        <p> Supplier Relations </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" container row mt-10">
+        <div class="col-md-4">
+            <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
+        </div>
+        <div class="col-md-4 text-center ">
+            <p><i class="fa fa-phone"></i> Call Us: 0996332033,0996332033 </p>
+        </div>
+        <div class="col-md-4 text-right">
+            <p><i class="fa fa-envelope"></i> Mail Us: info@gmaihubmyanmar.com </p>
+        </div>
+    </div>
+</footer>
 </div>
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
 <script type="text/javascript">

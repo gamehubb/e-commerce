@@ -21,6 +21,16 @@
         opacity: 0;
         cursor: pointer;
     }
+
+    .note-editable ul{
+        list-style: disc !important;
+        list-style-position: inside !important;
+        }
+
+        .note-editable ol {
+        list-style: decimal !important;
+        list-style-position: inside !important;
+    }
 </style>
 
 @section ('content')
@@ -47,7 +57,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-3">
-                                <label for="">Vendor</label>
+                                <label for="">Vendor<sup><b class="text-danger">*</b></sup></label>
                                 <select name="vendor_id" id="" class="form-control" required>
                                     <option value="">Select Vendor</option>
                                     @foreach ($vendors as $vendor)
@@ -56,24 +66,24 @@
                                 </select>                            </div>
 
                             <div class="form-group col-md-3">
-                                <label for="">Name</label>
+                                <label for="">Name<sup><b class="text-danger">*</b></sup></label>
                                 <input type="text" name="product_name" class="form-control @error('product_name') is-invalid @enderror" value="{{ $s_product->name }}" id="" aria-describedby="" placeholder="Enter name of product" required>
                             </div>
 
                             <div class="form-group col-md-3">
-                                <label for="">Code</label>
+                                <label for="">Code<sup><b class="text-danger">*</b></sup></label>
                                 <input type="text" name="product_code" class="form-control" value="{{ $s_product->code }}" required>
                             </div>
 
                             <div class="form-group col-md-3">
-                                <label for="">Model Name</label>
+                                <label for="">Model Name<sup><b class="text-danger">*</b></sup></label>
                                 <input type="text" name="model_name" class="form-control" value="{{ $s_product->model_name }}">
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-md-4">
-                                <label for="">Choose Category</label>
+                                <label for="">Choose Category<sup><b class="text-danger">*</b></sup></label>
                                 <select name="category" id="" class="form-control @error ('category') is-invalid @enderror" required>
                                     @foreach ($categories as $category)
                                     <option value="{{$category->id}}" {{ $s_product->category_id == $category->id ? 'selected' : '' }}>{{$category->name}}</option>
@@ -87,7 +97,7 @@
                             </div>
                         
                             <div class="col-md-4">
-                                <label for="">Choose Brand</label>
+                                <label for="">Choose Brand<sup><b class="text-danger">*</b></sup></label>
                                 <select name="brand" id="" class="form-control @error ('brand') is-invalid @enderror" required>
                                     @foreach ($brands as $brand)
                                     <option value="{{$brand->id}}" {{ $s_product->brand_id == $brand->id ? 'selected' : '' }}>{{$brand->name}}</option>
@@ -102,7 +112,7 @@
 
                             <div class="form-group col-md-4">
                                 <label for="">Warranty</label>
-                                <input type="text" name="warranty" class="form-control" value="{{ $s_product->warranty }}">
+                                <input type="number" name="warranty" class="form-control" value="{{ $s_product->warranty }}">
                             </div>
                         </div>
 
@@ -111,11 +121,11 @@
                                         <table class="table text-gray" id="product_info_table" name="table">
                                             <thead>
                                                 <tr>
-                                                    <td>Color</td>
-                                                    <td>Price</td>
+                                                    <td>Color<sup><b class="text-danger">*</b></sup></td>
+                                                    <td>Price<sup><b class="text-danger">*</b></sup></td>
                                                     <td>Quantity</td>
                                                     <td>Discount</td>
-                                                    <td>Upload Image</td>
+                                                    <td>Upload Image<sup><b class="text-danger">*</b></sup></td>
                                                     <td><button type="button" id="add_row" class="btn btn-default bg-white"><i class="fa fa-plus"></i></button></td>
                                                 </tr>
                                             </thead>
@@ -134,7 +144,7 @@
                                                     </td>
 
                                                     <td>
-                                                        <input type="number" name="quantity[{{$product->id}}]" id="quantity_{{$product->id}}" value="{{$product->quantity}}" style="width:62px;height:42px;border:1px solid black;" required>
+                                                        <input type="number" name="quantity[{{$product->id}}]" id="quantity_{{$product->id}}" value="{{$product->quantity}}" style="width:62px;height:42px;border:1px solid black;">
                                                     </td>
 
                                                     <td>
@@ -199,20 +209,35 @@
                                     <label for="">Moto</label>
                                     <textarea name="moto" cols="30" rows="3" class="form-control">{{$s_product->moto}}</textarea>
                                 </div>
+                                <label><b>Wire Option</b></label>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="">Wired</label>
+                                            <input type="radio" name="wired_option" value="0" {{ $s_product->wireless == 0 ? 'checked' : '' }} />
+                                        </div>
+                                    </div>
 
-                                <div class="form-group">
-                                    <label for="">Wired Option</label>
-                                    <input type="checkbox" name="wired_option" value="1" {{ $s_product->wireless == 1 ? 'checked' : '' }} />
+                                    <div class="col-md-3">
+
+                                        <div class="form-group">
+                                            <label for="">Wireless</label>
+                                            <input type="radio" name="wired_option" value="1" {{ $s_product->wireless == 1 ? 'checked' : '' }} />
+                                        </div>
+                                    </div>
                                 </div>
 
+
+                                <label><b>Availablity</b></label>
+
                                 <div class="form-group">
-                                    <label for="product_type">Type</label>
                                     <select name="product_type">
                                         @foreach($product_types as $key => $value)
                                         <option value="{{$key}}" {{ $s_product->product_type == $key ? 'selected' : ''}}>{{$value}}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                                <label><b>More..</b></label>
 
                                 <div class="form-group">
                                     <label for="is_special">Is Special</label>

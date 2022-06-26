@@ -204,20 +204,21 @@
                                 <span style="color:#AA2B25;"></span>
                         </div>
                     </div>
-                    <div class="modal-content bg-dark " id="cartModel">
+                    <div class="modal-content bg-dark"  id="cartModel">
                             <div class="p-1" style="background-color: #aa0000;">
-                                <p class="text-center h3">Gamehub Myanmar</p>
+                                <p class="text-center h3">Gamehub Myanmar</p>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="button" class="close" data-dismiss="modal"
                                     style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" id="cartData">
                                 
                                     <div class="row">
                                         <p class="col-md-8 h4"><b>YOUR CART</b></p>
                                     </div>
-                                    <hr class="mx-auto mb-3" style="width:95%; color: #ec0606; height: 3px; ">
                             
                                     @if(session()->has('cart'))
+                                    <hr class="mx-auto mb-3" style="width:95%; color: #ec0606; height: 3px; ">
+
                                         @foreach(session()->get('cart')->items as $key => $value)
                                             <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;">
                                                 <div class="col-md-4 col-xs-4">
@@ -248,12 +249,19 @@
 
                         </div>
                         <div class="text-center m-3">
-                            @auth
-                            <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
-                                <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"
-                                    style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
-                            </a>
-                            @endauth
+                            @if(session()->has('cart'))
+                                @auth
+                                <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
+                                    <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"
+                                        style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
+                                </a>
+                                @endauth
+                            @else
+                                <a href="{{route('home')}}">
+                                    <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"
+                                        style="border-radius : 20px; width:40%; background-color : #aa0000;">Shop with us</button>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>

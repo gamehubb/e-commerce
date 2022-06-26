@@ -14,7 +14,7 @@
                     
                     @if(count($products) != 0)
                     @foreach($products as $product)
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto">
                         <div class="card shadow-sm " style="background-color : #aa0000;border-radius : 25px; ">
                             <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""

@@ -37,6 +37,10 @@
  color:#fff;
 }
 
+.content_img:hover .cat-img{
+ opacity: 0.3;
+}
+
 .product-list{
   display: flex;
   text-align: left;
@@ -83,14 +87,17 @@
         </div>
         
         <div class="row text-center">
-        @foreach($categories as $category)
-        <div class="content_img">
-            <a href="{{ route('productCategory',[$category->slug]) }}">
-                <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important">
-                <div>{{$category->name}}</div>
-            </a>
-        </div>
-        @endforeach
+                @foreach($categories as $category)
+                <div class="col-md-2 m-2">
+
+                    <div class="content_img m-auto">
+                        <a href="{{ route('productCategory',[$category->slug]) }}">
+                            <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important" class="cat-img">
+                            <div>{{$category->name}}</div>
+                        </a>
+                    </div>
+                </div>
+                @endforeach
         </div><br/>
 
         <div class="row m-3">
@@ -155,7 +162,7 @@
                     
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     @foreach ($product as  $key => $p_count)
-                        <div class="col-md-2">
+                        <div class="col-md-3" id="{{$product[$key]->id}}">
                             <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto link-light">
                                 <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                                     <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
@@ -163,10 +170,11 @@
                                     <div class="card-body text-white">
                                         <p><b> {{$product[$key]->name}}</b></p>
                                         <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
-                                        <a href="{{ route('add.cart',[$product[$key]->id]) }}">
-                                            <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"
-                                                style="border-radius : 20px;">Add to cart</button>
-                                        </a>
+                                        <a data-id = {{$product[$key]->id}} id="add_cart_{{$product[$key]->id}}"
+                                            class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$product[$key]->id}})"
+                                                style="border-radius : 20px;">Add to cart</a>
+                                        </button>
+                                        <span class="fa-solid fa-check text-info" id="done" hidden></span>
                                     </div>
                                 </div>
                             </a>
@@ -239,4 +247,65 @@
         </div>
     </footer>
 </div>
+
+<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+<script type="text/javascript">
+
+function addCart(id){
+
+    var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
+
+    $.ajax({
+        type: "GET",
+        url: '/addToCart/'+product_id,
+    beforeSend: function(){
+        // $("#cartModel").css("display","none");
+        $("#cart-loader").css("display",'grid');
+    },
+    success: function( response ) {
+        if(response == 'ok'){
+            $("#cart-loader").css("display",'none');
+            location.reload();
+        }
+
+     // $("#cartModel").css("display","block");
+    },
+    });
+
+    // function updateCart(icon)
+    //     {
+    //             var id = document.getElementById('add_cart_'+icon).getAttribute('data-id');
+    //             $("#qty_"+id).text();
+    //             var qty = 1;
+    //             var price = document.getElementById("price_"+id).getAttribute('data-price');
+
+    //             alert(id);
+    //             alert(qty);
+    //             alert(price);
+
+
+
+    //             $.ajax({
+    //                 type: "POST",
+    //                 url: '/products/'+id,
+    //                 data: { qty: qty, price: price },
+    //             beforeSend: function(){
+    //                 $("#cartModel").css("display","none");
+    //                 $("#cart-loader").css("display",'grid');
+    //             },
+    //             success: function( response ) {
+    //                 var value = JSON.parse(response);
+    //                 $("#total_price").text(custom_number_format(value.total_price));
+    //                 $("#cartcount").text(value.total_quantity);
+    //                 $("#cartModel").css("display","block");
+    //                 $("#cart-loader").css("display",'none');
+    //             },
+
+    //         });
+            
+    //     }
+}
+    
+
+</script>
 @endsection

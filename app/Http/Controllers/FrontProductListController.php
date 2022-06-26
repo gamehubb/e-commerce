@@ -31,6 +31,7 @@ class FrontProductListController extends Controller
 
         foreach ($s_categories as $s_category) {
             $product_list[$s_category->id] = Product::where('category_id', $s_category->id)->with('productDetail')->get();
+            
         }
 
         $brands = Brand::get();

@@ -21,7 +21,7 @@ class CreateProductDetailsTable extends Migration
             $table->text('image_1');
             $table->text('image_2')->nullable();
             $table->text('image_3')->nullable();
-            $table->integer('quantity');
+            $table->integer('quantity')->nullable();
             $table->integer('price');
             $table->text('discount')->nullable();
             $table->integer('status')->default(true)->nullable();

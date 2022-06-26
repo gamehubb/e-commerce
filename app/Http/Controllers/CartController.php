@@ -88,7 +88,8 @@ class CartController extends Controller
         session()->put('cart', $cart);
 
         // notify()->success('Added To Cart Successfully');
-        return redirect()->back();
+
+        echo "ok";
     }
 
     public function showCart()
