@@ -3,8 +3,8 @@
 @section('content')
 <div class="container">
     
-        <div class="col-md-8 text-white"  >     
-            <form action="{{ route('deliveryInfo.store') }}" method="post" id="payment-form" style="width:60%;float: right;">@csrf
+        <div class="col-md-4 text-white m-auto">     
+            <form action="{{ route('deliveryInfo.store') }}" method="post" id="payment-form" style="">@csrf
                 <div class="form-group m-2">
                     <label>Name</label>
                     <input type="text" name="name" id="name" class="form-control" value={{auth()->user()->name}}

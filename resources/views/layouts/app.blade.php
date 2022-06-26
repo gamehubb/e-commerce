@@ -128,7 +128,7 @@
                         <i class="nav-item fa fa-user text-white m-2"  onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="position: absolute !important;">
                             @if(Auth::check())
-                                <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Accunt</a>
+                                <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Account</a>
                                 <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
@@ -245,7 +245,7 @@
                         <div class="row m-3">
 
                             <p class="col-md-6"><b>Total Price:</b></p>
-                            <p class="col-md-6"> <b>MMKs <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
+                            <p class="col-md-6"> <b>MMK <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
 
                         </div>
                         <div class="text-center m-3">
@@ -266,7 +266,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <p class="col-md-6"> <b>MMKs <span id="total_price">{{json_encode(session()->get('cart'))}}<span></b> </p> --}}
+            {{-- <p class="col-md-6"> <b>MMK <span id="total_price">{{json_encode(session()->get('cart'))}}<span></b> </p> --}}
 
         @endif
         @endauth
