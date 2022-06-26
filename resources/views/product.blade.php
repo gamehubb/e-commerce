@@ -56,12 +56,23 @@
     <main>
         <section class="text-center">
             <div class="container">
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
+                <div id="carouselExampleControls" class=
+                "carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner text-white">
+                  
                         @foreach($sliders as $key=>$slider)
-                        <div class="carousel-item {{$key == 0 ? 'active' : ''}}">
+                        <div class="carousel-item {{$key == 0 ? 'active' : ''}}" style="border-radius: 20px; background: #381818">
+                            <div style="display: inline-flex;">
+                          <p  style=" font-size: 20px;  ">  {{$slider->products->moto}}</p>
+                          <a href="{{ route('productDetail',[$slider->products->id])}}">
+                            <button type="button" class="btn btn-sm mx-auto  text-white mt-10"
+                            style="border-radius : 20px;background-color : #aa0000;">View detail</button>
+                           
+                        </a>
+                            </div>
                             <img src="{{Storage::url($slider->image)}}"
                                 style="height:12rem; display: inline-block; !important" alt="...">
+                               
                         </div>
                         @endforeach
                     </div>
@@ -163,7 +174,7 @@
                                         ">
                                     <div class="card-body text-white">
                                         <p><b> {{$product[$key]->name}}</b></p>
-                                        <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
+                                        <p><b>MMK {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
                                         <a href="{{ route('add.cart',[$product[$key]->id]) }}">
                                             <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"
                                                 style="border-radius : 20px;">Add to cart</button>
@@ -194,7 +205,7 @@
                 <div class="container ">
                     <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
                             MYANMAR</label></span> <br />
-                    <label>A place where you can shop and download free games in this gaminig community. </label>
+                    <label>A place where you can shop and download free games in this gaming community. </label>
                 </div>
             </div>
             <div class="col-md-5">
@@ -232,10 +243,10 @@
                 <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
             </div>
             <div class="col-md-4 text-center ">
-                <p><i class="fa fa-phone"></i> Call Us: 0996332033,0996332033 </p>
+                <p><i class="fa fa-phone"></i> Call Us: 09963325033,09403113003 </p>
             </div>
             <div class="col-md-4 text-right">
-                <p><i class="fa fa-envelope"></i> Mail Us: info@gmaihubmyanmar.com </p>
+                <p><i class="fa fa-envelope"></i> Mail Us: info@gamehubmyanmar.shop </p>
             </div>
         </div>
     </footer>

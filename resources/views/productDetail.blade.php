@@ -103,7 +103,7 @@
         </div>
         <div class="col-md-3 m-3"  >     
             <p class="h3"> <b>{{$products->name}} </b> </p>
-            <p class="text-red-600 h4"><b>MMKs {{$products->productDetail[0]['price']}} </b> </p>  
+            <p class="text-red-600 h4"><b>MMK {{$products->productDetail[0]['price']}} </b> </p>  
             <p class="card-text">Status: {{$products->productDetail[0]['status'] == '1' ? 'In-stock' : 'Pre-Order'}}</p>
             <p class="card-text">Waiting Time: @if ($products->productDetail[0]['status'] == '1') 3 - 4 days @else 10 - 12 days @endif</p>
             <a href="{{ route('add.cart',[$products->id]) }}">
@@ -160,7 +160,7 @@
                                 <span  style="color: {{$item->color}};font-size : 35px" >●</span>
                                 @endforeach
                             </span>
-                            <p><b>MMKs {{$product->productDetail[0]['price']}} </b> </p>  
+                            <p><b>MMK {{$product->productDetail[0]['price']}} </b> </p>  
                             <small class="card-text"><p>{!!Str::limit($product->description,120)!!}</p></small>
                             <a href="{{ route('add.cart',[$product->id]) }}">
                                 <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"

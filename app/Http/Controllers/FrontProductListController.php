@@ -35,7 +35,8 @@ class FrontProductListController extends Controller
 
         $brands = Brand::get();
 
-        $sliders = Slider::limit(5)->get();
+        $sliders = Slider::with('products')->where('status', 1)->limit(5)->get();
+
 
         return view('product', compact('products', 'categories', 'brands', 'randomItemProducts', 'randomActiveProducts', 'sliders', 'product_list'));
     }

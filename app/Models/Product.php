@@ -36,8 +36,7 @@ class Product extends Model
     }
 
     public function slider()
-
     {
-        return $this->hasOne(Slider::class, 'product_id' ,'id');
+        return $this->hasOne(Slider::class, 'product_id', 'id');
     }
 }

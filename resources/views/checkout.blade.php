@@ -86,9 +86,9 @@
                     <p class="m-2  h6">Delivery :</p>
                 </div>
                 <div class="col-md-4 mt-2 ">
-                    <p class="m-2 h6" >MMKs <span id="total_price_2">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span>
+                    <p class="m-2 h6" >MMK <span id="total_price_2">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span>
                     </p>
-                    <p class="m-2 h6">MMKs 0</p>
+                    <p class="m-2 h6">MMK 0</p>
                 </div>
             </div>
             <hr class="mx-auto" style="width:100%;">
@@ -97,7 +97,7 @@
                     <p class="m-2 h5"><b>TOTAL :</b></p>      
                 </div>
                 <div class="col-md-4 mt-2 ">
-                    <p class="m-2 h5"><b>MMKs <span id="total_price_3">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></b></p>
+                    <p class="m-2 h5"><b>MMK <span id="total_price_3">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></b></p>
                 
                 </div>
             </div>
