@@ -153,42 +153,45 @@
         </div><br>
 
         <div class="album py-2 ">
+
             <div class="container">
-                @foreach($product_list as $key => $product)
-                {{-- @for ($x = 0; $x <= count($product); $x++) --}}
+                @if(!empty($product_list))
+                    @foreach($product_list as $key => $product)
+                    {{-- @for ($x = 0; $x <= count($product); $x++) --}}
 
-                <p class="h4 text-white m-2 text-uppercase product-list">{{$product[0]->category->name}}
-                </p><br>
-                    
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    @foreach ($product as  $key => $p_count)
-                        <div class="col-md-3" id="{{$product[$key]->id}}">
-                            <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto link-light">
-                                <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
-                                    <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
-                                        style=" object-fit: cover;border-radius : 25px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))
-                                        ">
-                                    <div class="card-body text-white">
-                                        <p><b> {{$product[$key]->name}}</b></p>
-                                        <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
-                                        <a data-id = {{$product[$key]->id}} id="add_cart_{{$product[$key]->id}}"
-                                            class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$product[$key]->id}})"
-                                                style="border-radius : 20px;">Add to cart</a>
-                                        </button>
-                                        <span class="fa-solid fa-check text-info" id="done" hidden></span>
-                                    </div>
+                        <p class="h4 text-white m-2 text-uppercase product-list">{{$product[0]->category->name}}
+                        </p><br>
+                        
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            @foreach ($product as  $key => $p_count)
+                                <div class="col-md-3" id="{{$product[$key]->id}}">
+                                    <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto link-light">
+                                        <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
+                                            <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
+                                                style=" object-fit: cover;border-radius : 25px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))
+                                                ">
+                                            <div class="card-body text-white">
+                                                <p><b> {{$product[$key]->name}}</b></p>
+                                                <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
+                                                <a data-id = {{$product[$key]->id}} id="add_cart_{{$product[$key]->id}}"
+                                                    class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$product[$key]->id}})"
+                                                        style="border-radius : 20px;">Add to cart</a>
+                                                </button>
+                                                <span class="fa-solid fa-check text-info" id="done" hidden></span>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                        </div>
 
+                            @endforeach
+
+                        </div><br>
+
+
+
+                    {{-- @endfor --}}
                     @endforeach
-
-                </div><br>
-
-
-
-                {{-- @endfor --}}
-                @endforeach
+                @endif
 
             </div>
         </div>
