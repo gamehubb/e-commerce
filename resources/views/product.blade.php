@@ -187,7 +187,6 @@
                                                 <a data-id = {{$product[$key]->id}} id="add_cart_{{$product[$key]->id}}"
                                                     class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$product[$key]->id}})"
                                                         style="border-radius : 20px;">Add to cart</a>
-                                                </button>
                                                 <span class="fa-solid fa-check text-info" id="done" hidden></span>
                                             </div>
                                         </div>
@@ -282,43 +281,9 @@ function addCart(id){
             $("#cart-loader").css("display",'none');
             location.reload();
         }
-
-     // $("#cartModel").css("display","block");
     },
     });
 
-    // function updateCart(icon)
-    //     {
-    //             var id = document.getElementById('add_cart_'+icon).getAttribute('data-id');
-    //             $("#qty_"+id).text();
-    //             var qty = 1;
-    //             var price = document.getElementById("price_"+id).getAttribute('data-price');
-
-    //             alert(id);
-    //             alert(qty);
-    //             alert(price);
-
-
-
-    //             $.ajax({
-    //                 type: "POST",
-    //                 url: '/products/'+id,
-    //                 data: { qty: qty, price: price },
-    //             beforeSend: function(){
-    //                 $("#cartModel").css("display","none");
-    //                 $("#cart-loader").css("display",'grid');
-    //             },
-    //             success: function( response ) {
-    //                 var value = JSON.parse(response);
-    //                 $("#total_price").text(custom_number_format(value.total_price));
-    //                 $("#cartcount").text(value.total_quantity);
-    //                 $("#cartModel").css("display","block");
-    //                 $("#cart-loader").css("display",'none');
-    //             },
-
-    //         });
-            
-    //     }
 }
     
 

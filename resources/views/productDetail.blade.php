@@ -164,12 +164,11 @@
                                     {{-- @foreach ($product->productDetail as $item)
                                     <span  style="color: {{$item->color}};font-size : 35px" class="mt-2" title="Available in colors">●</span>
                                     @endforeach --}}
-                                <p><b>MMKs {{$product->productDetail[0]['price']}} </b> </p>  
+                                <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>  
                                 {{-- <small class="card-text"><p>{!!Str::limit($product->description,120)!!}</p></small> --}}
-                                <a href="{{ route('add.cart',[$product->id]) }}">
-                                    <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"
-                                        style="border-radius : 20px;">Add to cart</button>
-                                </a>
+                                <a data-id = {{$product->id}} id="add_cart_{{$product->id}}"
+                                    class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$product->id}})"
+                                        style="border-radius : 20px;">Add to cart</a>
                             </div>
                         </div>
                     </a>
@@ -255,6 +254,30 @@ span.onclick = function() {
     $('#myModal1').css({'display': 'none'});
 
  };
+
+ var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
+
+    function addCart(id){
+
+        var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
+
+        $.ajax({
+            type: "GET",
+            url: '/addToCart/'+product_id,
+        beforeSend: function(){
+            // $("#cartModel").css("display","none");
+            $("#cart-loader").css("display",'grid');
+        },
+        success: function( response ) {
+            if(response == 'ok'){
+                $("#cart-loader").css("display",'none');
+                location.reload();
+            }
+
+        // $("#cartModel").css("display","block");
+        },
+        });
+    }
 </script>
  
     
