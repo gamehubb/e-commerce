@@ -119,11 +119,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <li class="nav-item">
-                        <a class="nav-item" href="https://gamehubmyanmar.com">
-                            <i class=" fa fa-gamepad text-white m-2" style="font-size:20px;"></i>
-                        </a>  
-                    </li>
+              
                     <li class="nav-item dropdown">
                         <i class="nav-item fa fa-user text-white m-2"  onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="position: absolute !important;">
@@ -186,6 +182,11 @@
 
                         @endif
                     @endguest
+                    <li class="nav-item">
+                        <a class="nav-item" href="https://gamehubmyanmar.com">
+                            <i class=" fa fa-gamepad text-white m-2" style="font-size:20px;"></i>
+                        </a>  
+                    </li>
                     <li class="nav-item">
                         <i class="nav-item fa fa-game"></i>
                     </li>

@@ -6,7 +6,7 @@
         <div class="album py-2 ">
             <div class="container text-white">    
                 <p class="mb-5 text-center h4"><b>Manage Your Account</b></p>
-                <p class="m-2 h5"><b>Account Info</b></p>   
+                <p class="m-2 h5"><b>Account Info</b><u><a  class="text-red" href= "{{route('user.changeAccountInfo')}}"><small class="ml-4">Edit</small></u> </a></p>   
                 <table  class="m-3">
                     <tr>
                         <td><p class="m-2">Account Name</p></td>
@@ -20,19 +20,13 @@
                         <td><p class="m-2">Passowrd</p></td>
                         <td><p  class="ml-4">********  <a  class="text-red" href= "{{route('user.changePassword')}}"><small class="ml-4">Change passwrod? </small> </a></p></td>
                     </tr>
+                    <tr  >
+                        <td><p class="m-2">Phone Number</p></td>
+                        <td><p  class="ml-4">{{ $userInfo->phone_number}}</p></td>
+                    </tr>
+
                 </table>
-                <hr class="mx-auto" style="width:100%; color: #ffffff; height: 1px; ">
-                <p class="m-2 h5"><b>Personal Info</b></p>  
-                <div class="row m-3">
-                    <div class = "col-md-3">
-                        <p  class="m-1">Phone Number</p>           
-                    </div>
-                    <div class = "col-md-5">
-                        <p class="m-1">{{ $userInfo->phone_number}}</p>    
-                       
-                    </div>
-                   
-                </div>
+               
             </div>
         </div>
 
