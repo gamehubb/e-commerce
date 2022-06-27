@@ -20,14 +20,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where(['is_admin' =>  0,'role' => 1])->get();
+        $users = User::where(['is_admin' =>  0, 'role' => 1])->get();
         return view('admin.user.index', compact('users'));
     }
 
     public function vendorList()
     {
-        $vendors = User::where('role','=','2')->get();
-        return view('admin.vendor.index',compact('vendors'));
+        $vendors = User::where('role', '=', '2')->get();
+        return view('admin.vendor.index', compact('vendors'));
     }
 
     public function vendorNew()
@@ -123,6 +123,25 @@ class UserController extends Controller
         $categories = Category::get();
         $brands = Brand::get();
         return view('auth.accountInfo', compact('userInfo', 'categories', 'brands'));
+    }
+    public function changeAccountInfo()
+    {
+        return view('auth.changeaccountInfo');
+    }
+    public function changeAccountInfoPost(Request $request)
+    {
+        $user_id = Auth::id();
+        $useremails  = User::where('email', $request->get("email"))->where('id', '!=', $user_id)->get()->first();
+        if ($useremails) {
+            return redirect()->back()->with("message", "Email already used ");
+        }
+        $user = Auth::user();
+        $user->email = $request->get('email');
+        $user->name = $request->get('name');
+        $user->phone_number = $request->get('phone');
+        $user->save();
+        $request->session()->flush();
+        return redirect('login')->with('infoconfirm', 'User Info Changed Successfully.Login again to continue.');
     }
     public function changePassword()
     {

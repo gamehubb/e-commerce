@@ -62,6 +62,10 @@ Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'use
 Route::get('/changePassword', [App\Http\Controllers\UserController::class, 'changePassword'])->name('user.changePassword');
 Route::post('/changePassword', [App\Http\Controllers\UserController::class, 'changePasswordPost'])->name('user.changePasswordPost');
 
+Route::get('/changeAccountInfo', [App\Http\Controllers\UserController::class, 'changeAccountInfo'])->name('user.changeAccountInfo');
+Route::post('/changeAccountInfo', [App\Http\Controllers\UserController::class, 'changeAccountInfoPost'])->name('user.changeAccountInfoPost');
+
+
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
@@ -77,9 +81,9 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     //Brand 
     Route::resource('/brand', App\Http\Controllers\BrandController::class);
 
-    Route::resource('/slider',App\Http\Controllers\SliderController::class);
+    Route::resource('/slider', App\Http\Controllers\SliderController::class);
 
-    Route::get('/vendor',[App\Http\Controllers\UserController::class, 'vendorList']);
+    Route::get('/vendor', [App\Http\Controllers\UserController::class, 'vendorList']);
 
     Route::get('/vendor/new', [App\Http\Controllers\UserController::class, 'vendorNew']);
     //Product 
