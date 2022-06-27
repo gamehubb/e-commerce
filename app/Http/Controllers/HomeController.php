@@ -83,7 +83,7 @@ class HomeController extends Controller
             
                     }
 
-                    return redirect('home')->with('message', "");
+                    return redirect()->back();
                     
                 }else{
                     return redirect('login')->with('message', "Invalid Credentials");

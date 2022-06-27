@@ -106,10 +106,9 @@
             <p class="text-red-600 h4"><b>MMKs {{number_format($products->productDetail[0]['price'])}} </b> </p>  
             <p class="card-text">Status: {{$products->productDetail[0]['status'] == '1' ? 'In-stock' : 'Pre-Order'}}</p>
             <p class="card-text">Waiting Time: @if ($products->productDetail[0]['status'] == '1') 3 - 4 days @else 10 - 12 days @endif</p>
-            <a href="{{ route('add.cart',[$products->id]) }}">
-                <button type="button" class="btn btn-sm mx-auto mt-3 text-white"
-                    style="border-radius : 20px;   background-color : #aa0000;">Add to cart</button>
-            </a>
+            <a data-id = {{$products->id}} id="add_cart_{{$products->id}}"
+                class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$products->id}})"
+                    style="border-radius : 20px;">Add to cart</a>
         </div>
         <div class="col-md-5 mt-3">      
             <p  class="h5"> <b>Information</b></p>   
@@ -141,7 +140,7 @@
             </table>
             <div class="col-md-6 mt-3">     
                 <p  class="h5"> <b>Description </b></p> 
-                <p class="mt-1"><?php echo $products->description; ?></p> 
+                <p class="ml-3"><?php echo $products->description; ?></p> 
             </div>     
         </div>
     </div>
@@ -164,6 +163,7 @@
                                     {{-- @foreach ($product->productDetail as $item)
                                     <span  style="color: {{$item->color}};font-size : 35px" class="mt-2" title="Available in colors">●</span>
                                     @endforeach --}}
+                                    <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
                                 <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>  
                                 {{-- <small class="card-text"><p>{!!Str::limit($product->description,120)!!}</p></small> --}}
                                 <a data-id = {{$product->id}} id="add_cart_{{$product->id}}"
@@ -255,12 +255,13 @@ span.onclick = function() {
 
  };
 
- var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
+ function addCart(id){
 
-    function addCart(id){
+    var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
+    var logged_in = $("#logged-in").text();
 
-        var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
-
+    if(logged_in != 0)
+    {
         $.ajax({
             type: "GET",
             url: '/addToCart/'+product_id,
@@ -277,7 +278,12 @@ span.onclick = function() {
         // $("#cartModel").css("display","block");
         },
         });
+    }else{
+
+        location.href = '/login';
+
     }
+ }
 </script>
  
     

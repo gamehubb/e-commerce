@@ -21,11 +21,11 @@
                                 style=" object-fit: contain;border-radius : 25px;filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))">
                             <div class="card-body text-white">
                                 <p><b> {{$product->name}}</b></p>
+                                <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
                                 <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>                         
-                                <a href="{{ route('add.cart',[$product->id]) }}">
-                                    <button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3"
-                                        style="border-radius : 20px;">Add to cart</button>
-                                </a>
+                                <a data-id = {{$product->id}} id="add_cart_{{$product->id}}"
+                                    class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$product->id}})"
+                                        style="border-radius : 20px;">Add to cart</a>
                             </div>
                         </div>
                         </a>
@@ -41,4 +41,36 @@
 
     </main>
 </div>
+<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+
+<script type="text/javascript">
+
+    function addCart(id){
+    
+        var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
+        var logged_in = $("#logged-in").text();
+    
+        if(product_id != '' && logged_in != 0){
+    
+            $.ajax({
+                type: "GET",
+                url: '/addToCart/'+product_id,
+            beforeSend: function(){
+                $("#cart-loader").css("display",'grid');
+            },
+            success: function( response ) {
+                if(response == 'ok'){
+                    $("#cart-loader").css("display",'none');
+                    location.reload();
+                }
+            },
+            });
+        }else{
+            location.href = '/login';
+        }
+    
+    }
+        
+    
+    </script>
 @endsection

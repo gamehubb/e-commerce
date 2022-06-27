@@ -15,8 +15,8 @@
                 </div>
             </div>
             {{-- </div> --}}
-            <div class=" col-md-5  text-white" id="cart-view">
-                <i class="nav-item fa fa-user m-2 mb-4"> Hi {{Auth::getUser()->name}}</i>           
+            <div class=" col-md-5 text-white" id="cart-view">
+                <b class="nav-item fa fa-user m-2 mb-4"> Hi {{Auth::getUser()->name}}</b>           
                 <div class="row mb-3" style="border:1px solid #808080; border-radius: 10px;">
                         @foreach($cart_data as $key => $carts)
                                 <div class="col-md-4">
@@ -102,15 +102,19 @@
                 </div>
             </div>
             </div>
-            <div class="col-md-4 text-white  mt-4" id="no_address_found"  >
-                <a href="{{route('deliveryInfo.create')}}"  style="width: 18rem; float: right;" > 
-                <u><i class="fa fa-plus" id="address"></i>Add New Address </i></u>
+            <div class="col-md-4 text-white" id="no_address_found">
+                <a href="{{route('deliveryInfo.create')}}" class="link-light" style="width: 18rem;" > 
+                <b><i class="fa fa-plus" id="address" style="background: #802012;
+                    width: 24px;
+                    padding: 5px;
+                    border-radius: 12px;
+                    cursor: pointer;"></i> Add New Address </i></b>
                 <span id="no_address_text" style="color:#aa0000;"></span>
                 </a>
 
                 @if(count($delivery_info)>0)
                     @foreach($delivery_info as $delInfo)     
-                <div class="card bg-dark m-2 border-secondary card-pf-view-single-select"  style="width: 18rem;  float: right;" >         
+                <div class="card bg-dark m-4 border-secondary card-pf-view-single-select"  style="width: 18rem;" >         
                     <div class="card-body">
                     <h4 class="card-title"> <b>{{$delInfo->name}}</b></h4>
                     <p class="card-text"> {{$delInfo->phoneNumber}}</p>
@@ -155,8 +159,9 @@
 
                 </div>
             </div>
-            <div class="col-md-5 text-white" style="border:1px solid #808080;" id="back-img">
-         
+            <div class="col-md-5 col-xs-5 text-white" style="border:1px solid #808080;height:300px;" id="back-img">
+
+                {{-- <img src="{{asset('images/black.jpg')}}" width="50px" height="50px" style="display:block;width: 260px;height: 300px; margin: auto;" alt="Kpay"/> --}}
                 <img src="{{asset('images/kpay.png')}}" width="50px" height="50px" id="kpay" style="display:none;width: 260px;height: 300px; margin: auto;" alt="Kpay"/>
                 <img src="{{asset('images/wave-money.png')}}" width="50px" height="50px" id="wpay" style="display:none;width: 260px;height: 300px;margin: auto;" alt="WavePay">         
                 <img src="{{asset('images/cod.png')}}" width="50px" height="50px" id="cod" style="display:none; width: 100%" alt="Cosh on Delivery">         
@@ -174,7 +179,7 @@
                     <div class="col-md-3">
                         <label class="text-white">Phone number</label>  
                         <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{11}">
-                        <small class="text-white">Format: 09123456789</small>
+                        <small class="text-white">Format: 09-xxxxxxxxx</small>
                     </div>
                 </div>            
         </div>
@@ -421,10 +426,6 @@
             $("#existing_address").addClass('is-invalid');
 
 
-            $('html, body').animate({
-                'scrollTop' : $("#existing_address").position().top
-            });
-
         }else if($("#no_address").val() == 0 ){
 
             // $("#no_address_text").text("No address found");
@@ -433,7 +434,7 @@
 
             
             $('html, body').animate({
-                'scrollTop' : $("#no_address_found").position().top
+                'scrollTop' : $("#no_address_found").position()
             });
 
         }

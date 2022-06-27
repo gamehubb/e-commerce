@@ -24,47 +24,26 @@ class CartController extends Controller
     public function addToCart(Product $product)
     {
 
-        $carts = new Carts();
-        $user_id = Auth::id();
+            $carts = new Carts();
+            $user_id = Auth::id();
 
-        if (session()->has('cart')) {
-            $cart = new Cart(session()->get('cart'));
-        } else {
-            $cart = new Cart();
-        }
+            if (session()->has('cart')) {
+                $cart = new Cart(session()->get('cart'));
+            } else {
+                $cart = new Cart();
+            }
 
-        $cart->add($product);
+            $cart->add($product);
 
-        foreach($cart->items as $c){
-            
-            $product_id = Carts::where('product_id',$c['id'])->pluck('id')->count(); 
+            foreach($cart->items as $c){
+                
+                $product_id = Carts::where('product_id',$c['id'])->pluck('id')->count(); 
 
-            if($product_id == 0){ 
+                if($product_id == 0){ 
 
-                $carts->create([
-                    'user_id' => $user_id,
-                    'product_id' => $c['id'],
-                    'product_name' => $c['name'],
-                    'vendor' => $c['vendor'],
-                    'product_code' => $c['code'],
-                    'category' => $c['category'],
-                    'brand' => $c['brand'],
-                    'product_type' => $c['product_type'],
-                    'image' => $c['image'],
-                    'quantity' => $c['qty'],
-                    'price' => $c['price'],
-                    'total_amount' => $c['qty'] * $c['price'],
-                    'color' => $c['color'],
-                    'discount' =>  $c['discount']
-
-                ]);
-
-            }else{
-
-                $total_amount = $c['qty'] * $c['price'];
-
-                Carts::where('product_id',$c['id'])->update(
-                    [
+                    $carts->create([
+                        'user_id' => $user_id,
+                        'product_id' => $c['id'],
                         'product_name' => $c['name'],
                         'vendor' => $c['vendor'],
                         'product_code' => $c['code'],
@@ -76,20 +55,42 @@ class CartController extends Controller
                         'price' => $c['price'],
                         'total_amount' => $c['qty'] * $c['price'],
                         'color' => $c['color'],
-                        'discount' => $c['discount']
-                    ]
+                        'discount' =>  $c['discount']
 
-                );
+                    ]);
+
+                }else{
+
+                    $total_amount = $c['qty'] * $c['price'];
+
+                    Carts::where('product_id',$c['id'])->update(
+                        [
+                            'product_name' => $c['name'],
+                            'vendor' => $c['vendor'],
+                            'product_code' => $c['code'],
+                            'category' => $c['category'],
+                            'brand' => $c['brand'],
+                            'product_type' => $c['product_type'],
+                            'image' => $c['image'],
+                            'quantity' => $c['qty'],
+                            'price' => $c['price'],
+                            'total_amount' => $c['qty'] * $c['price'],
+                            'color' => $c['color'],
+                            'discount' => $c['discount']
+                        ]
+
+                    );
+
+                }
 
             }
 
-        }
-
-        session()->put('cart', $cart);
+            session()->put('cart', $cart);
 
         // notify()->success('Added To Cart Successfully');
 
-        echo "ok";
+            echo "ok";
+       
     }
 
     public function showCart()
@@ -300,6 +301,7 @@ class CartController extends Controller
         $orders = DB::table('orders')->select('*')->join('order_items','order_items.order_id', '=' ,'orders.id')
                     ->where(['user_id' => $user_id])->get();
 
+        $order_data = Order::where('user_id',$user_id)->get();
 
         foreach($orders as $order)
         {
@@ -355,7 +357,7 @@ class CartController extends Controller
 
         //     print_r($order_items);
 
-        return view('order',compact('orders','user_id'));
+        return view('order',compact('orders','user_id','order_data'));
     }
     //For Admin
     public function userorder()

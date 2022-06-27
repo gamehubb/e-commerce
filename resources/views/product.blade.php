@@ -167,14 +167,13 @@
 
             <div class="container">
                 @if(!empty($product_list))
+                   
                     @foreach($product_list as $key => $product)
                     {{-- @for ($x = 0; $x <= count($product); $x++) --}}
-
-                        <p class="h4 text-white m-2 text-uppercase product-list">{{$product[0]->category->name}}
-                        </p><br>
-                        
+                         <p class="h4 text-white m-2 text-uppercase product-list">{{$product[0]->category->name}}
+                    </p><br>
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                            @foreach ($product as  $key => $p_count)
+                            @foreach ($product as $key => $p_count)
                                 <div class="col-md-3" id="{{$product[$key]->id}}">
                                     <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto link-light">
                                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
@@ -183,6 +182,7 @@
                                                 ">
                                             <div class="card-body text-white">
                                                 <p><b> {{$product[$key]->name}}</b></p>
+                                                <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
                                                 <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
                                                 <a data-id = {{$product[$key]->id}} id="add_cart_{{$product[$key]->id}}"
                                                     class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$product[$key]->id}})"
@@ -268,21 +268,26 @@
 function addCart(id){
 
     var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
+    var logged_in = $("#logged-in").text();
 
-    $.ajax({
-        type: "GET",
-        url: '/addToCart/'+product_id,
-    beforeSend: function(){
-        // $("#cartModel").css("display","none");
-        $("#cart-loader").css("display",'grid');
-    },
-    success: function( response ) {
-        if(response == 'ok'){
-            $("#cart-loader").css("display",'none');
-            location.reload();
-        }
-    },
-    });
+    if(product_id != '' && logged_in != 0){
+
+        $.ajax({
+            type: "GET",
+            url: '/addToCart/'+product_id,
+        beforeSend: function(){
+            $("#cart-loader").css("display",'grid');
+        },
+        success: function( response ) {
+            if(response == 'ok'){
+                $("#cart-loader").css("display",'none');
+                location.reload();
+            }
+        },
+        });
+    }else{
+        location.href = '/login';
+    }
 
 }
     

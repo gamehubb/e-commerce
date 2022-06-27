@@ -41,7 +41,7 @@
                 <tr>
                   <td>{{$key+1}}</td>
                   <td>{{$order->voucher_code}}</td>
-                  {{-- <td>{{$order->user->name}}</td> --}}
+                  <td>{{$order->user->name}}</td>
                   {{-- <td>{{$order->user->email}}</td> --}}
                   <td>{{date('d-M-y',strtotime($order->created_at))}}</td>
                   <td>
