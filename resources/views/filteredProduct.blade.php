@@ -24,7 +24,10 @@
                                 <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
                                 <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>                         
                                 <a data-id = {{$product->id}} id="add_cart_{{$product->id}}"
-                                    class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$product->id}})"
+                                    class="btn btn-sm mx-auto btn-outline-light mt-3"
+                                    data-image="{{$product->productDetail[0]['image_1']}}"
+                                    data-color="{{$product->productDetail[0]['color']}}"
+                                     onclick="addCart({{$product->id}})"
                                         style="border-radius : 20px;">Add to cart</a>
                             </div>
                         </div>
@@ -50,20 +53,26 @@
         var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
         var logged_in = $("#logged-in").text();
     
+        var color = document.getElementById('add_cart_'+id).getAttribute('data-color');
+        var image = document.getElementById('add_cart_'+id).getAttribute('data-image');
+
+
         if(product_id != '' && logged_in != 0){
-    
-            $.ajax({
-                type: "GET",
-                url: '/addToCart/'+product_id,
-            beforeSend: function(){
-                $("#cart-loader").css("display",'grid');
-            },
-            success: function( response ) {
-                if(response == 'ok'){
-                    $("#cart-loader").css("display",'none');
-                    location.reload();
-                }
-            },
+
+                $.ajax({
+                    type: "POST",
+                    url: '/addToCart',
+                    data: {'product_id': product_id,'image' :image, 'color': color},
+
+                beforeSend: function(){
+                    $("#cart-loader").css("display",'grid');
+                },
+                success: function( response ) {
+                    if(response == 'ok'){
+                        $("#cart-loader").css("display",'none');
+                        location.reload();
+                    }
+                },
             });
         }else{
             location.href = '/login';

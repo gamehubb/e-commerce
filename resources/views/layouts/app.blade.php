@@ -135,7 +135,7 @@
                         @if (Route::has('login'))
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
+                        </li>&nbsp;&nbsp;&nbsp;
                         @endif
 
                         @if (Route::has('register'))
@@ -143,21 +143,12 @@
                             <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                         @endif
+
+                        
+                        
                     @else
 
-                    <li class="nav-item">
-                       
-                        <form action="{{  route('search') }}" method="get" id= "searchForm" >
-                            @csrf
-                        <div class="inner-addon left-addon">
-                            <i class="fa fa-search " style="position: absolute;padding: 10px;cursor:pointer;"  onclick="search()" ></i>
-                            <input type="text" name="name" id="p_name" class="form-control" style="padding-left:30px" placeholder="Search here..." required/>
-                        </div>
-                        </form>
-                    </li>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
+                   
               
                     <li class="nav-item dropdown">
                         <i class="nav-item fa fa-user text-white m-2"  onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
@@ -221,10 +212,23 @@
 
                         @endif
                     @endguest
+                    &nbsp;&nbsp;&nbsp;
                     <li class="nav-item">
                         <a class="nav-item" href="https://gamehubmyanmar.com">
-                            <i class=" fa fa-gamepad text-white m-2" style="font-size:20px;"></i>
+                            <i class=" fa fa-gamepad text-white mt-2" style="font-size:20px;"></i>
                         </a>  
+                    </li>
+                    &nbsp;&nbsp;&nbsp;
+
+                    <li class="nav-item">
+                       
+                        <form action="{{  route('search') }}" method="get" id= "searchForm" >
+                            @csrf
+                        <div class="inner-addon left-addon">
+                            <i class="fa fa-search " style="position: absolute;padding: 10px;cursor:pointer;"  onclick="search()" ></i>
+                            <input type="text" name="name" id="p_name" class="form-control" style="padding-left:30px" placeholder="Search here..." required/>
+                        </div>
+                        </form>
                     </li>
                     <li class="nav-item">
                         <i class="nav-item fa fa-game"></i>

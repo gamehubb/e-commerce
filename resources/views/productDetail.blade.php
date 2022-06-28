@@ -169,9 +169,9 @@
                                     <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
                                 <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>  
                                 {{-- <small class="card-text"><p>{!!Str::limit($product->description,120)!!}</p></small> --}}
-                                <a data-id = {{$product->id}} id="add_cart_{{$product->id}}"
-                                    class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$product->id}})"
-                                        style="border-radius : 20px;">Add to cart</a>
+                                <a href="{{route('productDetail',$product->id)}}"
+                                    class="btn btn-sm mx-auto btn-outline-light mt-3" 
+                                        style="border-radius : 20px;">See Detail</a>
                             </div>
                         </div>
                     </a>
