@@ -61,7 +61,7 @@ class Cart
 
     }
 
-    public function add($product)
+    public function add($product,$color,$image)
     {
         $item = [
             'id' => $product->id,
@@ -73,9 +73,9 @@ class Cart
             'product_type' => $product->product_type,
             'price' => $product->productDetail[0]->price,
             'discount' => $product->productDetail[0]->discount,
-            'color' => $product->productDetail[0]->color,
+            'color' => $color,
             'qty' => 0,
-            'image' => $product->productDetail[0]->image_1
+            'image' => $image
         ];
         if (!array_key_exists($product->id, $this->items)) {
 

@@ -178,14 +178,19 @@
                                     <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto link-light">
                                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                                             <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
-                                                style=" object-fit: cover;border-radius : 25px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))
-                                                ">
+                                                style="object-fit: cover;border-radius : 25px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))"
+                                               
+
+                                                 id="product_image" >
                                             <div class="card-body text-white">
                                                 <p><b> {{$product[$key]->name}}</b></p>
                                                 <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
                                                 <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
                                                 <a data-id = {{$product[$key]->id}} id="add_cart_{{$product[$key]->id}}"
-                                                    class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$product[$key]->id}})"
+                                                    class="btn btn-sm mx-auto btn-outline-light mt-3" 
+                                                    data-image="{{$product[$key]->productDetail[0]['image_1']}}"
+                                                    data-color="{{$product[$key]->productDetail[0]['color']}}"
+                                                    onclick="addCart({{$product[$key]->id}})"
                                                         style="border-radius : 20px;">Add to cart</a>
                                                 <span class="fa-solid fa-check text-info" id="done" hidden></span>
                                             </div>
@@ -270,11 +275,17 @@ function addCart(id){
     var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
     var logged_in = $("#logged-in").text();
 
+    var color = document.getElementById('add_cart_'+id).getAttribute('data-color');
+    var image = document.getElementById('add_cart_'+id).getAttribute('data-image');
+
+
     if(product_id != '' && logged_in != 0){
 
         $.ajax({
-            type: "GET",
-            url: '/addToCart/'+product_id,
+            type: "POST",
+            url: '/addToCart',
+            data: {'product_id': product_id,'image' :image, 'color': color},
+
         beforeSend: function(){
             $("#cart-loader").css("display",'grid');
         },

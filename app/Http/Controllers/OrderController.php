@@ -48,7 +48,7 @@ class OrderController extends Controller
      */
     public function show($orderid)
     {
-        $orders = Order::get();
+        $orders = Order::where('id',$orderid)->get();
         return view('admin.order.show',compact('orders'));
     }
 
@@ -88,6 +88,53 @@ class OrderController extends Controller
     public function loadStatus($orderid,$status)
     { 
         $status_update = Order::where('id',$orderid)->update(['status'=>$status]);
+
+        $user_id = Order::where('id',$orderid)->pluck('user_id');
+
+        $userInfo = User::where('id',$user_id)->get()->first();
+
+       switch ($status) {
+        case '1':
+            $value = 'Pending';
+            break;
+        case '2':
+            $value = 'Approved';
+            break;
+        case '3':
+            $value = 'Completed';
+            break;
+        case '4':
+            $value = 'Declined';
+            break;
+        case '5':
+            $value = 'Cancelled';
+            break;
+        
+        default:
+            $value = 'unknown';
+            break;
+       }
+
+        $link = route('order');
+
+        $message = 'Dear <b>'.$userInfo->name.'</b>';
+        $message = 'Stage confirmation on processing for your orders';
+        $mail_data=[
+            'recipient' =>$userInfo->email,
+            'name' => $userInfo->name,
+            'fromEmail' =>'noreply@gamehubmyanmar.com',
+            'fromName' =>'GameHub Myanmar',
+            'subject' =>'Status of your order',
+            'status'  => $value,
+            'body'=>$message,
+            'link' =>$link,
+        ];
+        \Mail::send('order-email-template',$mail_data,function($message) use ($mail_data){
+            $message->to($mail_data['recipient'])
+                    ->from($mail_data['fromEmail'], $mail_data['fromName'])
+                    ->subject($mail_data['subject']);
+        });
+
         return $status;
     }
     public function behaviourOfPaymentStatus($orderidforpayment,$statuspayment){

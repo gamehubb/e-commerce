@@ -15,17 +15,21 @@ use App\Models\DeliveryInfo;
 use App\Mail\Sendmail;
 use Illuminate\Http\Request;
 use Auth;
-use Cartalyst\Stripe\Laravel\Facades\Stripe;
+
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 use DB;
 
 class CartController extends Controller
 {
-    public function addToCart(Product $product)
+    public function addToCart(Request $request)
     {
-
+        
             $carts = new Carts();
             $user_id = Auth::id();
+
+            $product = Product::find($request->product_id);
 
             if (session()->has('cart')) {
                 $cart = new Cart(session()->get('cart'));
@@ -33,13 +37,26 @@ class CartController extends Controller
                 $cart = new Cart();
             }
 
-            $cart->add($product);
+            $color = $request->color;
+            $image = $request->image;
+
+            $cart->add($product,$color,$image);
 
             foreach($cart->items as $c){
                 
                 $product_id = Carts::where('product_id',$c['id'])->pluck('id')->count(); 
 
-                if($product_id == 0){ 
+                $cart_product_data = Carts::where('product_id',$c['id'])->get()->first(); 
+
+                if(empty($cart_product_data)){
+                    $color = 'default';
+                    $image = 'default';
+                }else{
+                    $color = $cart_product_data->color;
+                    $image = $cart_product_data->image;
+                }
+
+                if($product_id == 0 || $color != $c['color'] || $image != $c['image']){ 
 
                     $carts->create([
                         'user_id' => $user_id,
@@ -185,7 +202,7 @@ class CartController extends Controller
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
         $charactersLength = strlen($characters);
         $randomString = '';
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
             $finalvouchernumber = 'GH#' . $randomString;
         }
@@ -220,7 +237,7 @@ class CartController extends Controller
 
             $userId = Auth::id();
     
-            $status = 2;
+            $status = 1;
     
             $del_name = $delivery_info->name;
             $del_ph_number = $delivery_info->phoneNumber;
@@ -303,61 +320,20 @@ class CartController extends Controller
 
         $order_data = Order::where('user_id',$user_id)->get();
 
-        foreach($orders as $order)
-        {
-            // print_r($order->product_image);
-        }
-        
-        // foreach($f_orders as $ot)
-        // {
-        //     $order_ids[] = $ot->id;
-
-        //     $order_items = OrderItem::whereIn('order_id',array_unique($order_ids))->groupBy('id')->get();
-
-        // }
-
-
-        // foreach($order_items as $ot)
-        // {
-        //     $order_ids1[] = $ot->order_id;
-
-
-        // }
-
-        // $orders = Order::whereIn('id',array_unique($order_ids))->get();
-
-        // foreach($orders as $order)
-        // {
-        //     echo $order->id."<br/>";
-        // }
-
-
-       
-        // foreach($orders as $ot)
-        // {
-        //     $order_ids[] = $ot->id;
-        // }
-        //     // $order_items = OrderItem::whereIn('order_id',$order_ids)->groupBY('created_at')->get();
-
-
-        //     $projectScope = function ($query) use ($order_ids) {
-        //         return $query->where('order_id', $order_ids);
-        //     };
-
-        //     print_r($projectScope);
-        //     print_r("<br>");
-    
-        //     $orders = Order::where('user_id',$user_id)->with(['orderItems' => $projectScope])
-        //                 ->whereHas('orderItems', $projectScope)
-        //                 ->get();
-
-        //     $order_items = OrderItem::whereHas('order', $projectScope)->get();
-                
-        // // print_r($order_items['id']);
-
-        //     print_r($order_items);
-
         return view('order',compact('orders','user_id','order_data'));
+    }
+
+    public function orderDetail($id)
+    {
+        try {
+            $id = Crypt::decrypt($id);
+            $orders = Order::where('id',$id)->get();
+            return view('orderDetail', compact('orders'));
+
+        }catch(DecryptException $e){
+            abort(404);
+        }
+
     }
     //For Admin
     public function userorder()

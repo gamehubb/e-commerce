@@ -28,6 +28,45 @@
    
 </head>
 
+<style>
+    #plus{
+        background: #aa0000;
+        border: 1px solid #000;
+        border-radius: 1rem;
+        cursor: pointer;
+    }
+
+    #minus{
+        background: #aa0000;
+        border: 1px solid #000;
+        border-radius: 1rem;
+        cursor: pointer;
+    }
+
+    #plus:active{
+        background: #000;
+    }
+    #minus:active{
+        background: #000;
+    }
+
+    #trash{
+
+        border-radius: 5px;
+        border: 1px solid black;
+        margin: auto;
+        padding: 4px;
+        position: relative;
+        top: 5px;
+        left: 1px;
+
+    }
+
+    #trash:hover{
+        background-color: #aa00aa;
+    }
+</style>
+
 <div id="preloader">
     <div id="loader"></div>
 </div>
@@ -227,14 +266,15 @@
                                                 </div>
                                                 <div class="col-md-8 col-xs-8">
                                                     <p>{{$value['name']}} </p>
-                                                    <p><b>MMKS <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></b> <span class="ml-4 bg-red" style="cursor:pointer;"><i class="fas fa-trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span></p>
-                                                    <div class="row mt-1">
-                                                        <i class="fa fa-minus col-md-1 m-1" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                    <p><b>MMKS <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></b></p>
+                                                    <div class="row mt-5">
+                                                        <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
                                                         ></i>
-                                                        <p class="col-lg-1" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
+                                                        <p class="col-lg-1 w-10" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
                                                         <i id="product_id" hidden>{{$value['id']}}</i>
-                                                        <i class=" fa fa-plus col-md-1 m-1" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                        <i class="fa fa-plus m-1 w-10" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
                                                         ></i> 
+                                                        <span class="ml-4 bg-red text-right" style="cursor:pointer;"><i class="fas fa-trash fa-1x" id="trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span>
                                                     </div>
                                                 </div> 
                                             </div> 

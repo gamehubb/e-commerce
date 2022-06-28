@@ -70,7 +70,7 @@
                     @for ($i = 1; $i <= 3; $i++)
                     @if($products->productDetail[$key]['image_'.$i] != "no-img")
                     <div class="carousel-item {{$i ==1 ? 'active' : ''}}" >
-                        <img src="{{Storage::url($products->productDetail[$key]['image_'.$i])}}" class="m-auto" alt="" id="productImg{{($products->productDetail[$key]['id']).$i}}"
+                        <img src="{{Storage::url($products->productDetail[$key]['image_'.$i])}}" class="m-auto p-image" alt="" data-image = "{{$products->productDetail[$key]['image_1']}}" id="productImg{{($products->productDetail[$key]['id']).$i}}"
                         onclick="clickImage({{($products->productDetail[$key]['id']).$i}})"  style=" height: 200px;border-radius : 25px;">
                     </div>
                     @endif
@@ -91,7 +91,7 @@
             @endforeach  
                <div>
                @foreach ($products->productDetail as $key=> $item)
-               <span class="m-1 mt-3 imgclass" id = "img{{$item->id}}" style="background-color: {{$item->color}}; {{$key == 0 ? 'border: 2px solid skyblue;' : ""}} display: inline-block;border-radius: 50%;width: 20px;height:20px;text-align: center;cursor:pointer;"  
+               <span class="m-1 mt-3 imgclass" id ="img{{$item->id}}" data-color = {{$item->color}} style="background-color: {{$item->color}}; {{$key == 0 ? 'border: 2px solid skyblue;' : ""}} display: inline-block;border-radius: 50%;width: 20px;height:20px;text-align: center;cursor:pointer;"  
                 onclick="changeImage({{$key}}, {{$item->id}})"></span>
                @endforeach  
                </div>                 
@@ -106,6 +106,8 @@
             <p class="text-red-600 h4"><b>MMKs {{number_format($products->productDetail[0]['price'])}} </b> </p>  
             <p class="card-text">Status: {{$products->productDetail[0]['status'] == '1' ? 'In-stock' : 'Pre-Order'}}</p>
             <p class="card-text">Waiting Time: @if ($products->productDetail[0]['status'] == '1') 3 - 4 days @else 10 - 12 days @endif</p>
+            <input type="hidden" id="product_image" value="{{$products->productDetail[0]['image_1']}}" class="text-black">
+            <input type="hidden" id="product_color" value="{{$products->productDetail[0]['color']}}" class="text-black">
             <a data-id = {{$products->id}} id="add_cart_{{$products->id}}"
                 class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$products->id}})"
                     style="border-radius : 20px;">Add to cart</a>
@@ -140,16 +142,17 @@
             </table>
             <div class="col-md-6 mt-3">     
                 <p  class="h5"> <b>Description </b></p> 
-                <p class="ml-3"><?php echo $products->description; ?></p> 
+                <div class="ml-4">
+                    <p class=""><?php echo $products->description; ?></p>
+                </div> 
             </div>     
         </div>
     </div>
     <div class="container mt-3 text-white">
         <div class="text-center mt-4">
-            <span class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
+            <h3 class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
             CATEGORY BASED ON YOUR TREND
-            </span>
-            <hr class="mx-auto" style="width:360px; color: #aa0000; height: 3px; ">
+            </h3>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-3">
             @foreach($cat_products as $product)
@@ -203,7 +206,7 @@
                     <div class="col-md-4  mt-2">
                         <p><b>Brand</b></p>
                         @foreach ($allBrand as $brand )
-                        <a href="{{ route('productBrand',[$brand->slug]) }}">
+                        <a href="{{ route('productBrand',[$brand->slug]) }}">   
                             <p> {{$brand->name}}  </p> 
                         </a>
                         @endforeach
@@ -238,35 +241,45 @@
         $("#img" + id).css({'border': '2px solid skyblue'});
         $('.imgdiv').css({'display': 'none'});
         $("#imgdiv" + key).css({'display': ''});
+
+        var color = document.getElementById("img"+id).getAttribute('data-color');
+        var image = document.getElementById('imgdiv'+key).querySelector('.p-image').getAttribute('data-image');
+
+        $("#product_color").val(color);
+        $("#product_image").val(image);
+        
      }
   
      function clickImage(id) {
      
-        var modal = document.getElementById("myModal1");
+     var modal = document.getElementById("myModal1");
      var img = document.getElementById("productImg"+id);
      var modalImg = document.getElementById("modal-content");
      modal.style.display = "block";
      modalImg.src = img.src;
       
  }
- var span = document.getElementById('close');
-span.onclick = function() { 
-    $('#myModal1').css({'display': 'none'});
+    var span = document.getElementById('close');
+    span.onclick = function() { 
+        $('#myModal1').css({'display': 'none'});
 
- };
+    };
 
  function addCart(id){
 
     var product_id = document.getElementById('add_cart_'+id).getAttribute('data-id');
     var logged_in = $("#logged-in").text();
+    var color = $("#product_color").val();
+
+    var image = $('#product_image').val();
 
     if(logged_in != 0)
     {
         $.ajax({
-            type: "GET",
-            url: '/addToCart/'+product_id,
+            type: "POST",
+            url: '/addToCart',
+            data: {'product_id': product_id,'image' :image, 'color': color},
         beforeSend: function(){
-            // $("#cartModel").css("display","none");
             $("#cart-loader").css("display",'grid');
         },
         success: function( response ) {
@@ -275,7 +288,6 @@ span.onclick = function() {
                 location.reload();
             }
 
-        // $("#cartModel").css("display","block");
         },
         });
     }else{

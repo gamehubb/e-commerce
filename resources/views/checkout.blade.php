@@ -108,7 +108,7 @@
                     width: 24px;
                     padding: 5px;
                     border-radius: 12px;
-                    cursor: pointer;"></i> Add New Address </i></b>
+                    cursor: pointer;"></i> Add New Address ( <i>Delivery</i> ) </i></b>
                 <span id="no_address_text" style="color:#aa0000;"></span>
                 </a>
 

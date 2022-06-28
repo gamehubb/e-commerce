@@ -41,13 +41,15 @@ Route::get('/productBrand/{id}', [App\Http\Controllers\FrontProductListControlle
 Route::get('/productDetail/{id}', [App\Http\Controllers\FrontProductListController::class, 'productDetail'])->name('productDetail');
 Route::get('/search', [App\Http\Controllers\FrontProductListController::class, 'search'])->name('search');
 
-Route::get('/addToCart/{product}', [App\Http\Controllers\CartController::class, 'addToCart'])->name('add.cart')->middleware('auth');
+Route::post('/addToCart', [App\Http\Controllers\CartController::class, 'addToCart'])->name('add.cart')->middleware('auth');
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'showCart'])->name('cart.show');
 Route::post('/products/{product}', [App\Http\Controllers\CartController::class, 'updateCart'])->name('cart.update');
 Route::post('/product/{product}', [App\Http\Controllers\CartController::class, 'removeCart'])->name('cart.remove');
 
 Route::get('/checkout/{username}', [App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 Route::get('/orders', [App\Http\Controllers\CartController::class, 'order'])->name('order')->middleware('auth');
+Route::get('/orders/{id}', [App\Http\Controllers\CartController::class, 'orderDetail'])->name('order.detail')->middleware('auth');
+
 Route::post('/charge', [App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
 Route::post('/complete-checkout', [App\Http\Controllers\CartController::class, 'finalCheckout'])->name('cart.final-checkout')->middleware('auth');
 //delivery Info 
@@ -102,7 +104,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     //Users
     Route::get('users', [App\Http\Controllers\UserController::class, 'index']);
     //Orders
-    Route::get('orders', [App\Http\Controllers\CartController::class, 'userorder']);
+    Route::get('orders', [App\Http\Controllers\CartController::class, 'userorder'])->name('user.orders');
     Route::get('orders/{orderid}', [App\Http\Controllers\OrderController::class, 'show'])->name('user.order');
     Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'userAccountInfo'])->name('user.accountInfo');
     // Brand Status

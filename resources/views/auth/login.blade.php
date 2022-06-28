@@ -2,7 +2,7 @@
 
 @if(Auth::check())
    <script>
-        history.go(-1);
+        location.href="/";
    </script>
 @endif
 

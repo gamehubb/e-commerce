@@ -1,6 +1,9 @@
 @extends ('admin.layouts.main')
 
 @section ('content')
+<div id="preloader" style="display: none;">
+  <div id="loader"></div>
+</div>
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800">All Orders</h1>
@@ -47,7 +50,6 @@
                   <td>
                     <input type="hidden" value="{{$order->id}}" id="order_id">
                     <select class="form-select form-select-sm" name="order_status" id="order_status" aria-label=".form-select-sm example">
-                      <option value="" disabled selected>Select Status</option>
                       @if($order->status == 1)
                         <option value="1" selected> Pending </option>
                         <option value="2">Approved</option>
@@ -84,7 +86,6 @@
                   <td>
                     <input type="hidden" value="{{$order->id}}" id="order_id_forpayment">
                     <select class="form-select form-select-sm" name="payment_status" id="payment_status" aria-label=".form-select-sm example">
-                      <option value="" disabled selected>Select Status</option>
                       @if($order->payment->status == 1)
                         <option value="1" selected> Partial Paid</option>
                         <option value="2">Full Paid</option>
@@ -97,6 +98,11 @@
                         <option value="1"> Partial Paid</option>
                         <option value="2">Full Paid</option>
                         <option value="3" selected>Cash On</option>
+                      @else
+                        <option value="1"> Partial Paid</option>
+                        <option value="2">Full Paid</option>
+                        <option value="3" selected>Cash On</option>
+
                        @endif 
                     </select>
                   </td>
@@ -110,9 +116,9 @@
                     @endif
                   </td>
                   <td>
-                    {{$order->payment->total_amount}}
+                    {{number_format($order->payment->total_amount)}}
                   </td>
-                  <td><a href="{{route('user.order',[$order->user_id,$order->id])}}"><button class="btn btn-info">View Order</button></a></td>
+                  <td><a href="{{route('user.order',[$order->id])}}"><button class="btn btn-info">View Order</button></a></td>
                   
                 </tr>
                 @endforeach
@@ -158,10 +164,10 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
-                } 
-            });
+        headers: {
+            'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+        } 
+    });
     $('select[name="order_status"]').on('change',function(){
       var status = $(this).val();
       var orderid =$("#order_id").val();
@@ -170,9 +176,14 @@
           url: '/auth/orderstatus/'+orderid+'/'+status,
           type: "GET",
           dataType: "json",
+          beforeSend: function(){
+              $("#preloader").show();
+              $("body").css("opacity",'0.3');
+          },
           success:function(data){  
-          alert('Status Changed');
-          // notify()->success('Status Changed');
+            $("#preloader").hide();
+            $("body").css("opacity",'1');
+          //  notify()->success('Status Changed');
         }
         });
       }
@@ -190,6 +201,8 @@
           // notify()->success('Status Changed');
         }
         });
+       
+                    
       }
     })
   });
