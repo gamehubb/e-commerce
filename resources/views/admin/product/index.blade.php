@@ -43,7 +43,9 @@
                
               <td><a href="{{route('product.edit', $product->id)}}"><button class="btn btn-primary">Edit</button></a></td>
               <td>
-                <form action="/auth/product/delete/{{$product->id}}" method="POST">@csrf
+                <form action="{{route('product.destroy', $product->id)}}" method="POST">
+                  @csrf
+                  @method('DELETE')
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form>  
               </td> 

@@ -17,42 +17,45 @@
             {{-- </div> --}}
             <div class=" col-md-5 text-white" id="cart-view">
                 <b class="nav-item fa fa-user m-2 mb-4"> Hi {{Auth::getUser()->name}}</b>           
-                <div class="row mb-3" style="border:1px solid #808080; border-radius: 10px;">
+                <div class="row mb-3" style="border:1px solid #808080;">
+                    
                         @foreach($cart_data as $key => $carts)
+
+                                <?php $product_types[] = $carts['product_type']; ?>
+
                                 <div class="col-md-4">
                                     <img src="{{Storage::url($carts['image'])}}"
-                                        class="floar-right m-3 mx-auto" style=" border-radius: 20px; " alt="...">
+                                        class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:120px; " alt="...">
+                                    <span class="bg-red text-right" style="cursor:pointer;"><i class="text-danger" id="c_trash" onclick="removeCart(this)" data-id={{$carts['product_id']}}>Remove</i></span>
+
                                 </div>
                                 <div class="col-md-4 mt-2 ">
                                     <p><u><b>{{$carts['product_name']}} </b></u>
                                     </p>
-                                    <p class="m-2"> Product-Code:{{$carts['product_code']}} </p>
+                                    <p class="m-2"> Product-Code: {{$carts['product_code']}} </p>
                                     <p class="m-2"> Category: {{$carts['category']}} </p>
-                                    <p class="m-2"> Quantity:<i class="fa fa-minus col-md-1 ml-1" id="minus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" style="background: #802012;
-                                        width: 24px;
-                                        padding: 5px;
-                                        border-radius: 12px;
-                                        cursor: pointer;"></i>
-                                        <span class="col-lg-1" id="qty_{{$carts['product_id']}}">{{$carts['quantity']}}</span>
+                                    <p class="m-2"> 
+                                        <i class="fa fa-minus col-md-1 ml-1" id="minus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" style="background: #802012;
+                                        width: 60px;
+                                        padding: 5px 8px 5px 22px;
+                                        cursor: pointer;"></i><br>
+                                        <span class="col-lg-1" style="margin:1.7rem;" id="qty_{{$carts['product_id']}}">{{$carts['quantity']}}</span><br>
                                         <i id="product_id" hidden>{{$carts['product_id']}}</i>
-                                        <i class=" fa fa-plus col-md-1" id="plus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" 
+                                        <i class=" fa fa-plus col-md-1 ml-1" id="plus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" 
                                         style="background: #802012;
-                                        width: 24px;
-                                        padding: 5px;
+                                        width: 60px;
+                                        padding: 5px 8px 5px 22px;
                                         border-radius: 12px;
                                         cursor: pointer;"></i> 
                                     </p>
-                                    @if($carts['product_type'] == 2) 
-                                        <p class="m-2"> Waiting Time: 3weeks </p>
-                                    @endif
+                                   
                                     
                                 </div>
                                 <div class="col-md-4 mt-2 ">
-                                    <p></p>
                                     <p class="mt-4 ml-2"> Color: {{$carts['color']}} </p>
                                     <p class="m-2"> Brand: {{$carts['brand']}} </p>
                                     <p class="m-2"> Status: {{$carts['product_type'] ==1 ? 'Instock' : 'Preorder'}} </p>
-                                    <p class="m-2"> Price: <span id="price_{{$carts['product_id']}}">{{$carts['price'] }}</span> </p>
+                                    <p class="m-2"> Price: <span id="price_{{$carts['product_id']}}" data-price={{$carts['price']}}>{{number_format($carts['price'] )}}</span> </p>
 
                                     <?php 
                                     
@@ -67,6 +70,16 @@
                                     }
                                     
                                     ?>
+                                    {{-- @if($carts['product_type'] == 2)
+                                        <p class="m-2"> Deposit-Amount: {{$carts['price']}} </p>
+                                    @endif --}}
+                                </div>
+                                <div class="col-md-12 mt-2 text-right">
+                                    @if($carts['product_type'] == 2) 
+                                        <p class="m-2"> Waiting Time: <mark>3-4 weeks</mark> (*estimated) </p>
+                                    @else
+                                        <p class="m-2"> Waiting Time: <mark>2-3 days</mark></p>
+                                    @endif
                                 </div>
                                 <hr class="mx-auto" style="width:90%;">
                                 {{-- <div class="text-center">
@@ -81,25 +94,27 @@
                 
             <hr class="mx-auto" style="width:100%;  ">
             <div class="row mb-3">
-                <div class="col-md-8 mt-2 ">
-                    <p class="m-2  h6"> Subtotal : </p>
-                    <p class="m-2  h6">Delivery :</p>
+                <div class="col-md-12 mt-2">
+                    <span class="h6" style="float:right;" >Shipment Fees:  2,000</span>
                 </div>
-                <div class="col-md-4 mt-2 ">
-                    <p class="m-2 h6" >MMK <span id="total_price_2">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span>
-                    </p>
-                    <p class="m-2 h6">MMK 0</p>
-                </div>
+                
             </div>
             <hr class="mx-auto" style="width:100%;">
             <div class="row mb-3">
-                <div class="col-md-8 mt-2">
-                    <p class="m-2 h5"><b>TOTAL :</b></p>      
+                <div class="col-md-12 mt-2">
+                    <p class="h5 text-right"><b>TOTAL: </b><span class="h5"><b>MMK <span id="total_price_3">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></b></span>
+                    </p>     
+                    {{-- {{print_r($product_types);}} --}}
+                    @if(in_array("2",$product_types))
+                        <?php
+                            $d_amount = (int)session()->get('cart')->totalPrice * 0.3;
+                        ?>
+                        <p class="text-right">Deposit Amount: <span id="d_amount">{{number_format($d_amount)}}</span></p><br>
+                        <small>*As you have items with preorder status, in the 
+                            checkout proceess you will have to deposit 30% of the total amount.</small> 
+                    @endif
                 </div>
-                <div class="col-md-4 mt-2 ">
-                    <p class="m-2 h5"><b>MMK <span id="total_price_3">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></b></p>
                 
-                </div>
             </div>
             </div>
             <div class="col-md-4 text-white" id="no_address_found">
@@ -126,13 +141,12 @@
                     </div>
                 </div>
                     @endforeach               
-                    <input type="hidden" id="no_address" value={{count($delivery_info)}} >
-
+                    <input type="hidden" id="no_address" value={{count($delivery_info)}}>
                 @else
-                <input type="text" id="no_address" required style="display: none;" ><br/>
-                <span class="invalid-feedback text-center" role="alert">
-                    <strong>No address available</strong>
-                </span>
+                    <input type="text" id="no_address" required style="display: none;" ><br/>
+                    <span class="invalid-feedback text-center" role="alert">
+                        <strong>No address available</strong>
+                    </span>
                 @endif
 
                 
@@ -275,7 +289,7 @@
             if(icon.getAttribute('id') == 'plus'){
 
                 var id = icon.getAttribute('data-id');
-                var price = $("#price_"+id).text();
+                var price = document.getElementById('price_'+id).getAttribute('data-price');
                 $("#qty_"+id).text(1+parseInt($("#qty_"+id).text()));
                 var qty = $("#qty_"+id).text();
                 $.ajax({
@@ -299,8 +313,6 @@
                     $("body").css("opacity","1");
                     $("#cartcount").text(value.total_quantity);
                     $('#qty_'+id).text(qty);
-                    
-
                 }
             });
 
@@ -308,7 +320,7 @@
 
                 var id = icon.getAttribute('data-id');
                 var qty = $("#qty_"+id).text();
-                var price = $("#price_"+id).text();
+                var price = document.getElementById('price_'+id).getAttribute('data-price');
 
                 $("#qty_"+id).text(parseInt(qty)-1);
 

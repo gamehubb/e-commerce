@@ -22,6 +22,7 @@ class DeliveryInfo extends Migration
             $table->text('address');
             $table->string('city');
             $table->string('township');
+            $table->integer('delivery_fees');
             $table->string('state_region')->nullable();
             $table->timestamps();
         });

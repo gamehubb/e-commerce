@@ -66,6 +66,10 @@
         background-color: #aa00aa;
     }
 
+    #c_trash:hover{
+        text-decoration:underline;
+    }
+
     #nav_hover:hover {
         border-bottom:2px solid #aa0000;
     }
@@ -274,7 +278,7 @@
                             <div class="modal-body" id="cartData">
                                 
                                     <div class="p-1">
-                                        <p class="text-left">Your cart</p>
+                                        <p class="text-left h2">Your cart</p>
                                         <button type="button" class="close" data-dismiss="modal"
                                             style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
                                     </div>
@@ -293,7 +297,7 @@
                                                 </div>
                                                 <div class="col-md-8 col-xs-8">
                                                     <p>{{$value['name']}} </p>
-                                                    <p><b>MMKS <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></b></p>
+                                                    <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p>
                                                     <div class="row mt-5">
                                                         <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
                                                         ></i>
@@ -354,6 +358,11 @@
 
     });
 
+    $('form').submit(function() {
+        $("#preloader").css('display','block');
+        $("body").css('opacity','0.3');    
+    });
+    
     function openModel() {
         $("#myModal").modal('show');
     }

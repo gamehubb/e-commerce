@@ -13,7 +13,10 @@ use App\Models\Slider;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'vendor', 'code', 'slug', 'description', 'image', 'price', 'additional_info', 'moto', 'category_id', 'brand_id', 'user_id', 'subcategory_id', 'wireless'];
+    protected $fillable = ['name', 
+                            'vendor', 'code', 'model_name', 'slug', 
+                            'description', 'image', 'price', 'additional_info', 
+                            'moto', 'category_id', 'brand_id', 'user_id', 'warranty', 'wireless'];
 
     public function category()
     {

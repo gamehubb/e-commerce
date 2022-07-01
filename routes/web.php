@@ -69,6 +69,7 @@ Route::post('/changeAccountInfo', [App\Http\Controllers\UserController::class, '
 
 Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'userAccountInfo'])->name('user.accountInfo');
 
+Route::get('/getTownship/{id}', [App\Http\Controllers\DeliveryInfoController::class, 'getTownshipInfo'])->name('getTownship');
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/dashboard', function () {

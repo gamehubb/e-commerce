@@ -103,7 +103,7 @@
                   <td>{{$orderItem->price}}</td>
                   <td>{{$orderItem->discount == 0 ? 'No-discount' : $orderItem->discount}}</td>
                   <td>{{$orderItem->product_type == 1 ? 'In-stock' : 'Pre-order'}}</td>
-                  <td>{{$orderItem->productDetail->vendor}}
+                  <td>{{$orderItem->vendor->name}}
                   <td>{{number_format($orderItem->price * $orderItem->quantity)}}</td>
                 
 

@@ -209,16 +209,16 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="wired_option">Wired</label>
-                                            <input type="radio" name="wired_option" value="0" />
+                                            <label for="wired">Wired</label>
+                                            <input type="radio" id="wired" name="wired_option" value="1" />
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
 
                                         <div class="form-group">
-                                            <label for="wired_option">Wireless</label>
-                                            <input type="radio" name="wired_option" value="1" />
+                                            <label for="wireless">Wireless</label>
+                                            <input type="radio" id="wireless" name="wired_option" value="2" />
                                         </div>
                                     </div>
                                 </div>
