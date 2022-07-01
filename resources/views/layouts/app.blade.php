@@ -65,6 +65,10 @@
     #trash:hover{
         background-color: #aa00aa;
     }
+
+    #nav_hover:hover {
+        border-bottom:2px solid #aa0000;
+    }
 </style>
 
 <div id="preloader">
@@ -76,12 +80,17 @@
     <div id="app">
         <header class="header-box">
             <div class="container">
-                <div class="col-md-12 text-left site-icon m-3">              
+                <div class="col-md-6 col-sm-6 col-xs-12 text-left site-icon m-3" style="">              
                         <a href="/" style="color: #aa0000;">
-                            <span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar<sub style="font-size:9px;">Shop</sub></sub>
+                            <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
                         </a>
                    
                 </div>
+                {{-- <div class="col-md-6 col-sm-6 col-xs-12 text-left">
+                    <a href="/" style="color: #aa0000;">
+                        <i class="firstletter h1">Gamehub</span> <i class="secondletter h2">Myanmar</span></h1>
+                    </a>
+                </div> --}}
             </div>
         </header>
 
@@ -128,45 +137,28 @@
                     <!-- Right Side Of Navbar -->
                    
                 </div>
-                <ul class="navbar-nav" style="float:left;flex-direction:row-reverse !important;">
+                <ul class="navbar-nav" style="float:left;flex-direction:inherit !important;">
                     <!-- Authentication Links -->
 
                     @guest
-                        @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>&nbsp;&nbsp;&nbsp;
-                        @endif
+                        <li class="nav-item dropdown" id="nav_hover">
+                            <i class="nav-item fa fa-user text-white m-2"   onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
+                            <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown" style="position: absolute !important;">
+                                @if (Route::has('login'))
+                                    <a class="dropdown-item" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                @endif
 
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                @if (Route::has('register'))
+                                    <a class="dropdown-item" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                @endif
+    
+                            </div>
                         </li>
-                        @endif
 
                         
                         
                     @else
 
-                   
-              
-                    <li class="nav-item dropdown">
-                        <i class="nav-item fa fa-user text-white m-2"  onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="position: absolute !important;">
-                            @if(Auth::check())
-                                <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Account</a>
-                                <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                            @endif
-
-                        </div>
-                    </li>
                         <?php 
                         if(Auth::user()){
                         $route = 'checkout/'.Auth::getUser()->name;
@@ -183,7 +175,7 @@
                                     <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;">
                                         <sup id="cartcount" style="background: #AA2B25;
                                         border-radius: 77px;
-                                        border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
+                                        border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '' }}</sup>
                                     </i>
                                 </a>
                                 @else
@@ -195,15 +187,22 @@
                             </li>
                         @else
 
-                            <li class="nav-item" onclick="openModel()" style="cursor:pointer">
+                            <li class="nav-item" onclick="openModel()" style="cursor:pointer" id="nav_hover">
                                 @if(session()->has('cart'))
-                                    <i class="fas fa-shopping-cart text-white  m-2" style="font-size:20px;">
-                                        <sup id="cartcount" style="background: #AA2B25;
-                                        border-radius: 77px;
-                                        border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
-                                    </i>
+                                    @if(session()->get('cart')->totalQty != 0)
+                                        <i class="fas fa-shopping-cart text-white m-2"  style="font-size:20px;">
+                                            <sup id="cartcount" style="background: #AA2B25;
+                                            border-radius: 77px;
+                                            border: 4px solid #AA2B25;"> {{ session()->get('cart')->totalQty }}</sup>
+                                        </i>
+                                    @else
+                                        <i class="fas fa-shopping-cart text-white m-2"  style="font-size:20px;">
+                                            
+                                        </i>
+                                    @endif
+
                                 @else
-                                    <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
+                                    <i class="fas fa-shopping-cart text-white m-2"  style="font-size:20px;">
                                     </i>
                                 @endif
 
@@ -211,11 +210,29 @@
                             </li>
 
                         @endif
+
+                        <li class="nav-item dropdown" id="nav_hover">
+                            <i class="nav-item fa fa-user text-white m-2" onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
+                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown" style="position: absolute !important;">
+                                @if(Auth::check())
+                                    <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Account</a>
+                                    <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                                @endif
+    
+                            </div>
+                        </li>
                     @endguest
                     &nbsp;&nbsp;&nbsp;
-                    <li class="nav-item">
-                        <a class="nav-item" href="https://gamehubmyanmar.com">
-                            <i class=" fa fa-gamepad text-white mt-2" style="font-size:20px;"></i>
+                    <li class="nav-item float-right" id="nav_hover">
+                        <a class="link-light" href="https://gamehubmyanmar.com">
+                            <i class=" fa fa-gamepad text-white mt-2"  style="font-size:20px;" data-toggle="tooltip" data-placement="left" title="Checkout out available games"></i>
                         </a>  
                     </li>
                     &nbsp;&nbsp;&nbsp;
@@ -249,19 +266,25 @@
                         </div>
                     </div>
                     <div class="modal-content bg-dark"  id="cartModel">
-                            <div class="p-1" style="background-color: #aa0000;">
+                            {{-- <div class="p-1" style="background-color: #aa0000;">
                                 <p class="text-center h3">Gamehub Myanmar</p>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="button" class="close" data-dismiss="modal"
                                     style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
-                            </div>
+                            </div> --}}
                             <div class="modal-body" id="cartData">
                                 
-                                    <div class="row">
-                                        <p class="col-md-8 h4"><b>YOUR CART</b></p>
+                                    <div class="p-1">
+                                        <p class="text-left">Your cart</p>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
                                     </div>
-                            
+
+                                    @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
+                                        <hr class="mx-auto mb-3" style="width:95%; color: #ec0606;height: 3px;">
+                                    @endif
+
+
                                     @if(session()->has('cart'))
-                                    <hr class="mx-auto mb-3" style="width:95%; color: #ec0606; height: 3px; ">
 
                                         @foreach(session()->get('cart')->items as $key => $value)
                                             <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;">
@@ -287,20 +310,18 @@
 
                             </div> 
                         <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
-                        <div class="row m-3">
-
-                            <p class="col-md-6"><b>Total Price:</b></p>
-                            <p class="col-md-6"> <b>MMK <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
-
-                        </div>
+                        @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
+                            <div class="row m-3">
+                                <p class="col-md-6"><b>Total Price:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MMK <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
+                            </div>
+                        @endif
                         <div class="text-center m-3">
-                            @if(session()->has('cart'))
-                                @auth
+                            @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
+                             
                                 <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
                                     <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"
                                         style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
                                 </a>
-                                @endauth
                             @else
                                 <a href="{{route('home')}}">
                                     <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"

@@ -10,10 +10,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @foreach ($order_data as $order)
-                    
-                @endforeach
-                @foreach($order_data as $order)
+                @if(empty($order_data))
+                    @foreach($order_data as $order)
 
                         <div class="card mb-3">
                             <div class="card-body" style="background:#000;color:#fff;">
@@ -85,6 +83,15 @@
                    
                     
                     @endforeach
+                @else
+                    <h3>You have not made any orders yet</h3> 
+                    <div class="text-center">
+                        <a href="{{route('home')}}" class="m-auto">
+                            <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"
+                                style="border-radius : 20px; background-color : #aa0000;">Find Your need</button>
+                        </a>
+                    </div>
+                @endif
                 </div>
         </div>
     </div>

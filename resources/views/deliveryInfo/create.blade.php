@@ -14,10 +14,7 @@
                     <label>PhoneNumber</label>
                     <input type="number" name="phoneNumber" id="phonenumber" class="form-control" value={{auth()->user()->phone_number}} required>
                 </div>       
-                <div class="form-group m-2">
-                    <label>Address</label>
-                    <input type="text" name="address" id="address" class="form-control" required>
-                </div>
+               
                 <div class="form-group m-2">
                     <label>Delivery Township</label>
                     <input type="text" name="township" id="deltownship" class="form-control" required>
@@ -31,6 +28,11 @@
                 <div class="form-group m-2">
                     <label>State/Region</label>
                     <input type="text" name="state_region" id="state" class="form-control">
+                </div>
+
+                <div class="form-group m-2">
+                    <label>Address</label>
+                    <textarea name="address" id="address" cols="10" rows="3" class="form-control" required></textarea>
                 </div>
              
                

@@ -160,7 +160,7 @@
                     <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto link-light">
                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                             <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
-                                style=" object-fit: contain;border-radius : 25px;">
+                                style=" object-fit: contain;border-radius : 25px;height:120px; !important">
                             <div class="card-body text-white">
                                 <p><b> {{$product->name}}</b></p>
                                     {{-- @foreach ($product->productDetail as $item)
@@ -188,7 +188,7 @@
             <div class="container ">
                 <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
                         MYANMAR</label></span> <br />
-                <label>A place where you can shop and download free games in this gaminig community. </label>
+                <label>A place where you can shop and download free games in this gaming community. </label>
             </div>
         </div>
         <div class="col-md-5">

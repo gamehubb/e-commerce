@@ -142,13 +142,13 @@
         <div class="row mt-10">
             <div class="col-md-6 text-white bg-dark">
                 <label class="h5 p-3"><b>CHOOSE PAYMENT METHOD</b></label><br />
-                <div class="m-1 mb-5">
+                <div class="form-check">
                     @foreach($payments as $key => $value)
                         @if($key == '1_k' || $key == '2_w')
 
-                            <input type="radio" name="payment_type" id="payment_radio" class="form-check-input m-3" value="{{$key}}" required>
+                            <input type="radio" name="payment_type" id="payment_radio" class="form-group m-3" value="{{$key}}" required>
                         @else
-                            <input type="radio" name="payment_type" id="payment_radio" class="form-check-input m-3" value="{{$key}}" {{$hidden}}>
+                            <input type="radio" name="payment_type" id="payment_radio" class="form-group m-3" value="{{$key}}" {{$hidden}}>
                         @endif
                             <label class="h5 mt-2" for="{{$value}}"> @if ($key ==1) KBZ PAY @elseif ($key == 2) Wave Pay @elseif ($key == 3 && $data == "false") Cash On Delivery @endif</label><br/>
                         <label class="text-white"></label>

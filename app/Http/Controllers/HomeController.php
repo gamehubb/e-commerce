@@ -130,7 +130,7 @@ class HomeController extends Controller
         {
             return redirect()->back();
         }else{
-            return redirect('/login')->with('success','You need to verify your account. We have sent you an activation link, please check your mail');
+            return redirect('/login')->with('success','You need to verify your account. We have sent you an activation link, please check your mail . *Sometimes the mail is in you spam folder.');
         }
 
     } 

@@ -67,6 +67,8 @@ Route::post('/changePassword', [App\Http\Controllers\UserController::class, 'cha
 Route::get('/changeAccountInfo', [App\Http\Controllers\UserController::class, 'changeAccountInfo'])->name('user.changeAccountInfo');
 Route::post('/changeAccountInfo', [App\Http\Controllers\UserController::class, 'changeAccountInfoPost'])->name('user.changeAccountInfoPost');
 
+Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'userAccountInfo'])->name('user.accountInfo');
+
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/dashboard', function () {
@@ -106,7 +108,6 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     //Orders
     Route::get('orders', [App\Http\Controllers\CartController::class, 'userorder'])->name('user.orders');
     Route::get('orders/{orderid}', [App\Http\Controllers\OrderController::class, 'show'])->name('user.order');
-    Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'userAccountInfo'])->name('user.accountInfo');
     // Brand Status
     Route::get('/changedBrandStatus', [App\Http\Controllers\BrandController::class, 'behaviourOfStatusBrand']);
     // Payemnt Status

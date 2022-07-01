@@ -46,7 +46,7 @@
                 @endif
                         <div class="row mb-3">
                             <label for="email"
-                                class="col-md-3 col-form-label text-right">{{ __('E-Mail Address') }}</label>
+                                class="col-md-3 col-form-label">{{ __('E-Mail Address') }}</label>
                             <div class="col-md-6">
                                 <input id="email" type="text" class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{old('email')}}" required autocomplete="email">
@@ -60,7 +60,7 @@
 
                         <div class="row mb-3">
                             <label for="password"
-                                class="col-md-3 col-form-label text-right">{{ __('Password') }}</label>
+                                class="col-md-3 col-form-label">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password"
