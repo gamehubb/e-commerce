@@ -29,7 +29,7 @@ class FrontProductListController extends Controller
             array_push($randomActiveProductId, $product->id);
         }
         $randomItemProducts = Product::whereNotIn('id', $randomActiveProductId)->limit(1)->get();
-        $categories = Category::where('status',1)->limit(5)->get();
+        $categories = Category::where('status',1)->limit(6)->get();
         $s_categories = Category::where(['status' => '1', 'is_special' => '1'])->get();
 
         foreach ($s_categories as $s_category) {

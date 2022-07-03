@@ -99,11 +99,11 @@
         
         <div class="row text-center">
                 @foreach($categories as $category)
-                <div class="col-md-2 m-2">
+                <div class="col-md-2 mb-2">
 
                     <div class="content_img m-auto">
                         <a href="{{ route('productCategory',[$category->slug]) }}">
-                            <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important" class="cat-img">
+                            <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; width:12rem; display: inline-block; !important" class="cat-img">
                             <div>{{$category->name}}</div>
                         </a>
                     </div>
@@ -147,7 +147,7 @@
                 <div class="col-md-8 p-2" style="border:1px solid #808080; border-radius: 10px;">
                     <h3 class="h4 text-white text-center">Recommended product
                     </h3>
-                    <a href="{{route('productDetail',Crypt::encrypt([$product->id]))}}">
+                    <a href="{{route('productDetail',Crypt::encrypt($product->id))}}">
                         <img src="{{Storage::url($product->productDetail[0]->image_1)}}"
                             class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:12rem; " alt="...">
                     </a>
