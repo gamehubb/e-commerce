@@ -174,7 +174,13 @@
                                 @if(session()->has('cart'))
                                 <a href="{{route('cart.checkout', Auth::getUser()->name)}}" class="text-white">
 
-                                    <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;" id="cart">
+                                    <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;
+                                    position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: 0 -2px 20px rgba(#000, .15);
+  background: var(--cd-color-3);" id="cart">
                                         <sup id="cartcount" style="background: #AA2B25;
                                         border-radius: 77px;
                                         border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '' }}</sup>
