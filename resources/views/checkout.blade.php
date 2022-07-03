@@ -165,14 +165,23 @@
                 <label class="h5 p-3"><b>CHOOSE PAYMENT METHOD</b></label><br />
                 <div class="form-check">
                     @foreach($payments as $key => $value)
-                        @if($key == '1_k' || $key == '2_w')
-
-                            <input type="radio" name="payment_type" id="payment_radio" class="form-group m-3" value="{{$key}}" required>
+                        @if($key == '1_k')
+                            <img class="paymentimg" src="{{asset('images/kpaylogo.png')}}" width="50px" height="50px" id="{{$key}}" onclick="paymentclick(this)"  style="display: inline;cursor:pointer;border-radius:5px; margin:10px;" alt="Kpay"/>
+                            <input type="radio" style="display: none;"  name="payment_type" id="payment_radio" data-id="{{$key}}" class="form-group m-3" value="{{$key}}" required>
+                        @elseif($key == '2_w')
+                            <img class="paymentimg" src="{{asset('images/wavepay.png')}}" width="50px" height="50px" id="{{$key}}" onclick="paymentclick(this)" style=" display: inline;cursor:pointer;border-radius:5px; margin:10px;" alt="Wpay"/>
+                            <input type="radio" style="display: none;"   name="payment_type" id="payment_radio" data-id="{{$key}}" class="form-group m-3" value="{{$key}}" required>
                         @else
-                            <input type="radio" name="payment_type" id="payment_radio" class="form-group m-3" value="{{$key}}" {{$hidden}}>
+                            <img class="paymentimg" src="{{asset('images/codlogo.png')}}" width="50px" height="50px" id="{{$key}}" onclick="paymentclick(this)" style="display: inline;cursor:pointer;border-radius:5px; margin:10px;" alt="cod"/>
+                            <input type="radio"  style="display: none;" name="payment_type" id="payment_radio" data-id="{{$key}}" class="form-group m-3" value="{{$key}}" {{$hidden}}>
                         @endif
-                            <label class="h5 mt-2" for="{{$value}}"> @if ($key ==1) KBZ PAY @elseif ($key == 2) Wave Pay @elseif ($key == 3 && $data == "false") Cash On Delivery @endif</label><br/>
-                        <label class="text-white"></label>
+
+                        <label class="h5 mt-2" style="color: #ffffff" for="{{$value}}" id = "lbl_{{$key}}">
+                            @if ($key =='1_k') KBZ PAY
+                            @elseif ($key ==  '2_w') Wave Pay 
+                            @elseif ($key ==  '3_c' && $data == "false") Cash On Delivery 
+                            @endif</label><br/>
+                      
                     @endforeach
                     <span class="invalid-feedback" role="alert">
                         <strong id="address-alert">Please select a payment type</strong>
@@ -372,36 +381,79 @@
             } 
         });
     });
-// Create a Stripe client.
-    $("input:radio[type=radio]").click(function() {
-        var value = $(this).val();
+    function paymentclick(logo) {
+        var value = logo.getAttribute('id');
+     
         if(value == '1_k')
-            {
+        {
             var img_src = document.getElementById('kpay').getAttribute('src');
             $('#back-img').css({"background-image":"url("+img_src+")"});
             $('#payment').show();
             $('#account').prop('required',true);
             $('#phone').prop('required',true);
-
-            }
+            $("input[data-id=1_k]").prop("checked", true);
+            document.getElementById('lbl_1_k').style = "color: #aa0000;";
+            document.getElementById('lbl_2_w').style = "color: #ffffff;";
+            document.getElementById('lbl_3_c').style = "color: #ffffff;";
+         
+        }
         else if(value == '2_w')
-            {
+        {
             var img_src = document.getElementById('wpay').getAttribute('src');
             $('#back-img').css({"background-image":"url("+img_src+")"});
             $('#payment').show();
             $('#account').prop('required',true);
             $('#phone').prop('required',true);
-            }
+            $("input[data-id=2_w]").prop("checked", true);
+            document.getElementById('lbl_2_w').style = "color: #aa0000;";
+            document.getElementById('lbl_1_k').style = "color: #ffffff;";
+            document.getElementById('lbl_3_c').style = "color: #ffffff;";
+        }
         else if(value == "3_c")
-            {
+        {
             var img_src = document.getElementById('cod').getAttribute('src');
             $('#back-img').css({"background-image":"url("+img_src+")"});
             $('#payment').hide();
             $('#account').prop('required',false);
             $('#phone').prop('required',false);
-            }
+            $("input[data-id=3_c]").prop("checked", true);
+            document.getElementById('lbl_3_c').style = "color: #aa0000;";
+            document.getElementById('lbl_1_k').style = "color: #ffffff;";
+            document.getElementById('lbl_2_w').style = "color: #ffffff;";
+        }
         
-    });
+    };
+
+// Create a Stripe client.
+    // $("input:radio[type=radio]").click(function() {
+    //     var value = $(this).val();
+    //     if(value == '1_k')
+    //         {
+    //         var img_src = document.getElementById('kpay').getAttribute('src');
+    //         $('#back-img').css({"background-image":"url("+img_src+")"});
+    //         $('#payment').show();
+    //         $('#account').prop('required',true);
+    //         $('#phone').prop('required',true);
+
+    //         }
+    //     else if(value == '2_w')
+    //         {
+    //         var img_src = document.getElementById('wpay').getAttribute('src');
+    //         $('#back-img').css({"background-image":"url("+img_src+")"});
+    //         $('#payment').show();
+    //         $('#account').prop('required',true);
+    //         $('#phone').prop('required',true);
+    //         }
+    //     else if(value == "3_c")
+    //         {
+    //         var img_src = document.getElementById('cod').getAttribute('src');
+    //         $('#back-img').css({"background-image":"url("+img_src+")"});
+    //         $('#payment').hide();
+    //         $('#account').prop('required',false);
+    //         $('#phone').prop('required',false);
+    //         }
+        
+    // });
 
     function getDeliFees(id)
     {
@@ -435,15 +487,22 @@
             });
 
         }
-
         if($('[id=payment_radio]').is(':checked') == false)
         {
             $('[id=payment_radio]').addClass('is-invalid');
         }
-
         if($('#existing_address').is(':checked') == true && $('[id=payment_radio]').is(':checked') == true)
         {
-            $("#form").submit();     
+            var id = $('input[type=radio][name=payment_type]:checked').attr('data-id');
+            var name = document.getElementById('account').value;
+            var phone = document.getElementById('phone').value;
+            if((id == "1_k" || id == "2_w") && name != "" && phone != ""){
+                $("#form").submit();   
+            }else if(id == "3_c"){
+                $("#form").submit();   
+            }
+           
+           
         }
     })
 
