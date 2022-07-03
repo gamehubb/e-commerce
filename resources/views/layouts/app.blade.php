@@ -51,15 +51,11 @@
     }
 
     #trash{
-
-        border-radius: 5px;
-        border: 1px solid black;
         margin: auto;
         padding: 4px;
         position: relative;
         top: 5px;
         left: 1px;
-
     }
 
     #trash:hover{
@@ -84,7 +80,7 @@
     <div id="app">
         <header class="header-box">
             <div class="container">
-                <div class="col-md-6 col-sm-6 col-xs-12 text-left site-icon m-3" style="">              
+                <div class="col-md-6 col-sm-6 col-xs-12 text-left site-icon ml-3" style="">              
                         <a href="/" style="color: #aa0000;">
                             <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
                         </a>

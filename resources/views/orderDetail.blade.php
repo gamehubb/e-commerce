@@ -11,7 +11,7 @@
           <div class="row mb-2">
               
               <div class="col-sm-3">
-                  <h6><b>Delivery Nmae :</b> {{ $order->del_name }} </h6>
+                  <h6><b>Name :</b> {{ $order->del_name }} </h6>
               </div>
               <div class="col-sm-3">
                   <h6><b>PhoneNumber :</b> {{ $order->del_phone_number

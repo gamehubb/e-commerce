@@ -26,22 +26,22 @@
                                 <div class="col-md-4">
                                     <img src="{{Storage::url($carts['image'])}}"
                                         class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:120px; " alt="...">
-                                    <p class="m-2"> 
+                                    <p class="m-2" style="display: inline-flex;"> 
                                         <i class="fa fa-minus col-md-1 ml-1" id="minus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" style="background: #802012;
-                                        width: 60px;
-                                        padding: 5px 8px 5px 22px;
+                                        width: 50px;
+                                        padding: 5px 8px 5px 17px;
                                         cursor: pointer;"></i><br>
-                                        <span class="col-lg-1" style="margin:1.7rem;" id="qty_{{$carts['product_id']}}">{{$carts['quantity']}}</span>
-                                        <span class="bg-red text-right" style="cursor:pointer;"><i class="text-danger" id="c_trash" onclick="removeCart(this)" data-id={{$carts['product_id']}}>Remove</i></span>
+                                        <span class="col-lg-1 ml-2" style="" id="qty_{{$carts['product_id']}}">{{$carts['quantity']}}</span>                       
                                         <br>
                                         <i id="product_id" hidden>{{$carts['product_id']}}</i>
                                         <i class=" fa fa-plus col-md-1 ml-1" id="plus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" 
                                         style="background: #802012;
-                                        width: 60px;
-                                        padding: 5px 8px 5px 22px;
+                                        width: 50px;
+                                        padding: 5px 8px 5px 17px;
                                         border-radius: 12px;
                                         cursor: pointer;"></i> 
                                     </p>
+                                  
                                 </div>
                                 <div class="col-md-4 mt-2 ">
                                     <p><u><b>{{$carts['product_name']}} </b></u>
@@ -51,6 +51,10 @@
                                     
                                 </div>
                                 <div class="col-md-4 mt-2 ">
+                                    <span class="bg-red" style="cursor:pointer;float:right; color:#aa0000;">
+                                        <i class="fas fa-trash fa-1x " id="c_trash" onclick="removeCart(this)" data-id={{$carts['product_id']}}></i>
+                                    </span>
+ 
                                     <p class="mt-4 ml-2"> Color: {{$carts['color']}} </p>
                                     <p class="m-2"> Brand: {{$carts['brand']}} </p>
                                     <p class="m-2"> Status: {{$carts['product_type'] ==1 ? 'Instock' : 'Preorder'}} </p>
@@ -226,7 +230,7 @@
         @if($cart_data != null)
 
         <div class="col-md-12 text-right" id="submit">
-            <input type="submit" class="btn btn-sm mt-3 text-white" id="submit"  value="Checkout" style="border-radius:20px; background-color:#aa0000;">
+            <input type="submit" class="btn btn-sm mt-3 text-white" id="submit"  value="Checkout" style="border-radius:20px; background-color:#aa0000;width: 125px;">
         </div>
     
         <hr style="margin-top: 20px;color:white;" />
