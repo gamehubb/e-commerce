@@ -11,7 +11,7 @@ class Order extends Model
 {
     use HasFactory;
     protected $fillable = ['voucher_code','user_id','del_name','del_address','del_city','del_township',
-                            'del_phone_number','total_amount','additional_info','voucher_type','status'];
+                            'del_phone_number','del_fees','total_amount','additional_info','voucher_type','status'];
 
     public function user(){
         return $this->belongsTo(User::class,'user_id','id');

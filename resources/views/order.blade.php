@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @if(empty($order_data))
+                @if($order_data->count())
                     @foreach($order_data as $order)
 
                         <div class="card mb-3">

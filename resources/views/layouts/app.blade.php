@@ -79,7 +79,7 @@
     <div id="loader"></div>
 </div>
 
-<body style="background:black;">
+<body style="background:black;" class="d-flex flex-column min-vh-100">
            
     <div id="app">
         <header class="header-box">
@@ -159,8 +159,6 @@
                             </div>
                         </li>
 
-                        
-                        
                     @else
 
                         <?php 
@@ -342,6 +340,66 @@
         @endauth
         <main class="py-4">
             @yield('content')
+        </main>
+        <main class="py-4">
+            <div class="container">
+                <p class="float-end">
+                    <a href="#"> <i class="fa fa-chevron-circle-up fa-2x " style="color: #aa0000;"></i></a>
+                </p>
+            </div>
+            <div class="container">
+                <footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="container ">
+                                <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
+                                        MYANMAR</label></span> <br />
+                                <label>A place where you can shop and download free games in this gaming community. </label>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="container text-white">
+                                <div class="row">
+                                    <div class="col-md-4 mt-2">
+                                        <p><b>Category</b></p>
+                                        @foreach ($allCategory as $category )
+                                        <a href="{{ route('productCategory',[$category->slug]) }}">
+                                        <p>{{$category->name}}</p> 
+                                        </a>
+                                        @endforeach
+                                    
+                                    </div>
+                                    <div class="col-md-4  mt-2">
+                                        <p><b>Brand</b></p>
+                                        @foreach ($allBrand as $brand )
+                                        <a href="{{ route('productBrand',[$brand->slug]) }}">
+                                            <p> {{$brand->name}}  </p> 
+                                        </a>
+                                        @endforeach
+                                    </div>
+                                    <div class="col-md-4  mt-2">
+                                        <p><b>Company</b></p>
+                                        <p> Terms & Condition </p>
+                                        <p> Privacy Policy </p>
+                                        <p> Supplier Relations </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" container row mt-10">
+                        <div class="col-md-4">
+                            <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
+                        </div>
+                        <div class="col-md-4 text-center ">
+                            <p><i class="fa fa-phone"></i> Call Us: 09963325033,09403113003 </p>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <p><i class="fa fa-envelope"></i> Mail Us: info@gamehubmyanmar.shop </p>
+                        </div>
+                    </div>
+                </footer>
+            </div>
         </main>
     </div>
 </body>

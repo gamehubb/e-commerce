@@ -71,6 +71,8 @@ Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'use
 
 Route::get('/getTownship/{id}', [App\Http\Controllers\DeliveryInfoController::class, 'getTownshipInfo'])->name('getTownship');
 
+Route::get('/demo', [App\Http\Controllers\CartController::class, 'demoCheck']);
+
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');

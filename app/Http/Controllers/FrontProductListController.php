@@ -78,7 +78,7 @@ class FrontProductListController extends Controller
     public function productDetail($id)
     {
         $products = Product::where('id', $id)->get()->first();
-        $cat_products = Product::where('category_id', $products->category_id)->get();
+        $cat_products = Product::where('category_id', $products->category_id)->where('id','!=' , $id)->get();
         if ($products == '') {
             return abort('404');
         } else {

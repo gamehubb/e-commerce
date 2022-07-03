@@ -26,20 +26,14 @@
                                 <div class="col-md-4">
                                     <img src="{{Storage::url($carts['image'])}}"
                                         class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:120px; " alt="...">
-                                    <span class="bg-red text-right" style="cursor:pointer;"><i class="text-danger" id="c_trash" onclick="removeCart(this)" data-id={{$carts['product_id']}}>Remove</i></span>
-
-                                </div>
-                                <div class="col-md-4 mt-2 ">
-                                    <p><u><b>{{$carts['product_name']}} </b></u>
-                                    </p>
-                                    <p class="m-2"> Product-Code: {{$carts['product_code']}} </p>
-                                    <p class="m-2"> Category: {{$carts['category']}} </p>
                                     <p class="m-2"> 
                                         <i class="fa fa-minus col-md-1 ml-1" id="minus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" style="background: #802012;
                                         width: 60px;
                                         padding: 5px 8px 5px 22px;
                                         cursor: pointer;"></i><br>
-                                        <span class="col-lg-1" style="margin:1.7rem;" id="qty_{{$carts['product_id']}}">{{$carts['quantity']}}</span><br>
+                                        <span class="col-lg-1" style="margin:1.7rem;" id="qty_{{$carts['product_id']}}">{{$carts['quantity']}}</span>
+                                        <span class="bg-red text-right" style="cursor:pointer;"><i class="text-danger" id="c_trash" onclick="removeCart(this)" data-id={{$carts['product_id']}}>Remove</i></span>
+                                        <br>
                                         <i id="product_id" hidden>{{$carts['product_id']}}</i>
                                         <i class=" fa fa-plus col-md-1 ml-1" id="plus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" 
                                         style="background: #802012;
@@ -48,7 +42,12 @@
                                         border-radius: 12px;
                                         cursor: pointer;"></i> 
                                     </p>
-                                   
+                                </div>
+                                <div class="col-md-4 mt-2 ">
+                                    <p><u><b>{{$carts['product_name']}} </b></u>
+                                    </p>
+                                    <p class="m-2"> Product-Code: {{$carts['product_code']}} </p>
+                                    <p class="m-2"> Category: {{$carts['category']}} </p>
                                     
                                 </div>
                                 <div class="col-md-4 mt-2 ">
@@ -74,13 +73,7 @@
                                         <p class="m-2"> Deposit-Amount: {{$carts['price']}} </p>
                                     @endif --}}
                                 </div>
-                                <div class="col-md-12 mt-2 text-right">
-                                    @if($carts['product_type'] == 2) 
-                                        <p class="m-2"> Waiting Time: <mark>3-4 weeks</mark> (*estimated) </p>
-                                    @else
-                                        <p class="m-2"> Waiting Time: <mark>2-3 days</mark></p>
-                                    @endif
-                                </div>
+                                
                                 <hr class="mx-auto" style="width:90%;">
                                 {{-- <div class="text-center">
                                     <p class="ml-4 bg-red" style="cursor:pointer;float:right;"><i class="fas fa-trash" onclick="removeCart(this)" data-id="{{$carts['product_id']}}"></i></span>
@@ -92,18 +85,26 @@
 
                 </div>
                 
-            <hr class="mx-auto" style="width:100%;  ">
-            <div class="row mb-3">
+           
+            <div class="row mb-1">
                 <div class="col-md-12 mt-2">
-                    <span class="h6" style="float:right;" >Shipment Fees:  2,000</span>
-                </div>
-                
-            </div>
-            <hr class="mx-auto" style="width:100%;">
-            <div class="row mb-3">
-                <div class="col-md-12 mt-2">
-                    <p class="h5 text-right"><b>TOTAL: </b><span class="h5"><b>MMK <span id="total_price_3">{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></b></span>
+                    <p class="text-right">Subtotal: <span class="h5"><span id="total_price_3" class="h6" data-sub-total = {{session()->get('cart')->totalPrice}} >{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></span>
                     </p>     
+                    <div class="row mb-3">
+                        <div class="col-md-12 mt-3">
+                            <span class="h6" style="float:right;" >Shipment Fees:  <span id="del_fees" class='text-muted'>Calculating</span></span>
+                        </div>
+                        
+                    </div>
+                    <hr class="mx-auto" style="width:100%;">
+
+
+                    <div class="row mb-3">
+                        <div class="col-md-12 mt-3">
+                            <span class="h6" style="float:right;" >Total:  <span id="total_amount" class='text-light'>{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span><span class="h5">  MMK</span></span>
+                        </div>
+                        
+                    </div>
                     {{-- {{print_r($product_types);}} --}}
                     @if(in_array("2",$product_types))
                         <?php
@@ -114,8 +115,13 @@
                             checkout proceess you will have to deposit 30% of the total amount.</small> 
                     @endif
                 </div>
+
+               
                 
             </div>
+
+            {{-- <hr class="mx-auto" style="width:100%;  "> --}}
+            
             </div>
             <div class="col-md-4 text-white" id="no_address_found">
                 <a href="{{route('deliveryInfo.create')}}" class="link-light" style="width: 18rem;" > 
@@ -129,16 +135,17 @@
 
                 @if(count($delivery_info)>0)
                     @foreach($delivery_info as $delInfo)     
-                <div class="card bg-dark m-4 border-secondary card-pf-view-single-select"  style="width: 18rem;" >         
+                <div class="card bg-dark m-4 border-address card-pf-view-single-select" id="del_info_{{$delInfo->id}}" onclick="getDeliFees({{$delInfo->id}})" data-del-fees = {{$delInfo->delivery_fees}} style="width: 18rem;" >         
                     <div class="card-body">
-                    <h4 class="card-title"> <b>{{$delInfo->name}}</b></h4>
-                    <p class="card-text"> {{$delInfo->phoneNumber}}</p>
-                    <p class="card-text">{{$delInfo->address}} ,{{$delInfo->township}},{{$delInfo->city}},{{$delInfo->state_region}}</p>
-                    <input type="radio" name ="delInfo" id="existing_address" value ={{$delInfo->id}} style ="position: absolute;right: 5px;top: 5px;" required>
+                        <h4 class="card-title"> <b>{{$delInfo->name}}</b></h4>
+                        <p class="card-text"> {{$delInfo->phoneNumber}}</p>
+                        <p class="card-text">{{$delInfo->address}} ,{{$delInfo->township}},{{$delInfo->city}},{{$delInfo->state_region}}</p>
+                        <input type="radio" name ="delInfo" id="existing_address" value ={{$delInfo->id}}  style ="position: absolute;right: 5px;top: 5px;" required>
+                        
+                    </div>
                     <span class="invalid-feedback" role="alert">
                         <strong>Please select address</strong>
                     </span>
-                    </div>
                 </div>
                     @endforeach               
                     <input type="hidden" id="no_address" value={{count($delivery_info)}}>
@@ -215,67 +222,12 @@
     
         <hr style="margin-top: 20px;color:white;" />
         <div class="mt-3 text-white text-center">
-            <p>Questions about this payment? Contact <a href=" "><u> GameHub Myanmar</u></a></p>
+            <p>Questions about this payment? Contact <a href="https://m.me/gamehubmyanmar/"><u> GameHub Myanmar</u></a></p>
         </div>
     
         @endif
 
-    </form>
-
-   
-       
-        <footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">
-            <div class="row">
-                <div class="col-md-7">
-                    <div class="container ">
-                        <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
-                                MYANMAR</label></span> <br />
-                        <label>A place where you can shop and download free games in this gaminig community. </label>
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="container text-white">
-                        <div class="row">
-                            <div class="col-md-4 mt-2">
-                                <p><b>Category</b></p>
-                                @foreach ($categories as $category )
-                                <a href="{{ route('productCategory',[$category->slug]) }}">
-                                  <p>{{$category->name}}</p> 
-                                </a>
-                                @endforeach
-                               
-                            </div>
-                            <div class="col-md-4  mt-2">
-                                <p><b>Brand</b></p>
-                                @foreach ($brands as $brand )
-                                <a href="{{ route('productBrand',[$brand->slug]) }}">
-                                    <p> {{$brand->name}}  </p> 
-                                </a>
-                                @endforeach
-                            </div>
-                            <div class="col-md-4  mt-2">
-                                <p><b>Company</b></p>
-                                <p> Terms & Condition </p>
-                                <p> Privacy Policy </p>
-                                <p> Supplier Relations </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class=" container row mt-10">
-                <div class="col-md-4">
-                    <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
-                </div>
-                <div class="col-md-4 text-center ">
-                    <p><i class="fa fa-phone"></i> Call Us: 0996332033,0996332033 </p>
-                </div>
-                <div class="col-md-4 text-right">
-                    <p><i class="fa fa-envelope"></i> Mail Us: info@gmaihubmyanmar.com </p>
-                </div>
-            </div>
-        </footer>
-    
+    </form>    
    
 </div>
 
@@ -305,14 +257,23 @@
                 },
                 success: function( response ) {
                     var value = JSON.parse(response);
+                    var check_del = document.getElementById('del_fees').getAttribute('del-fees');
+                    if(check_del == null){
+                        var delivery_fees = 0;
+                    }else{
+                        var delivery_fees = document.getElementById('del_fees').getAttribute('del-fees');
+                    }  
                     $("#total_price_"+id).text(custom_number_format(value.product_price));
                     $("#total_price_2").text(custom_number_format(value.total_price));
-                    $("#total_price_3").text(custom_number_format(0 + value.total_price));
+                    $("#total_price_3").text(custom_number_format(value.total_price));
+                    $("#total_price_3").attr('data-sub-total',value.total_price);
+                    $("#total_amount").text(custom_number_format(parseInt(delivery_fees) + parseInt(value.total_price)));
                     $("#cart-loader").css("display",'none');
                     $("#cart-view").css("display",'block');
                     $("body").css("opacity","1");
                     $("#cartcount").text(value.total_quantity);
                     $('#qty_'+id).text(qty);
+                    $("")
                 }
             });
 
@@ -343,9 +304,17 @@
                         },
                         success: function( response ) {
                             var value = JSON.parse(response);
+                            var check_del = document.getElementById('del_fees').getAttribute('del-fees');
+                            if(check_del == null){
+                                var delivery_fees = 0;
+                            }else{
+                                var delivery_fees = document.getElementById('del_fees').getAttribute('del-fees');
+                            }
                             $("#total_price_"+id).text(custom_number_format(value.product_price));
                             $("#total_price_2").text(custom_number_format(value.total_price));
                             $("#total_price_3").text(custom_number_format(0 + value.total_price));
+                            $("#total_price_3").attr('data-sub-total',value.total_price);
+                            $("#total_amount").text(custom_number_format(parseInt(delivery_fees) + parseInt(value.total_price)));
                             $("#cart-loader").css("display",'none');
                             $("#cart-view").css("display",'block');
                             $("body").css("opacity","1");
@@ -391,11 +360,13 @@
 
         // Card Single Select
         $('.card-pf-view-single-select').click(function() {
-            if ($(this).hasClass('border-secondary'))
+            if ($(this).hasClass('border-address') || $(this).hasClass('border-danger') )
             {
                 $('.card-pf-view-single-select').removeClass('border-success');
-                $('.card-pf-view-single-select').addClass('border-secondary');
-            $(this).removeClass('border-secondary'); 
+                $('.card-pf-view-single-select').removeClass('border-danger');
+
+                $('.card-pf-view-single-select').addClass('border-address');
+            $(this).removeClass('border-address'); 
             $(this).addClass('border-success'); 
             $(this).find('input').prop('checked', true);  
             } 
@@ -432,10 +403,24 @@
         
     });
 
+    function getDeliFees(id)
+    {
+        var del_fees = document.getElementById('del_info_'+id).getAttribute('data-del-fees');
+
+        var sub_total = document.getElementById('total_price_3').getAttribute('data-sub-total');
+
+        $("#del_fees").text(custom_number_format(del_fees));
+
+        $("#del_fees").attr('del-fees',del_fees);
+
+        $("#total_amount").text(custom_number_format(parseInt(del_fees) + parseInt(sub_total)));
+
+    }
+
     $("#submit").click(function(){
         if($("#no_address").val() > 0 && $('#existing_address').is(':checked') == false)
         {   
-            $("#existing_address").addClass('is-invalid');
+            $('.card-pf-view-single-select').addClass('border-danger');
 
 
         }else if($("#no_address").val() == 0 ){

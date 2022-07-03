@@ -5,7 +5,7 @@
 <div class="container justify-content-center">
     @foreach($orders as $order)
     <div class="card card-primary m-auto bg-dark text-light">
-      <div class="card-title"><span class="border border-secondary bg-dark text-light" style="">{{$order->voucher_code}}</span>
+      <div class="card-title"><span class="border border-secondary bg-secondary text-light" style="">{{$order->voucher_code}}</span>
       </div>
       <div class="card-body" style="padding: 0.9rem !important;"> 
           <div class="row mb-2">
@@ -21,7 +21,7 @@
                   <h6><b>Email :</b> {{ $order->user->email }} </h6>
               </div>
               <div class="col-sm-3">
-                  <h6><b>Total Amount :</b> {{ number_format($order->total_amount) }} </h6>
+                  <h6><b>Total Amount :</b> {{ number_format($order->total_amount + $order->del_fees) }} </h6>
               </div>
           </div><br>
 
@@ -34,6 +34,7 @@
             </div>
             <div class="col-sm-3">
               <h6><b>Township :</b> {{ $order->del_township }} </h6>
+              <span class="text-muted">Deli-fees: {{ $order->del_fees }}</span>
             </div>
           </div><br>
 
@@ -66,10 +67,10 @@
 
       </div>
       <div class="card-footer">
+
         <table class="table table-responsive text-light">
           <thead>
-            <th>Name</th>
-            <th>Image</th>
+            <th>Product</th>
             <th>QuantityxPrice</th>
             <th>Discount</th>
             <th>Amount</th>
@@ -80,9 +81,11 @@
           @foreach($order->orderItems as $orderItem) 
             
               <tr>
-                <td>{{$orderItem->product_name}}</td>
                 <td><img src={{Storage::url($orderItem->product_image)}} style="width:50px;height:40px;">
-                    <span  style="color: {{$orderItem->color}};font-size : 25px;">●</span>
+                    <span  style="color: {{$orderItem->color}};font-size : 25px;">●</span><br>
+
+                    {{$orderItem->product_name}}
+
                 </td>
 
                 <td>{{$orderItem->quantity}} x {{number_format($orderItem->price)}}</td>

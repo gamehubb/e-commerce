@@ -43,6 +43,8 @@
 		</div>
 	
 		<div style="background: #aa0000; padding-top: 36px; padding-bottom: 100px;" class="text-center">
+			
+			<p class="text-light">*As there is much traffic on orders, we have to confirm this process manually. <span class="text-info">Please keep patience</span>. However, you can check your order status here.  </p>
 			<a href="{{route('order')}}">
 				<button type="button" class="btn btn-sm mx-auto  btn-outline-light mt-3" style="border-radius : 20px;">Check your order List</button>
 			</a> 

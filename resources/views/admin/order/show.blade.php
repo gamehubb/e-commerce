@@ -32,7 +32,7 @@
                     <h6><b>Email :</b> {{ $order->user->email }} </h6>
                 </div>
                 <div class="col-sm-3">
-                    <h6><b>Total Amount :</b> {{ number_format($order->total_amount) }} </h6>
+                    <h6><b>Total Amount :</b> {{ number_format($order->total_amount + $order->del_fees) }} </h6>
                 </div>
             </div><br>
 
@@ -45,6 +45,7 @@
               </div>
               <div class="col-sm-3">
                 <h6><b>Township :</b> {{ $order->del_township }} </h6>
+                <span class="text-muted">Deli-fees: {{ $order->del_fees }}</span>
               </div>
             </div><br>
 

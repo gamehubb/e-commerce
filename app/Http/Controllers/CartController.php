@@ -176,8 +176,8 @@ class CartController extends Controller
                         'product_name' => $c['name'],
                         'vendor' => $c['vendor'],
                         'product_code' => $c['code'],
-                        'category' => Category::find($c['category'])->value('name'),
-                        'brand' => Brand::find($c['brand'])->value('name'),
+                        'category' => Category::where('id',$c['category'])->value('name'),
+                        'brand' => Brand::where('id',$c['brand'])->value('name'),
                         'product_type' => $c['product_type'],
                         'image' => $c['image'],
                         'quantity' => $c['qty'],
@@ -207,6 +207,10 @@ class CartController extends Controller
             $finalvouchernumber = 'GH#' . $randomString;
         }
         return $finalvouchernumber;
+    }
+
+    public function demoCheck(){
+        return view('complete-checkout');
     }
 
     public function finalCheckout(Request $request)
@@ -244,6 +248,7 @@ class CartController extends Controller
             $del_address = $delivery_info->address;
             $del_city = $delivery_info->city;
             $del_township = $delivery_info->township.'/'.$delivery_info->state_region;
+            $del_fees = $delivery_info->delivery_fees;
     
             $total_amount = session()->get('cart')->totalPrice;
 
@@ -256,6 +261,7 @@ class CartController extends Controller
                 'del_city' => $del_city,
                 'del_township' => $del_township,
                 'del_phone_number' => $del_ph_number,
+                'del_fees' => $del_fees,
                 'total_amount' => $total_amount,
             ])->id;
 
@@ -314,13 +320,12 @@ class CartController extends Controller
     {
         $user_id = Auth::id();
 
-
         $orders = DB::table('orders')->select('*')->join('order_items','order_items.order_id', '=' ,'orders.id')
                     ->where(['user_id' => $user_id])->get();
 
         $order_data = Order::where('user_id',$user_id)->get();
 
-        return view('order',compact('orders','user_id','order_data'));
+        return view('order',compact('user_id','order_data'));
     }
 
     public function orderDetail($id)
