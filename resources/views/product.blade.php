@@ -68,7 +68,7 @@
                         <div class="carousel-item {{$key == 0 ? 'active' : ''}}" style="border-radius: 20px; background: #381818">
                             <div style="display: inline-flex;">
                           <p  style=" font-size: 20px;  ">  {{$slider->products->moto}}</p>
-                          <a href="{{ route('productDetail',[$slider->products->id])}}">
+                          <a href="{{ route('productDetail',Crypt::encrypt([$slider->products->id]))}}">
                             <button type="button" class="btn btn-sm mx-auto  text-white mt-10"
                             style="border-radius : 20px;background-color : #aa0000;">View detail</button>
                            
@@ -147,7 +147,7 @@
                 <div class="col-md-8 p-2" style="border:1px solid #808080; border-radius: 10px;">
                     <h3 class="h4 text-white text-center">Recommended product
                     </h3>
-                    <a href="{{route('productDetail',[$product->id])}}">
+                    <a href="{{route('productDetail',Crypt::encrypt([$product->id]))}}">
                         <img src="{{Storage::url($product->productDetail[0]->image_1)}}"
                             class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:12rem; " alt="...">
                     </a>
@@ -158,9 +158,9 @@
 
            
         <div class="text-center mt-4">
-            <span class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
-                Life is all about Ecommerce around you. Shop with us.
-            </span>
+            <h3 class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
+                Shop Your Need
+            </h3>
         </div><br>
 
         <div class="album py-2 ">
@@ -175,7 +175,7 @@
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                             @foreach ($product as $key => $p_count)
                                 <div class="col-md-3" id="{{$product[$key]->id}}">
-                                    <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto link-light">
+                                    <a href="{{ route('productDetail',Crypt::encrypt([$product[$key]->id])) }}" class="m-auto link-light">
                                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                                             <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
                                                 style="object-fit: cover;border-radius : 25px;height:120px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));"

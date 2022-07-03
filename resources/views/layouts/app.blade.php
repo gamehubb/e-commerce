@@ -354,7 +354,7 @@
                             <div class="container ">
                                 <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
                                         MYANMAR</label></span> <br />
-                                <label>A place where you can shop and download free games in this gaming community. </label>
+                                <label>A place where you can shop and download free games </label>
                             </div>
                         </div>
                         <div class="col-md-5">
@@ -398,7 +398,9 @@
                             <p><i class="fa fa-envelope"></i> Mail Us: info@gamehubmyanmar.shop </p>
                         </div>
                     </div>
-                </footer>
+                </footer><br>
+                <p class="text-center text-light">Copyright © 2022. All Rights Reserved by Gamehub Myanmar</p>
+
             </div>
         </main>
     </div>

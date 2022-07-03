@@ -12,6 +12,9 @@ use App\Models\ProductDetail;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
+
 use Auth;
 
 class FrontProductListController extends Controller
@@ -77,13 +80,22 @@ class FrontProductListController extends Controller
     }
     public function productDetail($id)
     {
-        $products = Product::where('id', $id)->get()->first();
-        $cat_products = Product::where('category_id', $products->category_id)->where('id','!=' , $id)->get();
-        if ($products == '') {
-            return abort('404');
-        } else {
-            return view('productDetail', compact('products', 'cat_products'));
+
+        try {
+            $id = Crypt::decrypt($id);
+            $products = Product::where('id', $id)->get()->first();
+            $cat_products = Product::where('category_id', $products->category_id)->where('id','!=' , $id)->get();
+            if ($products == '') {
+                return abort('404');
+            } else {
+                return view('productDetail', compact('products', 'cat_products'));
+            }
+           
+        }catch(DecryptException $e){
+            abort(404);
         }
+
+      
     }
     public function allProduct($name, Request $request)
     {

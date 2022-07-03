@@ -157,7 +157,7 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-3">
             @foreach($cat_products as $product)
                 <div class="col-md-3">
-                    <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto link-light">
+                    <a href="{{ route('productDetail',Crypt::encrypt([$product->id])) }}" class="m-auto link-light">
                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                             <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
                                 style=" object-fit: contain;border-radius : 25px;height:120px; !important">
@@ -169,7 +169,7 @@
                                     <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
                                 <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>  
                                 {{-- <small class="card-text"><p>{!!Str::limit($product->description,120)!!}</p></small> --}}
-                                <a href="{{route('productDetail',$product->id)}}"
+                                <a href="{{route('productDetail',Crypt::encrypt($product->id))}}"
                                     class="btn btn-sm mx-auto btn-outline-light mt-3" 
                                         style="border-radius : 20px;">See Detail</a>
                             </div>

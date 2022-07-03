@@ -15,7 +15,7 @@
                     @if(count($products) != 0)
                     @foreach($products as $product)
                     <div class="col-md-3">
-                        <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto link-light">
+                        <a href="{{ route('productDetail',Crypt::encrypt([$product->id])) }}" class="m-auto link-light">
                         <div class="card shadow-sm " style="background-color : #aa0000;border-radius : 25px; ">
                             <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
                                 style=" object-fit: contain;border-radius : 25px;filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));height:120px; !important">

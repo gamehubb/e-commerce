@@ -17,18 +17,18 @@
                 
                 <div class="form-group m-2">
                     <label>State/Region</label>
-                    <select name="state_region" id="state_region" class="form-control">
+                    <select name="state_region" id="state_region" class="form-control" required>
                         <option disabled>Select Region</option>
                         <option value="Yangon" selected>Yangon</option>
-                        <option disabled>Coming Soon</option>
+                        <option>Other cities</option>
                         
                     </select>
                 </div>
 
                 <div class="form-group m-2">
                     <label>City</label>
-                    <select name="city" id="city" class="form-control">
-                        <option disabled selected>Select City</option>
+                    <select name="city" id="city" class="form-control" required>
+                        <option selected disabled>Select City</option>
                         <option value="Yangon City">Yangon City</option>
                         <option value="Dagon Myothit">Dagon Myothit</option>
                         <option value="Yangon Division">Yangon Division</option>
@@ -38,7 +38,7 @@
 
                 <div class="form-group m-2">
                     <label>Delivery Township</label>
-                    <select name="township" id="township" class="form-control"></select>
+                    <select name="township" id="township" class="form-control" required></select>
                     </div>
 
                 <div class="form-group m-2">
@@ -47,7 +47,7 @@
                 </div>
 
                     <button type="submit" class="btn btn-sm mx-auto mt-3 text-white"
-                        style="border-radius : 20px;width:50%; background-color : #aa0000; float: right;">Save</button>
+                        style="border-radius : 20px;width:20%; background-color : #aa0000; float: right;">Save</button>
                
             </form>  
         </div>  
@@ -57,6 +57,8 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+
+        
 
         $('#city').on('change',function(e) {
             var cat_id = e.target.value;
