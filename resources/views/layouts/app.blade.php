@@ -174,7 +174,7 @@
                                 @if(session()->has('cart'))
                                 <a href="{{route('cart.checkout', Auth::getUser()->name)}}" class="text-white">
 
-                                    <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;">
+                                    <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;" id="cart">
                                         <sup id="cartcount" style="background: #AA2B25;
                                         border-radius: 77px;
                                         border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '' }}</sup>
@@ -416,6 +416,12 @@
         $("#preloader").css('display','none');
         $("body").css('opacity','1');
 
+    });
+
+    $(window).on("scroll", function() {
+        if($(window).scrollTop() > 50) {
+            $("#cart").css("top","right",$(window).scrollTop());
+        }
     });
 
     $('form').submit(function() {
