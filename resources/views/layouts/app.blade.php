@@ -69,6 +69,17 @@
     #nav_hover:hover {
         border-bottom:2px solid #aa0000;
     }
+ 
+    .product_card:hover {
+        box-shadow: 1px 3px 11px 0px #aa0000;
+        background: #000000;
+    }
+
+    .product_card:active {
+        box-shadow: 1px 3px 11px 0px #aa0000;
+        background: #000000;
+    }
+
 </style>
 
 <div id="preloader">
@@ -170,13 +181,8 @@
                                 @if(session()->has('cart'))
                                 <a href="{{route('cart.checkout', Auth::getUser()->name)}}" class="text-white">
 
-                                    <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;
-                                    position: absolute;
-  bottom: 0;
-  width: 100%;
-  border-radius: 0 0 var(--radius) var(--radius);
-  box-shadow: 0 -2px 20px rgba(#000, .15);
-  background: var(--cd-color-3);" id="cart">
+                                    <i class="fa fa-shopping-cart text-whit m-2" style="cursor:pointer;"
+                                                                                         id="cart">
                                         <sup id="cartcount" style="background: #AA2B25;
                                         border-radius: 77px;
                                         border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '' }}</sup>
@@ -191,7 +197,8 @@
                             </li>
                         @else
 
-                            <li class="nav-item" onclick="openModel()" style="cursor:pointer" id="nav_hover">
+                            <li class="nav-item" onclick="openModel()" style="cursor:pointer;"
+                             id="nav_hover">
                                 @if(session()->has('cart'))
                                     @if(session()->get('cart')->totalQty != 0)
                                         <i class="fas fa-shopping-cart text-white m-2"  style="font-size:20px;">
@@ -346,7 +353,8 @@
         <main class="py-4">
             <div class="container">
                 <p class="float-end">
-                    <a href="#"> <i class="fa fa-chevron-circle-up fa-2x " style="color: #aa0000;"></i></a>
+                    <a href="#"> <i class="fa fa-chevron-circle-up fa-2x scroll-to-btn" style="color: #aa0000;box-shadow: 0px 0px 22px 3px #a99999;border-radius:14px;
+                        "></i></a>
                 </p>
             </div>
             <div class="container">

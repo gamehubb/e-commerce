@@ -156,7 +156,7 @@
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-3">
             @foreach($cat_products as $product)
-                <div class="col-md-3">
+                <div class="col-md-3 product_card p-3">
                     <a href="{{ route('productDetail',Crypt::encrypt([$product->id])) }}" class="m-auto link-light">
                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                             <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""

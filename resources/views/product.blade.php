@@ -97,7 +97,7 @@
 
                     <div class="content_img m-auto">
                         <a href="{{ route('productCategory',[$category->slug]) }}">
-                            <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important" class="cat-img">
+                            <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; width:12rem; display: inline-block; !important" class="cat-img">
                             <div>{{$category->name}}</div>
                         </a>
                     </div>
@@ -139,9 +139,9 @@
             @foreach ($randomItemProducts as $product )
                 
                 <div class="col-md-8 p-2" style="border:1px solid #808080; border-radius: 10px;">
-                    <h3 class="h4 text-white text-center">Recommended product
+                    <h3 class="h4 text-white text-center">Recommended Product
                     </h3>
-                    <a href="{{route('productDetail',[$product->id])}}">
+                    <a href="{{route('productDetail',Crypt::encrypt([$product->id]))}}">
                         <img src="{{Storage::url($product->productDetail[0]->image_1)}}"
                             class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:12rem; " alt="...">
                     </a>
@@ -168,13 +168,11 @@
                     </p><br>
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                             @foreach ($product as $key => $p_count)
-                                <div class="col-md-3" id="{{$product[$key]->id}}">
-                                    <a href="{{ route('productDetail',[$product[$key]->id]) }}" class="m-auto link-light">
+                                <div class="col-md-3 product_card p-3" id="{{$product[$key]->id}}">
+                                    <a href="{{ route('productDetail',Crypt::encrypt([$product[$key]->id])) }}" class="m-auto link-light">
                                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                                             <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
                                                 style="object-fit: cover;border-radius : 25px;height:120px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));"
-                                               
-
                                                  id="product_image" >
                                             <div class="card-body text-white">
                                                 <p><b> {{$product[$key]->name}}</b></p>
@@ -205,60 +203,7 @@
             </div>
         </div>
     </main>
-    <p class="float-end">
-        <a href="#"> <i class="fa fa-chevron-circle-up fa-2x " style="color: #aa0000;"></i></a>
-    </p>
-    <footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">
-        <div class="row">
-            <div class="col-md-7">
-                <div class="container ">
-                    <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
-                            MYANMAR</label></span> <br />
-                    <label>A place where you can shop and download free games in this gaming community. </label>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="container text-white">
-                    <div class="row">
-                        <div class="col-md-4 mt-2">
-                            <p><b>Category</b></p>
-                            @foreach ($allCategory as $category )
-                            <a href="{{ route('productCategory',[$category->slug]) }}">
-                              <p>{{$category->name}}</p> 
-                            </a>
-                            @endforeach
-                           
-                        </div>
-                        <div class="col-md-4  mt-2">
-                            <p><b>Brand</b></p>
-                            @foreach ($allBrand as $brand )
-                            <a href="{{ route('productBrand',[$brand->slug]) }}">
-                                <p> {{$brand->name}}  </p> 
-                            </a>
-                            @endforeach
-                        </div>
-                        <div class="col-md-4  mt-2">
-                            <p><b>Company</b></p>
-                            <p> Terms & Condition </p>
-                            <p> Privacy Policy </p>
-                            <p> Supplier Relations </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class=" container row mt-10">
-            <div class="col-md-4">
-                <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
-            </div>
-            <div class="col-md-4 text-center ">
-                <p><i class="fa fa-phone"></i> Call Us: 09963325033,09403113003 </p>
-            </div>
-            <div class="col-md-4 text-right">
-                <p><i class="fa fa-envelope"></i> Mail Us: info@gamehubmyanmar.shop </p>
-            </div>
-        </div>
-    </footer>
+    
 </div>
 
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
