@@ -69,6 +69,7 @@
     #nav_hover:hover {
         border-bottom:2px solid #aa0000;
     }
+    .navbar .nav-item:hover .dropdown-menu{ display: block; }
 </style>
 
 <div id="preloader">
@@ -170,14 +171,14 @@
                                 @if(session()->has('cart'))
                                 <a href="{{route('cart.checkout', Auth::getUser()->name)}}" class="text-white">
 
-                                    <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;">
+                                    <i class="fa fa-shopping-cart text-whit m-2" title="Cart" style="font-size: 20px;">
                                         <sup id="cartcount" style="background: #AA2B25;
                                         border-radius: 77px;
                                         border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '' }}</sup>
                                     </i>
                                 </a>
                                 @else
-                                    <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
+                                    <i class="fas fa-shopping-cart  text-white m-2" title="Cart" style="font-size:20px;">
                                     </i>
                                 @endif
                                 
@@ -188,19 +189,19 @@
                             <li class="nav-item" onclick="openModel()" style="cursor:pointer" id="nav_hover">
                                 @if(session()->has('cart'))
                                     @if(session()->get('cart')->totalQty != 0)
-                                        <i class="fas fa-shopping-cart text-white m-2"  style="font-size:20px;">
+                                        <i class="fas fa-shopping-cart text-white m-2" title="Cart"  style="font-size:20px;">
                                             <sup id="cartcount" style="background: #AA2B25;
                                             border-radius: 77px;
                                             border: 4px solid #AA2B25;"> {{ session()->get('cart')->totalQty }}</sup>
                                         </i>
                                     @else
-                                        <i class="fas fa-shopping-cart text-white m-2"  style="font-size:20px;">
+                                        <i class="fas fa-shopping-cart text-white m-2" title="Cart" style="font-size:20px;">
                                             
                                         </i>
                                     @endif
 
                                 @else
-                                    <i class="fas fa-shopping-cart text-white m-2"  style="font-size:20px;">
+                                    <i class="fas fa-shopping-cart text-white m-2" title="Cart" style="font-size:20px;">
                                     </i>
                                 @endif
 
@@ -210,7 +211,7 @@
                         @endif
 
                         <li class="nav-item dropdown" id="nav_hover">
-                            <i class="nav-item fa fa-user text-white m-2" onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
+                            <i class="nav-item fa fa-user text-white m-2" title="Account Info" onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown" style="position: absolute !important;">
                                 @if(Auth::check())
                                     <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Account</a>
@@ -230,7 +231,7 @@
                     &nbsp;&nbsp;&nbsp;
                     <li class="nav-item float-right" id="nav_hover">
                         <a class="link-light" href="https://gamehubmyanmar.com">
-                            <i class=" fa fa-gamepad text-white mt-2"  style="font-size:20px;" data-toggle="tooltip" data-placement="left" title="Checkout out available games"></i>
+                            <i class=" fa fa-gamepad text-white mt-2" title="Games" style="font-size:20px;" data-toggle="tooltip" data-placement="left" title="Checkout out available games"></i>
                         </a>  
                     </li>
                     &nbsp;&nbsp;&nbsp;
@@ -272,7 +273,7 @@
                             <div class="modal-body" id="cartData">
                                 
                                     <div class="p-1">
-                                        <p class="text-left h2">Your cart</p>
+                                        <p class="text-left h4">Your Cart</p>
                                         <button type="button" class="close" data-dismiss="modal"
                                             style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
                                     </div>
@@ -350,7 +351,7 @@
                             <div class="container ">
                                 <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
                                         MYANMAR</label></span> <br />
-                                <label>A place where you can shop and download free games </label>
+                                <label>A place where you can shop and download free games. </label>
                             </div>
                         </div>
                         <div class="col-md-5">
@@ -376,8 +377,8 @@
                                     <div class="col-md-4  mt-2">
                                         <p><b>Company</b></p>
                                         <p> Terms & Condition </p>
-                                        <p> Privacy Policy </p>
-                                        <p> Supplier Relations </p>
+                                        {{-- <p> Privacy Policy </p>
+                                        <p> Supplier Relations </p> --}}
                                     </div>
                                 </div>
                             </div>

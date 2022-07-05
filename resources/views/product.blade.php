@@ -139,12 +139,32 @@
             @foreach ($randomItemProducts as $product )
                 
                 <div class="col-md-8 p-2" style="border:1px solid #808080; border-radius: 10px;">
-                    <h3 class="h4 text-white text-center">Recommended product
+                    <h3 class="h4 text-white text-center">Recommended Product
                     </h3>
-                    <a href="{{route('productDetail',[$product->id])}}">
-                        <img src="{{Storage::url($product->productDetail[0]->image_1)}}"
-                            class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:12rem; " alt="...">
-                    </a>
+
+                    <div id="carouselSliderControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner text-white">  
+                            @for ($i = 1; $i <= 3; $i++)
+                            @if($product->productDetail[$key]['image_'.$i] != "no-img")
+                            <div class="carousel-item {{$i ==1 ? 'active' : ''}}" >
+                                <a href="{{route('productDetail',[$product->id])}}">
+                                    <img src="{{Storage::url($product->productDetail[$key]['image_'.$i])}}" class="m-auto p-image" alt="" style=" height: 200px;border-radius : 25px;">
+                                </a> 
+                            </div>
+                            @endif
+                          @endfor                         
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselSliderControls"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselSliderControls"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                     <div class="text-white text-left"><?php echo $product->description; ?></div>
                 </div>
 
@@ -205,60 +225,7 @@
             </div>
         </div>
     </main>
-    <p class="float-end">
-        <a href="#"> <i class="fa fa-chevron-circle-up fa-2x " style="color: #aa0000;"></i></a>
-    </p>
-    <footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">
-        <div class="row">
-            <div class="col-md-7">
-                <div class="container ">
-                    <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
-                            MYANMAR</label></span> <br />
-                    <label>A place where you can shop and download free games in this gaming community. </label>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="container text-white">
-                    <div class="row">
-                        <div class="col-md-4 mt-2">
-                            <p><b>Category</b></p>
-                            @foreach ($allCategory as $category )
-                            <a href="{{ route('productCategory',[$category->slug]) }}">
-                              <p>{{$category->name}}</p> 
-                            </a>
-                            @endforeach
-                           
-                        </div>
-                        <div class="col-md-4  mt-2">
-                            <p><b>Brand</b></p>
-                            @foreach ($allBrand as $brand )
-                            <a href="{{ route('productBrand',[$brand->slug]) }}">
-                                <p> {{$brand->name}}  </p> 
-                            </a>
-                            @endforeach
-                        </div>
-                        <div class="col-md-4  mt-2">
-                            <p><b>Company</b></p>
-                            <p> Terms & Condition </p>
-                            <p> Privacy Policy </p>
-                            <p> Supplier Relations </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class=" container row mt-10">
-            <div class="col-md-4">
-                <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
-            </div>
-            <div class="col-md-4 text-center ">
-                <p><i class="fa fa-phone"></i> Call Us: 09963325033,09403113003 </p>
-            </div>
-            <div class="col-md-4 text-right">
-                <p><i class="fa fa-envelope"></i> Mail Us: info@gamehubmyanmar.shop </p>
-            </div>
-        </div>
-    </footer>
+ 
 </div>
 
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
