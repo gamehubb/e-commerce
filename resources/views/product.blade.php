@@ -64,7 +64,7 @@
                     <div class="carousel-inner text-white">  
                         @foreach($sliders as $key=>$slider)
                         <div class="carousel-item {{$key == 0 ? 'active' : ''}}" style="border-radius: 20px; background: #381818">
-                            <a href="{{ route('productDetail',[$slider->products->id])}}">
+                            <a href="{{ route('productDetail',Crypt::encrypt($slider->products->id))}}" class="link-light">
                                 <div style="display: inline-flex;">
                                     <p  style=" font-size: 20px; font-family: cursive; ">  {{$slider->products->moto}}</p>
                                 </div>
@@ -93,7 +93,7 @@
         
         <div class="row text-center">
                 @foreach($categories as $category)
-                <div class="col-md-2 m-2">
+                <div class="col-md-2 m-3">
 
                     <div class="content_img m-auto">
                         <a href="{{ route('productCategory',[$category->slug]) }}">
@@ -136,25 +136,45 @@
                     </div>
                 </div>
             </div>
-            @foreach ($randomItemProducts as $product )
+            @foreach ($randomItemProducts as $key => $product )
                 
                 <div class="col-md-8 p-2" style="border:1px solid #808080; border-radius: 10px;">
                     <h3 class="h4 text-white text-center">Recommended Product
                     </h3>
-                    <a href="{{route('productDetail',Crypt::encrypt([$product->id]))}}">
-                        <img src="{{Storage::url($product->productDetail[0]->image_1)}}"
-                            class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:12rem; " alt="...">
-                    </a>
+
+                    <div id="carouselSliderControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner text-white">  
+                            @for ($i = 1; $i <= 3; $i++)
+                            @if($product->productDetail[$key]['image_'.$i] != "no-img")
+                            <div class="carousel-item {{$i ==1 ? 'active' : ''}}" >
+                                <a href="{{route('productDetail',Crypt::encrypt([$product->id]))}}">
+                                    <img src="{{Storage::url($product->productDetail[$key]['image_'.$i])}}" class="m-auto p-image" alt="" style=" height: 200px;border-radius : 25px;">
+                                </a> 
+                            </div>
+                            @endif
+                          @endfor                         
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselSliderControls"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselSliderControls"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                     <div class="text-white text-left"><?php echo $product->description; ?></div>
                 </div>
 
             @endforeach
 
            
-        <div class="text-center mt-4">
-            <span class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
-                Life is all about Ecommerce around you. Shop with us.
-            </span>
+        <div class="text-center mt-5">
+            <h3 class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
+                Shop Your Need, Play With Us
+            </h3>
         </div><br>
 
         <div class="album py-2 ">
@@ -168,6 +188,8 @@
                     </p><br>
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                             @foreach ($product as $key => $p_count)
+                            <?php if(isset($product[$key]->productDetail[0])) { ?>
+
                                 <div class="col-md-3 product_card p-3" id="{{$product[$key]->id}}">
                                     <a href="{{ route('productDetail',Crypt::encrypt([$product[$key]->id])) }}" class="m-auto link-light">
                                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
@@ -177,7 +199,7 @@
                                             <div class="card-body text-white">
                                                 <p><b> {{$product[$key]->name}}</b></p>
                                                 <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
-                                                <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
+                                                <p><b>MMK {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
                                                 <a data-id = {{$product[$key]->id}} id="add_cart_{{$product[$key]->id}}"
                                                     class="btn btn-sm mx-auto btn-outline-light mt-3" 
                                                     data-image="{{$product[$key]->productDetail[0]['image_1']}}"
@@ -189,6 +211,7 @@
                                         </div>
                                     </a>
                                 </div>
+                            <?php } ?>
 
                             @endforeach
 
@@ -203,7 +226,7 @@
             </div>
         </div>
     </main>
-    
+ 
 </div>
 
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
@@ -233,6 +256,7 @@ function addCart(id){
                 $("#cart-loader").css("display",'none');
                 location.reload();
             }
+
         },
         });
     }else{

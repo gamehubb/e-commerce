@@ -104,7 +104,7 @@
         <div class="col-md-3 m-3"  >     
             <p class="h3"> <b>{{$products->name}} </b> </p>
             <p class="text-red-600 h4"><b>MMKs {{number_format($products->productDetail[0]['price'])}} </b> </p>  
-            <p class="card-text">Status: {{$products->productDetail[0]['product_type'] == '1' ? 'In-stock' : 'Pre-Order'}}</p>
+            <p class="card-text">Status: {{$products->productDetail[0]['product_type'] == 1 ? 'In-stock' : 'Pre-Order'}}</p>
             <p class="card-text">Waiting Time: @if ($products->productDetail[0]['product_type'] == '1') 3 - 4 days @else 3 - 4 weeks @endif</p>
             <input type="hidden" id="product_image" value="{{$products->productDetail[0]['image_1']}}" class="text-black">
             <input type="hidden" id="product_color" value="{{$products->productDetail[0]['color']}}" class="text-black">
@@ -125,7 +125,7 @@
                     <td>{{$products->model_name}}</td>
                 </tr>
                 @endif
-                @if($products->wireless == 0 || $products->wireless == 1)
+                @if($products->wireless == 1 || $products->wireless == 2)
                     <tr>
                         <td><p class="m-1"><b>Connectivity</b></p></td>
                         <td>{{$products->wireless == 1 ? 'Wireless' : 'Wired'}}</td>
@@ -167,7 +167,7 @@
                                     <span  style="color: {{$item->color}};font-size : 35px" class="mt-2" title="Available in colors">●</span>
                                     @endforeach --}}
                                     <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
-                                <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>  
+                                <p><b>MMK {{number_format($product->productDetail[0]['price'])}} </b> </p>  
                                 {{-- <small class="card-text"><p>{!!Str::limit($product->description,120)!!}</p></small> --}}
                                 <a href="{{route('productDetail',Crypt::encrypt($product->id))}}"
                                     class="btn btn-sm mx-auto btn-outline-light mt-3" 

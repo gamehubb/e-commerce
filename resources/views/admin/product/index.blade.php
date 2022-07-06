@@ -33,7 +33,10 @@
             <tr>
               
               <td style="">
+                <?php if(isset($product->productDetail[0])) { ?>
+
                 <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" width="100" alt="Image-1" class="index_image">
+                <?php } ?>
               <td>{{$product->name }}</td>
               <td>{{$product->category->name}}</td>
               <td>{{$product->brand->name}}</td>

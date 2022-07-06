@@ -28,13 +28,16 @@ class FrontProductListController extends Controller
         foreach ($randomActiveProducts as $product) {
             array_push($randomActiveProductId, $product->id);
         }
-        $randomItemProducts = Product::whereNotIn('id', $randomActiveProductId)->limit(1)->get();
-        $categories = Category::where('status',1)->limit(6)->get();
+        //$randomItemProducts = Product::whereNotIn('id', $randomActiveProductId)->limit(1)->get();
+
+
+        $randomItemProducts  = Product::all()->where('status', 1)->random(1);
+
+        $categories = Category::where('status', 1)->limit(6)->get();
         $s_categories = Category::where(['status' => '1', 'is_special' => '1'])->get();
 
         foreach ($s_categories as $s_category) {
             $product_list[$s_category->id] = Product::where('category_id', $s_category->id)->with('productDetail')->get();
-            
         }
 
         $brands = Brand::get();
@@ -84,18 +87,15 @@ class FrontProductListController extends Controller
         try {
             $id = Crypt::decrypt($id);
             $products = Product::where('id', $id)->get()->first();
-            $cat_products = Product::where('category_id', $products->category_id)->where('id','!=' , $id)->get();
+            $cat_products = Product::where('category_id', $products->category_id)->where('id', '!=', $id)->get();
             if ($products == '') {
                 return abort('404');
             } else {
                 return view('productDetail', compact('products', 'cat_products'));
             }
-           
-        }catch(DecryptException $e){
+        } catch (DecryptException $e) {
             abort(404);
         }
-
-      
     }
     public function allProduct($name, Request $request)
     {

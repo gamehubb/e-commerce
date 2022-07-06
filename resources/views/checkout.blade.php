@@ -205,6 +205,7 @@
         <div id="payment" class="hidden">
            
                 <div class="form-group row">
+                    <small class="text-light">*Please provide your account information</small><br/>
                     <div class="col-md-3">
                         <label class="text-white">Account</label>
                         <input type="text" class="form-control" id="account" name="account">

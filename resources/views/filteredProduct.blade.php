@@ -22,7 +22,7 @@
                             <div class="card-body text-white">
                                 <p><b> {{$product->name}}</b></p>
                                 <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
-                                <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>                         
+                                <p><b>MMK {{number_format($product->productDetail[0]['price'])}} </b> </p>                         
                                 <a data-id = {{$product->id}} id="add_cart_{{$product->id}}"
                                     class="btn btn-sm mx-auto btn-outline-light mt-3"
                                     data-image="{{$product->productDetail[0]['image_1']}}"

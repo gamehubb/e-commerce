@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card bg-black text-white">
-                <div class="card-header h3 text-center">Change Passowrd</div>
+                <div class="card-header h3 text-center">Change Password</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('user.changePasswordPost') }}">
                         @csrf
@@ -23,7 +23,7 @@
 
                         <div class="row mb-3">
                             <label for="oldpassword"
-                                class="col-md-3 col-form-label text-right">{{ __('Old Password') }}</label>
+                                class="col-md-3 col-form-label">{{ __('Old Password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="oldpassword" type="password"
@@ -40,7 +40,7 @@
                         </div>
                         <div class="row mb-3">
                             <label for="newpassword"
-                                class="col-md-3 col-form-label text-right">{{ __('New Password') }}</label>
+                                class="col-md-3 col-form-label">{{ __('New Password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="newpassword" type="password"
@@ -58,7 +58,7 @@
 
                         <div class="row mb-3">
                             <label for="confpasowrd"
-                                class="col-md-3 col-form-label text-right">{{ __('Confirm Password') }}</label>
+                                class="col-md-3 col-form-label">{{ __('Confirm Password') }}</label>
                             <div class="col-md-6">
                                 <input id="confpasowrd" type="password"
                                     class="form-control @error('confpasowrd') is-invalid @enderror" name="confpasowrd"
@@ -74,7 +74,7 @@
                         </div>
                         <div class="col-md-6 offset-md-3 mt-3">
                             <input type="submit" class="btn text-white" style="background-color : #aa0000;"
-                                value="Change Password" >
+                                value="Change" >
                         </div>
                     
                     </form>

@@ -115,12 +115,6 @@
 
 <script type="text/javascript">
 
-$(function(){
-    setTimeout(function(){
-        $("#alert-message").hide();
-        }, 4000);
-      });
-
 $(".toggle-password").click(function() {
 $(this).toggleClass("fa-eye fa-eye-slash");
   var input = $($(this).attr("toggle"));
@@ -131,8 +125,8 @@ $(this).toggleClass("fa-eye fa-eye-slash");
   }
 });
 
-$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-    $("#success-alert").slideUp(500);
+$("#alert-message").fadeTo(2000, 500).slideUp(10000, function(){
+    $("#alert-message").slideUp(10000);
 });
 </script>
 @endsection

@@ -19,14 +19,15 @@
                             </ul>
                         </div>
                     @endif
+                    {{auth()->user()->name}}
                         <div class="row mb-3">
                             <label for="name"
-                                class="col-md-3 col-form-label text-right">{{ __('Name') }}</label>
+                                class="col-md-3 col-form-label">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text"
                                     class="form-control @error('name') is-invalid @enderror" name="name"
-                                    value={{auth()->user()->name}}
+                                    value="{{auth()->user()->name}}"
                                     required >
                                     
                                 @error('name')
@@ -38,7 +39,7 @@
                         </div>
                         <div class="row mb-3">
                             <label for="email"
-                                class="col-md-3 col-form-label text-right">{{ __('Email') }}</label>
+                                class="col-md-3 col-form-label">{{ __('Email') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="text"
@@ -56,7 +57,7 @@
 
                         <div class="row mb-3">
                             <label for="phone"
-                                class="col-md-3 col-form-label text-right">{{ __('Phone Number') }}</label>
+                                class="col-md-3 col-form-label">{{ __('Phone Number') }}</label>
                             <div class="col-md-6">
                                 <input id="phone" type="text"
                                     class="form-control @error('phone') is-invalid @enderror" name="phone"

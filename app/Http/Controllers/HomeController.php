@@ -83,7 +83,7 @@ class HomeController extends Controller
             
                     }
 
-                    return redirect()->back();
+                    return redirect('/home');
                     
                 }else{
                     return redirect('login')->with('message', "Invalid Credentials");
@@ -114,7 +114,7 @@ class HomeController extends Controller
         $message = 'Thanks for singing up, we just need to verify your email address';
         $mail_data=[
             'recipient' =>$request->email,
-            'fromEmail' =>'noreply@gamehubmyanmar.com',
+            'fromEmail' =>'info@gamehubmyanmar.shop',
             'fromName' =>'GameHub Myanmar',
             'subject' =>'Email Verification',
             'body'=>$message,
@@ -128,9 +128,9 @@ class HomeController extends Controller
 
         if($request->role == 2)
         {
-            return redirect()->back();
+            return redirect('/home');
         }else{
-            return redirect('/login')->with('success','You need to verify your account. We have sent you an activation link, please check your mail . *Sometimes the mail is in you spam folder.');
+            return redirect('/login')->with('success','You need to verify your account. We have sent you an activation link. Please check your mail . *Please do not forget to check the mail in your spam folder.');
         }
 
     } 

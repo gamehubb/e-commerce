@@ -12,7 +12,7 @@
                 </div>
                 <div class="form-group m-2">
                     <label>PhoneNumber</label>
-                    <input type="number" name="phoneNumber" id="phonenumber" class="form-control" value={{auth()->user()->phone_number}} required>
+                    <input type="tel" name="phoneNumber" id="phonenumber" required  class="form-control" value={{auth()->user()->phone_number}} required>
                 </div>       
                 
                 <div class="form-group m-2">

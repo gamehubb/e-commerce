@@ -5,7 +5,7 @@
     <main>
         <div class="album py-2 ">
             <div class="container text-white">    
-                <h3 class="h4">Manage Your Account</h3>
+                <h3 class="h4">Manage Your Account</h3><br>
                 <p class="m-2 h5"><b>Account Info</b><a  class="text-red link-light" href= "{{route('user.changeAccountInfo')}}"><small class="fas fa-edit fa-1x ml-4"></small></a></p>   
                 <table  class="m-3">
                     <tr>

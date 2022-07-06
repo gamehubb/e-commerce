@@ -13,12 +13,12 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register-user') }}">
                         @if(Session::get('fail'))
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger" id="alert-message">
                             {{ Session::get('fail') }}
                         </div>
                     @endif
                     @if(Session::get('success'))
-                        <div class="alert alert-info">
+                        <div class="alert alert-info" id="alert-message">
                             {{ Session::get('success')}}
                         </div>
                     @endif
@@ -41,7 +41,7 @@
                             <label for="phone" class="col-md-3 col-form-label"> Phone Number ( +95 )</label>
                             <div class="col-md-6">
                                 <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror"
-                                    name="phone" value="{{ old('phone') }}" required pattern="[0-9]{11}" placeholder="09xxxxxxxxx">
+                                    name="phone" value="{{ old('phone') }}" required placeholder="09xxxxxxxxx">
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -122,6 +122,10 @@ $(this).toggleClass("fa-eye fa-eye-slash");
   } else {
     input.attr("type", "password");
   }
+});
+
+$("#alert-message").fadeTo(2000, 500).slideUp(10000, function(){
+    $("#alert-message").slideUp(10000);
 });
 </script>
 @endsection

@@ -68,7 +68,7 @@
                                     class="form-control @error('password') is-invalid @enderror" name="password"
                                     required autocomplete="new-password">
                                     <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password text-dark"
-                                    style = " float: right;margin-right : 10px; margin-top: -25px;position: relative;z-index: 2;"></span>
+                                    style = "float: right;margin-right : 10px; margin-top: -25px;position: relative;z-index: 2;"></span>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
