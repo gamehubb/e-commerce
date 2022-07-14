@@ -22,7 +22,13 @@
                             <div class="card-body text-white">
                                 <p><b> {{$product->name}}</b></p>
                                 <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
-                                <p><b>MMK {{number_format($product->productDetail[0]['price'])}} </b> </p>                         
+                                @if(number_format($product->productDetail[0]['discount']) > 0)       
+                                <p><b style="font-size : 18px;"> MMK 
+                                {{ $product->productDetail[0]['price'] - ($product->productDetail[0]['price'] *  ( number_format($product->productDetail[0]['discount']) /100 ) )  }}</b></p>  
+                                <p ><b style=" text-decoration: line-through;">MMK  {{number_format($product->productDetail[0]['price'])}} </b> &nbsp;<small>({{$product->productDetail[0]['discount']}} % off)</small></p>  
+                                @else
+                                <p><b>MMK {{number_format($product->productDetail[0]['price'])}}</b></p>  
+                                @endif  
                                 <a data-id = {{$product->id}} id="add_cart_{{$product->id}}"
                                     class="btn btn-sm mx-auto btn-outline-light mt-3"
                                     data-image="{{$product->productDetail[0]['image_1']}}"
