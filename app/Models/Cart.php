@@ -43,7 +43,7 @@ class Cart
 
     public function fetchCart($product)
     {
-        foreach($product as $data){
+        foreach ($product as $data) {
             $item = [
                 'id' => $data['product_id'],
                 'name' => $data['product_name'],
@@ -59,26 +59,24 @@ class Cart
                 'image' => $data['image']
             ];
             if (!array_key_exists($data['product_id'], $this->items)) {
-                
+
                 $this->items[$data['product_id']] = $item;
                 $this->totalQty += $data['quantity'];
                 $this->totalPrice += $data['total_amount'];
-            } 
+            }
 
-            $this->items[$data['product_id']]['qty'] = $data['quantity'];       
+            $this->items[$data['product_id']]['qty'] = $data['quantity'];
         }
-        
-
     }
 
-    public function add($product,$color,$image)
+    public function add($product, $color, $image)
     {
         $item = [
             'id' => $product->id,
             'name' => $product->name,
             'vendor' => $product->vendor,
             'code' => $product->code,
-            'category' => $product->category_id,    
+            'category' => $product->category_id,
             'brand' => $product->brand_id,
             'product_type' => $product->product_type,
             'price' => $product->productDetail[0]->price,

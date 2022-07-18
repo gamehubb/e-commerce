@@ -307,13 +307,23 @@
                                     @if(session()->has('cart'))
 
                                         @foreach(session()->get('cart')->items as $key => $value)
+                                      
                                             <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;height:auto;">
+                                               
                                                 <div class="col-md-4 col-xs-4">
                                                         <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:70%;">
                                                 </div>
                                                 <div class="col-md-8 col-xs-8">
                                                     <p>{{$value['name']}} </p>
+                                                    {{-- <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p> --}}
+
+                                                    @if(number_format($value['discount']) > 0)       
+                                                    <p><b style="font-size : 18px;"> MMK 
+                                                    {{ $value['price'] - ($value['price'] *  ( number_format($value['discount']) /100 ) )  }}</b>
+                                                     <span id="price_{{$value['id']}}" data-price="{{$value['price']}}" style=" text-decoration: line-through;">MMK  {{number_format($value['price'])}} </span> &nbsp;<small>({{$value['discount']}} % off)</small></p>  
+                                                    @else
                                                     <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p>
+                                                    @endif  
                                                     <div class="row mt-5">
                                                         <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
                                                         ></i>
