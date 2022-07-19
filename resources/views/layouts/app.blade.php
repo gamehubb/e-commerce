@@ -92,6 +92,16 @@
     }
 
     .navbar .nav-item:hover .dropdown-menu{ display: block; }
+    .blink {
+            animation: blinker 1.5s linear infinite;
+            color: red;
+            font-family: sans-serif;
+        }
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
 </style>
 
 <div id="preloader">
@@ -99,19 +109,19 @@
 </div>
 
     <div id="app">
-        <header class="header-box m-3">
-            <div class="container">
-                <div class="col-md-6 col-sm-6 col-xs-12 text-left site-icon ml-3" style="">              
-                        <a href="/" style="color: #aa0000;">
-                            <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
-                        </a>
-                   
-                </div>
-                {{-- <div class="col-md-6 col-sm-6 col-xs-12 text-left">
+        <header class="header-box ">
+            <div class="container row">
+                <div class="col-md-3 col-sm-3 col-xs-12 text-left site-icon ml-3 mb-3" style="">              
                     <a href="/" style="color: #aa0000;">
-                        <i class="firstletter h1">Gamehub</span> <i class="secondletter h2">Myanmar</span></h1>
+                        <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
                     </a>
-                </div> --}}
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-12 text-left site-icon ml-3" style="">  
+                    <marquee direction = "left" loop=20 class="blink"  >  <p class="h4" style="color: #ffffff; font-weight: bold"> GameHub's Week   <small>Start from  </small><i class="h4" style="color: #aa0000;">  19.7.2022 - 25.7.2022 </i> </p>            
+                    </marquee>
+                        <marquee direction = "right"> <p class="h5" style="color: #ffffff;"> <b class="h4" style="color: #aa0000;"> 5% Discount </b> for every product </p>   
+                    </marquee>
+                    </div>
             </div>
         </header>
 
