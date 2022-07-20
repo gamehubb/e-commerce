@@ -39,7 +39,7 @@
                             <label for="phone" class="col-md-3 col-form-label text-right"> Phone Number </label>
                             <div class="col-md-6">
                                 <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror"
-                                    name="phone" value="{{ old('phone') }}" required pattern="[0-9]{11}" placeholder="09123456789">
+                                    name="phone" value="{{ old('phone') }}" required placeholder="09-xxxxxxxxx">
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -67,8 +67,8 @@
                                 <input id="password" type="password"
                                     class="form-control @error('password') is-invalid @enderror" name="password"
                                     required autocomplete="new-password">
-                                    <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password text-dark"
-                                    style = "float: right;margin-right : 10px; margin-top: -25px;position: relative;z-index: 2;"></span>
+                                    <span toggle="#password" class="fa fa-fw fa-eye field-icon text-dark" id="toggle_password"
+                                    style = "float: right;margin-right : 10px; margin-top: -30px;position: relative;z-index: 2;"></span>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -98,4 +98,21 @@
             </form>
         </div>
     </div>
+
+
+<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+
+<script type="text/javascript">
+    $("#toggle_password").on('click',function() {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") == "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        }
+    });
+
+</script>
 @endsection
+

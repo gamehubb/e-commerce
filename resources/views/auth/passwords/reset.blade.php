@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+            <div class="card bg-black text-white">
+                <h3 class="card-header h3 text-center">{{ __('Reset Password') }}</h3>
                 
                 <div class="card-body">
                     <form method="POST" action="{{ route('password.update') }}">
@@ -17,13 +17,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="email" type="email" class="form-control" name="email" value="{{ $email }}" autocomplete="email" readonly>
                             </div>
                         </div>
 
@@ -51,7 +45,7 @@
                         
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn text-white" style="background-color : #aa0000;">
                                     {{ __('Reset Password') }}
                                 </button>
                             </div>
@@ -62,4 +56,8 @@
         </div>
     </div>
 </div>
+<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+<script>
+    
+</script>
 @endsection

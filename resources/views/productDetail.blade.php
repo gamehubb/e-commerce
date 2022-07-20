@@ -166,11 +166,11 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-3">
             @foreach($cat_products as $product)
                 <div class="col-md-3 product_card p-3">
-                    <a href="{{ route('productDetail',Crypt::encrypt([$product->id])) }}" class="m-auto link-light">
+                    <a href={{ route('productDetail',Crypt::encrypt([$product->id])) }} class="m-auto link-light">
                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                             <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
-                                style=" object-fit: contain;border-radius : 25px;height:120px; !important">
-                            <div class="card-body text-white">
+                                style=" object-fit: contain;border-radius : 25px;height:120px; !important;margin:auto;">
+                            <div class="card-body text-white" style="height:120px;">
                                 <p><b> {{$product->name}}</b></p>
                                     {{-- @foreach ($product->productDetail as $item)
                                     <span  style="color: {{$item->color}};font-size : 35px" class="mt-2" title="Available in colors">●</span>
@@ -184,6 +184,9 @@
                                     <p><b>MMK {{number_format($product->productDetail[0]['price'])}}</b></p>  
                                     @endif  
                                 {{-- <small class="card-text"><p>{!!Str::limit($product->description,120)!!}</p></small> --}}
+                                
+                            </div>
+                            <div class="card-footer">
                                 <a href="{{route('productDetail',Crypt::encrypt($product->id))}}"
                                     class="btn btn-sm mx-auto btn-outline-light mt-3" 
                                         style="border-radius : 20px;">See Detail</a>

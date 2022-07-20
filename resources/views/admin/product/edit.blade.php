@@ -63,7 +63,8 @@
                                     @foreach ($vendors as $vendor)
                                     <option value="{{$vendor->id}}" {{ $s_product->vendor == $vendor->id ? 'selected' : '' }}>{{$vendor->name}}</option>
                                     @endforeach 
-                                </select>                            </div>
+                                </select>                 
+                            </div>
 
                             <div class="form-group col-md-3">
                                 <label for="">Name<sup><b class="text-danger">*</b></sup></label>

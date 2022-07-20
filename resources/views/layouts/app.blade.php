@@ -67,6 +67,10 @@
     #nav_hover:hover {
         border-bottom:2px solid #aa0000;
     }
+
+    #nav_hover:active {
+        border-bottom:2px solid #aa0000;
+    }
  
     .product_card:hover {
         box-shadow: 1px 3px 11px 0px #aa0000;
@@ -139,7 +143,7 @@
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a  class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Brand
                             </a>      
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> 
@@ -162,20 +166,13 @@
                     <!-- Authentication Links -->
 
                     @guest
-                        <li class="nav-item dropdown" id="nav_hover">
-                            <i class="nav-item fa fa-user text-white m-2"   onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
-                            <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown" style="position: absolute !important;">
-                                @if (Route::has('login'))
-                                    <a class="dropdown-item" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                @endif
-
-                                @if (Route::has('register'))
-                                    <a class="dropdown-item" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                @endif
-    
-                            </div>
-                        </li>
-
+                   
+                        @if (Route::has('login'))
+                            <li class="nav-item float-right">
+                                <a class="link-light" href="{{ route('login') }}"><i class="fas fa-sign-in mt-2" id="nav_hover" style="font-size:20px;" title="login"></i></a>
+                            </li>
+                        @endif
+                       
                     @else
 
                         <?php 
@@ -194,7 +191,7 @@
                                     <i class="fa fa-shopping-cart text-whit m-2" title="Cart" style="font-size: 20px;">
                                         <sup id="cartcount" style="background: #AA2B25;
                                         border-radius: 77px;
-                                        border: 4px solid #AA2B25;position:relative;top:-4px;font-size:15px;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '' }}</sup>
+                                        border: 4px solid #AA2B25;position:relative;top:-14px;font-size:12px;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '' }}</sup>
                                     </i>
                                 </a>
                                 @else
@@ -252,7 +249,7 @@
                     &nbsp;&nbsp;&nbsp;
                     <li class="nav-item float-right" id="nav_hover">
                         <a class="link-light" href="https://gamehubmyanmar.com">
-                            <i class=" fa fa-gamepad text-white mt-2" title="Games" style="font-size:20px;" data-toggle="tooltip" data-placement="left" title="Checkout out available games"></i>
+                            <i class=" fa fa-gamepad text-white mt-2" title="Checkout out available games" style="font-size:20px;"  title="Checkout out available games"></i>
                         </a>  
                     </li>
                     &nbsp;&nbsp;&nbsp;

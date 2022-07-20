@@ -208,25 +208,30 @@
 
                                 <div class="col-md-3 product_card p-3" id="{{$product[$key]->id}}">
                                    
-                                    <a href="{{ route('productDetail',Crypt::encrypt([$product[$key]->id])) }}" class="m-auto link-light">
+                                    <a href={{ route('productDetail',Crypt::encrypt([$product[$key]->id])) }} class="m-auto link-light">
                                        
-                                        <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
+                                        <div class="card shadow-sm" style="background-color:#aa0000;border-radius : 25px;">
                                             
-                                            <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
-                                                style="object-fit: cover;border-radius : 25px;height:120px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));"
-                                                 id="product_image" >
-                                            <div class="card-body text-white">
+                                            <div class="card-title">
+                                                <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
+                                                    style="object-fit: cover;border-radius : 25px;margin:auto;height:120px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));"
+                                                    id="product_image">
+                                            </div>
+                                            <div class="card-body text-white" style="height:120px;">
                                                 <p><b> {{$product[$key]->name}}</b></p>            
                                                 <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
                                                 @if(number_format($product[$key]->productDetail[0]['discount']) > 0)       
                                                 <p><b style="font-size : 18px;"> MMK 
                                                 {{ $product[$key]->productDetail[0]['price'] - ($product[$key]->productDetail[0]['price'] *  ( number_format($product[$key]->productDetail[0]['discount']) /100 ) )  }}</b></p>  
-                                                <p ><b style=" text-decoration: line-through;">MMK  {{number_format($product[$key]->productDetail[0]['price'])}} </b> &nbsp;<small>({{$product[$key]->productDetail[0]['discount']}} % off)</small></p>  
+                                                <p><b style=" text-decoration: line-through;">MMK  {{number_format($product[$key]->productDetail[0]['price'])}} </b> &nbsp;<small>({{$product[$key]->productDetail[0]['discount']}} % off)</small></p>  
                                                 @else
                                                 <p><b>MMK {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>  
                                                 @endif  
+                                                
+                                            </div>
+                                            <div class="card-footer">
                                                 <a data-id = {{$product[$key]->id}} id="add_cart_{{$product[$key]->id}}"
-                                                    class="btn btn-sm mx-auto btn-outline-light mt-3" 
+                                                    class="btn btn-sm mx-auto btn-outline-light" 
                                                     data-image="{{$product[$key]->productDetail[0]['image_1']}}"
                                                     data-color="{{$product[$key]->productDetail[0]['color']}}"
                                                     onclick="addCart({{$product[$key]->id}})"
