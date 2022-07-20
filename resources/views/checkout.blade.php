@@ -54,14 +54,11 @@
                                     <span class="bg-red" style="cursor:pointer;float:right; color:#aa0000;">
                                         <i class="fas fa-trash fa-1x " id="c_trash" onclick="removeCart(this)" data-id={{$carts['product_id']}}></i>
                                     </span>
- 
                                     <p class="mt-4 ml-2"> Color: {{$carts['color']}} </p>
                                     <p class="m-2"> Brand: {{$carts['brand']}} </p>
                                     <p class="m-2"> Status: {{$carts['product_type'] ==1 ? 'Instock' : 'Preorder'}} </p>
-                                    <p class="m-2"> Price: <span id="price_{{$carts['product_id']}}" data-price={{$carts['price']}}>{{number_format($carts['price'] )}}</span> </p>
-
+                                    <p class="m-2"> Price: MMK <span id="price_{{$carts['product_id']}}" data-price={{$carts['price']}}>{{number_format($carts['price'] )}}</span> </p>
                                     <?php 
-                                    
                                     $product_types[] = $carts['product_type'];
 
                                     if(in_array('2',$product_types)){
@@ -83,8 +80,9 @@
                                     <p class="ml-4 bg-red" style="cursor:pointer;float:right;"><i class="fas fa-trash" onclick="removeCart(this)" data-id="{{$carts['product_id']}}"></i></span>
                                 </div> --}}
                                 <div class="text-right">
-                                    <p class="m-2" id="total_price_{{$carts['product_id']}}"><b>{{number_format($carts['price'] * $carts['quantity'])}}</b></p>
+                                    <p class="m-2" id="total_price_{{$carts['product_id']}}">MMK <b>{{number_format($carts['price'] * $carts['quantity'])}}</b></p>
                                 </div>
+                                <hr class="mx-auto" style="width:90%;">
                         @endforeach
 
                 </div>

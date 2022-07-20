@@ -96,6 +96,16 @@
     }
 
     .navbar .nav-item:hover .dropdown-menu{ display: block; }
+    .blink {
+            animation: blinker 1.5s linear infinite;
+            color: red;
+            font-family: sans-serif;
+        }
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
 </style>
 
 <div id="preloader">
@@ -103,19 +113,19 @@
 </div>
 
     <div id="app">
-        <header class="header-box m-3">
-            <div class="container">
-                <div class="col-md-6 col-sm-6 col-xs-12 text-left site-icon ml-3" style="">              
-                        <a href="/" style="color: #aa0000;">
-                            <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
-                        </a>
-                   
-                </div>
-                {{-- <div class="col-md-6 col-sm-6 col-xs-12 text-left">
+        <header class="header-box ">
+            <div class="container row">
+                <div class="col-md-3 col-sm-3 col-xs-12 text-left site-icon ml-3 mb-3" style="">              
                     <a href="/" style="color: #aa0000;">
-                        <i class="firstletter h1">Gamehub</span> <i class="secondletter h2">Myanmar</span></h1>
+                        <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
                     </a>
-                </div> --}}
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-12 text-left site-icon ml-3" style="">  
+                    <marquee direction = "left" loop=20 class="blink"  >  <p class="h4" style="color: #ffffff; font-weight: bold"> GameHub's Week   <small>Start from  </small><i class="h4" style="color: #aa0000;">  19.7.2022 - 25.7.2022 </i> </p>            
+                    </marquee>
+                        <marquee direction = "right"> <p class="h5" style="color: #ffffff;"> <b class="h4" style="color: #aa0000;"> 5% Discount </b> for every product </p>   
+                    </marquee>
+                    </div>
             </div>
         </header>
 
@@ -304,13 +314,23 @@
                                     @if(session()->has('cart'))
 
                                         @foreach(session()->get('cart')->items as $key => $value)
+                                      
                                             <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;height:auto;">
+                                               
                                                 <div class="col-md-4 col-xs-4">
                                                         <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:70%;">
                                                 </div>
                                                 <div class="col-md-8 col-xs-8">
                                                     <p>{{$value['name']}} </p>
-                                                    <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p>
+                                                    {{-- <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p> --}}
+
+                                                    @if(number_format($value['discount']) > 0)       
+                                                    <p><b style="font-size : 18px;"> MMK 
+                                                    {{ $value['price'] - ($value['price'] *  ( number_format($value['discount']) /100 ) )  }}</b>
+                                                     <span id="price_{{$value['id']}}" data-price="{{$value['price']}}" style=" text-decoration: line-through;">MMK  {{number_format($value['price'])}} </span> &nbsp;<small>({{$value['discount']}} % off)</small></p>  
+                                                    @else
+                                                    <p><b style="font-size : 18px;"> MMK <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span> </b></p>
+                                                    @endif  
                                                     <div class="row mt-5">
                                                         <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
                                                         ></i>
@@ -329,7 +349,7 @@
                         <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
                         @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
                             <div class="row m-3">
-                                <p class="col-md-6"><b>Total Price:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MMK <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
+                                <p class="col-md-12"><b style="font-size : 18px;">Total Price:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="font-size : 18px;">MMK <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
                             </div>
                         @endif
                         <div class="text-center m-3">
