@@ -54,14 +54,11 @@
                                     <span class="bg-red" style="cursor:pointer;float:right; color:#aa0000;">
                                         <i class="fas fa-trash fa-1x " id="c_trash" onclick="removeCart(this)" data-id={{$carts['product_id']}}></i>
                                     </span>
- 
                                     <p class="mt-4 ml-2"> Color: {{$carts['color']}} </p>
                                     <p class="m-2"> Brand: {{$carts['brand']}} </p>
                                     <p class="m-2"> Status: {{$carts['product_type'] ==1 ? 'Instock' : 'Preorder'}} </p>
                                     <p class="m-2"> Price: MMK <span id="price_{{$carts['product_id']}}" data-price={{$carts['price']}}>{{number_format($carts['price'] )}}</span> </p>
-
                                     <?php 
-                                    
                                     $product_types[] = $carts['product_type'];
 
                                     if(in_array('2',$product_types)){

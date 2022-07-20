@@ -68,7 +68,7 @@ class CartController extends Controller
                     'product_type' => $c['product_type'],
                     'image' => $c['image'],
                     'quantity' => $c['qty'],
-                    'price' =>  $c['discount'] != 0 ? $c['price'] - ($c['price'] *   ($c['discount'] / 100)) : $c['price'],
+                    'price' =>    $c['price'],
                     'total_amount' =>  $c['discount'] != 0 ? $total_amount - ($total_amount *   ($c['discount'] / 100)) : $total_amount,
                     'color' => $c['color'],
                     'discount' =>  $c['discount']
@@ -85,7 +85,7 @@ class CartController extends Controller
                         'product_type' => $c['product_type'],
                         'image' => $c['image'],
                         'quantity' => $c['qty'],
-                        'price' =>  $c['discount'] != 0 ? $c['price'] - ($c['price'] *   ($c['discount'] / 100)) : $c['price'],
+                        'price' =>    $c['price'],
                         'total_amount' => $c['discount'] != 0 ? $total_amount - ($total_amount *   ($c['discount'] / 100)) : $total_amount,
                         'color' => $c['color'],
                         'discount' => $c['discount']
@@ -119,13 +119,13 @@ class CartController extends Controller
         ]);
 
         $cart = new Cart(session()->get('cart'));
-        $cart->updateQty($product->id, $request->qty);
+        $cart->updateQty($product->id, $request->qty,  $product->productDetail[0]['discount']);
         session()->put('cart', $cart);
         $total_amt = $request->price * $request->qty;
         $carts = [
             'qty' => $request->qty,
             'total_price' => session()->get('cart')->totalPrice,
-            'product_price' => $product->productDetail[0]['discount'] != 0 ?  $total_amt - ($total_amt * ($product->discount / 100)) : $total_amt,
+            'product_price' => $product->productDetail[0]['discount'] != 0 ?  $total_amt - ($total_amt * ($product->productDetail[0]['discount'] / 100)) : $total_amt,
             'total_quantity' => session()->get('cart')->totalQty
         ];
         Carts::where('product_id', $product->id)->update(['quantity' => $carts['qty'], 'total_amount' => $carts['product_price']]);
@@ -171,18 +171,15 @@ class CartController extends Controller
                     'product_type' => $c['product_type'],
                     'image' => $c['image'],
                     'quantity' => $c['qty'],
-                    'price' => $c['price'],
+                    'price' => $c['price'] - ($c['price'] * ($c['discount'] / 100)),
                     'total_amount' => $c['qty'] * $c['price'],
                     'color' => $c['color'],
                     'discount' =>  $c['discount']
-
                 ];
             }
         }
-
         $categories = Category::get();
         $brands = Brand::get();
-
         return view('checkout', compact('amount', 'delivery_info', 'payments', 'cart_data', 'categories', 'brands'));
     }
 

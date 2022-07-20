@@ -89,22 +89,22 @@ class Cart
 
             $this->items[$product->id] = $item;
             $this->totalQty += 1;
-            $this->totalPrice += $product->productDetail[0]->price;
+            $this->totalPrice += $product->productDetail[0]->price - ($product->productDetail[0]->price *  ($product->productDetail[0]->discount / 100));
         } else {
             $this->totalQty += 1;
 
-            $this->totalPrice += $product->productDetail[0]->price;
+            $this->totalPrice +=  $product->productDetail[0]->price - ($product->productDetail[0]->price *  ($product->productDetail[0]->discount / 100));
         }
         $this->items[$product->id]['qty'] += 1;
     }
-    public function updateQty($id, $qty)
+    public function updateQty($id, $qty, $discount)
     {
         $this->totalQty -= $this->items[$id]['qty'];
-        $this->totalPrice -= $this->items[$id]['price'] * $this->items[$id]['qty'];
+        $this->totalPrice -= ($this->items[$id]['price'] - ($this->items[$id]['price'] * ($discount / 100))) * $this->items[$id]['qty'];
         //Add Items with new quantity
         $this->items[$id]['qty'] = $qty;
         $this->totalQty += $qty;
-        $this->totalPrice += $this->items[$id]['price'] * $qty;
+        $this->totalPrice +=  ($this->items[$id]['price'] - ($this->items[$id]['price'] * ($discount / 100))) * $qty;
     }
     public function remove($id)
     {

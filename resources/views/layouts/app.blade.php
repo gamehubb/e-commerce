@@ -332,7 +332,7 @@
                                                     {{ $value['price'] - ($value['price'] *  ( number_format($value['discount']) /100 ) )  }}</b>
                                                      <span id="price_{{$value['id']}}" data-price="{{$value['price']}}" style=" text-decoration: line-through;">MMK  {{number_format($value['price'])}} </span> &nbsp;<small>({{$value['discount']}} % off)</small></p>  
                                                     @else
-                                                    <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p>
+                                                    <p><b style="font-size : 18px;"> MMK <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span> </b></p>
                                                     @endif  
                                                     <div class="row mt-5">
                                                         <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
@@ -352,7 +352,7 @@
                         <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
                         @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
                             <div class="row m-3">
-                                <p class="col-md-6"><b>Total Price:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>MMK <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
+                                <p class="col-md-12"><b style="font-size : 18px;">Total Price:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="font-size : 18px;">MMK <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
                             </div>
                         @endif
                         <div class="text-center m-3">
