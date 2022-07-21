@@ -90,7 +90,11 @@
 
                 <td>{{$orderItem->quantity}} x {{number_format($orderItem->price)}}</td>
                 <td>{{$orderItem->discount == 0 ? 'No-discount' : $orderItem->discount.' %'}}</td>
-                <td>{{number_format($orderItem->price * $orderItem->quantity)}}</td>
+                <?php
+                  $price = $orderItem->quantity * $orderItem->price;
+                  $total = number_format($price - ($price *  $orderItem->discount) /100 );
+                ?>
+                <td><?php echo $total;?></td>
               
 
               </tr> 

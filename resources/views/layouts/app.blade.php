@@ -114,18 +114,20 @@
 
     <div id="app">
         <header class="header-box ">
-            <div class="container row">
-                <div class="col-md-3 col-sm-3 col-xs-12 text-left site-icon ml-3 mb-3" style="">              
-                    <a href="/" style="color: #aa0000;">
-                        <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
-                    </a>
-                </div>
-                <div class="col-md-8 col-sm-8 col-xs-12 text-left site-icon ml-3" style="">  
-                    <marquee direction = "left" loop=20 class="blink"  >  <p class="h4" style="color: #ffffff; font-weight: bold"> GameHub's Week   <small>Start from  </small><i class="h4" style="color: #aa0000;">  19.7.2022 - 25.7.2022 </i> </p>            
-                    </marquee>
-                        <marquee direction = "right"> <p class="h5" style="color: #ffffff;"> <b class="h4" style="color: #aa0000;"> 5% Discount </b> for every product </p>   
-                    </marquee>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 text-left site-icon m-3">              
+                        <a href="/" style="color: #aa0000;">
+                            <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
+                        </a>
                     </div>
+                    <div class="col-md-8 col-sm-8 col-xs-12 text-left site-icon ml-3" >  
+                        <marquee direction = "left" loop=20 class="blink"><p class="h4" style="color: #ffffff; font-weight: bold"> GameHub's Week<small> Start from</small><i class="h4" style="color: #aa0000;">  19.7.2022 - 25.7.2022 </i> </p>            
+                        </marquee>
+                            <marquee direction = "right"> <p class="h5" style="color: #ffffff;"> <b class="h4" style="color: #aa0000;"> 5% Discount </b> for every product </p>   
+                        </marquee>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -326,7 +328,7 @@
 
                                                     @if(number_format($value['discount']) > 0)       
                                                     <p><b style="font-size : 18px;"> MMK 
-                                                    {{ $value['price'] - ($value['price'] *  ( number_format($value['discount']) /100 ) )  }}</b>
+                                                    {{ number_format($value['price'] - ($value['price'] *  $value['discount']) /100 ) }}</b>
                                                      <span id="price_{{$value['id']}}" data-price="{{$value['price']}}" style=" text-decoration: line-through;">MMK  {{number_format($value['price'])}} </span> &nbsp;<small>({{$value['discount']}} % off)</small></p>  
                                                     @else
                                                     <p><b style="font-size : 18px;"> MMK <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span> </b></p>
@@ -335,7 +337,7 @@
                                                         <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
                                                         ></i>
                                                         <p class="col-lg-1 w-10" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
-                                                        <i id="product_id" hidden>{{$value['id']}}</i>
+                                                        <i id="cart_id" hidden>{{$value['id']}}</i>
                                                         <i class="fa fa-plus m-1 w-10" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
                                                         ></i> 
                                                         <span class="ml-4 bg-red text-right" style="cursor:pointer;"><i class="fas fa-trash fa-1x" id="trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span>

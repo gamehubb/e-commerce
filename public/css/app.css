@@ -25638,3 +25638,7 @@ body {
 .header-box {
   padding: 15px 0px;
 }
+
+.text-red{
+ color: #aa0000 !important;
+}

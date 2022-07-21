@@ -54,10 +54,11 @@
                                     <span class="bg-red" style="cursor:pointer;float:right; color:#aa0000;">
                                         <i class="fas fa-trash fa-1x " id="c_trash" onclick="removeCart(this)" data-id={{$carts['product_id']}}></i>
                                     </span>
-                                    <p class="mt-4 ml-2"> Color: {{$carts['color']}} </p>
+                                    <p class="m-2"> Color: <span style="color: {{$carts['color']}};font-size : 25px;background:#fff;border:1px solid black;border-radius:5px;">●</span><br>
+                                    </p>
                                     <p class="m-2"> Brand: {{$carts['brand']}} </p>
                                     <p class="m-2"> Status: {{$carts['product_type'] ==1 ? 'Instock' : 'Preorder'}} </p>
-                                    <p class="m-2"> Price: MMK <span id="price_{{$carts['product_id']}}" data-price={{$carts['price']}}>{{number_format($carts['price'] )}}</span> </p>
+                                    <p class="m-2"> Price: <span id="price_{{$carts['product_id']}}" data-price={{$carts['price']}}>{{number_format($carts['price'] )}}</span> </p>
                                     <?php 
                                     $product_types[] = $carts['product_type'];
 
@@ -80,7 +81,7 @@
                                     <p class="ml-4 bg-red" style="cursor:pointer;float:right;"><i class="fas fa-trash" onclick="removeCart(this)" data-id="{{$carts['product_id']}}"></i></span>
                                 </div> --}}
                                 <div class="text-right">
-                                    <p class="m-2" id="total_price_{{$carts['product_id']}}">MMK <b>{{number_format($carts['price'] * $carts['quantity'])}}</b></p>
+                                    <p class="m-2" id="total_price_{{$carts['product_id']}}"><b>{{number_format($carts['price'] * $carts['quantity'])}}</b></p>
                                 </div>
                                 <hr class="mx-auto" style="width:90%;">
                         @endforeach
@@ -90,20 +91,19 @@
            
             <div class="row mb-1">
                 <div class="col-md-12 mt-2">
-                    <p class="text-right">Subtotal: <span class="h5"><span id="total_price_3" class="h6" data-sub-total = {{session()->get('cart')->totalPrice}} >{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></span>
+                    <p class="text-right">Sub-total: <span class="h5"><span id="total_price_3" class="h6 text-red" data-sub-total = {{session()->get('cart')->totalPrice}} >{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></span>
                     </p>     
                     <div class="row mb-3">
                         <div class="col-md-12 mt-3">
                             <span class="h6" style="float:right;" >Shipment Fees:  <span id="del_fees" class='text-muted'>Calculating</span></span>
                         </div>
-                        
                     </div>
                     <hr class="mx-auto" style="width:100%;">
 
 
                     <div class="row mb-3">
                         <div class="col-md-12 mt-3">
-                            <span class="h6" style="float:right;" >Total:  <span id="total_amount" class='text-light'>{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span><span class="h5">  MMK</span></span>
+                            <span class="h6" style="float:right;" >Total:  <span id="total_amount" class='text-light h5'>{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span><span class="h6"> Ks</span></span>
                         </div>
                         
                     </div>

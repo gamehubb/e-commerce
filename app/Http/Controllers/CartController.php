@@ -44,9 +44,9 @@ class CartController extends Controller
 
         foreach ($cart->items as $c) {
 
-            $product_id = Carts::where('product_id', $c['id'])->pluck('id')->count();
+            $product_id = Carts::where('product_id', $c['id'])->where('user_id',Auth::id())->pluck('id')->count();
 
-            $cart_product_data = Carts::where('product_id', $c['id'])->get()->first();
+            $cart_product_data = Carts::where('product_id', $c['id'])->where('user_id',Auth::id())->get()->first();
 
             if (empty($cart_product_data)) {
                 $color = 'default';
@@ -75,7 +75,7 @@ class CartController extends Controller
 
                 ]);
             } else {
-                Carts::where('product_id', $c['id'])->update(
+                Carts::where('product_id', $c['id'])->where('user_id',Auth::id())->update(
                     [
                         'product_name' => $c['name'],
                         'vendor' => $c['vendor'],
@@ -128,14 +128,14 @@ class CartController extends Controller
             'product_price' => $product->productDetail[0]['discount'] != 0 ?  $total_amt - ($total_amt * ($product->productDetail[0]['discount'] / 100)) : $total_amt,
             'total_quantity' => session()->get('cart')->totalQty
         ];
-        Carts::where('product_id', $product->id)->update(['quantity' => $carts['qty'], 'total_amount' => $carts['product_price']]);
+        Carts::where('product_id', $product->id)->where('user_id',Auth::id())->update(['quantity' => $carts['qty'], 'total_amount' => $carts['product_price']]);
         echo json_encode($carts);
     }
 
     public function removeCart(Product $product)
     {
         $cart = new Cart(session()->get('cart'));
-        Carts::where('product_id', $product->id)->delete();
+        Carts::where('product_id', $product->id)->where('user_id',Auth::id())->delete();
         $cart->remove($product->id);
         if ($cart->totalQty <= 0) {
             session()->forget('cart');
