@@ -323,7 +323,7 @@
                                                         <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:70%;">
                                                 </div>
                                                 <div class="col-md-8 col-xs-8">
-                                                    <p>{{$value['name']}} </p>
+                                                    <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">{{$value['name']}}</a>
                                                     {{-- <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p> --}}
 
                                                     @if(number_format($value['discount']) > 0)       
@@ -351,7 +351,8 @@
                         <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
                         @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
                             <div class="row m-3">
-                                <p class="col-md-12"><b style="font-size : 18px;">Total Price:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style="font-size : 18px;">MMK <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
+                                <p class="col-md-6"><b>Total Price:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><span id="total_price" class='text-light h6'>{{session()->has('cart')?number_format(
+                                    session()->get('cart')->totalPrice):'0'}}</span></b><small> Ks</small> </p>
                             </div>
                         @endif
                         <div class="text-center m-3">
@@ -440,36 +441,8 @@
         </main>
     </div>
 
-    <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
-    <!-- Default Statcounter code for E-commerce https://gamehubmyanmar.shop -->
-    <script type="text/javascript">
-    var sc_project=12771445; 
-    var sc_invisible=1; 
-    var sc_security="e3a24050"; 
-    </script>
-    <script type="text/javascript"
-    src="https://www.statcounter.com/counter/counter.js" async></script>
-    <noscript><div class="statcounter"><a title="Web Analytics Made Easy -
-    Statcounter" href="https://statcounter.com/" target="_blank"><img
-    class="statcounter" src="https://c.statcounter.com/12771445/0/e3a24050/1/"
-    alt="Web Analytics Made Easy - Statcounter"
-    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-    <!-- End of Statcounter Code -->
-    {{-- <a href="https://statcounter.com/p12771445/?guest=1">View Stats</a> --}}
     <script>
 
-    // $( window ).scroll(function() {
-    //     var height = $(window).scrollTop();
-
-    //     console.log(height);
-
-    //     if(height < 77){
-    //         $( "#shop_cart" ).removeClass('shop-cart')
-    //     }else{
-    //     $( "#shop_cart" ).addClass('shop-cart')
-    //     }
-    // });
-    
     $("#preloader").css('display','block');
     $("body").css('opacity','0.3');
 
@@ -599,10 +572,16 @@
         $.ajax({
                 type: "POST",
                 url: '/product/'+id,
-                data: { id: id }
-            }).done(function( response ) {
+                data: { id: id },
+            beforeSend: function(){
+                    $("#cartModel").css("display","none");
+                    $("#cart-loader").css("display",'grid');
+                },
+            success: function( response ) {
                 location.reload();
-            }); 
+            },
+
+        });
 
         }
 

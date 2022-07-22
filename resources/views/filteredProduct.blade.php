@@ -18,7 +18,7 @@
                         <a href="{{ route('productDetail',Crypt::encrypt([$product->id])) }}" class="m-auto link-light">
                         <div class="card shadow-sm " style="background-color : #aa0000;border-radius : 25px;margin:auto;">
                             <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
-                                style=" object-fit: contain;border-radius : 25px;filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));height:120px; !important">
+                                style=" object-fit: contain;border-radius : 25px;filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));height:120px; !important;margin:auto;">
                             <div class="card-body text-white" style="height:120px;">
                                 <p><b> {{$product->name}}</b></p>
                                 <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>

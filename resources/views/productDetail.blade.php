@@ -108,11 +108,12 @@
            
             @if(number_format($products->productDetail[0]['discount']) > 0)       
             <p class="text-red-600 h4"><b  > MMK 
-            {{$products->productDetail[0]['price'] - ($products->productDetail[0]['price'] *  ( number_format($products->productDetail[0]['discount']) /100 ) )  }}</b></p>  
+            {{number_format($products->productDetail[0]['price'] - ($products->productDetail[0]['price'] *  ( number_format($products->productDetail[0]['discount']) /100 ) )  )}}</b></p>  
             <p class="h6" ><b style=" text-decoration: line-through;">MMK  {{number_format($products->productDetail[0]['price'])}} </b> &nbsp;<small>({{$products->productDetail[0]['discount']}} % off)</small></p>  
             @else
             <p class="text-red-600 h4"><b>MMKs {{number_format($products->productDetail[0]['price'])}} </b> </p>  
             @endif 
+            {{$products->product_type}}
             <p class="card-text">Status: {{$products->productDetail[0]['product_type'] == 1 ? 'In-stock' : 'Pre-Order'}}</p>
             <p class="card-text">Waiting Time: @if ($products->productDetail[0]['product_type'] == '1') 3 - 4 days @else 3 - 4 weeks @endif</p>
             <input type="hidden" id="product_image" value="{{$products->productDetail[0]['image_1']}}" class="text-black">
@@ -120,6 +121,8 @@
             <a data-id = {{$products->id}} id="add_cart_{{$products->id}}"
                 class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$products->id}})"
                     style="border-radius : 20px;">Add to cart</a>
+            <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
+
         </div>
         <div class="col-md-5 mt-3">      
             <p  class="h5"> <b>Information</b></p>   
@@ -175,7 +178,6 @@
                                     {{-- @foreach ($product->productDetail as $item)
                                     <span  style="color: {{$item->color}};font-size : 35px" class="mt-2" title="Available in colors">●</span>
                                     @endforeach --}}
-                                    <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
                                     @if(number_format($product->productDetail[0]['discount']) > 0)       
                                     <p><b style="font-size : 18px;"> MMK 
                                     {{ $product->productDetail[0]['price'] - ($product->productDetail[0]['price'] *  ( number_format($product->productDetail[0]['discount']) /100 ) )  }}</b></p>  

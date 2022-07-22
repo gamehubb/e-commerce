@@ -99,8 +99,6 @@
                         </div>
                     </div>
                     <hr class="mx-auto" style="width:100%;">
-
-
                     <div class="row mb-3">
                         <div class="col-md-12 mt-3">
                             <span class="h6" style="float:right;" >Total:  <span id="total_amount" class='text-light h5'>{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span><span class="h6"> Ks</span></span>
