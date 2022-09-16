@@ -84,8 +84,8 @@ class FrontProductListController extends Controller
 
         try {
             $id = Crypt::decrypt($id);
-            $products = Product::where('id', $id)->get()->first();
-            $cat_products = Product::where('category_id', $products->category_id)->where('id','!=' , $id)->where("status", 1)->get();
+            $products = Product::where('id', $id)->where("status", 1)->get()->first();
+            $cat_products = Product::where('category_id', $products->category_id)->where('id', '!=', $id)->where("status", 1)->get();
             if ($products == '') {
                 return abort('404');
             } else {
