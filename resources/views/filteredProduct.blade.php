@@ -23,8 +23,8 @@
                                 <p><b> {{$product->name}}</b></p>
                                 <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
                                 @if(number_format($product->productDetail[0]['discount']) > 0)       
-                                <p><b style="font-size : 18px;"> MMK 
-                                {{ $product->productDetail[0]['price'] - ($product->productDetail[0]['price'] *  ( number_format($product->productDetail[0]['discount']) /100 ) )  }}</b></p>  
+                                <p><b style="font-size : 18px;"> MMK {{ number_format($product->productDetail[0]['price'] - ($product->productDetail[0]['price'] *  ( number_format($product->productDetail[0]['discount']) /100 ) ))  }}</b></p>  
+                                    </b></p>  
                                 <p ><b style=" text-decoration: line-through;">MMK  {{number_format($product->productDetail[0]['price'])}} </b> &nbsp;<small>({{$product->productDetail[0]['discount']}} % off)</small></p>  
                                 @else
                                 <p><b>MMK {{number_format($product->productDetail[0]['price'])}}</b></p>  

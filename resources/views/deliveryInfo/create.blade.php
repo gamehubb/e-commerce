@@ -12,7 +12,7 @@
                 </div>
                 <div class="form-group m-2">
                     <label>PhoneNumber</label>
-                    <input type="tel" name="phoneNumber" id="phonenumber" required  class="form-control" value={{auth()->user()->phone_number}} required>
+                    <input type="number" name="phoneNumber" id="phonenumber" class="form-control" value={{auth()->user()->phone_number}} required>
                 </div>       
                 
                 <div class="form-group m-2">
@@ -20,7 +20,7 @@
                     <select name="state_region" id="state_region" class="form-control" required>
                         <option disabled>Select Region</option>
                         <option value="Yangon" selected>Yangon</option>
-                        <option>Other cities</option>
+                        <option disabled>Coming Soon</option>
                         
                     </select>
                 </div>

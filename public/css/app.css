@@ -25642,3 +25642,9 @@ body {
 .text-red{
  color: #aa0000 !important;
 }
+
+.discounted_price{
+border:1 px solid #fff;
+border-radius:5px;
+background:#000;
+}

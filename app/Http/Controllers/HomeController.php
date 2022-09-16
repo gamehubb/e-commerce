@@ -114,7 +114,7 @@ class HomeController extends Controller
         $message = 'Thanks for singing up, we just need to verify your email address';
         $mail_data=[
             'recipient' =>$request->email,
-            'fromEmail' =>'info@gamehubmyanmar.shop',
+            'fromEmail' =>'info@gamehubmyanmar.com',
             'fromName' =>'GameHub Myanmar',
             'subject' =>'Email Verification',
             'body'=>$message,

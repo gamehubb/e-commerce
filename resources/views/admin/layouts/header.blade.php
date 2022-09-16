@@ -67,6 +67,9 @@
   -webkit-animation: spin 1.5s linear infinite;
   animation: spin 1.5s linear infinite;
 }
+.dataTables_wrapper .row{
+  text-align: center;
+}
 </style>
 
 <body id="page-top">

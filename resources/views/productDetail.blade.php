@@ -105,7 +105,6 @@
             <p class="h3"> <b>{{$products->name}} </b> </p>
 
 
-           
             @if(number_format($products->productDetail[0]['discount']) > 0)       
             <p class="text-red-600 h4"><b  > MMK 
             {{number_format($products->productDetail[0]['price'] - ($products->productDetail[0]['price'] *  ( number_format($products->productDetail[0]['discount']) /100 ) )  )}}</b></p>  
@@ -113,9 +112,8 @@
             @else
             <p class="text-red-600 h4"><b>MMKs {{number_format($products->productDetail[0]['price'])}} </b> </p>  
             @endif 
-            {{$products->product_type}}
-            <p class="card-text">Status: {{$products->productDetail[0]['product_type'] == 1 ? 'In-stock' : 'Pre-Order'}}</p>
-            <p class="card-text">Waiting Time: @if ($products->productDetail[0]['product_type'] == '1') 3 - 4 days @else 3 - 4 weeks @endif</p>
+            <p class="card-text">Status: {{$products->product_type == 1 ? 'In-stock' : 'Pre-Order'}}</p>
+            <p class="card-text">Waiting Time: @if ($products->product_type == '1') 3 - 4 days @else 3 - 4 weeks @endif</p>
             <input type="hidden" id="product_image" value="{{$products->productDetail[0]['image_1']}}" class="text-black">
             <input type="hidden" id="product_color" value="{{$products->productDetail[0]['color']}}" class="text-black">
             <a data-id = {{$products->id}} id="add_cart_{{$products->id}}"
@@ -140,7 +138,7 @@
                 @if($products->wireless == 1 || $products->wireless == 2)
                     <tr>
                         <td><p class="m-1"><b>Connectivity</b></p></td>
-                        <td>{{$products->wireless == 1 ? 'Wireless' : 'Wired'}}</td>
+                        <td>{{$products->wireless == 1 ? 'Wired' : 'Wireless'}}</td>
                     </tr>
                     
                 @endif
@@ -179,8 +177,9 @@
                                     <span  style="color: {{$item->color}};font-size : 35px" class="mt-2" title="Available in colors">●</span>
                                     @endforeach --}}
                                     @if(number_format($product->productDetail[0]['discount']) > 0)       
-                                    <p><b style="font-size : 18px;"> MMK 
-                                    {{ $product->productDetail[0]['price'] - ($product->productDetail[0]['price'] *  ( number_format($product->productDetail[0]['discount']) /100 ) )  }}</b></p>  
+                                    <p><b style="font-size : 18px;"> MMK {{ number_format($product->productDetail[0]['price'] - ($product->productDetail[0]['price'] *  ( number_format($product->productDetail[0]['discount']) /100 ) ))  }}</b></p>  
+
+                                    </b></p>  
                                     <p ><b style=" text-decoration: line-through;">MMK  {{number_format($product->productDetail[0]['price'])}} </b> &nbsp;<small>({{$product->productDetail[0]['discount']}} % off)</small></p>  
                                     @else
                                     <p><b>MMK {{number_format($product->productDetail[0]['price'])}}</b></p>  

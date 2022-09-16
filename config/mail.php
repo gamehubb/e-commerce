@@ -92,7 +92,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'noreply@gamehubmm.shop'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@gamehubmyanmar.com'),
         'name' => env('MAIL_FROM_NAME', 'Gamehub-Myanmar'),
     ],
 

@@ -21,7 +21,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Orders</h6>
           </div>
           <div class="table-responsive">
-            <table class="table align-items-center table-flush">
+            <table class="table align-items-center table-flush" id="dataTable">
               <thead class="thead-light">
                 <tr>
                   <th>No</th>
@@ -48,7 +48,7 @@
                   {{-- <td>{{$order->user->email}}</td> --}}
                   <td>{{date('d-M-y',strtotime($order->created_at))}}</td>
                   <td>
-                    <input type="text" value="{{$order->id}}" id="order_id_{{$order->id}}">
+                    <input type="hidden" value="{{$order->id}}" id="order_id_{{$order->id}}">
                     <select class="form-select form-select-sm" name="order_status" id="order_status_{{$order->id}}" onchange="changeStatus({{$order->id}})" aria-label=".form-select-sm example">
                       @if($order->status == 1)
                         <option value="1" selected> Pending </option>

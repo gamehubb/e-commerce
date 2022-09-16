@@ -19,7 +19,6 @@
                             </ul>
                         </div>
                     @endif
-                    {{auth()->user()->name}}
                         <div class="row mb-3">
                             <label for="name"
                                 class="col-md-3 col-form-label">{{ __('Name') }}</label>

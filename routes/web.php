@@ -72,11 +72,12 @@ Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'use
 Route::get('/getTownship/{id}', [App\Http\Controllers\DeliveryInfoController::class, 'getTownshipInfo'])->name('getTownship');
 
 Route::get('/demo', [App\Http\Controllers\CartController::class, 'demoCheck']);
+Route::get('/redirect', [App\Http\Controllers\UserController::class, 'redirectToProvider']);
+Route::get('/callback', [App\Http\Controllers\UserController::class, 'handleProviderCallback']);
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    });
+    
+       Route::get('/dashboard',[App\Http\Controllers\UserController::class, 'dashboard'])->name('admin.dashboard');
 
 
     Route::post('/category/create', [App\Http\Controllers\CategoryController::class, 'store']);
@@ -106,8 +107,17 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
 
     //Status Product 
     Route::get('/changedProductStatus', [App\Http\Controllers\ProductController::class, 'behaviourOfStatus']);
+    Route::get('/changeVerifiedStatus', [App\Http\Controllers\UserController::class, 'behaviourOfStatus']);
+    Route::get('/statusToggle', [App\Http\Controllers\UserController::class, 'statusToggle']);
+
+
     //Users
     Route::get('users', [App\Http\Controllers\UserController::class, 'index']);
+
+    Route::post('/users', [App\Http\Controllers\UserController::class, 'destroy'])->name('user.destroy');
+
+    Route::get('/changeAccountInfo/{id}', [App\Http\Controllers\UserController::class, 'adminuserAccountInfo'])->name('user.editInfo');
+
     //Orders
     Route::get('orders', [App\Http\Controllers\CartController::class, 'userorder'])->name('user.orders');
     Route::get('orders/{orderid}', [App\Http\Controllers\OrderController::class, 'show'])->name('user.order');

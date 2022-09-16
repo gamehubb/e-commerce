@@ -23,4 +23,10 @@ class OrderItem extends Model
     {
         return $this->hasOne(User::class, 'id', 'vendor_id');
     }
+    
+    public function products()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+
+    }
 }

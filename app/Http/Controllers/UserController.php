@@ -6,10 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Brand;
-use App\Models\VerifyUser;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
 use Auth;
 use Carbon\Carbon;
 use Hash;
+use Laravel\Socialite\Facades\Socialite;
+
+use DB;
+
 
 class UserController extends Controller
 {
@@ -33,6 +39,35 @@ class UserController extends Controller
     public function vendorNew()
     {
         return view('admin.vendor.new');
+    }
+
+    public function dashboard()
+    {
+        $products = Product::get()->count();
+        $users = User::where(['is_admin' => '0', 'role' => '1'])->get()->count();
+        $vendors = User::where(['is_admin' => '0', 'role' => '2'])->get()->count();
+        $pending = User::where(['is_admin' => '0', 'role' => '1' ,'email_verified' => '0'])->get()->count();
+        $orders = Order::count();
+        $order_data = Order::orderBy('created_at','DESC')->get();
+        $sold_products = OrderItem::get();
+        $monthly_amounts = Order::select(DB::raw("(SUM(total_amount)) as total_amount"),DB::raw("MONTHNAME(created_at) as monthname"))
+                            ->groupBy('monthname')
+                            ->orderBy('monthname','DESC')
+                            ->get();
+        foreach ($monthly_amounts as $ma) {
+
+            $dataPoints[] =[ 
+                "months" =>
+                $ma['monthname']
+                ,
+                "data" =>
+                $ma['total_amount']
+                ,
+        ];
+
+        }
+
+        return view('admin.dashboard')->with(['monthly_amount' => $dataPoints,'sold_products' => $sold_products,'order_data'=> $order_data,'products'=>$products,'users' => $users, 'vendors' => $vendors, 'orders' => $orders, 'pending' => $pending]);
     }
 
     /**
@@ -95,10 +130,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        User::where('id',$request->user_id)->update(['status' => '0']);
+        notify()->success('User Account Delete');
+        return redirect('/auth/users');
     }
+
     public function verify(Request $request)
     {
         $token = $request->token;
@@ -116,7 +154,7 @@ class UserController extends Controller
             }
         }
     }
-    public function userAccountInfo()
+    public function userAccountInfo(Request $request)
     {
         $user_id = Auth::id();
         $userInfo = User::where('id', $user_id)->get()->first();
@@ -124,6 +162,16 @@ class UserController extends Controller
         $brands = Brand::get();
         return view('auth.accountInfo', compact('userInfo', 'categories', 'brands'));
     }
+
+    public function adminuserAccountInfo($id)
+    {
+        $user_id = $id;
+        $userInfo = User::where('id', $user_id)->get()->first();
+        $categories = Category::get();
+        $brands = Brand::get();
+        return view('auth.accountInfo', compact('userInfo', 'categories', 'brands'));
+    }
+
     public function changeAccountInfo()
     {
         return view('auth.changeaccountInfo');
@@ -162,5 +210,52 @@ class UserController extends Controller
         $user->save();
         $request->session()->flush();
         return redirect('login')->with('infoconfirm', 'Password Changed Successfully.Login again to continue.');
+    }
+
+    public function behaviourOfStatus(Request $request){
+        $obj = new \stdClass();
+        $obj = User::where('id', $request->id)->update(['email_verified' => $request->status]);
+        return $obj;
+    }
+
+    public function statusToggle(Request $request){
+        $obj = new \stdClass();
+        $obj = User::where('id', $request->id)->update(['status' => $request->status]);
+        return $obj;
+    }
+
+    public function redirectToProvider()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleProviderCallback()
+    {
+        try {
+            $user = Socialite::driver('google')->stateless()->user();
+        } catch (\Exception $e) {
+            print_r($e);
+        }
+        // only allow people with @company.com to login
+    
+        // check if they're an existing user
+        $existingUser = User::where('email', $user->email)->first();
+        if($existingUser){
+            // log them in
+            auth()->login($existingUser, true);
+        } else {
+            // create a new user
+            $newUser                  = new User;
+            $newUser->name            = $user->name;
+            $newUser->email           = $user->email;
+            $newUser->google_id       = $user->id;
+            $newUser->avatar          = $user->avatar;
+            $newUser->avatar_original = $user->avatar_original;
+            $newUser->email_verified = 1;
+            $newUser->email_verified_at = Carbon::now()->toDateTimeString();
+            $newUser->save();
+            auth()->login($newUser, true);
+        }
+        return redirect()->to('/home');
     }
 }

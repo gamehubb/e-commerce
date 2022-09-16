@@ -115,7 +115,7 @@
           <tr>
             <td align="center" valign="top" style="padding: 36px 24px;">
                 <div class="col-md-12 text-center site-icon m-1">              
-                    <a href="https:://gamehubmyanmar.shop" style="color: #aa0000;text-decoration:none;" class="link-light">
+                    <a href="https://gamehubmyanmar.shop" style="color: #aa0000;text-decoration:none;" class="link-light">
                         <span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar</sub>
                     </a>
                

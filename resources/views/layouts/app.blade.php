@@ -22,8 +22,7 @@
 
     @notifyCss
     @include('notify::messages')
-    @notifyJs
-   
+
 </head>
 
 <style>
@@ -67,10 +66,6 @@
     #nav_hover:hover {
         border-bottom:2px solid #aa0000;
     }
-
-    #nav_hover:active {
-        border-bottom:2px solid #aa0000;
-    }
  
     .product_card:hover {
         box-shadow: 1px 3px 11px 0px #aa0000;
@@ -95,7 +90,8 @@
         background: #000;
     }
 
-    .navbar .nav-item:hover .dropdown-menu{ display: block; }
+    /*.navbar .nav-item:hover .dropdown-menu{ display: block; }*/
+    
     .blink {
             animation: blinker 1.5s linear infinite;
             color: red;
@@ -113,8 +109,15 @@
 </div>
 
     <div id="app">
+        <!--<div class="bg-red pt-2" style="background:#aa0000;">-->
+        <!--    <marquee direction = "left" loop=20 ><p class="h4" style="color: #ffffff; font-weight: bold"> GameHub's Week<small> Starts from</small>  23.7.2022 - 7.8.2022 <i class="h4 discounted_price">-->
+        <!--   5% Discount on each product </i> </p>   -->
+        <!--   </marquee>            -->
+        <!--</div>-->
         <header class="header-box ">
+            
             <div class="container">
+           
                 <div class="row">
                     <div class="col-md-3 text-left site-icon m-3">              
                         <a href="/" style="color: #aa0000;">
@@ -122,10 +125,7 @@
                         </a>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-12 text-left site-icon ml-3" >  
-                        <marquee direction = "left" loop=20 class="blink"><p class="h4" style="color: #ffffff; font-weight: bold"> GameHub's Week<small> Start from</small><i class="h4" style="color: #aa0000;">  19.7.2022 - 25.7.2022 </i> </p>            
-                        </marquee>
-                            <marquee direction = "right"> <p class="h5" style="color: #ffffff;"> <b class="h4" style="color: #aa0000;"> 5% Discount </b> for every product </p>   
-                        </marquee>
+                       
                     </div>
                 </div>
             </div>
@@ -155,7 +155,7 @@
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a  class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Brand
                             </a>      
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> 
@@ -177,10 +177,10 @@
                 <ul class="navbar-nav" style="float:left;flex-direction:inherit !important;">
                     <!-- Authentication Links -->
 
-                    @guest
+                     @guest
                    
                         @if (Route::has('login'))
-                            <li class="nav-item float-right">
+                             <li class="nav-item float-right">
                                 <a class="link-light" href="{{ route('login') }}"><i class="fas fa-sign-in mt-2" id="nav_hover" style="font-size:20px;" title="login"></i></a>
                             </li>
                         @endif
@@ -261,7 +261,7 @@
                     &nbsp;&nbsp;&nbsp;
                     <li class="nav-item float-right" id="nav_hover">
                         <a class="link-light" href="https://gamehubmyanmar.com">
-                            <i class=" fa fa-gamepad text-white mt-2" title="Checkout out available games" style="font-size:20px;"  title="Checkout out available games"></i>
+                            <i class=" fa fa-gamepad text-white mt-2" title="Games" style="font-size:20px;" data-toggle="tooltip" data-placement="left" title="Checkout out available games"></i>
                         </a>  
                     </li>
                     &nbsp;&nbsp;&nbsp;
@@ -320,10 +320,15 @@
                                             <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;height:auto;">
                                                
                                                 <div class="col-md-4 col-xs-4">
+                                                                                                        <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">
+
                                                         <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:70%;">
+                                                    </a>
                                                 </div>
                                                 <div class="col-md-8 col-xs-8">
-                                                    <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">{{$value['name']}}</a>
+                                                    <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">{{$value['name']}}
+                                                    </a>
+
                                                     {{-- <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p> --}}
 
                                                     @if(number_format($value['discount']) > 0)       
@@ -351,8 +356,7 @@
                         <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
                         @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
                             <div class="row m-3">
-                                <p class="col-md-6"><b>Total Price:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><span id="total_price" class='text-light h6'>{{session()->has('cart')?number_format(
-                                    session()->get('cart')->totalPrice):'0'}}</span></b><small> Ks</small> </p>
+                                <p class="col-md-6"><b>Total Price:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><span id="total_price" class='text-light h6'>{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></b><small> Ks</small> </p>
                             </div>
                         @endif
                         <div class="text-center m-3">
@@ -440,9 +444,47 @@
             </div>
         </main>
     </div>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NEY8XPL5TX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-NEY8XPL5TX');
+    </script>
 
+    <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+    <!-- Default Statcounter code for E-commerce https://gamehubmyanmar.shop -->
+    <script type="text/javascript">
+    var sc_project=12771445; 
+    var sc_invisible=1; 
+    var sc_security="e3a24050"; 
+    </script>
+    <script type="text/javascript"
+    src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript><div class="statcounter"><a title="Web Analytics Made Easy -
+    Statcounter" href="https://statcounter.com/" target="_blank"><img
+    class="statcounter" src="https://c.statcounter.com/12771445/0/e3a24050/1/"
+    alt="Web Analytics Made Easy - Statcounter"
+    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+    <!-- End of Statcounter Code -->
+    {{-- <a href="https://statcounter.com/p12771445/?guest=1">View Stats</a> --}}
     <script>
 
+    // $( window ).scroll(function() {
+    //     var height = $(window).scrollTop();
+
+    //     console.log(height);
+
+    //     if(height < 77){
+    //         $( "#shop_cart" ).removeClass('shop-cart')
+    //     }else{
+    //     $( "#shop_cart" ).addClass('shop-cart')
+    //     }
+    // });
+    
     $("#preloader").css('display','block');
     $("body").css('opacity','0.3');
 
@@ -565,11 +607,9 @@
 
     function removeCart(val)
     {
-        if (confirm("Are you sure?") == true) {
-
         var id = val.getAttribute('data-id');
 
-        $.ajax({
+         $.ajax({
                 type: "POST",
                 url: '/product/'+id,
                 data: { id: id },
@@ -583,7 +623,7 @@
 
         });
 
-        }
+        
 
     }
     function search(){

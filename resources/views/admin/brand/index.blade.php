@@ -19,7 +19,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Brands </h6>
           </div>
           <div class="table-responsive">
-            <table class="table align-items-center table-flush">
+            <table class="table align-items-center table-flush" id="dataTable">
               <thead class="thead-light">
                 <tr>
                   <th>SN</th>
