@@ -174,24 +174,24 @@
         <div class="row mt-10">
             <div class="col-md-6 text-white bg-dark">
                 <label class="h5 p-3"><b>CHOOSE PAYMENT METHOD</b></label><br />
-                <div class="form-check">
+                <div class="form-check text-center">
                     @foreach($payments as $key => $value)
                         @if($key == '1_k')
-                            <img class="paymentimg" src="{{asset('images/kpaylogo.png')}}" width="50px" height="50px" id="{{$key}}" onclick="paymentclick(this)"  style="display: inline;cursor:pointer;border-radius:5px; margin:10px;" alt="Kpay"/>
+                            <img class="paymentimg" src="{{asset('images/kpaylogo.png')}}" id="{{$key}}" onclick="paymentclick(this)"  style="display: inline;cursor:pointer;border-radius:5px; margin:10px;width:20%" alt="Kpay"/>
                             <input type="radio" style="display: none;"  name="payment_type" id="payment_radio" data-id="{{$key}}" class="form-group m-3" value="{{$key}}" required>
                         @elseif($key == '2_w')
-                            <img class="paymentimg" src="{{asset('images/wavepay.png')}}" width="50px" height="50px" id="{{$key}}" onclick="paymentclick(this)" style=" display: inline;cursor:pointer;border-radius:5px; margin:10px;" alt="Wpay"/>
+                            <img class="paymentimg" src="{{asset('images/wavepay.png')}}" id="{{$key}}" onclick="paymentclick(this)" style=" display: inline;cursor:pointer;border-radius:5px; margin:10px;width:20%" alt="Wpay"/>
                             <input type="radio" style="display: none;"   name="payment_type" id="payment_radio" data-id="{{$key}}" class="form-group m-3" value="{{$key}}" required>
                         @else
-                            <img class="paymentimg" src="{{asset('images/codlogo.png')}}" width="50px" height="50px" id="{{$key}}" onclick="paymentclick(this)" style="display: inline;cursor:pointer;border-radius:5px; margin:10px;" alt="cod"/>
+                            <img class="paymentimg" src="{{asset('images/codlogo.png')}}" id="{{$key}}" onclick="paymentclick(this)" style="display: inline;cursor:pointer;border-radius:5px; margin:10px;width:20%" alt="cod"/>
                             <input type="radio"  style="display: none;" name="payment_type" id="payment_radio" data-id="{{$key}}" class="form-group m-3" value="{{$key}}" {{$hidden}}>
                         @endif
 
-                        <label class="h5 mt-2" style="color: #ffffff" for="{{$value}}" id = "lbl_{{$key}}">
-                            @if ($key =='1_k') KBZ PAY
-                            @elseif ($key ==  '2_w') Wave Pay 
-                            @elseif ($key ==  '3_c' && $data == "false") Cash On Delivery 
-                            @endif</label><br/>
+                        <label class="h5 mt-2" style="color: #ffffff" for="payment_radio" id = "lbl_{{$key}}">
+                            @if ($key =='1_k') <i class="fas fa-bars"></i>
+                            @elseif ($key ==  '2_w') <i class="fas fa-bars"></i>
+                            @elseif ($key ==  '3_c' && $data == "false") <i class="fas fa-bars"></i>
+                            @endif</label>
                       
                     @endforeach
                     <span class="invalid-feedback" role="alert">

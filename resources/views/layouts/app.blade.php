@@ -17,6 +17,8 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -295,64 +297,60 @@
                         </div>
                     </div>
                     <div class="modal-content bg-dark"  id="cartModel">
-                            {{-- <div class="p-1" style="background-color: #aa0000;">
-                                <p class="text-center h3">Gamehub Myanmar</p>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="button" class="close" data-dismiss="modal"
-                                    style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
-                            </div> --}}
-                            <div class="modal-body" id="cartData">
-                                
-                                    <div class="p-1">
-                                        <p class="text-left h4">Your Cart</p>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
-                                    </div>
+                           
+                        <div class="modal-body" id="cartData">
+                            
+                                <div class="p-1">
+                                    <p class="text-left h4">Your Cart</p>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
+                                </div>
 
-                                    @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
-                                        <hr class="mx-auto mb-3" style="width:95%; color: #ec0606;height: 3px;">
-                                    @endif
+                                @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
+                                    <hr class="mx-auto mb-3" style="width:95%; color: #ec0606;height: 3px;">
+                                @endif
 
 
-                                    @if(session()->has('cart'))
+                                @if(session()->has('cart'))
 
-                                        @foreach(session()->get('cart')->items as $key => $value)
-                                      
-                                            <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;height:auto;">
-                                               
-                                                <div class="col-md-4 col-xs-4">
-                                                                                                        <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">
+                                    @foreach(session()->get('cart')->items as $key => $value)
+                                    
+                                        <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;height:auto;">
+                                            
+                                            <div class="col-md-4 col-xs-4">
+                                                        <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">
 
-                                                        <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:70%;">
-                                                    </a>
+                                                    <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:70%;">
+                                                </a>
+                                            </div>
+                                            <div class="col-md-8 col-xs-8">
+                                                <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">{{$value['name']}}
+                                                </a>
+
+                                                {{-- <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p> --}}
+
+                                                @if(number_format($value['discount']) > 0)       
+                                                <p><b style="font-size : 18px;"> MMK 
+                                                {{ number_format($value['price'] - ($value['price'] *  $value['discount']) /100 ) }}</b>
+                                                    <span id="price_{{$value['id']}}" data-price="{{$value['price']}}" style=" text-decoration: line-through;">MMK  {{number_format($value['price'])}} </span> &nbsp;<small>({{$value['discount']}} % off)</small></p>  
+                                                @else
+                                                <p><b style="font-size : 18px;"> MMK <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span> </b></p>
+                                                @endif  
+                                                <div class="row mt-5">
+                                                    <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                    ></i>
+                                                    <p class="col-lg-1 w-10" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
+                                                    <i id="cart_id" hidden>{{$value['id']}}</i>
+                                                    <i class="fa fa-plus m-1 w-10" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                    ></i> 
+                                                    <span class="ml-4 bg-red text-right" style="cursor:pointer;"><i class="fas fa-trash fa-1x" id="trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span>
                                                 </div>
-                                                <div class="col-md-8 col-xs-8">
-                                                    <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">{{$value['name']}}
-                                                    </a>
-
-                                                    {{-- <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p> --}}
-
-                                                    @if(number_format($value['discount']) > 0)       
-                                                    <p><b style="font-size : 18px;"> MMK 
-                                                    {{ number_format($value['price'] - ($value['price'] *  $value['discount']) /100 ) }}</b>
-                                                     <span id="price_{{$value['id']}}" data-price="{{$value['price']}}" style=" text-decoration: line-through;">MMK  {{number_format($value['price'])}} </span> &nbsp;<small>({{$value['discount']}} % off)</small></p>  
-                                                    @else
-                                                    <p><b style="font-size : 18px;"> MMK <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span> </b></p>
-                                                    @endif  
-                                                    <div class="row mt-5">
-                                                        <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
-                                                        ></i>
-                                                        <p class="col-lg-1 w-10" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
-                                                        <i id="cart_id" hidden>{{$value['id']}}</i>
-                                                        <i class="fa fa-plus m-1 w-10" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
-                                                        ></i> 
-                                                        <span class="ml-4 bg-red text-right" style="cursor:pointer;"><i class="fas fa-trash fa-1x" id="trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span>
-                                                    </div>
-                                                </div> 
                                             </div> 
-                                        @endforeach
-                                    @endif
+                                        </div> 
+                                    @endforeach
+                                @endif
 
-                            </div> 
+                        </div> 
                         <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
                         @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
                             <div class="row m-3">
@@ -469,28 +467,21 @@
     class="statcounter" src="https://c.statcounter.com/12771445/0/e3a24050/1/"
     alt="Web Analytics Made Easy - Statcounter"
     referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <!-- End of Statcounter Code -->
     {{-- <a href="https://statcounter.com/p12771445/?guest=1">View Stats</a> --}}
     <script>
 
-    // $( window ).scroll(function() {
-    //     var height = $(window).scrollTop();
 
-    //     console.log(height);
-
-    //     if(height < 77){
-    //         $( "#shop_cart" ).removeClass('shop-cart')
-    //     }else{
-    //     $( "#shop_cart" ).addClass('shop-cart')
-    //     }
-    // });
-    
     $("#preloader").css('display','block');
     $("body").css('opacity','0.3');
 
     $(document).ready(function(){
         $("#preloader").css('display','none');
         $("body").css('opacity','1');
+        $("#city").select2();
+        $("#township").select2();
 
     });
 
@@ -657,6 +648,31 @@
         })
 
     })
+
+        $('#city').on('change',function(e) {
+            var cat_id = e.target.value;
+            $.ajax({
+                url:"/getTownship/"+cat_id,
+                type:"GET",
+
+                    beforeSend:function(data){
+                        $("#preloader").css('display','block');
+                        $("body").css('opacity','0.3');
+
+                    },
+            
+                    success:function (data) {
+                        $('#township').empty();
+                        $.each(Object.values(data),function(index,township){
+                        $('#township').append('<option value="'+township+'">'+township+'</option>');
+                        $("#preloader").css('display','none');
+                        $("body").css('opacity','1');
+                    })
+                }
+            });
+
+        });
     </script>
+
 
 </html>

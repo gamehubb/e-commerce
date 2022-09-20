@@ -81,7 +81,6 @@ class FrontProductListController extends Controller
     }
     public function productDetail($id)
     {
-
         try {
             $id = Crypt::decrypt($id);
             $products = Product::where('id', $id)->where("status", 1)->get()->first();
@@ -95,7 +94,6 @@ class FrontProductListController extends Controller
         }catch(DecryptException $e){
             abort(404);
         }
-
       
     }
     public function allProduct($name, Request $request)

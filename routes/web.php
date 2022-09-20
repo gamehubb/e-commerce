@@ -53,7 +53,7 @@ Route::get('/orders/{id}', [App\Http\Controllers\CartController::class, 'orderDe
 Route::post('/charge', [App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
 Route::post('/complete-checkout', [App\Http\Controllers\CartController::class, 'finalCheckout'])->name('cart.final-checkout')->middleware('auth');
 //delivery Info 
-Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::class);
+Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::class)->middleware('auth');;
 
 // Auth::routes();
 Auth::routes(['verify' => true]);
