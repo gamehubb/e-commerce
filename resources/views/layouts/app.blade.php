@@ -442,31 +442,8 @@
             </div>
         </main>
     </div>
-    
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NEY8XPL5TX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-NEY8XPL5TX');
-    </script>
-
     <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
     <!-- Default Statcounter code for E-commerce https://gamehubmyanmar.shop -->
-    <script type="text/javascript">
-    var sc_project=12771445; 
-    var sc_invisible=1; 
-    var sc_security="e3a24050"; 
-    </script>
-    <script type="text/javascript"
-    src="https://www.statcounter.com/counter/counter.js" async></script>
-    <noscript><div class="statcounter"><a title="Web Analytics Made Easy -
-    Statcounter" href="https://statcounter.com/" target="_blank"><img
-    class="statcounter" src="https://c.statcounter.com/12771445/0/e3a24050/1/"
-    alt="Web Analytics Made Easy - Statcounter"
-    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- End of Statcounter Code -->
