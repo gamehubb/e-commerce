@@ -31,6 +31,11 @@ Route::get('/register', function () {
 Route::get('/', [App\Http\Controllers\FrontProductListController::class, 'index']);
 Route::get('/product/{id}', [App\Http\Controllers\FrontProductListController::class, 'show']);
 
+Route::get('/users/checkPassword',[App\Http\Controllers\UserController::class,'checkPassword']);
+
+Route::post('/users/savePassword',[App\Http\Controllers\UserController::class,'savePassword'])->name('user.passonly');
+
+
 Route::get('/category/{name}', [App\Http\Controllers\FrontProductListController::class, 'allProduct']);
 Route::get('/productCategory/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByCategory'])->name('productCategory');
 
@@ -72,8 +77,8 @@ Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'use
 Route::get('/getTownship/{id}', [App\Http\Controllers\DeliveryInfoController::class, 'getTownshipInfo'])->name('getTownship');
 
 Route::get('/demo', [App\Http\Controllers\CartController::class, 'demoCheck']);
-Route::get('/redirect', [App\Http\Controllers\UserController::class, 'redirectToProvider']);
-Route::get('/callback', [App\Http\Controllers\UserController::class, 'handleProviderCallback']);
+Route::get('/signwg', [App\Http\Controllers\UserController::class, 'redirectToGoogle'])->name('user.google');
+Route::get('/callback', [App\Http\Controllers\UserController::class, 'handleGoogleCallback']);
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
     

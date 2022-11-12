@@ -35,21 +35,21 @@ class DeliveryInfoController extends Controller
         if($request->township == 'လှိုင်သာယာ' || $request->township == 'ဒလ' 
             || $request->township == 'ရွှေပြည်သာ' || $request->township == 'လှည်းကူး'
             || $request->township == 'ထောက်ကြန့်' || $request->township == 'သန်လျင်' ){
-                $delivery_fees = 3000;
+                $delivery_fees = 3500;
             }else if($request->city == "ရန်ကုန်တိုင်းဒေသကြီး ရန်ကုန်မြို့"){
                 $delivery_fees = 2000;
             }else if($request->city == "ရန်ကုန်တိုင်းဒေသကြီး အခြားမြို့များ"){
-                $delivery_fees = 3000;
+                $delivery_fees = 3500;
             }else if($request->township == "တပ်ကုန်း" || $request->township == "တောင်ညို"){
-                $delivery_fees = 4700;
+                $delivery_fees = 4900;
             
             }else if($request->city == "ကချင်ပြည်နယ်" || $request->city == "တနသာ်ရီတိုင်းဒေသကြီး" || $request->city == "ရခိုင်ပြည်နယ်" ){
-                $delivery_fees = 4500;
+                $delivery_fees = 5500;
             }else if($request->city == "ရှမ်းပြည်နယ် တောင်ကြီးမြို့" || $request->city == "ရှမ်းပြည်နယ်"){
-                $delivery_fees = 3900;
+                $delivery_fees = 4900;
             
             }else{
-                $delivery_fees = 2900;
+                $delivery_fees = 3900;
             }
         DeliveryInfo::create([
             'user_id' => $userId,

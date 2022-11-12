@@ -60,7 +60,7 @@
                             <div class="col-md-6">
                                 <input id="phone" type="text"
                                     class="form-control @error('phone') is-invalid @enderror" name="phone"
-                                    value={{auth()->user()->phone_number}}
+                                    value="{{auth()->user()->phone_number}}"
                                     required >
                                 @error('phone')
                                 <span class="invalid-feedback" role="alert">

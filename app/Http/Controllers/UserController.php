@@ -224,12 +224,12 @@ class UserController extends Controller
         return $obj;
     }
 
-    public function redirectToProvider()
+    public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleProviderCallback()
+    public function handleGoogleCallback()
     {
         try {
             $user = Socialite::driver('google')->stateless()->user();
@@ -257,5 +257,30 @@ class UserController extends Controller
             auth()->login($newUser, true);
         }
         return redirect()->to('/home');
+    }
+
+    public function checkPassword(Request $request)
+    {   
+        $user_id = $request->id;
+
+        $result = User::where('id',$user_id)->value('password');
+
+        if($result == null){
+            echo '0';
+        }else{
+            echo '1';
+        }
+
+    }
+
+    public function savePassword(Request $request)
+    {
+    
+       $password = Hash::make($request->password);
+       $user_id = $request->user_id;
+
+       User::where('id',$user_id)->update(['password' => $password]);
+
+       return redirect()->to('/home');
     }
 }

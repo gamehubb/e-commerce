@@ -88,9 +88,18 @@
                             </div>
                         </div> --}}
 
-                        <div class="col-md-6 offset-md-3 mt-3">
-                            <input type="submit" class="btn text-white" style="background-color : #aa0000;"
+                        <div class="col-md-12 d-flex offset-md-3 mt-3">
+                            <input type="submit" class="btn text-white" style="background-color : #aa0000;margin-right: 2em;"
                                 value="LogIn" >
+                              
+                                <a href="{{route('user.google')}}">
+                                    <div class="google-btn">
+                                        <div class="google-icon-wrapper">
+                                        <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+                                        </div>
+                                        <p class="btn-text"><b>Sign in with google</b></p>
+                                    </div>
+                                </a>
                         </div>
                         <div class="col-md-6 offset-md-3 mt-3 ">
                             @if (Route::has('password.request'))

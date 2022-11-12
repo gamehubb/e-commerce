@@ -110,6 +110,15 @@
     <div id="loader"></div>
 </div>
 
+    @if(Auth::user())
+    <input type="hidden" name="user_id" id="user_id" value="{{Auth::user()->id}}">
+
+    @else
+    <input type="hidden" name="user_id" id="user_id" value="0">
+
+    @endif
+
+
     <div id="app">
         <!--<div class="bg-red pt-2" style="background:#aa0000;">-->
         <!--    <marquee direction = "left" loop=20 ><p class="h4" style="color: #ffffff; font-weight: bold"> GameHub's Week<small> Starts from</small>  23.7.2022 - 7.8.2022 <i class="h4 discounted_price">-->
@@ -378,19 +387,20 @@
         @endauth
         <main class="py-4">
             @yield('content')
-        </main>
-        <main class="py-4">
             <div class="container">
                 <p class="float-end">
                     <a href="#"> <i class="fa fa-chevron-circle-up fa-2x scroll-to-btn" style="color: #aa0000;box-shadow: 0px 0px 22px 3px #a99999;border-radius:14px;
                         "></i></a>
                 </p>
             </div>
-            <div class="container">
+            
+            
+            <div class="container" id="modelSetPass">
+                
                 <footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">
                     <div class="row">
                         <div class="col-md-7">
-                            <div class="container ">
+                            <div class="container">
                                 <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
                                         MYANMAR</label></span> <br />
                                 <label>A place where you can shop and download free games. </label>
@@ -454,11 +464,143 @@
     $("#preloader").css('display','block');
     $("body").css('opacity','0.3');
 
+    var user_id = $("#user_id").val();
+
+   
+
     $(document).ready(function(){
         $("#preloader").css('display','none');
         $("body").css('opacity','1');
         $("#city").select2();
         $("#township").select2();
+        $("#passwordChange").prop('disabled',true);
+
+        if(user_id != 0)
+        {
+
+            $.ajax({
+                type: "GET",
+                url: '/users/checkPassword/',
+                data: { id: user_id },
+            beforeSend: function(){
+                $("#preloader").css('display','block');
+                $("body").css('opacity','0.3');
+
+            },
+            success: function( response ) {
+
+                if(response == 0){
+                    $("#preloader").css('display','none');
+                    $("body").css('opacity','1');
+
+                    $("#modelSetPass").append(
+                        '<div class="modal fade passwordChange" id="passwordChange" role="dialog">'+
+                            '<div class="modal-dialog">'+
+                            
+                                '<div class="modal-content">'+
+                                    '<div class="modal-header text-white" style="background-color: #453b3b;">'+
+                                        '<h4 class="modal-title">Set Your Password</h4>'+
+                                    '</div>'+
+                                        '<form action="{{route("user.passonly")}}" method="POST" id="passForm">'+
+                                            '@csrf'+
+                                            '<div class="modal-body bg-gray text-black">'+
+                                                '<div class="row mb-3">'+
+                                                    '<label for="password" class="col-md-5 col-form-label">Password</label>'+
+                                                        '<div class="col-md-6">'+
+                                                            
+
+                                                            ' @if(Auth::user())'+
+                                                                '<input type="hidden" name="user_id" id="user_id" value="{{Auth::getUser()->id}}">'+
+                                                            
+                                                            '@else'+
+                                                                '<input type="hidden" name="user_id" id="user_id" value="0">'+
+                                                        
+                                                            '@endif'+
+                                                            '<input id="password" type="password" class="form-control @error("password") is-invalid'+ '@enderror" name="password"'+
+                                                                'required autocomplete="new-password">'+
+                                                                '<span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password text-dark"'+
+                                                                'style = " float: right;margin-right : 10px; margin-top: -25px;position: relative;z-index: 2;"></span>'+
+                                                            '@error("password")'+
+                                                                '<span class="invalid-feedback" role="alert">'+
+                                                                    '<strong>{{ $message }}</strong>'+
+                                                                '</span>'+
+
+                                                            '@enderror'+
+                                                        '</div>'+
+                                                '</div>'+
+                                                '<div class="row mb-3">'+
+                                                    '<label for="password-confirm" class="col-md-5 col-form-label"> Confirm Password </label>'+
+                                                    '<div class="col-md-6">'+
+                                                        '<input id="password-confirm" type="password" class="form-control @error("password_confirmation") is-invalid @enderror" required'+ 'autocomplete="new-password"'+
+                                                    '</div>'+
+                                                '<span class="alert-text text-danger"></span>'+
+
+                                                '</div>'+
+
+                                            '</div>'+
+                                        '</form>'+
+                                    '<div class="modal-footer">'+
+                                        '<input type="submit" id="setPass" class="btn text-white" style="background-color : #aa0000;" value="Save">'+           
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'
+
+                                        
+
+                                    );
+                    
+                    $('#passwordChange').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    })
+
+                    $('#passwordChange').modal('show');
+
+                    $(".toggle-password").click(function() {
+                        $(this).toggleClass("fa-eye fa-eye-slash");
+                        var input = $($(this).attr("toggle"));
+                        if (input.attr("type") == "password") {
+                            input.attr("type", "text");
+                        } else {
+                            input.attr("type", "password");
+                        }
+                    });
+
+                    $("#setPass").click(function () {
+                        var password = $("#password").val();
+                        var confirmPassword = $("#password-confirm").val();
+                        if (password.length < 6) {
+                            $('.alert-text').text('Please provide at least 6 characters');
+                            return false;
+                        }else{
+                            if(password != confirmPassword){
+                                $('.alert-text').text('Password do not match');
+                                return false;
+                            }else{
+                            $("#passForm").submit();
+                            }
+                        }
+
+                        return true;
+                    });
+
+                    $("input").keypress(function(){
+                        $(".alert-text").text('');
+                    });
+                   
+                }else{
+                    $("#preloader").css('display','none');
+                    $("body").css('opacity','1');
+                }
+
+               
+            },
+
+            })
+
+           
+        }
 
     });
 
