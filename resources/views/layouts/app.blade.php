@@ -135,11 +135,17 @@
                             <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
                         </a>
                     </div>
-                    <div class="col-md-8 col-sm-8 col-xs-12 text-left site-icon ml-3" >  
-                       
+                    <div class="col-md-6 col-sm-6 col-xs-12 text-center site-icon ml-3" >  
+                        @if(Auth::check())
+                            <a   href="{{route('votenow')}}" style="color: #aa0000;">
+                                <img src="{{asset('images/qata.png')}}" width="25px"  id="worldcup" style="  margin: auto;" alt="World Cup"/>
+                                <span class="firstletter h3" style="font-variant:petite-caps;font-style:italic;">Vote Now!!</span> 
+                            </a>  
+                        @endif
                     </div>
                 </div>
             </div>
+
         </header>
 
         <nav class="navbar k navbar-expand-md shadow-sm  bg-dark">
@@ -196,7 +202,7 @@
                             </li>
                         @endif
                        
-                    @else
+                        @else
 
                         <?php 
                         if(Auth::user()){
@@ -224,7 +230,7 @@
                                 
 
                             </li>
-                        @else
+                            @else
 
                             <li class="nav-item shop-cart" onclick="openModel()" style="cursor:pointer;"
                              id="shop_cart">
@@ -257,13 +263,13 @@
                                 @if(Auth::check())
                                     <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Account</a>
                                     <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
-                                </form>
+                                    </form>
                                 @endif
     
                             </div>
