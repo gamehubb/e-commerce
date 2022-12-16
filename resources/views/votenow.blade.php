@@ -3,7 +3,8 @@
 @section('content')
 
 <div class="container justify-content-center  mt-1000">
-    <div class="row" style="margin-top: 100px; margin-bottom:180px;">
+    <p class="h2 text-white text-center">2022 World Cup - Final</p>
+    <div class="row" style="margin-top: 80px; margin-bottom:180px;">
         <div class="col-md-5 col-sm-6 teams border-team" style="border-radius: 25px">
             <div class="our-team  text-center">
                 <div class="pic">
@@ -11,7 +12,7 @@
                 </div>
                 <h3 class="title h2">Argentina</h3>   
                 <h4 class="percent h2 text-white" hidden>51%</h4>   
-                <input   type="button"   class="btn text-white  mt-3" style="background-color : #aa0000;" value="Vote"/>       
+                <input   type="button"   class="btn text-white mt-3 argentina" id  = "argentina" name = "argentina" style="background-color : #aa0000;" value="Vote"/>       
             </div> 
         </div>
         <div class="col-md-2 col-sm-6 align-self-center">
@@ -24,7 +25,7 @@
                 </div>
                 <h3 class="title h2">France</h3>
                 <h4 class="percent h2 text-white" hidden>49%</h4>   
-                <input type="button"  class="btn text-white  mt-3" style="background-color : #aa0000;" value="Vote"/>       
+                <input type="button"  class="btn text-white  mt-3 france"  id  = "france"  name = "france" style="background-color : #aa0000;" value="Vote"/>       
         </div>
     </div>
   </div>
@@ -35,13 +36,25 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-
+    var team =  sessionStorage.getItem("team");
+ 
+if(team =="argentina"){
+    $('.btn').attr('disabled' , 'disabled' );
+    $('#argentina').css('background-color', 'green');
+    $('#argentina').val('Voted');
+}
+else if(team =="france"){
+    $('.btn').attr('disabled' , 'disabled' );
+    $('#france').css('background-color', 'green');
+    $('#france').val('Voted');
+}
 // Card Single Select
 $('.btn').click(function() {
     $('.btn').val('Vote');
     $('.btn').css('background-color', '#aa0000');
     $('.btn').attr('disabled' , 'disabled' );
-    
+    var name = $(this).attr("name");
+    sessionStorage.setItem("team",name);
     $(this).val('Voted');
     $(this).css('background-color', 'green');  
     $('.percent').removeAttr("hidden");
