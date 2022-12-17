@@ -134,10 +134,9 @@
                         <a href="/" style="color: #aa0000;">
                             <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
                         </a>
-                    </div>
-                    <div class="col-md-8 col-sm-8 col-xs-12 text-left site-icon ml-3" >  
                        
                     </div>
+                   
                 </div>
             </div>
         </header>
@@ -284,12 +283,21 @@
                         <div class="inner-addon left-addon">
                             <i class="fa fa-search " style="position: absolute;padding: 10px;cursor:pointer;"  onclick="search()" ></i>
                             <input type="text" name="name" id="p_name" class="form-control" style="padding-left:30px" placeholder="Search here..." required/>
+                            
                         </div>
+                       
                         </form>
                     </li>
                     <li class="nav-item">
                         <i class="nav-item fa fa-game"></i>
-                    </li>
+                    </li>&nbsp;
+                    @if(Auth::user())
+                        <li class="nav-item">
+                            @if(Auth::getUser()->is_admin == 1)
+                                <a href="/auth/dashboard" class="btn btn-secondary btn-sm">Admin Dashboard</a>
+                            @endif
+                        </li>
+                    @endif
                 </ul>
             </div>
         </nav>
