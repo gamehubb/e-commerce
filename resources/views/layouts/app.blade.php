@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/css/magnify.min.css" integrity="sha512-wzhF4/lKJ2Nc8mKHNzoFP4JZsnTcBOUUBT+lWPcs07mz6lK3NpMH1NKCKDMarjaw8gcYnSBNjjllN4kVbKedbw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -134,11 +135,19 @@
                         <a href="/" style="color: #aa0000;">
                             <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
                         </a>
-                       
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 text-center site-icon ml-3" >  
+                        @if(Auth::check())
+                            <a href="{{route('votenow')}}" style="color: #aa0000;">
+                                <img src="{{asset('images/qata.png')}}" width="25px"  id="worldcup" style="  margin: auto;" alt="World Cup"/>
+                                <span class="firstletter h3" style="font-variant:petite-caps;font-style:italic;">Vote Now!!</span> 
+                            </a>  
+                        @endif
                     </div>
                    
                 </div>
             </div>
+
         </header>
 
         <nav class="navbar k navbar-expand-md shadow-sm  bg-dark">
@@ -195,7 +204,7 @@
                             </li>
                         @endif
                        
-                    @else
+                        @else
 
                         <?php 
                         if(Auth::user()){
@@ -223,7 +232,7 @@
                                 
 
                             </li>
-                        @else
+                            @else
 
                             <li class="nav-item shop-cart" onclick="openModel()" style="cursor:pointer;"
                              id="shop_cart">
@@ -256,13 +265,13 @@
                                 @if(Auth::check())
                                     <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Account</a>
                                     <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
-                                </form>
+                                    </form>
                                 @endif
     
                             </div>
@@ -395,12 +404,16 @@
         @endauth
         <main class="py-4">
             @yield('content')
-            <div class="container">
-                <p class="float-end">
-                    <a href="#"> <i class="fa fa-chevron-circle-up fa-2x scroll-to-btn" style="color: #aa0000;box-shadow: 0px 0px 22px 3px #a99999;border-radius:14px;
-                        "></i></a>
-                </p>
-            </div>
+
+
+                @if(!Request::routeIs('votenow'))
+                    <div class="container">
+                        <p class="float-end">
+                            <a href="#"> <i class="fa fa-chevron-circle-up fa-2x scroll-to-btn" style="color: #aa0000;box-shadow: 0px 0px 22px 3px #a99999;border-radius:14px;
+                                "></i></a>
+                        </p>
+                    </div>
+                @endif
             
             
             <div class="container" id="modelSetPass">
@@ -463,6 +476,7 @@
     <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
     <!-- Default Statcounter code for E-commerce https://gamehubmyanmar.shop -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js" integrity="sha512-YKxHqn7D0M5knQJO2xKHZpCfZ+/Ta7qpEHgADN+AkY2U2Y4JJtlCEHzKWV5ZE87vZR3ipdzNJ4U/sfjIaoHMfw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- End of Statcounter Code -->
     {{-- <a href="https://statcounter.com/p12771445/?guest=1">View Stats</a> --}}

@@ -123,7 +123,9 @@
                                             <thead>
                                                 <tr>
                                                     <td>Color<sup><b class="text-danger">*</b></sup></td>
+                                                    <td>Original Price<sup><b class="text-danger">*</b></sup></td>
                                                     <td>Price<sup><b class="text-danger">*</b></sup></td>
+                                                    <td>Margin<sup><b class="text-danger">*</b></sup></td>
                                                     <td>Quantity</td>
                                                     <td>Discount</td>
                                                     <td>Image<sup><b class="text-danger">*</b></sup></td>
@@ -138,7 +140,15 @@
                                                     </td>
                                                     
                                                     <td>
+                                                        <input type="number" name="original_price[]" id="product_price_1" style="width:100px;height:42px;margin-left:-17px;border:1px solid black;" required>
+                                                    </td>
+
+                                                    <td>
                                                         <input type="number" name="product_price[]" id="product_price_1" style="width:100px;height:42px;margin-left:-17px;border:1px solid black;" required>
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="number" name="margin[]" id="product_price_1" style="width:100px;height:42px;margin-left:-17px;border:1px solid black;" required>
                                                     </td>
 
                                                     <td>

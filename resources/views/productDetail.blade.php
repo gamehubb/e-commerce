@@ -220,13 +220,16 @@
   
      function clickImage(id) {
      
-     var modal = document.getElementById("myModal1");
-     var img = document.getElementById("productImg"+id);
-     var modalImg = document.getElementById("modal-content");
-     modal.style.display = "block";
-     modalImg.src = img.src;
+        var modal = document.getElementById("myModal1");
+        var img = document.getElementById("productImg"+id);
+        var modalImg = document.getElementById("modal-content");
+        modal.style.display = "block";
+        modalImg.src = img.src;
+        modalImg.setAttribute('data-magnify-src',img.src);
+        $('#modal-content').magnify();
       
- }
+    }
+
     var span = document.getElementById('close');
     span.onclick = function() { 
         $('#myModal1').css({'display': 'none'});
