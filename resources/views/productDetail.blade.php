@@ -217,8 +217,8 @@
         $("#product_image").val(image);
         
      }
-  
-     function clickImage(id) {
+     
+    function clickImage(id) {
      
         var modal = document.getElementById("myModal1");
         var img = document.getElementById("productImg"+id);
@@ -229,7 +229,7 @@
         $('#modal-content').magnify();
       
     }
-
+    
     var span = document.getElementById('close');
     span.onclick = function() { 
         $('#myModal1').css({'display': 'none'});

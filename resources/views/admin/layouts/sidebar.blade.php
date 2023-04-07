@@ -73,13 +73,29 @@
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap4"
         aria-expanded="true" aria-controls="collapseBootstrap2">
-        <i class="far fa-fw fa-window-maximize"></i>
+        <i class="far fa-fw fa-user"></i>
         <span>Users</span>
       </a>
       <div id="collapseBootstrap4" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Users</h6>
           <a class="collapse-item" href="/auth/users">View</a>
+        </div>
+      </div>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap7"
+        aria-expanded="true" aria-controls="collapseBootstrap7">
+        <i class="fa fa-fw fa-gift"></i>
+        <span>GiftCard</span>
+      </a>
+      <div id="collapseBootstrap7" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">GiftCard</h6>
+          <a class="collapse-item" href="/auth/giftcard/index">View</a>
+          <a class="collapse-item" href="/auth/giftcard/create">New</a>
+
         </div>
       </div>
     </li>

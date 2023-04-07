@@ -29,11 +29,12 @@ class FrontProductListController extends Controller
             array_push($randomActiveProductId, $product->id);
         }
         $randomItemProducts  = Product::where('id', 70)->get();
-        $categories = Category::where('status', 1)->get();
+        $categories = Category::where('status',1)->get();
         $s_categories = Category::where(['status' => '1', 'is_special' => '1'])->get();
 
         foreach ($s_categories as $s_category) {
-            $product_list[$s_category->id] = Product::where('category_id', $s_category->id)->where('status', '1')->with('productDetail')->get();
+            $product_list[$s_category->id] = Product::where('category_id', $s_category->id)->where('status','1')->with('productDetail')->get();
+            
         }
 
         $brands = Brand::get();
@@ -52,18 +53,18 @@ class FrontProductListController extends Controller
     public function allProductByCategory($slug)
     {
         $cat = Category::where('slug', $slug)->get()->first();
-        $products = Product::where('category_id', $cat->id)->where('status', '1')->get();
+        $products = Product::where('category_id', $cat->id)->where('status','1')->get();
         $name = $cat->name;
         return view('filteredProduct', compact('products', 'name'));
     }
     public function allProductByBrand($slug)
     {
         $brand = Brand::where('slug', $slug)->get()->first();
-        $products = Product::where('brand_id', $brand->id)->where('status', '1')->get();
+        $products = Product::where('brand_id', $brand->id)->where('status','1')->get();
         $name = $brand->name;
         return view('filteredProduct', compact('products', 'name'));
     }
-
+    
     public function search(Request $request)
     {
         $name = $request->name;
@@ -82,8 +83,8 @@ class FrontProductListController extends Controller
     {
         try {
             $id = Crypt::decrypt($id);
-            $products = Product::where('id', $id)->where("status", 1)->get()->first();
-            $cat_products = Product::where('category_id', $products->category_id)->where('id', '!=', $id)->where("status", 1)->get();
+            $products = Product::where('id', $id)->get()->first();
+            $cat_products = Product::where('category_id', $products->category_id)->where('id','!=' , $id)->where("status", 1)->get();
             if ($products == '') {
                 return abort('404');
             } else {
@@ -149,7 +150,7 @@ class FrontProductListController extends Controller
         $products = Product::latest()->paginate(6);
         return view('all-product', compact('products'));
     }
-    public function voteNow()
+     public function voteNow()
     {
         return view('votenow');
     }

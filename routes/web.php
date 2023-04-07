@@ -31,9 +31,9 @@ Route::get('/register', function () {
 Route::get('/', [App\Http\Controllers\FrontProductListController::class, 'index']);
 Route::get('/product/{id}', [App\Http\Controllers\FrontProductListController::class, 'show']);
 
-Route::get('/users/checkPassword', [App\Http\Controllers\UserController::class, 'checkPassword']);
+Route::get('/users/checkPassword',[App\Http\Controllers\UserController::class,'checkPassword']);
 
-Route::post('/users/savePassword', [App\Http\Controllers\UserController::class, 'savePassword'])->name('user.passonly');
+Route::post('/users/savePassword',[App\Http\Controllers\UserController::class,'savePassword'])->name('user.passonly');
 
 
 Route::get('/category/{name}', [App\Http\Controllers\FrontProductListController::class, 'allProduct']);
@@ -83,8 +83,8 @@ Route::get('/signwg', [App\Http\Controllers\UserController::class, 'redirectToGo
 Route::get('/callback', [App\Http\Controllers\UserController::class, 'handleGoogleCallback']);
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
-
-    Route::get('/dashboard', [App\Http\Controllers\UserController::class, 'dashboard'])->name('admin.dashboard');
+    
+       Route::get('/dashboard',[App\Http\Controllers\UserController::class, 'dashboard'])->name('admin.dashboard');
 
 
     Route::post('/category/create', [App\Http\Controllers\CategoryController::class, 'store']);
@@ -93,6 +93,15 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     Route::get('/category/edit/{id}', [App\Http\Controllers\CategoryController::class, 'edit']);
     Route::get('/category/index', [App\Http\Controllers\CategoryController::class, 'index']);
     Route::post('/category/delete/{id}', [App\Http\Controllers\CategoryController::class, 'destroy']);
+    
+    
+    Route::get('/giftcard/index', [App\Http\Controllers\GiftCardController::class, 'index']);
+    Route::post('/giftcard/create', [App\Http\Controllers\GiftCardController::class, 'store']);
+    Route::get('/giftcard/create', [App\Http\Controllers\GiftCardController::class, 'create']);
+    Route::get('/giftcard/edit/{id}', [App\Http\Controllers\GiftCardController::class, 'edit']);
+    Route::post('/giftcard/update/{id}', [App\Http\Controllers\GiftCardController::class, 'update']);
+    Route::post('/giftcard/delete/{id}', [App\Http\Controllers\GiftCardController::class, 'destroy']);
+
     //Brand 
     Route::resource('/brand', App\Http\Controllers\BrandController::class);
 

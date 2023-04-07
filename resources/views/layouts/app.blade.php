@@ -6,12 +6,12 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'GamehubMyanmar') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <link rel="icon" href="https://gamehubmyanmar.com/gm-icon.png" type="image/x-icon" />
+    <link rel="icon" href="{{asset('images/gm-icon.png')}}" type="image/x-icon" />
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -136,14 +136,7 @@
                             <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
                         </a>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12 text-center site-icon ml-3" >  
-                        @if(Auth::check())
-                            <a href="{{route('votenow')}}" style="color: #aa0000;">
-                                <img src="{{asset('images/qata.png')}}" width="25px"  id="worldcup" style="  margin: auto;" alt="World Cup"/>
-                                <span class="firstletter h3" style="font-variant:petite-caps;font-style:italic;">Vote Now!!</span> 
-                            </a>  
-                        @endif
-                    </div>
+                    
                    
                 </div>
             </div>
@@ -473,13 +466,34 @@
             </div>
         </main>
     </div>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NEY8XPL5TX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-NEY8XPL5TX');
+    </script>
+
     <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+    <!-- Default Statcounter code for E-commerce https://gamehubmyanmar.shop -->
+    <script type="text/javascript">
+    var sc_project=12771445; 
+    var sc_invisible=1; 
+    var sc_security="e3a24050"; 
+    </script>
+    <script type="text/javascript"
+    src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript><div class="statcounter"><a title="Web Analytics Made Easy -
+    Statcounter" href="https://statcounter.com/" target="_blank"><img
+    class="statcounter" src="https://c.statcounter.com/12771445/0/e3a24050/1/"
+    alt="Web Analytics Made Easy - Statcounter"
+    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+    
     <!-- Default Statcounter code for E-commerce https://gamehubmyanmar.shop -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js" integrity="sha512-YKxHqn7D0M5knQJO2xKHZpCfZ+/Ta7qpEHgADN+AkY2U2Y4JJtlCEHzKWV5ZE87vZR3ipdzNJ4U/sfjIaoHMfw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <!-- End of Statcounter Code -->
-    {{-- <a href="https://statcounter.com/p12771445/?guest=1">View Stats</a> --}}
     <script>
 
 
