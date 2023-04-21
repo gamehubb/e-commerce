@@ -197,7 +197,7 @@
                             </li>
                         @endif
                        
-                        @else
+                    @else
 
                         <?php 
                         if(Auth::user()){
@@ -253,7 +253,13 @@
                         @endif
 
                         <li class="nav-item dropdown" id="nav_hover">
-                            <i class="nav-item fa fa-user text-white m-2" title="Account Info" onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
+                            <i class="nav-item fa fa-user text-white m-2" title="Account Info" onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> 
+                                @if (Auth::check()) 
+                                    <small>{{Auth::user()->name}}</small>
+                                @else
+                                    <small></small>
+                                @endif
+                                </i>
                             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown" style="position: absolute !important;">
                                 @if(Auth::check())
                                     <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Account</a>
@@ -271,11 +277,7 @@
                         </li>
                     @endguest
                     &nbsp;&nbsp;&nbsp;
-                    <li class="nav-item float-right" id="nav_hover">
-                        <a class="link-light" href="https://gamehubmyanmar.com">
-                            <i class=" fa fa-gamepad text-white mt-2" title="Games" style="font-size:20px;" data-toggle="tooltip" data-placement="left" title="Checkout out available games"></i>
-                        </a>  
-                    </li>
+                   
                     &nbsp;&nbsp;&nbsp;
 
                     <li class="nav-item">
@@ -397,16 +399,14 @@
         @endauth
         <main class="py-4">
             @yield('content')
-
-
-                @if(!Request::routeIs('votenow'))
-                    <div class="container">
-                        <p class="float-end">
-                            <a href="#"> <i class="fa fa-chevron-circle-up fa-2x scroll-to-btn" style="color: #aa0000;box-shadow: 0px 0px 22px 3px #a99999;border-radius:14px;
-                                "></i></a>
-                        </p>
-                    </div>
-                @endif
+           @if(!Request::routeIs('votenow'))
+                <div class="container">
+                    <p class="float-end">
+                        <a href="#"> <i class="fa fa-chevron-circle-up fa-2x scroll-to-btn" style="color: #aa0000;box-shadow: 0px 0px 22px 3px #a99999;border-radius:14px;
+                            "></i></a>
+                    </p>
+                </div>
+            @endif
             
             
             <div class="container" id="modelSetPass">
@@ -457,7 +457,7 @@
                             <p><i class="fa fa-phone"></i> Call Us: <a href="tel:09963325033" class="link-light">09963325033</a>,<a href="tel:09403113003" class="link-light">09403113003</a> </p>
                         </div>
                         <div class="col-md-4 text-right">
-                            <a><i class="fa fa-envelope"></i> Mail Us: <a href="mailto:info@gamehubmyanmar.com" class="link-light">info@gamehubmyanmar.com</a> </p>
+                            <a><i class="fa fa-envelope"></i> Mail Us: <a href="mailto:care.gamehubmyanmar@gmail.com" class="link-light">care.gamehubmyanmar@gmail.com</a> </p>
                         </div>
                     </div>
                 </footer><br>
