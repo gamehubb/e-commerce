@@ -23,9 +23,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     @notifyCss
-    @include('notify::messages')
+    {{-- @include('notify::messages') --}}
     @notifyJs
-   
+
 </head>
 
 <style>
@@ -72,15 +72,15 @@
 </div>
 
 <body style="background:black;">
-           
+
     <div id="app">
         <header class="header-box">
             <div class="container">
-                <div class="col-md-12 text-left site-icon m-3">              
+                <div class="col-md-12 text-left site-icon m-3">
                         <a href="/" style="color: #aa0000;">
                             <span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar<sub style="font-size:9px;">Shop</sub></sub>
                         </a>
-                   
+
                 </div>
             </div>
         </header>
@@ -97,25 +97,25 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item dropdown">   
+                        <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Category
-                                </a>       
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">    
-                                @foreach ($allCategory as $cat)                     
-                                    <a class="dropdown-item" href="{{ route('productCategory',[$cat->slug]) }}">{{$cat->name}}</a>      
-                                @endforeach              
+                                </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                @foreach ($allCategory as $cat)
+                                    <a class="dropdown-item" href="{{ route('productCategory',[$cat->slug]) }}">{{$cat->name}}</a>
+                                @endforeach
                             </div>
                         </li>
 
                         <li class="nav-item dropdown">
                             <a  class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Brand
-                            </a>      
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> 
-                                 @foreach ($allBrand as $brand)                                
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                 @foreach ($allBrand as $brand)
                                 <a class="dropdown-item" href="{{ route('productBrand',[$brand->slug]) }}">{{$brand->name}}</a>
-                                @endforeach               
+                                @endforeach
                         </div>
                         </li>
 
@@ -126,7 +126,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                   
+
                 </div>
                 <ul class="navbar-nav" style="float:left;flex-direction:row-reverse !important;">
                     <!-- Authentication Links -->
@@ -144,12 +144,12 @@
                         </li>
                         @endif
 
-                        
-                        
+
+
                     @else
 
-                   
-              
+
+
                     <li class="nav-item dropdown">
                         <i class="nav-item fa fa-user text-white m-2"  onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="position: absolute !important;">
@@ -167,14 +167,14 @@
 
                         </div>
                     </li>
-                        <?php 
+                        <?php
                         if(Auth::user()){
                         $route = 'checkout/'.Auth::getUser()->name;
                         }else{
                         $route = '';
                         }
                         ?>
-                      
+
                         @if(str_replace('%20',' ',Request::path()) == $route)
                             <li class="nav-item" style="cursor:pointer">
                                 @if(session()->has('cart'))
@@ -190,7 +190,7 @@
                                     <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
                                     </i>
                                 @endif
-                                
+
 
                             </li>
                         @else
@@ -216,12 +216,12 @@
                     <li class="nav-item">
                         <a class="nav-item" href="https://gamehubmyanmar.com">
                             <i class=" fa fa-gamepad text-white mt-2" style="font-size:20px;"></i>
-                        </a>  
+                        </a>
                     </li>
                     &nbsp;&nbsp;&nbsp;
 
                     <li class="nav-item">
-                       
+
                         <form action="{{  route('search') }}" method="get" id= "searchForm" >
                             @csrf
                         <div class="inner-addon left-addon">
@@ -255,11 +255,11 @@
                                     style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
                             </div>
                             <div class="modal-body" id="cartData">
-                                
+
                                     <div class="row">
                                         <p class="col-md-8 h4"><b>YOUR CART</b></p>
                                     </div>
-                            
+
                                     @if(session()->has('cart'))
                                     <hr class="mx-auto mb-3" style="width:95%; color: #ec0606; height: 3px; ">
 
@@ -277,15 +277,15 @@
                                                         <p class="col-lg-1 w-10" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
                                                         <i id="product_id" hidden>{{$value['id']}}</i>
                                                         <i class="fa fa-plus m-1 w-10" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
-                                                        ></i> 
+                                                        ></i>
                                                         <span class="ml-4 bg-red text-right" style="cursor:pointer;"><i class="fas fa-trash fa-1x" id="trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span>
                                                     </div>
-                                                </div> 
-                                            </div> 
+                                                </div>
+                                            </div>
                                         @endforeach
                                     @endif
 
-                            </div> 
+                            </div>
                         <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
                         <div class="row m-3">
 
@@ -323,7 +323,7 @@
 
     <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
     <script>
-    
+
     $("#preloader").css('display','block');
     $("body").css('opacity','0.3');
 
@@ -377,7 +377,7 @@
                 $("#qty_"+id).text(parseInt(qty)-1);
 
                 var qty_update = $("#qty_"+id).text();
-                
+
                 if(qty == 1) {
                     $("#qty_"+id).text('1');
                     alert("Minium amount reached");
@@ -399,10 +399,10 @@
                         $("#cart-loader").css("display",'none');
                     },
                     });
-                }   
+                }
             }
         }
-    
+
     function custom_number_format( number_input, decimals, dec_point, thousands_sep ) {
         var number = ( number_input + '' ).replace( /[^0-9+\-Ee.]/g, '' );
         var finite_number   = !isFinite( +number ) ? 0 : +number;
@@ -445,7 +445,7 @@
                 data: { id: id }
             }).done(function( response ) {
                 location.reload();
-            }); 
+            });
 
         }
 
@@ -476,7 +476,7 @@
                 // $("#qty").text(value.qty);
                 // $("#total_price").text(value.total_price);
 
-            });        
+            });
         })
 
     })

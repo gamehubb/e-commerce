@@ -19,7 +19,7 @@
  font-family: sans-serif;
  opacity: 0;
  visibility: hidden;
- -webkit-transition: visibility 0s, opacity 0.5s linear; 
+ -webkit-transition: visibility 0s, opacity 0.5s linear;
  transition: visibility 0s, opacity 0.5s linear;
 }
 
@@ -32,7 +32,7 @@
  width: 150px;
  padding: 8px 15px;
  visibility: visible;
- opacity: 0.7; 
+ opacity: 0.7;
  background:#aa0000;
  color:#fff;
 }
@@ -63,7 +63,7 @@
                 <div id="carouselExampleControls" class=
                 "carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner text-white">
-                  
+
                         @foreach($sliders as $key=>$slider)
                         <div class="carousel-item {{$key == 0 ? 'active' : ''}}" style="border-radius: 20px; background: #381818">
                             <div style="display: inline-flex;">
@@ -71,12 +71,12 @@
                           <a href="{{ route('productDetail',[$slider->products->id])}}">
                             <button type="button" class="btn btn-sm mx-auto  text-white mt-10"
                             style="border-radius : 20px;background-color : #aa0000;">View detail</button>
-                           
+
                         </a>
                             </div>
                             <img src="{{Storage::url($slider->image)}}"
                                 style="height:12rem; display: inline-block; !important" alt="...">
-                               
+
                         </div>
                         @endforeach
                     </div>
@@ -96,14 +96,14 @@
         <div class="text-center mt-4">
             <h3 class="h4">EXPLORE</h3><br/>
         </div>
-        
+
         <div class="row text-center">
                 @foreach($categories as $category)
                 <div class="col-md-2 m-2">
 
                     <div class="content_img m-auto">
                         <a href="{{ route('productCategory',[$category->slug]) }}">
-                            <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important" class="cat-img">
+                            <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; display: inline-block; !important" class=" cat-img">
                             <div>{{$category->name}}</div>
                         </a>
                     </div>
@@ -120,7 +120,7 @@
                     <div class="col-md-6 ml-4">
                         <label class="text-white ">Product Import</label> <br />
                         <small class="text-white ">Thai, China</small>
-                       
+
                     </div>
                 </div>
                 <div class="row  m-4">
@@ -143,20 +143,20 @@
                 </div>
             </div>
             @foreach ($randomItemProducts as $product )
-                
+
                 <div class="col-md-8 p-2" style="border:1px solid #808080; border-radius: 10px;">
                     <h3 class="h4 text-white text-center">Recommended product
                     </h3>
                     <a href="{{route('productDetail',[$product->id])}}">
                         <img src="{{Storage::url($product->productDetail[0]->image_1)}}"
-                            class="floar-right m-3 mx-auto" style=" border-radius: 20px; height:12rem; " alt="...">
+                            class="floar-right m-3 mx-auto object-cover" style=" border-radius: 20px; height:12rem; " alt="...">
                     </a>
                     <div class="text-white text-left"><?php echo $product->description; ?></div>
                 </div>
 
             @endforeach
 
-           
+
         <div class="text-center mt-4">
             <span class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
                 Life is all about Ecommerce around you. Shop with us.
@@ -167,7 +167,7 @@
 
             <div class="container">
                 @if(!empty($product_list))
-                   
+
                     @foreach($product_list as $key => $product)
                     {{-- @for ($x = 0; $x <= count($product); $x++) --}}
                          <p class="h4 text-white m-2 text-uppercase product-list">{{$product[0]->category->name}}
@@ -179,15 +179,15 @@
                                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
                                             <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
                                                 style="object-fit: cover;border-radius : 25px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))"
-                                               
+
 
                                                  id="product_image" >
                                             <div class="card-body text-white">
                                                 <p><b> {{$product[$key]->name}}</b></p>
                                                 <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
-                                                <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>                   
+                                                <p><b>MMKs {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>
                                                 <a data-id = {{$product[$key]->id}} id="add_cart_{{$product[$key]->id}}"
-                                                    class="btn btn-sm mx-auto btn-outline-light mt-3" 
+                                                    class="btn btn-sm mx-auto btn-outline-light mt-3"
                                                     data-image="{{$product[$key]->productDetail[0]['image_1']}}"
                                                     data-color="{{$product[$key]->productDetail[0]['color']}}"
                                                     onclick="addCart({{$product[$key]->id}})"
@@ -230,16 +230,16 @@
                             <p><b>Category</b></p>
                             @foreach ($allCategory as $category )
                             <a href="{{ route('productCategory',[$category->slug]) }}">
-                              <p>{{$category->name}}</p> 
+                              <p>{{$category->name}}</p>
                             </a>
                             @endforeach
-                           
+
                         </div>
                         <div class="col-md-4  mt-2">
                             <p><b>Brand</b></p>
                             @foreach ($allBrand as $brand )
                             <a href="{{ route('productBrand',[$brand->slug]) }}">
-                                <p> {{$brand->name}}  </p> 
+                                <p> {{$brand->name}}  </p>
                             </a>
                             @endforeach
                         </div>
@@ -301,7 +301,7 @@ function addCart(id){
     }
 
 }
-    
+
 
 </script>
 @endsection
