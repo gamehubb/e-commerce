@@ -23,7 +23,7 @@
                    <input type="text" name="max" class="form-control" placeholder="Enter Maximum Price" required>
                    <br>
                    <input type="hidden" name="categoryId" value="{{$categoryId}}" class="form-control">
-                   
+
                    <input type="submit" value="filter" class="btn btn-secondary">
                 </form>
                 <hr>
@@ -34,7 +34,7 @@
                     @foreach($products as $product)
                     <div class="col-md-4">
                         <div class="card mb-4 shdow-sm">
-                            <img src="{{Storage::url($product->image)}}" alt="" width="100%" height="200">
+                            <img src="{{Storage::url($product->image)}}" alt="" width="100%" style="object-fit: contain;height:120px;width:100%; border-radius : 25px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))">
                             <div class="card-body">
                                 <p><b>{{$product->name}}</b></p>
                                 <p class="card-text">{!!Str::limit($product->description,120)!!}</p>

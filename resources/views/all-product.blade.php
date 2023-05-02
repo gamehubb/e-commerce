@@ -16,8 +16,7 @@
             @foreach($products as $product)
               <div class="col">
                 <div class="card shadow-sm">
-                    <img src="{{Storage::url($product->image)}}" alt="" style="height: 300px;
-                    object-fit: contain;">
+                    <img src="{{Storage::url($product->image)}}" alt="" style="object-fit: contain;height:120px;width:100%; border-radius : 25px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))">
                     <div class="card-body">
                         <p><b>{{$product->name}}</b></p>
                         <p class="card-text">{!!Str::limit($product->description,120)!!}</p>

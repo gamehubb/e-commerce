@@ -10,6 +10,14 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+
+
+    <!-- caro -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -61,9 +69,28 @@
         left: 1px;
 
     }
-
+    .custom-toggle{
+        display: block!important;
+    }
+    .custom-position{
+        position: relative;
+    }
+    .custom-click{
+        cursor: pointer;
+    }
     #trash:hover{
         background-color: #aa00aa;
+    }
+    .image-zoom {
+            overflow: hidden;
+        }
+
+    .image-zoom {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .image-zoom:hover {
+        transform: scale(1.2);
     }
 </style>
 
@@ -85,30 +112,84 @@
             </div>
         </header>
 
+        <div class="offcanvas offcanvas-start text-white" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel" style="background-color: #202020;">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Category</h5>
+              <button type="button" class="btn-close text-reset text-white bg-danger"  data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="row px-5 rounded-bottom w-full">
+                    @foreach ($allCategory as $cat)
+                    <div class=" col-6 g-2 p-2 text-center">
+                        <a href="{{ route('productCategory',[$cat->slug]) }}">
+                            <img src="{{Storage::url($cat->image)}}" class="image-zoom floar-right m-3 mx-auto object-cover" style="  height:6rem; width:6rem" alt="">
+                            <p>
+                                <a class=" text-white" style="text-decoration-line: none" href="{{ route('productCategory',[$cat->slug]) }}">{{$cat->name}}</a>
+                            </p>
+                        </a>
+                    </div>
+                    @endforeach
+            </div>
+            </div>
+          </div>
+          <div class="offcanvas offcanvas-start text-white" tabindex="-1" id="offcanvasWithBackdropBrand" aria-labelledby="offcanvasWithBackdropBrandLabel" style="background-color: #202020;">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasWithBackdropBrandLabel">Brand</h5>
+              <button type="button" class="btn-close text-reset text-white bg-danger"  data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul>
+                    @foreach ($allBrand as $brand)
+                    <li><a class="dropdown-item " style="color: red" href="{{ route('productBrand',[$brand->slug]) }}">{{$brand->name}}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+          </div>
+
+          <div class="offcanvas offcanvas-start text-white" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="background-color: #202020;">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasScrollingLabel " class="text-danger" >Menu</h5>
+              <button type="button" class="btn-close text-reset bg-danger"  data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="" id="">
+                    <!-- Left Side Of Navbar -->
+                    <div class=" mx-auto " style="">
+                        <div class="nav-item">
+
+                            <form action="{{  route('search') }}" method="get" id= "searchForm" >
+                                @csrf
+                            <div class="inner-addon left-addon px-4">
+                                <i class="fa fa-search text-danger" style="position: absolute;padding: 10px;cursor:pointer;"  onclick="search()" ></i>
+                                <input type="text" name="name" id="p_name" class="form-control bg-secondary bg-opacity-10" style="padding-left:30px" placeholder="Search here..." required/>
+                            </div>
+                            </form>
+                        </div>
+                        {{-- category --}}
+                        <div class=" text-white mx-4 my-4 px-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop"><i class="fa-solid fa-cart-shopping me-2 text-danger"></i>Category</div>
+                        <div class=" text-white mx-4 my-4 px-2 " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdropBrand" aria-controls="offcanvasWithBackdropBrand"><i class="fa-solid fa-list-check me-2 text-danger"></i>Brand</div>
+
+                    </div>
+                </div>
+            </div>
+          </div>
+
         <nav class="navbar k navbar-expand-md shadow-sm  bg-dark">
             <div class="container">
-                <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse"
+                {{-- <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <i class="fa fa-bars  "></i>
+                    <i class="fa fa-bars  "></i> --}}
                     {{-- <span class="navbar-toggler-icon  text-white"></span> --}}
-                </button>
+                {{-- </button> --}}
+                <button class="btn btn-dark d-block d-sm-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" style="z-index: 20"><i class="fa-solid fa-bars fs-5 fw-bold text-danger "></i></button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    Category
-                                </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                @foreach ($allCategory as $cat)
-                                    <a class="dropdown-item" href="{{ route('productCategory',[$cat->slug]) }}">{{$cat->name}}</a>
-                                @endforeach
-                            </div>
-                        </li>
-
-                        <li class="nav-item dropdown">
+                            <li class=" text-white me-4 " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">Category</li>
+                            <li class=" text-white me-2 " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdropBrand" aria-controls="offcanvasWithBackdropBrand">Brand</li>
+                        {{-- <li class="nav-item dropdown">
                             <a  class="nav-link dropdown-toggle text-white"  onclick="this.classList.toggle('open')" style="cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Brand
                             </a>
@@ -117,18 +198,11 @@
                                 <a class="dropdown-item" href="{{ route('productBrand',[$brand->slug]) }}">{{$brand->name}}</a>
                                 @endforeach
                         </div>
-                        </li>
-
-                        {{-- <li class="nav-item dropdown">
-                            <a class="nav-link text-white dropdown-toggle">More</a>
                         </li> --}}
 
                     </ul>
-
-                    <!-- Right Side Of Navbar -->
-
                 </div>
-                <ul class="navbar-nav" style="float:left;flex-direction:row-reverse !important;">
+                <ul class="navbar-nav" style="float:left;flex-direction:row-reverse !important;z-index:2">
                     <!-- Authentication Links -->
 
                     @guest
@@ -220,7 +294,7 @@
                     </li>
                     &nbsp;&nbsp;&nbsp;
 
-                    <li class="nav-item">
+                    <li class="nav-item d-none d-sm-none d-md-block">
 
                         <form action="{{  route('search') }}" method="get" id= "searchForm" >
                             @csrf
@@ -236,6 +310,17 @@
                 </ul>
             </div>
         </nav>
+        <div id="custom-action" class=" d-none custom-position container">
+            <div class=" cus-postion">
+                <div class="row text-white px-5 bg-dark rounded-bottom w-full">
+                        @foreach ($allCategory as $cat)
+                        <div class=" col-sm-6 col-md-4 col-lg-3 py-5">
+                            <a class="dropdown-item text-secondary" href="{{ route('productCategory',[$cat->slug]) }}">{{$cat->name}}</a>
+                        </div>
+                        @endforeach
+                </div>
+            </div>
+        </div>
         <!-- Modal HTML -->
         @auth
         @if(str_replace('%20',' ',Request::path()) != $route)
@@ -315,13 +400,16 @@
 
         @endif
         @endauth
-        <main class="py-4">
+        <main class="">
             @yield('content')
         </main>
     </div>
+
+
 </body>
 
     <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
 
     $("#preloader").css('display','block');
@@ -336,6 +424,10 @@
     function openModel() {
         $("#myModal").modal('show');
     }
+
+    $('.custom-click').click(function(){
+            $('#custom-action').toggleClass("custom-toggle");
+    });
 
     function closeModel(){
         $("#myModal").modal('hide');
