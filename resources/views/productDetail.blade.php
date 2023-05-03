@@ -16,7 +16,7 @@
       background-color: rgb(0,0,0); /* Fallback color */
       background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
     }
-    
+
     /* Modal Content (image) */
     #modal-content {
       margin: auto;
@@ -24,17 +24,17 @@
       width: 80%;
       max-width: 700px;
     }
-     
+
     @-webkit-keyframes zoom {
-      from {-webkit-transform:scale(0)} 
+      from {-webkit-transform:scale(0)}
       to {-webkit-transform:scale(1)}
     }
-    
+
     @keyframes zoom {
-      from {transform:scale(0)} 
+      from {transform:scale(0)}
       to {transform:scale(1)}
     }
-    
+
     /* The Close Button */
     .close {
       position: absolute;
@@ -45,28 +45,110 @@
       font-weight: bold;
       transition: 0.3s;
     }
-    
+
     .close:hover,
     .close:focus {
       color: #bbb;
       text-decoration: none;
       cursor: pointer;
     }
-    
+    .card {
+        overflow: hidden;
+    }
+
+    .card {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        border: 2px solid rgb(255, 102, 102)
+    }
+
     /* 100% Image Width on Smaller Screens */
     @media only screen and (max-width: 700px){
       .modal-content {
         width: 100%;
       }
     }
+    .image-zoom {
+            overflow: hidden;
+        }
+
+    .image-zoom {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .image-zoom:hover {
+        transform: scale(1.2);
+    }
+    .owl-dot span{
+            background-color: red !important
+        }
+        .owl-dot.active span{
+            background-color: rgb(119, 16, 16) !important
+        }
+        .owl-next,
+        .owl-prev{
+            color : #fff !important;
+            font-size: 80px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+        }
+        .accordion-item {
+            background-color: #202020;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+        }
+        .accordion-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-size: 0.9rem;
+            color: #ffffff;
+            text-align: left;
+            background-color: #202020;
+            border: 0;
+            border-radius: 0;
+            overflow-anchor: none;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
+        }
+
+        .accordion-button:not(.collapsed) {
+            color: #ff0000;
+            background-color: #202020;
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.125);
+        }
+        .owl-next {
+            right: -21px;
+            top: 29%;
+        }
+        .owl-prev{
+            left: -21px;
+            top: 29%;
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover {
+            background: #869791;
+            color: #FFF;
+            height: 0px;
+            text-decoration: none;
+        }
+        .border-order{
+            border : 2px solid rgb(255, 102, 102)
+        }
+        .border-order:hover{
+            background-color: rgb(255, 102, 102)
+        }
     </style>
-<div class="container">
-    <div class="row text-white p-4 bg-dark" style="border-radius:4px;">
-        <div class="col-md-3 text-center p-2" style="border-width: 1px; border-color: rgb(27, 27, 27); border-radius : 25px;">             
+<div class=" container">
+    <div class=" row g-3 text-white p-4 bg-dark" style="border-radius:4px;">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-4 text-center p-2" style="border-width: 1px; border-color: rgb(27, 27, 27); border-radius : 25px;">
             @foreach ($products->productDetail as $key=> $item)
             <div class="imgdiv"  id = "imgdiv{{$key}}"  style=" {{$key ==0 ? '' : 'display:none'}}">
                <div id="carouselExampleControls{{$key}}" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner" >        
+                <div class="carousel-inner" >
                     @for ($i = 1; $i <= 3; $i++)
                     @if($products->productDetail[$key]['image_'.$i] != "no-img")
                     <div class="carousel-item {{$i ==1 ? 'active' : ''}}" >
@@ -88,20 +170,20 @@
                 </button>
             </div>
         </div>
-            @endforeach  
+            @endforeach
                <div>
                @foreach ($products->productDetail as $key=> $item)
-               <span class="m-1 mt-3 imgclass" id ="img{{$item->id}}" data-color = {{$item->color}} style="background-color: {{$item->color}}; {{$key == 0 ? 'border: 2px solid skyblue;' : ""}} display: inline-block;border-radius: 50%;width: 20px;height:20px;text-align: center;cursor:pointer;"  
+               <span class="m-1 mt-3 imgclass" id ="img{{$item->id}}" data-color = {{$item->color}} style="background-color: {{$item->color}}; {{$key == 0 ? 'border: 2px solid skyblue;' : ""}} display: inline-block;border-radius: 50%;width: 20px;height:20px;text-align: center;cursor:pointer;"
                 onclick="changeImage({{$key}}, {{$item->id}})"></span>
-               @endforeach  
-               </div>                 
+               @endforeach
+               </div>
                <div id="myModal1" class="modal">
                 <span class="close" id="close">&times;</span>
                 <img class="modal-content" id="modal-content">
-               
+
               </div>
         </div>
-        <div class="col-md-3 m-3"  >     
+        <div class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3"  >
             <p class="h3"> <b>{{$products->name}} </b> </p>
 
 
@@ -122,8 +204,8 @@
             <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
 
         </div>
-        <div class="col-md-5 mt-3">      
-            <p  class="h5"> <b>Information</b></p>   
+        <div class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
+            <p  class="h5"> <b>Information</b></p>
             <table  class="ml-3">
                 <tr>
                     <td style="width:70%;"><p class="m-1"><b>Brand</b></p></td>
@@ -140,7 +222,7 @@
                         <td><p class="m-1"><b>Connectivity</b></p></td>
                         <td>{{$products->wireless == 1 ? 'Wired' : 'Wireless'}}</td>
                     </tr>
-                    
+
                 @endif
                 @if($products->warranty != null)
                 <tr>
@@ -148,14 +230,14 @@
                     <td>{{$products->warranty}} {{$products->warranty == 1 ? 'year' : 'years' }}</td>
                 </tr>
                 @endif
-                 
+
             </table>
-            <div class="col-md-6 mt-3">     
-                <p  class="h5"> <b>Description </b></p> 
+            <div class="col-md-6 mt-3">
+                <p  class="h5"> <b>Description </b></p>
                 <div class="ml-4">
                     <p class=""><?php echo $products->description; ?></p>
-                </div> 
-            </div>     
+                </div>
+            </div>
         </div>
     </div>
     <div class="container mt-3 text-white">
@@ -164,7 +246,8 @@
             CATEGORY BASED ON YOUR TREND
             </h3>
         </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-3">
+        <div class="row  mt-3">
+            <div class="slide-2 owl-carousel owl-theme">
             @foreach($cat_products as $product)
                 <div class="col-md-3 product_card p-3">
                     <a href={{ route('productDetail',Crypt::encrypt([$product->id])) }} class="m-auto link-light">
@@ -195,15 +278,42 @@
                         </div>
                     </a>
                 </div>
-        
-            @endforeach
 
+            @endforeach
+        </div>
         </div>
     </div>
 
 </div>
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('.slide-2').owlCarousel({
+            loop: false,
+            margin: 20,
+            nav: true,
+            dots : false,
+            autoplay:true,
+            autoplayTimeout:3000,
+            autoplayHoverPause:false,
+
+            responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 2
+                },
+                766: {
+                    items : 3
+                },
+                1000: {
+                    items: 5
+                }
+            }
+        });
+    });
     function changeImage(key , id) {
         $('.imgclass').css({'border': ''});
         $("#img" + id).css({'border': '2px solid skyblue'});
@@ -215,7 +325,7 @@
 
         $("#product_color").val(color);
         $("#product_image").val(image);
-        
+
      }
      
     function clickImage(id) {
@@ -231,7 +341,7 @@
     }
     
     var span = document.getElementById('close');
-    span.onclick = function() { 
+    span.onclick = function() {
         $('#myModal1').css({'display': 'none'});
 
     };
@@ -268,6 +378,6 @@
     }
  }
 </script>
- 
-    
+
+
 @endsection
