@@ -13,19 +13,19 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register-user') }}">
                         @if(Session::get('fail'))
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger" id="alert-message">
                             {{ Session::get('fail') }}
                         </div>
                     @endif
                     @if(Session::get('success'))
-                        <div class="alert alert-info">
+                        <div class="alert alert-info" id="alert-message">
                             {{ Session::get('success')}}
                         </div>
                     @endif
                     
                         @csrf
                         <div class="row mb-3">
-                            <label for="name" class="col-md-3 col-form-label text-right">Name</label>
+                            <label for="name" class="col-md-3 col-form-label">Name</label>
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
                                     name="name" value="{{ old('name') }}" required autofocus>
@@ -38,10 +38,10 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="phone" class="col-md-3 col-form-label text-right"> Phone Number </label>
+                            <label for="phone" class="col-md-3 col-form-label"> Phone Number ( +95 )</label>
                             <div class="col-md-6">
                                 <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror"
-                                    name="phone" value="{{ old('phone') }}" required pattern="[0-9]{11}" placeholder="09123456789">
+                                    name="phone" value="{{ old('phone') }}" required placeholder="09xxxxxxxxx">
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-3 col-form-label text-right"> E-mail </label>
+                            <label for="email" class="col-md-3 col-form-label"> E-mail </label>
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email') }}" required>
@@ -64,8 +64,9 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password" class="col-md-3 col-form-label text-right">Password</label>
+                            <label for="password" class="col-md-3 col-form-label">Password</label>
                             <div class="col-md-6">
+                                
                                 <input id="password" type="password"
                                     class="form-control @error('password') is-invalid @enderror" name="password"
                                     required autocomplete="new-password">
@@ -80,7 +81,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-3 col-form-label text-right"> Confirm
+                            <label for="password-confirm" class="col-md-3 col-form-label"> Confirm
                                 Password </label>
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
@@ -121,6 +122,10 @@ $(this).toggleClass("fa-eye fa-eye-slash");
   } else {
     input.attr("type", "password");
   }
+});
+
+$("#alert-message").fadeTo(2000, 500).slideUp(10000, function(){
+    $("#alert-message").slideUp(10000);
 });
 </script>
 @endsection

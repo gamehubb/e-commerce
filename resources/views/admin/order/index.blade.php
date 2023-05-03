@@ -21,7 +21,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Orders</h6>
           </div>
           <div class="table-responsive">
-            <table class="table align-items-center table-flush">
+            <table class="table align-items-center table-flush" id="dataTable">
               <thead class="thead-light">
                 <tr>
                   <th>No</th>
@@ -48,8 +48,8 @@
                   {{-- <td>{{$order->user->email}}</td> --}}
                   <td>{{date('d-M-y',strtotime($order->created_at))}}</td>
                   <td>
-                    <input type="hidden" value="{{$order->id}}" id="order_id">
-                    <select class="form-select form-select-sm" name="order_status" id="order_status" aria-label=".form-select-sm example">
+                    <input type="hidden" value="{{$order->id}}" id="order_id_{{$order->id}}">
+                    <select class="form-select form-select-sm" name="order_status" id="order_status_{{$order->id}}" onchange="changeStatus({{$order->id}})" aria-label=".form-select-sm example">
                       @if($order->status == 1)
                         <option value="1" selected> Pending </option>
                         <option value="2">Approved</option>
@@ -168,26 +168,7 @@
             'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
         } 
     });
-    $('select[name="order_status"]').on('change',function(){
-      var status = $(this).val();
-      var orderid =$("#order_id").val();
-      if(orderid && status){
-        $.ajax({
-          url: '/auth/orderstatus/'+orderid+'/'+status,
-          type: "GET",
-          dataType: "json",
-          beforeSend: function(){
-              $("#preloader").show();
-              $("body").css("opacity",'0.3');
-          },
-          success:function(data){  
-            $("#preloader").hide();
-            $("body").css("opacity",'1');
-          //  notify()->success('Status Changed');
-        }
-        });
-      }
-    })
+    
     $('select[name="payment_status"]').on('change',function(){
       var statuspayment = $(this).val();
       var orderidforpayment =$("#order_id_forpayment").val();
@@ -206,5 +187,26 @@
       }
     })
   });
+
+  function changeStatus(id){
+          var status = $("#order_status_"+id).val();
+          var orderid =$("#order_id_"+id).val();
+          if(orderid && status){
+            $.ajax({
+              url: '/auth/orderstatus/'+orderid+'/'+status,
+              type: "GET",
+              dataType: "json",
+              beforeSend: function(){
+                  $("#preloader").show();
+                  $("body").css("opacity",'0.3');
+              },
+              success:function(data){  
+                $("#preloader").hide();
+                $("body").css("opacity",'1');
+              //  notify()->success('Status Changed');
+            }
+            });
+          }
+    }
 </script>
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
@@ -37,9 +38,9 @@ class HomeController extends Controller
         // }else{
         //     return redirect()->to('/');
         // }
-         if(auth()->user()->is_user_verify_email = 1){
+        if (auth()->user()->is_user_verify_email = 1) {
             return redirect()->to('login');
-        }else{
+        } else {
             return redirect()->to('register');
         }
         // if(auth()->user()->is_user_verify_email = 1){
@@ -51,48 +52,41 @@ class HomeController extends Controller
 
     public function userLogin(LoginRequest $request)
     {
-        if($request->validated())
-        {
-            $data = User::where("email",'=',$request->email)->get()->first();
+        if ($request->validated()) {
+            $data = User::where("email", '=', $request->email)->get()->first();
 
-            if($data == null)
-            {
+            if ($data == null) {
                 return redirect('login')->with('message', "User does not exists");
-            }elseif($data->count() > 0 && $data->email_verified == 0){
+            } elseif ($data->count() > 0 && $data->email_verified == 0) {
                 return redirect('login')->with('message', "Please verify your email");
-            }else{
+            } else {
                 $userCredentials = $request->only('email', 'password');
 
-                if(Auth::attempt($userCredentials)){
+                if (Auth::attempt($userCredentials)) {
 
-                    if(Auth::check())
-                    {
+                    if (Auth::check()) {
                         $userId = Auth::id();
-            
+
                         if (session()->has('cart')) {
                             $cart = new Cart(session()->get('cart'));
                         } else {
                             $cart = new Cart();
                         }
-            
-                        $cart_data = Carts::where('user_id',$userId)->get();
-            
+
+                        $cart_data = Carts::where('user_id', $userId)->get();
+
                         $cart->fetchCart($cart_data);
-            
-                        session()->put('cart',$cart);
-            
+
+                        session()->put('cart', $cart);
                     }
 
-                    return redirect()->back();
-                    
-                }else{
+                    return redirect('/home');
+                } else {
                     return redirect('login')->with('message', "Invalid Credentials");
                 }
             }
-            
         }
-
-    } 
+    }
 
     public function userRegister(RegisterRequest $request)
     {
@@ -105,35 +99,33 @@ class HomeController extends Controller
         $save = $user_create->save();
         $last_id = $user_create->id;
         $hash = $this->generateTokenVerify();
-        $token = $last_id.$hash;
-        $verifyURL = route('verify',['token'=>$token,'service'=>'Email_verification']);
-        User::where('id',$last_id)->update([
-            'email_verify_token'=>$token,
+        $token = $last_id . $hash;
+        $verifyURL = route('verify', ['token' => $token, 'service' => 'Email_verification']);
+        User::where('id', $last_id)->update([
+            'email_verify_token' => $token,
         ]);
-        $message = 'Dear <b>'.$request->name.'</b>';
+        $message = 'Dear <b>' . $request->name . '</b>';
         $message = 'Thanks for singing up, we just need to verify your email address';
-        $mail_data=[
-            'recipient' =>$request->email,
-            'fromEmail' =>'noreply@gamehubmyanmar.com',
-            'fromName' =>'GameHub Myanmar',
-            'subject' =>'Email Verification',
-            'body'=>$message,
-            'actionLink' =>$verifyURL,
+        $mail_data = [
+            'recipient' => $request->email,
+            'fromEmail' => 'info@gamehubmyanmar.com',
+            'fromName' => 'GameHub Myanmar',
+            'subject' => 'Email Verification',
+            'body' => $message,
+            'actionLink' => $verifyURL,
         ];
-        \Mail::send('email-template',$mail_data,function($message) use ($mail_data){
+        \Mail::send('email-template', $mail_data, function ($message) use ($mail_data) {
             $message->to($mail_data['recipient'])
-                    ->from($mail_data['fromEmail'], $mail_data['fromName'])
-                    ->subject($mail_data['subject']);
+                ->from($mail_data['fromEmail'], $mail_data['fromName'])
+                ->subject($mail_data['subject']);
         });
 
-        if($request->role == 2)
-        {
-            return redirect()->back();
-        }else{
-            return redirect('/login')->with('success','You need to verify your account. We have sent you an activation link, please check your mail');
+        if ($request->role == 2) {
+            return redirect('/home');
+        } else {
+            return redirect('/login')->with('success', 'You need to verify your account. We have sent you an activation link. Please check your mail . *Please do not forget to check the mail in your spam folder.');
         }
-
-    } 
+    }
 
     public function generateTokenVerify()
     {

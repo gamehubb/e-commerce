@@ -12,6 +12,9 @@ use App\Models\ProductDetail;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
+
 use Auth;
 
 class FrontProductListController extends Controller
@@ -25,12 +28,12 @@ class FrontProductListController extends Controller
         foreach ($randomActiveProducts as $product) {
             array_push($randomActiveProductId, $product->id);
         }
-        $randomItemProducts = Product::whereNotIn('id', $randomActiveProductId)->limit(1)->get();
-        $categories = Category::limit(5)->get();
+        $randomItemProducts  = Product::where('id', 70)->get();
+        $categories = Category::where('status',1)->get();
         $s_categories = Category::where(['status' => '1', 'is_special' => '1'])->get();
 
         foreach ($s_categories as $s_category) {
-            $product_list[$s_category->id] = Product::where('category_id', $s_category->id)->with('productDetail')->get();
+            $product_list[$s_category->id] = Product::where('category_id', $s_category->id)->where('status','1')->with('productDetail')->get();
             
         }
 
@@ -50,17 +53,18 @@ class FrontProductListController extends Controller
     public function allProductByCategory($slug)
     {
         $cat = Category::where('slug', $slug)->get()->first();
-        $products = Product::where('category_id', $cat->id)->get();
+        $products = Product::where('category_id', $cat->id)->where('status','1')->get();
         $name = $cat->name;
         return view('filteredProduct', compact('products', 'name'));
     }
     public function allProductByBrand($slug)
     {
         $brand = Brand::where('slug', $slug)->get()->first();
-        $products = Product::where('brand_id', $brand->id)->get();
+        $products = Product::where('brand_id', $brand->id)->where('status','1')->get();
         $name = $brand->name;
         return view('filteredProduct', compact('products', 'name'));
     }
+    
     public function search(Request $request)
     {
         $name = $request->name;
@@ -77,12 +81,17 @@ class FrontProductListController extends Controller
     }
     public function productDetail($id)
     {
-        $products = Product::where('id', $id)->get()->first();
-        $cat_products = Product::where('category_id', $products->category_id)->get();
-        if ($products == '') {
-            return abort('404');
-        } else {
-            return view('productDetail', compact('products', 'cat_products'));
+        try {
+            $id = Crypt::decrypt($id);
+            $products = Product::where('id', $id)->get()->first();
+            $cat_products = Product::where('category_id', $products->category_id)->where('id','!=' , $id)->where("status", 1)->get();
+            if ($products == '') {
+                return abort('404');
+            } else {
+                return view('productDetail', compact('products', 'cat_products'));
+            }
+        } catch (DecryptException $e) {
+            abort(404);
         }
     }
     public function allProduct($name, Request $request)
@@ -140,5 +149,9 @@ class FrontProductListController extends Controller
         }
         $products = Product::latest()->paginate(6);
         return view('all-product', compact('products'));
+    }
+     public function voteNow()
+    {
+        return view('votenow');
     }
 }

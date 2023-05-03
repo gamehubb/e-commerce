@@ -111,88 +111,42 @@
   /* width: 50px; */
   margin: 29px -23px 0px 0px;
 }
-.fixed-button{
-    position : fixed;
-    bottom: 0;
-    right: 30px;
-    z-index: 100;
+.tag {
+    font-family: Helvetica, Arial, sans-serif;
+    background: #588fe5;
+    display: inline-block;
+    color: #fff;
+    position: relative;
+    padding: 10px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    margin: 0 30px 0 0;
+    text-decoration: none;
 }
-.link-hover:hover{
-    color: #ff0000;
-    cursor: pointer;
-}
-.image-zoom {
-        overflow: hidden;
-    }
-
-.image-zoom {
-    transition: transform 0.3s ease-in-out;
-}
-
-.image-zoom:hover {
-    transform: scale(1.2);
-}
-.card {
-    overflow: hidden;
-}
-
-.card {
-    transition: transform 0.3s ease-in-out;
-}
-
-.card:hover {
-    border: 2px solid rgb(255, 102, 102)
-}
-.border-order{
-    border : 2px solid rgb(255, 102, 102)
-}
-.border-order:hover{
-    background-color: rgb(255, 102, 102)
-}
-.carousel-control-next {
-        right: 0px;
-
-}
-.carousel-control-prev {
-        left: 0;
-}
-@media screen and (max-width: 684px) {
-    .carousel-control-next {
-            right: 0px;
-            top : -86px;
-    }
-    .carousel-control-prev {
-            left: 0;
-            top : -86px;
-    }
-}
-
+ 
+ 
+ 
+ 
+ 
 </style>
 <div class=" relative">
     <p class=" fixed-button">
         <a href="#"> <i class="fa fa-chevron-circle-up fa-2x " style="color: #ff0000;"></i></a>
     </p>
     <main>
-        <section class="text-center " >
-            <div class="">
-                <div id="carouselExampleControls" class=
-                "carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner text-white" style="overflow: hidden">
-
+        <section class="text-center">
+            <div class="container">
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner text-white">  
                         @foreach($sliders as $key=>$slider)
-                        <div class="carousel-item {{$key == 0 ? 'active' : ''}}" style="background: #381818">
-                            <img src="{{Storage::url($slider->image)}}"
-                                style="height:14rem; display: inline-block; !important" class=" " alt="...">
+                        <div class="carousel-item {{$key == 0 ? 'active' : ''}}" style="border-radius: 20px; background: #381818">
+                            <a href="{{ route('productDetail',Crypt::encrypt($slider->products->id))}}" class="link-light">
                                 <div style="display: inline-flex;">
-                                    <div class=" d-flex justify-content-between align-items-center">
-                                        <p  style=" font-size: 16px;" class="me-2 py-2 px-2">  {{$slider->products->moto}}</p>
-                                          <a href="{{ route('productDetail',[$slider->products->id])}}" class=" py-2">
-                                            <button type="button" class="btn btn-sm mx-auto text-white mt-10"
-                                            style="border-radius : 20px 0px 0px 20px;background-color : #aa0000;">ViewDetail</button>
-
-                                        </a>
-                                      </div>
+                                    <p  style=" font-size: 20px; font-family: cursive; ">  {{$slider->products->moto}}</p>
                                 </div>
+                                <img src="{{Storage::url($slider->image)}}"
+                                style=" filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));height:12rem; display: inline-block; !important " alt="...">
+                            </a>
                         </div>
                         @endforeach
                     </div>
@@ -209,38 +163,19 @@
                 </div>
             </div>
         </section><br><br>
-        <div class=" container">
-            <div class="text-center mt-4">
-                <h3 class="h4">EXPLORE</h3><br/>
-            </div>
+        <div class="text-center mt-4">
+            <h3 class="h4">EXPLORE</h3><br/>
+        </div>
+        
+        <div class="row text-center">
+                @foreach($categories as $category)
+                <div class="col-md-2 m-3">
 
-            <div class="slide-1 owl-carousel owl-theme px-3">
-
-                        @foreach($categories as $category)
-                        <div class="item">
-
-                            <div class="content_img m-auto">
-                                <a href="{{ route('productCategory',[$category->slug]) }}">
-                                    <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:7rem; width:7rem%; display: inline-block; !important;padding:10px 10px" class=" cat-img">
-                                    <div>{{$category->name}}</div>
-                                </a>
-                            </div>
-                        </div>
-                        @endforeach
-
-            </div><br>
-
-
-            {{-- <div class="row ">
-                    @foreach($categories as $category)
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 my-2">
-
-                        <div class="content_img m-auto">
-                            <a href="{{ route('productCategory',[$category->slug]) }}">
-                                <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; width:100%; display: inline-block; !important" class=" cat-img">
-                                <div>{{$category->name}}</div>
-                            </a>
-                        </div>
+                    <div class="content_img m-auto">
+                        <a href="{{ route('productCategory',[$category->slug]) }}">
+                            <img src={{Storage::url($category->image)}} style="border: 2px solid #aa0000; border-radius: 17px; height:12rem; width:12rem; display: inline-block; !important" class="cat-img">
+                            <div>{{$category->name}}</div>
+                        </a>
                     </div>
                     @endforeach
             </div><br/> --}}
@@ -365,10 +300,106 @@
     </p><p>* Compatible with Windows® and Mac</p>
                     </div>
                 </div>
-            </div></div>
+                <div class="row  m-4">
+                    <div class="col-md-1 mt-2">
+                        <i class="fa  fa-hourglass-half fa-2x " style="color: #aa0000;"></i>
                     </div>
+                    <div class="col-md-6 ml-4">
+                        <label class="text-white ">Waiting Time</label> <br />
+                        <small class="text-white ">1 day to 1 week</small>
+                    </div>
+                </div>
+            </div>
+            @foreach ($randomItemProducts as $key => $product )
+                
+                <div class="col-md-8 p-2" style="border:1px solid #808080; border-radius: 10px;">
+                    <h3 class="h4 text-white text-center">Recommended Product
+                    </h3>
 
-                @endforeach
+                    <div id="carouselSliderControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner text-white">  
+                            @for ($i = 1; $i <= 3; $i++)
+                            @if($product->productDetail[$key]['image_'.$i] != "no-img")
+                            <div class="carousel-item {{$i ==1 ? 'active' : ''}}" >
+                                <a href="{{route('productDetail',Crypt::encrypt([$product->id]))}}">
+                                    <img src="{{Storage::url($product->productDetail[$key]['image_'.$i])}}" class="m-auto p-image" alt="" style=" height: 200px;border-radius : 25px;">
+                                </a> 
+                            </div>
+                            @endif
+                          @endfor                         
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselSliderControls"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselSliderControls"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <div class="text-white text-left"><?php echo $product->description; ?></div>
+                </div>
+
+            @endforeach
+
+           
+        <div class="text-center mt-5">
+            <h3 class="h4 text-white" style=" font-family: 'Times New Roman', Times, serif;">
+                Shop Your Need, Play With Us
+            </h3>
+        </div><br>
+
+        <div class="album py-2 ">
+
+            <div class="container">
+                @if(!empty($product_list))
+                   
+                    @foreach($product_list as $key => $product)
+                    {{-- @for ($x = 0; $x <= count($product); $x++) --}}
+                         <p class="h4 text-white m-2 text-uppercase product-list">{{$product[0]->category->name}}
+                    </p><br>
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            @foreach ($product as $key => $p_count)
+                            <?php if(isset($product[$key]->productDetail[0])) { ?>
+
+                                <div class="col-md-3 product_card p-3" id="{{$product[$key]->id}}">
+                                   
+                                    <a href={{ route('productDetail',Crypt::encrypt([$product[$key]->id])) }} class="m-auto link-light">
+                                       
+                                        <div class="card shadow-sm" style="background-color:#aa0000;border-radius : 25px;">
+                                            
+                                            <div class="card-title">
+                                                <img src="{{Storage::url($product[$key]->productDetail[0]['image_1'])}}" alt=""
+                                                    style="object-fit: cover;border-radius : 25px;margin:auto;height:120px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));"
+                                                    id="product_image">
+                                            </div>
+                                            <div class="card-body text-white" style="height:120px;">
+                                                <p><b> {{$product[$key]->name}}</b></p>            
+                                                <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
+                                                @if(number_format($product[$key]->productDetail[0]['discount']) > 0)       
+                                                <p><b style="font-size : 18px;"> MMK 
+                                                {{ number_format($product[$key]->productDetail[0]['price'] - ($product[$key]->productDetail[0]['price'] *  $product[$key]->productDetail[0]['discount']/100 ) )  }}</b></p>  
+                                                <p><b style=" text-decoration: line-through;">MMK  {{number_format($product[$key]->productDetail[0]['price'])}} </b> &nbsp;<small>({{$product[$key]->productDetail[0]['discount']}} % off)</small></p>  
+                                                @else
+                                                <p><b>MMK {{number_format($product[$key]->productDetail[0]['price'])}}</b></p>  
+                                                @endif  
+                                                
+                                            </div>
+                                            <div class="card-footer">
+                                                <a data-id = {{$product[$key]->id}} id="add_cart_{{$product[$key]->id}}"
+                                                    class="btn btn-sm mx-auto btn-outline-light" 
+                                                    data-image="{{$product[$key]->productDetail[0]['image_1']}}"
+                                                    data-color="{{$product[$key]->productDetail[0]['color']}}"
+                                                    onclick="addCart({{$product[$key]->id}})"
+                                                        style="border-radius : 20px;">Add to cart</a>
+                                                <span class="fa-solid fa-check text-info" id="done" hidden></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php } ?>
 
 
             <div class="text-center mt-4 mb-4">
@@ -430,96 +461,7 @@
             </div>
         </div>
     </main>
-    <p class="float-end">
-        <a href="#"> </a>
-    </p>
-    <footer class=" mt-5 text-white " style="background-color : #202020;overflow:hidden">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="container mt-3">
-                    <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
-                            MYANMAR</label></span> <br />
-                    <label>A place where you can shop and download free games in this gaming community. </label>
-                </div>
-            </div>
-
-            <div class="col-md-8 mb-3 mt-3 mt-md-0 mt-lg-0">
-                <div class="accordion accordion-flush" id="accordionFlushExample" style=" overflow-x:hidden">
-                    <div class="row">
-                        <div class="accordion-item col-4">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                              <button class="accordion-button collapsed border-bottom text-center" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                Category
-                              </button>
-                            </h2>
-
-                          </div>
-                          <div class="accordion-item col-4">
-                            <h2 class="accordion-header" id="flush-headingTwo">
-                              <button class="accordion-button collapsed border-bottom text-center" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                Brand
-                              </button>
-                            </h2>
-
-                          </div>
-                          <div class="accordion-item col-4">
-                            <h2 class="accordion-header" id="flush-headingThree">
-                              <button class="accordion-button collapsed border-bottom text-center" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                Company
-                              </button>
-                            </h2>
-                          </div>
-                    </div>
-                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                        <div class="accordion-body">
-                            <div class="col-md-4 mt-2 ">
-
-                                @foreach ($allCategory as $category )
-                                <a href="{{ route('productCategory',[$category->slug]) }}" class=" text-white" style="text-decoration: none">
-                                  <p class=" link-hover">- {{$category->name}}</p>
-                                </a>
-                                @endforeach
-
-                            </div>
-                        </div>
-                      </div>
-                      <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                            <div class="">
-
-                                @foreach ($allBrand as $brand )
-                                <a href="{{ route('productBrand',[$brand->slug]) }}" class=" text-white" style="text-decoration: none">
-                                    <p class=" link-hover">- {{$brand->name}}  </p>
-                                </a>
-                                @endforeach
-                            </div>
-                        </div>
-                      </div>
-                      <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                            <div class="">
-
-                                <p class=" link-hover">- Terms & Condition </p>
-                                <p class=" link-hover">- Privacy Policy </p>
-                                <p class=" link-hover">- Supplier Relations </p>
-                            </div>
-                        </div>
-                      </div>
-                  </div>
-            </div>
-        </div>
-        <div class=" container row mt-10">
-            <div class="col-md-4">
-                <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
-            </div>
-            <div class="col-md-4 text-start text-sm-start text-md-center ">
-                <p><i class="fa fa-phone"></i> Call Us: 09963325033,09403113003 </p>
-            </div>
-            <div class="col-md-4 text-sm-start text-right">
-                <p><i class="fa fa-envelope"></i> Mail Us: info@gamehubmyanmar.shop </p>
-            </div>
-        </div>
-    </footer>
+ 
 </div>
 
 
@@ -601,6 +543,7 @@ function addCart(id){
                 $("#cart-loader").css("display",'none');
                 location.reload();
             }
+
         },
         });
     }else{

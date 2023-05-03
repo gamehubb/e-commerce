@@ -185,14 +185,24 @@
         </div>
         <div class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3"  >
             <p class="h3"> <b>{{$products->name}} </b> </p>
-            <p class="text-red-600 h4"><b>MMKs {{number_format($products->productDetail[0]['price'])}} </b> </p>
-            <p class="card-text">Status: {{$products->productDetail[0]['status'] == '1' ? 'In-stock' : 'Pre-Order'}}</p>
-            <p class="card-text">Waiting Time: @if ($products->productDetail[0]['status'] == '1') 3 - 4 days @else 10 - 12 days @endif</p>
+
+
+            @if(number_format($products->productDetail[0]['discount']) > 0)       
+            <p class="text-red-600 h4"><b  > MMK 
+            {{number_format($products->productDetail[0]['price'] - ($products->productDetail[0]['price'] *  ( number_format($products->productDetail[0]['discount']) /100 ) )  )}}</b></p>  
+            <p class="h6" ><b style=" text-decoration: line-through;">MMK  {{number_format($products->productDetail[0]['price'])}} </b> &nbsp;<small>({{$products->productDetail[0]['discount']}} % off)</small></p>  
+            @else
+            <p class="text-red-600 h4"><b>MMKs {{number_format($products->productDetail[0]['price'])}} </b> </p>  
+            @endif 
+            <p class="card-text">Status: {{$products->product_type == 1 ? 'In-stock' : 'Pre-Order'}}</p>
+            <p class="card-text">Waiting Time: @if ($products->product_type == '1') 3 - 4 days @else 3 - 4 weeks @endif</p>
             <input type="hidden" id="product_image" value="{{$products->productDetail[0]['image_1']}}" class="text-black">
             <input type="hidden" id="product_color" value="{{$products->productDetail[0]['color']}}" class="text-black">
             <a data-id = {{$products->id}} id="add_cart_{{$products->id}}"
                 class="btn btn-sm mx-auto btn-outline-light mt-3" onclick="addCart({{$products->id}})"
                     style="border-radius : 20px;">Add to cart</a>
+            <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
+
         </div>
         <div class="col-6 col-sm-6 col-md-6 col-lg-4 mt-3">
             <p  class="h5"> <b>Information</b></p>
@@ -207,10 +217,10 @@
                     <td>{{$products->model_name}}</td>
                 </tr>
                 @endif
-                @if($products->wireless == 0 || $products->wireless == 1)
+                @if($products->wireless == 1 || $products->wireless == 2)
                     <tr>
                         <td><p class="m-1"><b>Connectivity</b></p></td>
-                        <td>{{$products->wireless == 1 ? 'Wireless' : 'Wired'}}</td>
+                        <td>{{$products->wireless == 1 ? 'Wired' : 'Wireless'}}</td>
                     </tr>
 
                 @endif
@@ -239,27 +249,31 @@
         <div class="row  mt-3">
             <div class="slide-2 owl-carousel owl-theme">
             @foreach($cat_products as $product)
-                <div class=" product-list
-">
-                    <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto link-light">
+                <div class="col-md-3 product_card p-3">
+                    <a href={{ route('productDetail',Crypt::encrypt([$product->id])) }} class="m-auto link-light">
                         <div class="card shadow-sm" style="background-color : #aa0000;border-radius : 25px; ">
-                            <div class="card-title">
-                                <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
-                                style="object-fit: contain;height:120px;width:100%; border-radius : 25px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))" class="image-zoom">
-                            </div>
-
-                                <div class="card-body text-white" style="height:150px;">
+                            <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
+                                style=" object-fit: contain;border-radius : 25px;height:120px; !important;margin:auto;">
+                            <div class="card-body text-white" style="height:120px;">
                                 <p><b> {{$product->name}}</b></p>
+                                    {{-- @foreach ($product->productDetail as $item)
+                                    <span  style="color: {{$item->color}};font-size : 35px" class="mt-2" title="Available in colors">●</span>
+                                    @endforeach --}}
+                                    @if(number_format($product->productDetail[0]['discount']) > 0)       
+                                    <p><b style="font-size : 18px;"> MMK {{ number_format($product->productDetail[0]['price'] - ($product->productDetail[0]['price'] *  ( number_format($product->productDetail[0]['discount']) /100 ) ))  }}</b></p>  
 
-                                    <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
-                                <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>
-
-
+                                    </b></p>  
+                                    <p ><b style=" text-decoration: line-through;">MMK  {{number_format($product->productDetail[0]['price'])}} </b> &nbsp;<small>({{$product->productDetail[0]['discount']}} % off)</small></p>  
+                                    @else
+                                    <p><b>MMK {{number_format($product->productDetail[0]['price'])}}</b></p>  
+                                    @endif  
+                                {{-- <small class="card-text"><p>{!!Str::limit($product->description,120)!!}</p></small> --}}
+                                
                             </div>
-                            <div class=" card-footer ">
-                                <a href="{{route('productDetail',$product->id)}}"
-                                    class="btn btn-sm mx-auto border-order"
-                                        style="border-radius : 20px;color:white">See Detail</a>
+                            <div class="card-footer">
+                                <a href="{{route('productDetail',Crypt::encrypt($product->id))}}"
+                                    class="btn btn-sm mx-auto btn-outline-light mt-3" 
+                                        style="border-radius : 20px;">See Detail</a>
                             </div>
                         </div>
                     </a>
@@ -270,98 +284,7 @@
         </div>
     </div>
 
-
 </div>
-<footer class=" mt-5 text-white " style="background-color : #202020;overflow:hidden">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="container mt-3">
-                <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
-                        MYANMAR</label></span> <br />
-                <label>A place where you can shop and download free games in this gaming community. </label>
-            </div>
-        </div>
-
-        <div class="col-md-8 mb-3 mt-3 mt-md-0 mt-lg-0">
-            <div class="accordion accordion-flush" id="accordionFlushExample" style=" overflow-x:hidden">
-                <div class="row">
-                    <div class="accordion-item col-4">
-                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                          <button class="accordion-button collapsed border-bottom text-center" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                            Category
-                          </button>
-                        </h2>
-
-                      </div>
-                      <div class="accordion-item col-4">
-                        <h2 class="accordion-header" id="flush-headingTwo">
-                          <button class="accordion-button collapsed border-bottom text-center" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                            Brand
-                          </button>
-                        </h2>
-
-                      </div>
-                      <div class="accordion-item col-4">
-                        <h2 class="accordion-header" id="flush-headingThree">
-                          <button class="accordion-button collapsed border-bottom text-center" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                            Company
-                          </button>
-                        </h2>
-                      </div>
-                </div>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                    <div class="accordion-body">
-                        <div class="col-md-4 mt-2 ">
-
-                            @foreach ($allCategory as $category )
-                            <a href="{{ route('productCategory',[$category->slug]) }}" class=" text-white" style="text-decoration: none">
-                              <p class=" link-hover">- {{$category->name}}</p>
-                            </a>
-                            @endforeach
-
-                        </div>
-                    </div>
-                  </div>
-                  <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        <div class="">
-
-                            @foreach ($allBrand as $brand )
-                            <a href="{{ route('productBrand',[$brand->slug]) }}" class=" text-white" style="text-decoration: none">
-                                <p class=" link-hover">- {{$brand->name}}  </p>
-                            </a>
-                            @endforeach
-                        </div>
-                    </div>
-                  </div>
-                  <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        <div class="">
-
-                            <p class=" link-hover">- Terms & Condition </p>
-                            <p class=" link-hover">- Privacy Policy </p>
-                            <p class=" link-hover">- Supplier Relations </p>
-                        </div>
-                    </div>
-                  </div>
-              </div>
-        </div>
-    </div>
-    <div class=" container row mt-10">
-        <div class="col-md-4">
-            <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
-        </div>
-        <div class="col-md-4 text-start text-sm-start text-md-center ">
-            <p><i class="fa fa-phone"></i> Call Us: 09963325033,09403113003 </p>
-        </div>
-        <div class="col-md-4 text-sm-start text-right">
-            <p><i class="fa fa-envelope"></i> Mail Us: info@gamehubmyanmar.shop </p>
-        </div>
-    </div>
-</footer>
-{{-- owl carousel --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
 
 <script type="text/javascript">
@@ -404,16 +327,19 @@
         $("#product_image").val(image);
 
      }
-
-     function clickImage(id) {
-
-     var modal = document.getElementById("myModal1");
-     var img = document.getElementById("productImg"+id);
-     var modalImg = document.getElementById("modal-content");
-     modal.style.display = "block";
-     modalImg.src = img.src;
-
- }
+     
+    function clickImage(id) {
+     
+        var modal = document.getElementById("myModal1");
+        var img = document.getElementById("productImg"+id);
+        var modalImg = document.getElementById("modal-content");
+        modal.style.display = "block";
+        modalImg.src = img.src;
+        modalImg.setAttribute('data-magnify-src',img.src);
+        $('#modal-content').magnify();
+      
+    }
+    
     var span = document.getElementById('close');
     span.onclick = function() {
         $('#myModal1').css({'display': 'none'});

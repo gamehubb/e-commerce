@@ -31,6 +31,11 @@ Route::get('/register', function () {
 Route::get('/', [App\Http\Controllers\FrontProductListController::class, 'index']);
 Route::get('/product/{id}', [App\Http\Controllers\FrontProductListController::class, 'show']);
 
+Route::get('/users/checkPassword',[App\Http\Controllers\UserController::class,'checkPassword']);
+
+Route::post('/users/savePassword',[App\Http\Controllers\UserController::class,'savePassword'])->name('user.passonly');
+
+
 Route::get('/category/{name}', [App\Http\Controllers\FrontProductListController::class, 'allProduct']);
 Route::get('/productCategory/{id}', [App\Http\Controllers\FrontProductListController::class, 'allProductByCategory'])->name('productCategory');
 
@@ -52,8 +57,10 @@ Route::get('/orders/{id}', [App\Http\Controllers\CartController::class, 'orderDe
 
 Route::post('/charge', [App\Http\Controllers\CartController::class, 'charge'])->name('cart.charge');
 Route::post('/complete-checkout', [App\Http\Controllers\CartController::class, 'finalCheckout'])->name('cart.final-checkout')->middleware('auth');
+Route::get('/votenow', [App\Http\Controllers\FrontProductListController::class, 'votenow'])->name('votenow')->middleware('auth');
+
 //delivery Info 
-Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::class);
+Route::resource('/deliveryInfo', App\Http\Controllers\DeliveryInfoController::class)->middleware('auth');;
 
 // Auth::routes();
 Auth::routes(['verify' => true]);
@@ -67,11 +74,17 @@ Route::post('/changePassword', [App\Http\Controllers\UserController::class, 'cha
 Route::get('/changeAccountInfo', [App\Http\Controllers\UserController::class, 'changeAccountInfo'])->name('user.changeAccountInfo');
 Route::post('/changeAccountInfo', [App\Http\Controllers\UserController::class, 'changeAccountInfoPost'])->name('user.changeAccountInfoPost');
 
+Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'userAccountInfo'])->name('user.accountInfo');
+
+Route::get('/getTownship/{id}', [App\Http\Controllers\DeliveryInfoController::class, 'getTownshipInfo'])->name('getTownship');
+
+Route::get('/demo', [App\Http\Controllers\CartController::class, 'demoCheck']);
+Route::get('/signwg', [App\Http\Controllers\UserController::class, 'redirectToGoogle'])->name('user.google');
+Route::get('/callback', [App\Http\Controllers\UserController::class, 'handleGoogleCallback']);
 
 Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    });
+    
+       Route::get('/dashboard',[App\Http\Controllers\UserController::class, 'dashboard'])->name('admin.dashboard');
 
 
     Route::post('/category/create', [App\Http\Controllers\CategoryController::class, 'store']);
@@ -80,6 +93,15 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
     Route::get('/category/edit/{id}', [App\Http\Controllers\CategoryController::class, 'edit']);
     Route::get('/category/index', [App\Http\Controllers\CategoryController::class, 'index']);
     Route::post('/category/delete/{id}', [App\Http\Controllers\CategoryController::class, 'destroy']);
+    
+    
+    Route::get('/giftcard/index', [App\Http\Controllers\GiftCardController::class, 'index']);
+    Route::post('/giftcard/create', [App\Http\Controllers\GiftCardController::class, 'store']);
+    Route::get('/giftcard/create', [App\Http\Controllers\GiftCardController::class, 'create']);
+    Route::get('/giftcard/edit/{id}', [App\Http\Controllers\GiftCardController::class, 'edit']);
+    Route::post('/giftcard/update/{id}', [App\Http\Controllers\GiftCardController::class, 'update']);
+    Route::post('/giftcard/delete/{id}', [App\Http\Controllers\GiftCardController::class, 'destroy']);
+
     //Brand 
     Route::resource('/brand', App\Http\Controllers\BrandController::class);
 
@@ -101,12 +123,20 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth', 'isAdmin']], function
 
     //Status Product 
     Route::get('/changedProductStatus', [App\Http\Controllers\ProductController::class, 'behaviourOfStatus']);
+    Route::get('/changeVerifiedStatus', [App\Http\Controllers\UserController::class, 'behaviourOfStatus']);
+    Route::get('/statusToggle', [App\Http\Controllers\UserController::class, 'statusToggle']);
+
+
     //Users
     Route::get('users', [App\Http\Controllers\UserController::class, 'index']);
+
+    Route::post('/users', [App\Http\Controllers\UserController::class, 'destroy'])->name('user.destroy');
+
+    Route::get('/changeAccountInfo/{id}', [App\Http\Controllers\UserController::class, 'adminuserAccountInfo'])->name('user.editInfo');
+
     //Orders
     Route::get('orders', [App\Http\Controllers\CartController::class, 'userorder'])->name('user.orders');
     Route::get('orders/{orderid}', [App\Http\Controllers\OrderController::class, 'show'])->name('user.order');
-    Route::get('/userAccountInfo', [App\Http\Controllers\UserController::class, 'userAccountInfo'])->name('user.accountInfo');
     // Brand Status
     Route::get('/changedBrandStatus', [App\Http\Controllers\BrandController::class, 'behaviourOfStatusBrand']);
     // Payemnt Status

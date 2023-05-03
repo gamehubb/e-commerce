@@ -2,7 +2,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="./">Home</a></li>
+        <li class="breadcrumb-item"><a href="/auth/dashboard">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
       </ol>
     </div>
@@ -15,7 +15,7 @@
             <div class="row align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-uppercase mb-1">Products</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{App\Models\Product::get()->count()}}</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{$products}}</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-calendar fa-2x text-primary"></i>
@@ -31,7 +31,7 @@
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-uppercase mb-1">Orders</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">{{App\Models\Order::get()->count()}}</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{$orders}}</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-shopping-cart fa-2x text-success"></i>
@@ -47,8 +47,12 @@
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-uppercase mb-1">User</div>
-                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{App\Models\User::get()->count()}}</div>
+                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{$users}}</div>
+                <div class="mt-2 mb-0 text-muted text-xs">
+                  <span class="text-muted mr-2">Vendors: {{$vendors}}</span>
+                </div>
               </div>
+              
               <div class="col-auto">
                 <i class="fas fa-users fa-2x text-info"></i>
               </div>
@@ -62,15 +66,12 @@
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-uppercase mb-1">Pending Requests</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                <div class="mt-2 mb-0 text-muted text-xs">
-                  <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                  <span>Since yesterday</span>
-                </div>
+                <div class="text-xs font-weight-bold text-uppercase mb-1">Pending Verifications</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{$pending}}</div>
+
               </div>
               <div class="col-auto">
-                <i class="fas fa-comments fa-2x text-warning"></i>
+                <i class="fas fa-user fa-2x text-warning"></i>
               </div>
             </div>
           </div>
@@ -109,7 +110,7 @@
         <div class="card mb-4">
           <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Products Sold</h6>
-            <div class="dropdown no-arrow">
+            {{-- <div class="dropdown no-arrow">
               <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button" id="dropdownMenuLink"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Month <i class="fas fa-chevron-down"></i>
@@ -122,116 +123,79 @@
                 <a class="dropdown-item active" href="#">Month</a>
                 <a class="dropdown-item" href="#">This Year</a>
               </div>
-            </div>
+            </div> --}}
           </div>
           <div class="card-body">
-            <div class="mb-3">
-              <div class="small text-gray-500">Oblong T-Shirt
-                <div class="small float-right"><b>600 of 800 Items</b></div>
+            @foreach($sold_products as $s_d)
+              <div class="mb-3">
+                <div class="small text-gray-500">{{$s_d->products->name}}
+                  <div class="small float-right"><b>{{$s_d->quantity}}</b></div>
+                </div>
+                <div class="progress" style="height: 12px;">
+                  <div class="progress-bar bg-warning" role="progressbar" style="width: {{$s_d->quantity}}%" aria-valuenow={{$s_d->quantity}}
+                    aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
               </div>
-              <div class="progress" style="height: 12px;">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80"
-                  aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-            <div class="mb-3">
-              <div class="small text-gray-500">Gundam 90'Editions
-                <div class="small float-right"><b>500 of 800 Items</b></div>
-              </div>
-              <div class="progress" style="height: 12px;">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70"
-                  aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-            <div class="mb-3">
-              <div class="small text-gray-500">Rounded Hat
-                <div class="small float-right"><b>455 of 800 Items</b></div>
-              </div>
-              <div class="progress" style="height: 12px;">
-                <div class="progress-bar bg-danger" role="progressbar" style="width: 55%" aria-valuenow="55"
-                  aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-            <div class="mb-3">
-              <div class="small text-gray-500">Indomie Goreng
-                <div class="small float-right"><b>400 of 800 Items</b></div>
-              </div>
-              <div class="progress" style="height: 12px;">
-                <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50"
-                  aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-            <div class="mb-3">
-              <div class="small text-gray-500">Remote Control Car Racing
-                <div class="small float-right"><b>200 of 800 Items</b></div>
-              </div>
-              <div class="progress" style="height: 12px;">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30"
-                  aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
+            @endforeach
+           
           </div>
-          <div class="card-footer text-center">
+          {{-- <div class="card-footer text-center">
             <a class="m-0 small text-primary card-link" href="#">View More <i
                 class="fas fa-chevron-right"></i></a>
-          </div>
+          </div> --}}
         </div>
       </div>
       <!-- Invoice Example -->
       <div class="col-xl-8 col-lg-7 mb-4">
         <div class="card">
           <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Invoice</h6>
-            <a class="m-0 float-right btn btn-danger btn-sm" href="#">View More <i
+            <h6 class="m-0 font-weight-bold text-primary">Orders</h6>
+            <a class="m-0 float-right btn btn-danger btn-sm" href="{{route('user.orders')}}">View More <i
                 class="fas fa-chevron-right"></i></a>
           </div>
           <div class="table-responsive">
             <table class="table align-items-center table-flush">
               <thead class="thead-light">
                 <tr>
-                  <th>Order ID</th>
+                  <th>Voucher</th>
                   <th>Customer</th>
-                  <th>Item</th>
+                  <th>Amount</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><a href="#">RA0449</a></td>
-                  <td>Udin Wayang</td>
-                  <td>Nasi Padang</td>
-                  <td><span class="badge badge-success">Delivered</span></td>
-                  <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                </tr>
-                <tr>
-                  <td><a href="#">RA5324</a></td>
-                  <td>Jaenab Bajigur</td>
-                  <td>Gundam 90' Edition</td>
-                  <td><span class="badge badge-warning">Shipping</span></td>
-                  <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                </tr>
-                <tr>
-                  <td><a href="#">RA8568</a></td>
-                  <td>Rivat Mahesa</td>
-                  <td>Oblong T-Shirt</td>
-                  <td><span class="badge badge-danger">Pending</span></td>
-                  <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                </tr>
-                <tr>
-                  <td><a href="#">RA1453</a></td>
-                  <td>Indri Junanda</td>
-                  <td>Hat Rounded</td>
-                  <td><span class="badge badge-info">Processing</span></td>
-                  <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                </tr>
-                <tr>
-                  <td><a href="#">RA1998</a></td>
-                  <td>Udin Cilok</td>
-                  <td>Baby Powder</td>
-                  <td><span class="badge badge-success">Delivered</span></td>
-                  <td><a href="#" class="btn btn-sm btn-primary">Detail</a></td>
-                </tr>
+                @foreach($order_data as $order)
+                  <tr>
+                    <td><a href="#">{{$order->voucher_code}}</a></td>
+                    <td>{{$order->del_name}}</td>
+                    <td>{{number_format($order->total_amount)}}</td>
+                    <td>
+                    @switch($order->status)
+                      @case('1')
+                          <span class="text-light badge badge-primary">Pending</span>
+                          @break
+                      @case('2')
+                          <span class="text-info">Approved</span>
+                          @break
+                      @case('3')
+                          <span class="text-success">Completed</span>
+                          @break
+                      @case('4')
+                          <span class="text-warning">Declined</span>
+                          @break
+                      @case('5')
+                          <span class="text-danger">Cancelled</span>
+                          @break
+                  
+                      @default
+                    @endswitch<br>
+                    <small class="text-muted">{{$order->updated_at->diffForHumans()}}</small>
+                    </td>
+                    <td><a href="{{route('user.order',[$order->id])}}" class="btn btn-sm btn-primary">Detail</a></td>
+                  </tr>
+                @endforeach
+                
               </tbody>
             </table>
           </div>
@@ -239,7 +203,7 @@
         </div>
       </div>
       <!-- Message From Customer-->
-      <div class="col-xl-4 col-lg-5 ">
+      {{-- <div class="col-xl-4 col-lg-5 ">
         <div class="card">
           <div class="card-header py-4 bg-primary d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-light">Message From Customer</h6>
@@ -280,17 +244,23 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <!--Row-->
+      </div> --}}
+      {{-- <span id="months_data">{{json_encode($monthly_amount['months'])}}</span>
+      <span id="chart_data">{{json_encode($monthly_amount['data'])}}</span> --}}
 
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <p>Do you like this template ? you can download from <a href="https://github.com/indrijunanda/RuangAdmin"
-            class="btn btn-primary btn-sm" target="_blank"><i class="fab fa-fw fa-github"></i>&nbsp;GitHub</a></p>
-      </div>
     </div>
 
+    @foreach ($monthly_amount as $i => $ma)
+      
+      <?php $months = str_replace('"','',json_encode($monthly_amount[$i]['months'])); ?>
+
+      <?php $data = str_replace('"','',json_encode($monthly_amount[$i]['data'])); ?>
+
+      <span id="months" hidden><?php echo $months.','; ?></span>
+
+      <span id="data" hidden><?php echo $data.','; ?></span>
+
+    @endforeach
     <!-- Modal Logout -->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
       aria-hidden="true">

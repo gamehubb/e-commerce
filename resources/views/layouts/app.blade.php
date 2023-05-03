@@ -1,6 +1,4 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +6,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'GamehubMyanmar') }}</title>
 
 
 
@@ -21,18 +19,20 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <link rel="icon" href="https://gamehubmyanmar.com/gm-icon.png" type="image/x-icon" />
+    <link rel="icon" href="{{asset('images/gm-icon.png')}}" type="image/x-icon" />
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/css/magnify.min.css" integrity="sha512-wzhF4/lKJ2Nc8mKHNzoFP4JZsnTcBOUUBT+lWPcs07mz6lK3NpMH1NKCKDMarjaw8gcYnSBNjjllN4kVbKedbw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     @notifyCss
-    {{-- @include('notify::messages') --}}
-    @notifyJs
+    @include('notify::messages')
 
 </head>
 
@@ -59,15 +59,11 @@
     }
 
     #trash{
-
-        border-radius: 5px;
-        border: 1px solid black;
         margin: auto;
         padding: 4px;
         position: relative;
         top: 5px;
         left: 1px;
-
     }
     .custom-toggle{
         display: block!important;
@@ -81,35 +77,86 @@
     #trash:hover{
         background-color: #aa00aa;
     }
-    .image-zoom {
-            overflow: hidden;
+
+    #c_trash:hover{
+        text-decoration:underline;
+    }
+
+    #nav_hover:hover {
+        border-bottom:2px solid #aa0000;
+    }
+ 
+    .product_card:hover {
+        box-shadow: 1px 3px 11px 0px #aa0000;
+        background: #000000;
+    }
+
+    .product_card:active {
+        box-shadow: 1px 3px 11px 0px #aa0000;
+        background: #000000;
+    }
+
+    .shop-cart{
+        position: fixed;
+        bottom: 10px;
+        right: 0px; 
+        padding: 10px;
+        z-index: 1;
+        background: #aa0000;
+    }
+    
+    body{
+        background: #000;
+    }
+
+    /*.navbar .nav-item:hover .dropdown-menu{ display: block; }*/
+    
+    .blink {
+            animation: blinker 1.5s linear infinite;
+            color: red;
+            font-family: sans-serif;
         }
-
-    .image-zoom {
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .image-zoom:hover {
-        transform: scale(1.2);
-    }
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
 </style>
 
 <div id="preloader">
     <div id="loader"></div>
 </div>
 
-<body style="background:black;">
+    @if(Auth::user())
+    <input type="hidden" name="user_id" id="user_id" value="{{Auth::user()->id}}">
+
+    @else
+    <input type="hidden" name="user_id" id="user_id" value="0">
+
+    @endif
+
 
     <div id="app">
-        <header class="header-box">
+        <!--<div class="bg-red pt-2" style="background:#aa0000;">-->
+        <!--    <marquee direction = "left" loop=20 ><p class="h4" style="color: #ffffff; font-weight: bold"> GameHub's Week<small> Starts from</small>  23.7.2022 - 7.8.2022 <i class="h4 discounted_price">-->
+        <!--   5% Discount on each product </i> </p>   -->
+        <!--   </marquee>            -->
+        <!--</div>-->
+        <header class="header-box ">
+            
             <div class="container">
-                <div class="col-md-12 text-left site-icon m-3">
+           
+                <div class="row">
+                    <div class="col-md-3 text-left site-icon m-3">              
                         <a href="/" style="color: #aa0000;">
-                            <span class="firstletter h1">Gamehub</span> <sub class="secondletter h2">Myanmar<sub style="font-size:9px;">Shop</sub></sub>
+                            <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
                         </a>
-
+                    </div>
+                    
+                   
                 </div>
             </div>
+
         </header>
 
         <div class="offcanvas offcanvas-start text-white" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel" style="background-color: #202020;">
@@ -202,46 +249,20 @@
 
                     </ul>
                 </div>
-                <ul class="navbar-nav" style="float:left;flex-direction:row-reverse !important;z-index:2">
+                <ul class="navbar-nav" style="float:left;flex-direction:inherit !important;">
                     <!-- Authentication Links -->
 
-                    @guest
+                     @guest
+                   
                         @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>&nbsp;&nbsp;&nbsp;
+                             <li class="nav-item float-right">
+                                <a class="link-light" href="{{ route('login') }}"><i class="fas fa-sign-in mt-2" id="nav_hover" style="font-size:20px;" title="login"></i></a>
+                            </li>
                         @endif
-
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                        @endif
-
-
-
+                       
                     @else
 
-
-
-                    <li class="nav-item dropdown">
-                        <i class="nav-item fa fa-user text-white m-2"  onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="position: absolute !important;">
-                            @if(Auth::check())
-                                <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Account</a>
-                                <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                            @endif
-
-                        </div>
-                    </li>
-                        <?php
+                        <?php 
                         if(Auth::user()){
                         $route = 'checkout/'.Auth::getUser()->name;
                         }else{
@@ -254,30 +275,38 @@
                                 @if(session()->has('cart'))
                                 <a href="{{route('cart.checkout', Auth::getUser()->name)}}" class="text-white">
 
-                                    <i class="fa fa-shopping-cart text-whit m-2" style="font-size: 20px;">
+                                    <i class="fa fa-shopping-cart text-whit m-2" title="Cart" style="font-size: 20px;">
                                         <sup id="cartcount" style="background: #AA2B25;
                                         border-radius: 77px;
-                                        border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
+                                        border: 4px solid #AA2B25;position:relative;top:-14px;font-size:12px;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '' }}</sup>
                                     </i>
                                 </a>
                                 @else
-                                    <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
+                                    <i class="fas fa-shopping-cart  text-white m-2" title="Cart" style="font-size:20px;">
                                     </i>
                                 @endif
 
 
                             </li>
-                        @else
+                            @else
 
-                            <li class="nav-item" onclick="openModel()" style="cursor:pointer">
+                            <li class="nav-item shop-cart" onclick="openModel()" style="cursor:pointer;"
+                             id="shop_cart">
                                 @if(session()->has('cart'))
-                                    <i class="fas fa-shopping-cart text-white  m-2" style="font-size:20px;">
-                                        <sup id="cartcount" style="background: #AA2B25;
-                                        border-radius: 77px;
-                                        border: 4px solid #AA2B25;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }}</sup>
-                                    </i>
+                                    @if(session()->get('cart')->totalQty != 0)
+                                        <i class="fas fa-shopping-cart text-white m-2" title="Cart"  style="font-size:20px;">
+                                            <sup id="cartcount" style="background: #AA2B25;
+                                            border-radius: 77px;
+                                            border: 4px solid #AA2B25;position:relative;top:-14px;font-size:12px;"> {{ session()->get('cart')->totalQty }}</sup>
+                                        </i>
+                                    @else
+                                        <i class="fas fa-shopping-cart text-white m-2" title="Cart" style="font-size:20px;">
+                                            
+                                        </i>
+                                    @endif
+
                                 @else
-                                    <i class="fas fa-shopping-cart text-white m-2" style="font-size:20px;">
+                                    <i class="fas fa-shopping-cart text-white m-2" title="Cart" style="font-size:20px;">
                                     </i>
                                 @endif
 
@@ -285,13 +314,33 @@
                             </li>
 
                         @endif
+
+                        <li class="nav-item dropdown" id="nav_hover">
+                            <i class="nav-item fa fa-user text-white m-2" title="Account Info" onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> 
+                                @if (Auth::check()) 
+                                    <small>{{Auth::user()->name}}</small>
+                                @else
+                                    <small></small>
+                                @endif
+                                </i>
+                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown" style="position: absolute !important;">
+                                @if(Auth::check())
+                                    <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Account</a>
+                                    <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                    </form>
+                                @endif
+    
+                            </div>
+                        </li>
                     @endguest
                     &nbsp;&nbsp;&nbsp;
-                    <li class="nav-item">
-                        <a class="nav-item" href="https://gamehubmyanmar.com">
-                            <i class=" fa fa-gamepad text-white mt-2" style="font-size:20px;"></i>
-                        </a>
-                    </li>
+                   
                     &nbsp;&nbsp;&nbsp;
 
                     <li class="nav-item d-none d-sm-none d-md-block">
@@ -301,12 +350,21 @@
                         <div class="inner-addon left-addon">
                             <i class="fa fa-search " style="position: absolute;padding: 10px;cursor:pointer;"  onclick="search()" ></i>
                             <input type="text" name="name" id="p_name" class="form-control" style="padding-left:30px" placeholder="Search here..." required/>
+                            
                         </div>
+                       
                         </form>
                     </li>
                     <li class="nav-item">
                         <i class="nav-item fa fa-game"></i>
-                    </li>
+                    </li>&nbsp;
+                    @if(Auth::user())
+                        <li class="nav-item">
+                            @if(Auth::getUser()->is_admin == 1)
+                                <a href="/auth/dashboard" class="btn btn-secondary btn-sm">Admin Dashboard</a>
+                            @endif
+                        </li>
+                    @endif
                 </ul>
             </div>
         </nav>
@@ -334,63 +392,76 @@
                         </div>
                     </div>
                     <div class="modal-content bg-dark"  id="cartModel">
-                            <div class="p-1" style="background-color: #aa0000;">
-                                <p class="text-center h3">Gamehub Myanmar</p>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="button" class="close" data-dismiss="modal"
-                                    style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
-                            </div>
-                            <div class="modal-body" id="cartData">
+                           
+                        <div class="modal-body" id="cartData">
+                            
+                                <div class="p-1">
+                                    <p class="text-left h4">Your Cart</p>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
+                                </div>
 
-                                    <div class="row">
-                                        <p class="col-md-8 h4"><b>YOUR CART</b></p>
-                                    </div>
+                                @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
+                                    <hr class="mx-auto mb-3" style="width:95%; color: #ec0606;height: 3px;">
+                                @endif
 
-                                    @if(session()->has('cart'))
-                                    <hr class="mx-auto mb-3" style="width:95%; color: #ec0606; height: 3px; ">
 
-                                        @foreach(session()->get('cart')->items as $key => $value)
-                                            <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;">
-                                                <div class="col-md-4 col-xs-4">
-                                                        <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:100%;">
-                                                </div>
-                                                <div class="col-md-8 col-xs-8">
-                                                    <p>{{$value['name']}} </p>
-                                                    <p><b>MMKS <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></b></p>
-                                                    <div class="row mt-5">
-                                                        <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
-                                                        ></i>
-                                                        <p class="col-lg-1 w-10" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
-                                                        <i id="product_id" hidden>{{$value['id']}}</i>
-                                                        <i class="fa fa-plus m-1 w-10" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
-                                                        ></i>
-                                                        <span class="ml-4 bg-red text-right" style="cursor:pointer;"><i class="fas fa-trash fa-1x" id="trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span>
-                                                    </div>
-                                                </div>
+                                @if(session()->has('cart'))
+
+                                    @foreach(session()->get('cart')->items as $key => $value)
+                                    
+                                        <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;height:auto;">
+                                            
+                                            <div class="col-md-4 col-xs-4">
+                                                        <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">
+
+                                                    <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:70%;">
+                                                </a>
                                             </div>
-                                        @endforeach
-                                    @endif
+                                            <div class="col-md-8 col-xs-8">
+                                                <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">{{$value['name']}}
+                                                </a>
 
-                            </div>
+                                                {{-- <p><span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></p> --}}
+
+                                                @if(number_format($value['discount']) > 0)       
+                                                <p><b style="font-size : 18px;"> MMK 
+                                                {{ number_format($value['price'] - ($value['price'] *  $value['discount']) /100 ) }}</b>
+                                                    <span id="price_{{$value['id']}}" data-price="{{$value['price']}}" style=" text-decoration: line-through;">MMK  {{number_format($value['price'])}} </span> &nbsp;<small>({{$value['discount']}} % off)</small></p>  
+                                                @else
+                                                <p><b style="font-size : 18px;"> MMK <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span> </b></p>
+                                                @endif  
+                                                <div class="row mt-5">
+                                                    <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                    ></i>
+                                                    <p class="col-lg-1 w-10" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
+                                                    <i id="cart_id" hidden>{{$value['id']}}</i>
+                                                    <i class="fa fa-plus m-1 w-10" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                    ></i> 
+                                                    <span class="ml-4 bg-red text-right" style="cursor:pointer;"><i class="fas fa-trash fa-1x" id="trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span>
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    @endforeach
+                                @endif
+
+                        </div> 
                         <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
-                        <div class="row m-3">
-
-                            <p class="col-md-6"><b>Total Price:</b></p>
-                            <p class="col-md-6"> <b>MMK <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
-
-                        </div>
+                        @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
+                            <div class="row m-3">
+                                <p class="col-md-6"><b>Total Price:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><span id="total_price" class='text-light h6'>{{session()->has('cart')?number_format(session()->get('cart')->totalPrice):'0'}}</span></b><small> Ks</small> </p>
+                            </div>
+                        @endif
                         <div class="text-center m-3">
-                            @if(session()->has('cart'))
-                                @auth
+                            @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
+                             
                                 <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
                                     <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"
                                         style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
                                 </a>
-                                @endauth
                             @else
-                                <a href="{{route('home')}}">
                                     <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"
-                                        style="border-radius : 20px; width:40%; background-color : #aa0000;">Shop with us</button>
-                                </a>
+                                        style="border-radius : 20px; width:40%; background-color : #aa0000;" onclick="closeModel()">Shop with us</button>
                             @endif
                         </div>
                     </div>
@@ -402,25 +473,258 @@
         @endauth
         <main class="">
             @yield('content')
+           @if(!Request::routeIs('votenow'))
+                <div class="container">
+                    <p class="float-end">
+                        <a href="#"> <i class="fa fa-chevron-circle-up fa-2x scroll-to-btn" style="color: #aa0000;box-shadow: 0px 0px 22px 3px #a99999;border-radius:14px;
+                            "></i></a>
+                    </p>
+                </div>
+            @endif
+            
+            
+            <div class="container" id="modelSetPass">
+                
+                <footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="container">
+                                <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
+                                        MYANMAR</label></span> <br />
+                                <label>A place where you can shop and download free games. </label>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="container text-white">
+                                <div class="row">
+                                    <div class="col-md-4 mt-2">
+                                        <p><b>Category</b></p>
+                                        @foreach ($allCategory as $category )
+                                        <a href="{{ route('productCategory',[$category->slug]) }}">
+                                        <p>{{$category->name}}</p> 
+                                        </a>
+                                        @endforeach
+                                    
+                                    </div>
+                                    <div class="col-md-4  mt-2">
+                                        <p><b>Brand</b></p>
+                                        @foreach ($allBrand as $brand )
+                                        <a href="{{ route('productBrand',[$brand->slug]) }}">
+                                            <p> {{$brand->name}}  </p> 
+                                        </a>
+                                        @endforeach
+                                    </div>
+                                    <div class="col-md-4  mt-2">
+                                        <p><b>Company</b></p>
+                                        <a href="{{asset('about/Terms&Conditions.pdf')}}"> Terms & Condition </a>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" container row mt-10">
+                        <div class="col-md-4">
+                            <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
+                        </div>
+                        <div class="col-md-4 text-center ">
+                            <p><i class="fa fa-phone"></i> Call Us: <a href="tel:09963325033" class="link-light">09963325033</a>,<a href="tel:09403113003" class="link-light">09403113003</a> </p>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <a><i class="fa fa-envelope"></i> Mail Us: <a href="mailto:care.gamehubmyanmar@gmail.com" class="link-light">care.gamehubmyanmar@gmail.com</a> </p>
+                        </div>
+                    </div>
+                </footer><br>
+                <p class="text-center text-light">Copyright © 2022. All Rights Reserved by Gamehub Myanmar</p>
+
+            </div>
         </main>
     </div>
-
-
-</body>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NEY8XPL5TX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-NEY8XPL5TX');
+    </script>
 
     <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Default Statcounter code for E-commerce https://gamehubmyanmar.shop -->
+    <script type="text/javascript">
+    var sc_project=12771445; 
+    var sc_invisible=1; 
+    var sc_security="e3a24050"; 
+    </script>
+    <script type="text/javascript"
+    src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript><div class="statcounter"><a title="Web Analytics Made Easy -
+    Statcounter" href="https://statcounter.com/" target="_blank"><img
+    class="statcounter" src="https://c.statcounter.com/12771445/0/e3a24050/1/"
+    alt="Web Analytics Made Easy - Statcounter"
+    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+    
+    <!-- Default Statcounter code for E-commerce https://gamehubmyanmar.shop -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js" integrity="sha512-YKxHqn7D0M5knQJO2xKHZpCfZ+/Ta7qpEHgADN+AkY2U2Y4JJtlCEHzKWV5ZE87vZR3ipdzNJ4U/sfjIaoHMfw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
+
 
     $("#preloader").css('display','block');
     $("body").css('opacity','0.3');
 
-    $(window).on('load',function(){
+    var user_id = $("#user_id").val();
+
+   
+
+    $(document).ready(function(){
         $("#preloader").css('display','none');
         $("body").css('opacity','1');
+        $("#city").select2();
+        $("#township").select2();
+        $("#passwordChange").prop('disabled',true);
+
+        if(user_id != 0)
+        {
+
+            $.ajax({
+                type: "GET",
+                url: '/users/checkPassword/',
+                data: { id: user_id },
+            beforeSend: function(){
+                $("#preloader").css('display','block');
+                $("body").css('opacity','0.3');
+
+            },
+            success: function( response ) {
+
+                if(response == 0){
+                    $("#preloader").css('display','none');
+                    $("body").css('opacity','1');
+
+                    $("#modelSetPass").append(
+                        '<div class="modal fade passwordChange" id="passwordChange" role="dialog">'+
+                            '<div class="modal-dialog">'+
+                            
+                                '<div class="modal-content">'+
+                                    '<div class="modal-header text-white" style="background-color: #453b3b;">'+
+                                        '<h4 class="modal-title">Set Your Password</h4>'+
+                                    '</div>'+
+                                        '<form action="{{route("user.passonly")}}" method="POST" id="passForm">'+
+                                            '@csrf'+
+                                            '<div class="modal-body bg-gray text-black">'+
+                                                '<div class="row mb-3">'+
+                                                    '<label for="password" class="col-md-5 col-form-label">Password</label>'+
+                                                        '<div class="col-md-6">'+
+                                                            
+
+                                                            ' @if(Auth::user())'+
+                                                                '<input type="hidden" name="user_id" id="user_id" value="{{Auth::getUser()->id}}">'+
+                                                            
+                                                            '@else'+
+                                                                '<input type="hidden" name="user_id" id="user_id" value="0">'+
+                                                        
+                                                            '@endif'+
+                                                            '<input id="password" type="password" class="form-control @error("password") is-invalid'+ '@enderror" name="password"'+
+                                                                'required autocomplete="new-password">'+
+                                                                '<span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password text-dark"'+
+                                                                'style = " float: right;margin-right : 10px; margin-top: -25px;position: relative;z-index: 2;"></span>'+
+                                                            '@error("password")'+
+                                                                '<span class="invalid-feedback" role="alert">'+
+                                                                    '<strong>{{ $message }}</strong>'+
+                                                                '</span>'+
+
+                                                            '@enderror'+
+                                                        '</div>'+
+                                                '</div>'+
+                                                '<div class="row mb-3">'+
+                                                    '<label for="password-confirm" class="col-md-5 col-form-label"> Confirm Password </label>'+
+                                                    '<div class="col-md-6">'+
+                                                        '<input id="password-confirm" type="password" class="form-control @error("password_confirmation") is-invalid @enderror" required'+ 'autocomplete="new-password"'+
+                                                    '</div>'+
+                                                '<span class="alert-text text-danger"></span>'+
+
+                                                '</div>'+
+
+                                            '</div>'+
+                                        '</form>'+
+                                    '<div class="modal-footer">'+
+                                        '<input type="submit" id="setPass" class="btn text-white" style="background-color : #aa0000;" value="Save">'+           
+                                    '</div>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'
+
+                                        
+
+                                    );
+                    
+                    $('#passwordChange').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    })
+
+                    $('#passwordChange').modal('show');
+
+                    $(".toggle-password").click(function() {
+                        $(this).toggleClass("fa-eye fa-eye-slash");
+                        var input = $($(this).attr("toggle"));
+                        if (input.attr("type") == "password") {
+                            input.attr("type", "text");
+                        } else {
+                            input.attr("type", "password");
+                        }
+                    });
+
+                    $("#setPass").click(function () {
+                        var password = $("#password").val();
+                        var confirmPassword = $("#password-confirm").val();
+                        if (password.length < 6) {
+                            $('.alert-text').text('Please provide at least 6 characters');
+                            return false;
+                        }else{
+                            if(password != confirmPassword){
+                                $('.alert-text').text('Password do not match');
+                                return false;
+                            }else{
+                            $("#passForm").submit();
+                            }
+                        }
+
+                        return true;
+                    });
+
+                    $("input").keypress(function(){
+                        $(".alert-text").text('');
+                    });
+                   
+                }else{
+                    $("#preloader").css('display','none');
+                    $("body").css('opacity','1');
+                }
+
+               
+            },
+
+            })
+
+           
+        }
 
     });
 
+    $(window).on("scroll", function() {
+        if($(window).scrollTop() > 50) {
+            $("#cart").css("top","right",$(window).scrollTop());
+        }
+    });
+
+    $('form').submit(function() {
+        $("#preloader").css('display','block');
+        $("body").css('opacity','0.3');    
+    });
+    
     function openModel() {
         $("#myModal").modal('show');
     }
@@ -527,19 +831,23 @@
 
     function removeCart(val)
     {
-        if (confirm("Are you sure?") == true) {
-
         var id = val.getAttribute('data-id');
 
-        $.ajax({
+         $.ajax({
                 type: "POST",
                 url: '/product/'+id,
-                data: { id: id }
-            }).done(function( response ) {
+                data: { id: id },
+            beforeSend: function(){
+                    $("#cartModel").css("display","none");
+                    $("#cart-loader").css("display",'grid');
+                },
+            success: function( response ) {
                 location.reload();
-            });
+            },
 
-        }
+        });
+
+        
 
     }
     function search(){
@@ -564,6 +872,7 @@
                 url: '/product/'+id,
                 data: { id: id }
             }).done(function( response ) {
+
                 // var value = JSON.parse(response);
                 // $("#qty").text(value.qty);
                 // $("#total_price").text(value.total_price);
@@ -572,6 +881,31 @@
         })
 
     })
+
+        $('#city').on('change',function(e) {
+            var cat_id = e.target.value;
+            $.ajax({
+                url:"/getTownship/"+cat_id,
+                type:"GET",
+
+                    beforeSend:function(data){
+                        $("#preloader").css('display','block');
+                        $("body").css('opacity','0.3');
+
+                    },
+            
+                    success:function (data) {
+                        $('#township').empty();
+                        $.each(Object.values(data),function(index,township){
+                        $('#township').append('<option value="'+township+'">'+township+'</option>');
+                        $("#preloader").css('display','none');
+                        $("body").css('opacity','1');
+                    })
+                }
+            });
+
+        });
     </script>
+
 
 </html>

@@ -44,20 +44,25 @@
 
                     @if(count($products) != 0)
                     @foreach($products as $product)
-                    <div class="col-md-4">
-                        <a href="{{ route('productDetail',[$product->id]) }}" class="m-auto link-light">
-                        <div class="card shadow-sm " style="background-color : #aa0000;border-radius : 25px; ">
-                            <div class="card-header">
-                                <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt="" class="image-zoom"
-                                style="object-fit: contain;height:120px;width:100%; border-radius : 25px; filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))">
-                            </div>
-                            <div class="card-body text-white" style="height:150px;">
+                    <div class="col-md-3 product_card p-3">
+                        <a href="{{ route('productDetail',Crypt::encrypt([$product->id])) }}" class="m-auto link-light">
+                        <div class="card shadow-sm " style="background-color : #aa0000;border-radius : 25px;margin:auto;">
+                            <img src="{{Storage::url($product->productDetail[0]['image_1'])}}" alt=""
+                                style=" object-fit: contain;border-radius : 25px;filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));height:120px; !important;margin:auto;">
+                            <div class="card-body text-white" style="height:120px;">
                                 <p><b> {{$product->name}}</b></p>
                                 <span class="hidden" id="logged-in">{{ auth()->check() ? '1' : '0'}}</span>
-                                <p><b>MMKs {{number_format($product->productDetail[0]['price'])}} </b> </p>
-
+                                @if(number_format($product->productDetail[0]['discount']) > 0)       
+                                <p><b style="font-size : 18px;"> MMK {{ number_format($product->productDetail[0]['price'] - ($product->productDetail[0]['price'] *  ( number_format($product->productDetail[0]['discount']) /100 ) ))  }}</b></p>  
+                                    </b></p>  
+                                <p ><b style=" text-decoration: line-through;">MMK  {{number_format($product->productDetail[0]['price'])}} </b> &nbsp;<small>({{$product->productDetail[0]['discount']}} % off)</small></p>  
+                                @else
+                                <p><b>MMK {{number_format($product->productDetail[0]['price'])}}</b></p>  
+                                @endif  
+                                
                             </div>
-                            <div class=" card-footer">
+
+                            <div class="card-footer">
                                 <a data-id = {{$product->id}} id="add_cart_{{$product->id}}"
                                     class="btn btn-sm mx-auto border-order"
                                     data-image="{{$product->productDetail[0]['image_1']}}"
@@ -65,7 +70,9 @@
                                      onclick="addCart({{$product->id}})"
                                         style="border-radius : 20px;color:white">Add to cart</a>
                             </div>
+
                         </div>
+
                         </a>
                     </div>
                     @endforeach

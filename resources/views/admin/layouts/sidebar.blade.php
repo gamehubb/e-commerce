@@ -1,13 +1,12 @@
 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
       <div class="sidebar-brand-icon">
-        <img src="{{asset('admin/img/logo/logo2.png')}}">
+        <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span>
       </div>
-      <div class="sidebar-brand-text mx-3">E-Commerence</div>
     </a>
     <hr class="sidebar-divider my-0">
     <li class="nav-item active">
-      <a class="nav-link" href="index.html">
+      <a class="nav-link" href="/auth/dashboard">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
@@ -74,13 +73,29 @@
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap4"
         aria-expanded="true" aria-controls="collapseBootstrap2">
-        <i class="far fa-fw fa-window-maximize"></i>
+        <i class="far fa-fw fa-user"></i>
         <span>Users</span>
       </a>
       <div id="collapseBootstrap4" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Users</h6>
           <a class="collapse-item" href="/auth/users">View</a>
+        </div>
+      </div>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap7"
+        aria-expanded="true" aria-controls="collapseBootstrap7">
+        <i class="fa fa-fw fa-gift"></i>
+        <span>GiftCard</span>
+      </a>
+      <div id="collapseBootstrap7" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">GiftCard</h6>
+          <a class="collapse-item" href="/auth/giftcard/index">View</a>
+          <a class="collapse-item" href="/auth/giftcard/create">New</a>
+
         </div>
       </div>
     </li>

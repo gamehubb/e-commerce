@@ -222,8 +222,8 @@ class ProductController extends Controller
         $filename = $product->image;
         $product->delete();
         Storage::delete($filename);
-        notify()->success('Category Deleted Successfully');
-        return redirect('/auth/product/index');
+        notify()->success('Product Deleted Successfully');
+        return redirect('/auth/product');
     }
     public function loadSubCategories(Request $request, $id)
     {

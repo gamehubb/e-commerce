@@ -210,19 +210,46 @@
                                     <textarea name="moto" cols="30" rows="3" class="form-control">{{$s_product->moto}}</textarea>
                                 </div>
                                 <label><b>Wire Option</b></label>
+                                <?php 
+                                                
+                                    if($s_product->wireless == 1 || $s_product->wireless == 2){
+                                        $value = $s_product->wireless; 
+
+                                        print_r($value);
+
+                                        if($value == 1){
+                                            @$wired="checked";
+                                            @$wireless = "";
+                                        }elseif($value == 2){
+                                            @$wired="";
+                                            @$wireless = "checked";
+                                        }
+                                    }
+                                ?>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="">Wired</label>
-                                            <input type="radio" name="wired_option" value="0" {{ $s_product->wireless == 0 ? 'checked' : '' }} />
+                                            <label for="wired">Wired</label>
+                                            <input type="radio" name="wired_option" id="wired" value="1" <?php echo @$wired;?> />
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
-
                                         <div class="form-group">
-                                            <label for="">Wireless</label>
-                                            <input type="radio" name="wired_option" value="1" {{ $s_product->wireless == 1 ? 'checked' : '' }} />
+                                            <label for="wireless">Wireless</label>
+                                            <input type="radio" name="wired_option" id="wireless" value="2" <?php echo @$wireless;?> />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="none">None</label>
+                                            @if($s_product->wireless == 3)
+                                                <input type="radio" name="wired_option" id="none" value="3" checked/>
+                                            @else
+                                                <input type="radio" name="wired_option" id="none" value="3"/>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>

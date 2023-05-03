@@ -23,6 +23,8 @@ class CreateProductDetailsTable extends Migration
             $table->text('image_3')->nullable();
             $table->integer('quantity')->nullable();
             $table->integer('price');
+            $table->integer('original_price');
+            $table->integer('margin');
             $table->text('discount')->nullable();
             $table->integer('status')->default(true)->nullable();
             $table->timestamps();

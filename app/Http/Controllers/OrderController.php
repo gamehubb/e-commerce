@@ -122,7 +122,7 @@ class OrderController extends Controller
         $mail_data=[
             'recipient' =>$userInfo->email,
             'name' => $userInfo->name,
-            'fromEmail' =>'noreply@gamehubmyanmar.com',
+            'fromEmail' =>'info@gamehubmyanmar.com',
             'fromName' =>'GameHub Myanmar',
             'subject' =>'Status of your order',
             'status'  => $value,

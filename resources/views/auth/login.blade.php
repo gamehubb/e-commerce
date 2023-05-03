@@ -46,7 +46,7 @@
                 @endif
                         <div class="row mb-3">
                             <label for="email"
-                                class="col-md-3 col-form-label text-right">{{ __('E-Mail Address') }}</label>
+                                class="col-md-3 col-form-label">{{ __('E-Mail Address') }}</label>
                             <div class="col-md-6">
                                 <input id="email" type="text" class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{old('email')}}" required autocomplete="email">
@@ -60,7 +60,7 @@
 
                         <div class="row mb-3">
                             <label for="password"
-                                class="col-md-3 col-form-label text-right">{{ __('Password') }}</label>
+                                class="col-md-3 col-form-label">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password"
@@ -88,9 +88,18 @@
                             </div>
                         </div> --}}
 
-                        <div class="col-md-6 offset-md-3 mt-3">
-                            <input type="submit" class="btn text-white" style="background-color : #aa0000;"
+                        <div class="col-md-12 d-flex offset-md-3 mt-3">
+                            <input type="submit" class="btn text-white" style="background-color : #aa0000;margin-right: 2em;"
                                 value="LogIn" >
+                              
+                                <a href="{{route('user.google')}}">
+                                    <div class="google-btn">
+                                        <div class="google-icon-wrapper">
+                                        <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+                                        </div>
+                                        <p class="btn-text"><b>Sign in with google</b></p>
+                                    </div>
+                                </a>
                         </div>
                         <div class="col-md-6 offset-md-3 mt-3 ">
                             @if (Route::has('password.request'))
@@ -115,12 +124,6 @@
 
 <script type="text/javascript">
 
-$(function(){
-    setTimeout(function(){
-        $("#alert-message").hide();
-        }, 4000);
-      });
-
 $(".toggle-password").click(function() {
 $(this).toggleClass("fa-eye fa-eye-slash");
   var input = $($(this).attr("toggle"));
@@ -131,8 +134,8 @@ $(this).toggleClass("fa-eye fa-eye-slash");
   }
 });
 
-$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-    $("#success-alert").slideUp(500);
+$("#alert-message").fadeTo(2000, 500).slideUp(10000, function(){
+    $("#alert-message").slideUp(10000);
 });
 </script>
 @endsection

@@ -10,6 +10,16 @@ class CartModel extends Model
     use HasFactory;
 
     protected $fillable = ['user_id', 'product_id', 'product_name', 'product_code', 'category', 'brand', 'image', 'quantity', 'price', 'total_amount', 'color', 'discount'];
+
+    public function category()
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id');
+    }
+
+    public function brand()
+    {
+        return $this->hasOne(Brand::class, 'id', 'brand_id');
+    }
 }
 
 class Cart
@@ -33,7 +43,7 @@ class Cart
 
     public function fetchCart($product)
     {
-        foreach($product as $data){
+        foreach ($product as $data) {
             $item = [
                 'id' => $data['product_id'],
                 'name' => $data['product_name'],
@@ -49,26 +59,24 @@ class Cart
                 'image' => $data['image']
             ];
             if (!array_key_exists($data['product_id'], $this->items)) {
-                
+
                 $this->items[$data['product_id']] = $item;
                 $this->totalQty += $data['quantity'];
                 $this->totalPrice += $data['total_amount'];
-            } 
+            }
 
-            $this->items[$data['product_id']]['qty'] = $data['quantity'];       
+            $this->items[$data['product_id']]['qty'] = $data['quantity'];
         }
-        
-
     }
 
-    public function add($product,$color,$image)
+    public function add($product, $color, $image)
     {
         $item = [
             'id' => $product->id,
             'name' => $product->name,
             'vendor' => $product->vendor,
             'code' => $product->code,
-            'category' => $product->category_id,    
+            'category' => $product->category_id,
             'brand' => $product->brand_id,
             'product_type' => $product->product_type,
             'price' => $product->productDetail[0]->price,
@@ -81,22 +89,22 @@ class Cart
 
             $this->items[$product->id] = $item;
             $this->totalQty += 1;
-            $this->totalPrice += $product->productDetail[0]->price;
+            $this->totalPrice += $product->productDetail[0]->price - ($product->productDetail[0]->price *  ($product->productDetail[0]->discount / 100));
         } else {
             $this->totalQty += 1;
 
-            $this->totalPrice += $product->productDetail[0]->price;
+            $this->totalPrice +=  $product->productDetail[0]->price - ($product->productDetail[0]->price *  ($product->productDetail[0]->discount / 100));
         }
         $this->items[$product->id]['qty'] += 1;
     }
-    public function updateQty($id, $qty)
+    public function updateQty($id, $qty, $discount)
     {
         $this->totalQty -= $this->items[$id]['qty'];
-        $this->totalPrice -= $this->items[$id]['price'] * $this->items[$id]['qty'];
+        $this->totalPrice -= ($this->items[$id]['price'] - ($this->items[$id]['price'] * ($discount / 100))) * $this->items[$id]['qty'];
         //Add Items with new quantity
         $this->items[$id]['qty'] = $qty;
         $this->totalQty += $qty;
-        $this->totalPrice += $this->items[$id]['price'] * $qty;
+        $this->totalPrice +=  ($this->items[$id]['price'] - ($this->items[$id]['price'] * ($discount / 100))) * $qty;
     }
     public function remove($id)
     {
