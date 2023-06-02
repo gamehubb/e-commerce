@@ -69,9 +69,14 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-6 offset-md-3 mt-3">
-                            <input type="submit" class="btn text-white" style="background-color : #aa0000;"
-                                value="Change Info" >
+                        <div class="row">
+                            <div class="col-md-2 offset-md-3 mt-3">
+                                <input type="submit" class="btn text-white" style="background-color : #aa0000;"
+                                    value="Change Info" >
+                            </div>
+                            <div class="col-md-2 offset-md-3 mt-3">
+                                <a href="{{route('user.accountInfo')}}" class="btn text-white" style="background-color : #aa0000;">Back</a>
+                            </div>
                         </div>
                     
                     </form>

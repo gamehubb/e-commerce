@@ -13961,6 +13961,10 @@ readers do not read off random characters that represent icons */
   --bs-body-bg: #f8fafc;
 }
 
+.facebook-color{
+  color: var(--bs-blue);
+}
+
 *,
 *::before,
 *::after {
@@ -14155,10 +14159,10 @@ sup {
 
 a {
   color: #0d6efd;
-  text-decoration: underline;
+  text-decoration: none !important;
 }
 a:hover {
-  color: #0a58ca;
+  color: #ec0606;
 }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
@@ -20452,12 +20456,11 @@ textarea.form-control-lg {
   z-index: 1030;
 }
 
-.fixed-bottom {
-  position: fixed;
-  right: 0;
+.fixed-button{
+  position : fixed;
   bottom: 0;
-  left: 0;
-  z-index: 1030;
+  right: 30px;
+  z-index: 100;
 }
 
 .sticky-top {

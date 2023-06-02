@@ -1,4 +1,6 @@
 <!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -6,9 +8,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'GamehubMyanmar') }}</title>
+    <meta name="description" content="Explore the ultimate online gaming emporium in Myanmar. Dive into a treasure trove of thrilling video games, cutting-edge consoles, and top-quality accessories. Unleash your gaming prowess and discover an unparalleled selection at unbeatable prices. From epic adventures to intense multiplayer battles, we've got your gaming desires covered. Elevate your gaming experience with us. Shop now and embark on a virtual journey like never before!">
 
+    <meta name="keywords" content="Online gaming shop Myanmar,Video games Myanmar,Gaming consoles Myanmar,Gaming accessories Myanmar,Game merchandise Myanmar,Gaming equipment Myanmar,Gaming store Myanmar,Myanmar gaming shop,Myanmar gaming marketplace,Online gaming community Myanmar,Gaming deals Myanmar,Gaming discounts Myanmar">
 
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- caro -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer"
@@ -16,23 +20,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous"
         referrerpolicy="no-referrer" />
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/css/magnify.min.css" integrity="sha512-wzhF4/lKJ2Nc8mKHNzoFP4JZsnTcBOUUBT+lWPcs07mz6lK3NpMH1NKCKDMarjaw8gcYnSBNjjllN4kVbKedbw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <link rel="icon" href="{{asset('images/gm-icon.png')}}" type="image/x-icon" />
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/css/magnify.min.css" integrity="sha512-wzhF4/lKJ2Nc8mKHNzoFP4JZsnTcBOUUBT+lWPcs07mz6lK3NpMH1NKCKDMarjaw8gcYnSBNjjllN4kVbKedbw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    @notifyCss
-    @include('notify::messages')
+    {{-- <x:notify-messages /> --}}
 
 </head>
 
@@ -59,11 +62,15 @@
     }
 
     #trash{
+
+        border-radius: 5px;
+        border: 1px solid black;
         margin: auto;
         padding: 4px;
         position: relative;
         top: 5px;
         left: 1px;
+
     }
     .custom-toggle{
         display: block!important;
@@ -77,57 +84,68 @@
     #trash:hover{
         background-color: #aa00aa;
     }
-
-    #c_trash:hover{
-        text-decoration:underline;
-    }
-
-    #nav_hover:hover {
-        border-bottom:2px solid #aa0000;
-    }
- 
-    .product_card:hover {
-        box-shadow: 1px 3px 11px 0px #aa0000;
-        background: #000000;
-    }
-
-    .product_card:active {
-        box-shadow: 1px 3px 11px 0px #aa0000;
-        background: #000000;
-    }
-
-    .shop-cart{
-        position: fixed;
-        bottom: 10px;
-        right: 0px; 
-        padding: 10px;
-        z-index: 1;
-        background: #aa0000;
-    }
-    
-    body{
-        background: #000;
-    }
-
-    /*.navbar .nav-item:hover .dropdown-menu{ display: block; }*/
-    
-    .blink {
-            animation: blinker 1.5s linear infinite;
-            color: red;
-            font-family: sans-serif;
+    .image-zoom {
+            overflow: hidden;
         }
-        @keyframes blinker {
-            50% {
-                opacity: 0;
-            }
-        }
+
+    .image-zoom {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .image-zoom:hover {
+        transform: scale(1.2);
+    }
+    .brand-item:hover{
+        border-bottom: 2px solid rgba(255, 34, 34, 0.742);
+        transition: 0.5s ease;
+    }
+    #trash {
+        border-radius: 5px;
+        border: 1px solid black;
+        margin: auto;
+        padding: 4px;
+        position: relative;
+        top: 1px;
+        left: 1px;
+    }
+
+    .accordion-item {
+    background-color: #202020;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+    .accordion-button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 1rem 1.25rem;
+        font-size: 0.9rem;
+        color: #ffffff;
+        text-align: left;
+        background-color: #202020;
+        border: 0;
+        border-radius: 0;
+        overflow-anchor: none;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
+    }
+
+    .accordion-button:not(.collapsed) {
+        color: #ff0000;
+        background-color: #202020;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.125);
+    }
+
+    .link-hover:hover{
+        color: #ff0000;
+        cursor: pointer;
+    }
 </style>
 
 <div id="preloader">
     <div id="loader"></div>
 </div>
 
-    @if(Auth::user())
+@if(Auth::user())
     <input type="hidden" name="user_id" id="user_id" value="{{Auth::user()->id}}">
 
     @else
@@ -135,28 +153,17 @@
 
     @endif
 
-
+<body style="background:black;">
+    
     <div id="app">
-        <!--<div class="bg-red pt-2" style="background:#aa0000;">-->
-        <!--    <marquee direction = "left" loop=20 ><p class="h4" style="color: #ffffff; font-weight: bold"> GameHub's Week<small> Starts from</small>  23.7.2022 - 7.8.2022 <i class="h4 discounted_price">-->
-        <!--   5% Discount on each product </i> </p>   -->
-        <!--   </marquee>            -->
-        <!--</div>-->
-        <header class="header-box ">
-            
+        <header class="header-box">
             <div class="container">
-           
-                <div class="row">
-                    <div class="col-md-3 text-left site-icon m-3">              
-                        <a href="/" style="color: #aa0000;">
-                            <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
-                        </a>
-                    </div>
-                    
-                   
+                <div class="col-md-3 text-left site-icon m-3">              
+                    <a href="/" style="color: #aa0000;">
+                        <span class="firstletter h1" style="font-variant:petite-caps;font-style:italic;">Gamehub</span> <sub class="secondletter h5" style="font-style:italic;">Myanmar<sub style="font-size:9px;font-style:italic;">Shop</sub></sub>
+                    </a>
                 </div>
             </div>
-
         </header>
 
         <div class="offcanvas offcanvas-start text-white" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel" style="background-color: #202020;">
@@ -185,9 +192,9 @@
               <button type="button" class="btn-close text-reset text-white bg-danger"  data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <ul>
+                <ul class="list-group">
                     @foreach ($allBrand as $brand)
-                    <li><a class="dropdown-item " style="color: red" href="{{ route('productBrand',[$brand->slug]) }}">{{$brand->name}}</a></li>
+                    <li class="py-3 brand-item list-group-item" style="background-color: transparent !important;"><a class=" " style="color: #fff;" href="{{ route('productBrand',[$brand->slug]) }}">{{$brand->name}}</a></li>
                     @endforeach
                 </ul>
             </div>
@@ -249,20 +256,59 @@
 
                     </ul>
                 </div>
-                <ul class="navbar-nav" style="float:left;flex-direction:inherit !important;">
+                <ul class="navbar-nav" style="float:left;flex-direction:row-reverse !important;z-index:2;">
                     <!-- Authentication Links -->
 
-                     @guest
-                   
+                    @guest
                         @if (Route::has('login'))
-                             <li class="nav-item float-right">
-                                <a class="link-light" href="{{ route('login') }}"><i class="fas fa-sign-in mt-2" id="nav_hover" style="font-size:20px;" title="login"></i></a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>&nbsp;&nbsp;&nbsp;
                         @endif
-                       
+
+                        @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                        @endif
+
+
+
                     @else
 
-                        <?php 
+
+
+                    <li class="nav-item dropstart">
+                        <i class="nav-item fa fa-user text-white m-2"  onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre></i>
+                        <div class="dropdown-menu text-white" aria-labelledby="navbarDropdown" style="position: absolute !important;    top: 45px;
+                        left: -97px;background-color: #202020!important;">
+                            @if(Auth::check())
+                                <a class="dropdown-item text-secondary" href="{{route('user.accountInfo')}}">My Account</a>
+                                <a class="dropdown-item text-secondary" href="{{route('order')}}">My Orders</a>
+                            <a class="dropdown-item text-secondary" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                            @endif
+
+                        </div>
+                    </li>
+                    {{-- <li>
+                        <div class="btn-group dropstart">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                              Dropstart
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Menu item</a></li>
+                              <li><a class="dropdown-item" href="#">Menu item</a></li>
+                              <li><a class="dropdown-item" href="#">Menu item</a></li>
+                            </ul>
+                          </div>
+                    </li> --}}
+                        <?php
                         if(Auth::user()){
                         $route = 'checkout/'.Auth::getUser()->name;
                         }else{
@@ -285,62 +331,53 @@
                                     <i class="fas fa-shopping-cart  text-white m-2" title="Cart" style="font-size:20px;">
                                     </i>
                                 @endif
-
+                                
 
                             </li>
                             @else
 
-                            <li class="nav-item shop-cart" onclick="openModel()" style="cursor:pointer;"
-                             id="shop_cart">
-                                @if(session()->has('cart'))
-                                    @if(session()->get('cart')->totalQty != 0)
-                                        <i class="fas fa-shopping-cart text-white m-2" title="Cart"  style="font-size:20px;">
-                                            <sup id="cartcount" style="background: #AA2B25;
-                                            border-radius: 77px;
-                                            border: 4px solid #AA2B25;position:relative;top:-14px;font-size:12px;"> {{ session()->get('cart')->totalQty }}</sup>
-                                        </i>
+                                {{-- <li class="nav-item shop-cart" onclick="openModel()" style="cursor:pointer;"
+                                id="shop_cart">
+                                    @if(session()->has('cart'))
+                                        @if(session()->get('cart')->totalQty != 0)
+                                            <i class="fas fa-shopping-cart text-white m-2" title="Cart"  style="font-size:20px;">
+                                                <sup id="cartcount" style="background: #AA2B25;
+                                                border-radius: 77px;
+                                                border: 4px solid #AA2B25;position:relative;top:-14px;font-size:12px;"> {{ session()->get('cart')->totalQty }}</sup>
+                                            </i>
+                                        @else
+                                            <i class="fas fa-shopping-cart text-white m-2" title="Cart" style="font-size:20px;">
+                                                
+                                            </i>
+                                        @endif
+
                                     @else
                                         <i class="fas fa-shopping-cart text-white m-2" title="Cart" style="font-size:20px;">
-                                            
                                         </i>
                                     @endif
 
-                                @else
-                                    <i class="fas fa-shopping-cart text-white m-2" title="Cart" style="font-size:20px;">
-                                    </i>
-                                @endif
+                                    <!-- </a> -->
+                                </li>  --}}
 
-                                <!-- </a> -->
-                            </li>
+                                <p class="fixed-button" onclick="openModel()">
+                                    <a href="#"> <i class="fa fa-cart-shopping fa-2x " style="color: #d73d3d;">
+                                        @if(session()->has('cart'))
+                                            @if(session()->get('cart')->totalQty != 0)
+                                                <sup id="cartcount" style="background: #fff;
+                                                border-radius: 77px;
+                                                border: 4px solid #fff;position:relative;top:-23px;font-size:12px;"> {{ session()->has('cart') ? session()->get('cart')->totalQty : '' }}</sup>
+                                            @endif
+                                        @endif</i></a>
+                                </p>
 
-                        @endif
-
-                        <li class="nav-item dropdown" id="nav_hover">
-                            <i class="nav-item fa fa-user text-white m-2" title="Account Info" onclick="this.classList.toggle('open')" style="font-size:20px;cursor:pointer;" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre> 
-                                @if (Auth::check()) 
-                                    <small>{{Auth::user()->name}}</small>
-                                @else
-                                    <small></small>
-                                @endif
-                                </i>
-                            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown" style="position: absolute !important;">
-                                @if(Auth::check())
-                                    <a class="dropdown-item" href="{{route('user.accountInfo')}}">My Account</a>
-                                    <a class="dropdown-item" href="{{route('order')}}">My Orders</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                        document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                    </form>
-                                @endif
-    
-                            </div>
-                        </li>
+                            @endif
                     @endguest
                     &nbsp;&nbsp;&nbsp;
-                   
+                    {{-- <li class="nav-item">
+                        <a class="nav-item" href="https://gamehubmyanmar.com">
+                            <i class=" fa fa-gamepad text-white mt-2" style="font-size:20px;"></i>
+                        </a>
+                    </li> --}}
                     &nbsp;&nbsp;&nbsp;
 
                     <li class="nav-item d-none d-sm-none d-md-block">
@@ -350,21 +387,12 @@
                         <div class="inner-addon left-addon">
                             <i class="fa fa-search " style="position: absolute;padding: 10px;cursor:pointer;"  onclick="search()" ></i>
                             <input type="text" name="name" id="p_name" class="form-control" style="padding-left:30px" placeholder="Search here..." required/>
-                            
                         </div>
-                       
                         </form>
                     </li>
                     <li class="nav-item">
                         <i class="nav-item fa fa-game"></i>
-                    </li>&nbsp;
-                    @if(Auth::user())
-                        <li class="nav-item">
-                            @if(Auth::getUser()->is_admin == 1)
-                                <a href="/auth/dashboard" class="btn btn-secondary btn-sm">Admin Dashboard</a>
-                            @endif
-                        </li>
-                    @endif
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -391,14 +419,92 @@
                                 <span style="color:#AA2B25;"></span>
                         </div>
                     </div>
+                    {{-- <div class="modal-content bg-dark"  id="cartModel">
+                            <div class="p-1" style="background-color: #aa0000;">
+                                <p class="text-center h3">Gamehub Myanmar</p>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" class="close btn-danger rounded-pill" data-dismiss="modal"
+                                    style="position: absolute; top:6px; right:10px;" onclick="closeModel()"><i class="fa-solid fa-xmark text-white fw-bold"></i></button>
+                            </div>
+                            <div class="modal-body" id="cartData">
+
+                                    <div class="row">
+                                        <p class="col-md-8 h4"><b>YOUR CART</b></p>
+                                    </div>
+
+                                    @if(session()->has('cart'))
+                                    <hr class="mx-auto mb-3" style="width:95%; color: #ec0606; height: 3px; ">
+
+                                        @foreach(session()->get('cart')->items as $key => $value)
+                                            <div class="m-1 p-1 mb-2 row" style=" border: 1px solid #3e3c3c;">
+                                                <div class="col-md-12 col-lg-6">
+                                                        <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:100%;">
+                                                </div>
+                                                <div class="col-md-12 col-lg-6">
+                                                    <p><a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">{{$value['name']}}</a> </p>
+                                                    <p><b>MMKS <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span></b></p>
+                                                    <div class="row my-3">
+                                                        <div class="d-flex justify-content-between align-items-center ">
+                                                            <div class="d-flex justify-content-evenly align-items-center">
+                                                                <i class="fa fa-minus m-2 w-10" style="    width: 36px;
+                                                                height: 20px;
+                                                                text-align: center;" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                                ></i>
+                                                                <p class="col-lg-1 w-10" style="    width: 30px;
+                                                                margin-top: 17px;
+                                                                margin-left: 20px;
+                                                                font-size: 20px;" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
+                                                                <i id="product_id"  hidden>{{$value['id']}}</i>
+                                                                <i class="fa fa-plus m-1 w-10" style="    width: 36px;
+                                                                height: 20px;
+                                                                text-align: center;"" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                                ></i>
+                                                            </div>
+                                                            <span class="ml-4 bg-red text-right" style="cursor:pointer;"><i class="fas fa-trash fa-1x" id="trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+
+                            </div>
+
+                        @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
+                        <hr class="mx-auto" style="width:100%; color: #ffffff; height: 2px; ">
+
+                        <div class="row m-3">
+
+                            <p class="col-md-6"><b>Total Price:</b></p>
+                            <p class="col-md-6"> <b>MMK <span id="total_price">{{session()->has('cart')? number_format(session()->get('cart')->totalPrice):'0'}}<span></b> </p>
+
+                        </div>
+
+                        @endif
+                        <div class="text-center m-3">
+                            @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
+                                @auth
+                                
+                                <a href="{{route('cart.checkout' , Auth::getUser()->name)}}">
+                                    <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"
+                                        style="border-radius : 20px; width:40%; background-color : #aa0000;">Check out</button>
+                                </a>
+                                @endauth
+                            @else
+                                <a href="{{route('home')}}">
+                                    <button type="button" class="btn btn-sm mx-auto mt-3 text-white" id="checkout-btn"
+                                        style="border-radius : 20px; width:40%; background-color : #aa0000;">Shop with us</button>
+                                </a>
+                            @endif
+                        </div>
+                    </div> --}}
                     <div class="modal-content bg-dark"  id="cartModel">
                            
                         <div class="modal-body" id="cartData">
                             
                                 <div class="p-1">
                                     <p class="text-left h4">Your Cart</p>
-                                    <button type="button" class="close" data-dismiss="modal"
-                                        style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()">&times;</button>
+                                    <a type="button" class="link-light" data-dismiss="modal"
+                                        style="position: absolute; top:3px; right:10px;font-size:22px;" onclick="closeModel()"><i class="fa fa-close"></i></a>
                                 </div>
 
                                 @if(session()->has('cart') && session()->get('cart')->totalPrice != 0)
@@ -415,7 +521,7 @@
                                             <div class="col-md-4 col-xs-4">
                                                         <a href="{{route('productDetail',Crypt::encrypt($value['id']))}}" class="link-light">
 
-                                                    <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:70%;">
+                                                    <img src="{{Storage::url($value['image'])}}" style="width:100%;  height:70%;background:transparent;border:none;" class="img-thumbnail">
                                                 </a>
                                             </div>
                                             <div class="col-md-8 col-xs-8">
@@ -431,14 +537,25 @@
                                                 @else
                                                 <p><b style="font-size : 18px;"> MMK <span id="price_{{$value['id']}}" data-price="{{$value['price']}}">{{number_format($value['price'])}}</span> </b></p>
                                                 @endif  
-                                                <div class="row mt-5">
-                                                    <i class="fa fa-minus m-1 w-10" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
-                                                    ></i>
-                                                    <p class="col-lg-1 w-10" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
-                                                    <i id="cart_id" hidden>{{$value['id']}}</i>
-                                                    <i class="fa fa-plus m-1 w-10" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
-                                                    ></i> 
-                                                    <span class="ml-4 bg-red text-right" style="cursor:pointer;"><i class="fas fa-trash fa-1x" id="trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span>
+                                                <div class="row my-3">
+                                                    <div class="d-flex justify-content-between align-items-center ">
+                                                        <div class="d-flex justify-content-evenly align-items-center">
+                                                            <i class="fa fa-minus m-2 w-10" style="    width: 36px;
+                                                            height: 20px;
+                                                            text-align: center;" id="minus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                            ></i>
+                                                            <p class="col-lg-1 w-10" style="width: 30px;
+                                                            margin-top: 17px;
+                                                            margin-left: 20px;
+                                                            font-size: 20px;" id="qty_{{$value['id']}}">{{$value['qty']}}</p>
+                                                            <i id="product_id"  hidden>{{$value['id']}}</i>
+                                                            <i class="fa fa-plus m-1 w-10" style="    width: 36px;
+                                                            height: 20px;
+                                                            text-align: center;"" id="plus" onclick="updateCart(this)" data-id="{{$value['id']}}"
+                                                            ></i>
+                                                        </div>
+                                                        <span class="ml-4 bg-red text-right" style="cursor:pointer;"><i class="fas fa-trash fa-1x" id="trash" onclick="removeCart(this)" data-id="{{$value['id']}}"></i></span>
+                                                    </div>
                                                 </div>
                                             </div> 
                                         </div> 
@@ -465,6 +582,7 @@
                             @endif
                         </div>
                     </div>
+
                 </div>
             </div>
             {{-- <p class="col-md-6"> <b>MMK <span id="total_price">{{json_encode(session()->get('cart'))}}<span></b> </p> --}}
@@ -473,103 +591,150 @@
         @endauth
         <main class="">
             @yield('content')
-           @if(!Request::routeIs('votenow'))
-                <div class="container">
-                    <p class="float-end">
-                        <a href="#"> <i class="fa fa-chevron-circle-up fa-2x scroll-to-btn" style="color: #aa0000;box-shadow: 0px 0px 22px 3px #a99999;border-radius:14px;
-                            "></i></a>
-                    </p>
+        </main>
+
+        <footer class=" mt-5 text-white " style="background-color : #202020;overflow:hidden">
+            <div class="row container mx-auto">
+                <div class="col-md-12 col-lg-4">
+                    <div class=" mt-3 mb-sm-0 mb-md-5 text-md-center text-lg-start">
+                        <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
+                                MYANMAR</label></span> <br />
+                        <label>A place where you can shop and download free games in this gaming community. </label>
+                    </div>
+
+                    <div class=" mt-3 mb-sm-0 mb-md-5 text-md-center text-lg-start">
+                        <i class="fab fa-facebook fa-2xl facebook-color ml-1"></i>
+                        <a href="https://www.facebook.com/gamehubmyanmar" class="text-white" target="_blank" style="text-decoration: none">&nbsp;&nbsp;<span class=" link-hover h5">Find us on facebook</span></a>
+                    </div>
                 </div>
-            @endif
-            
-            
-            <div class="container" id="modelSetPass">
-                
-                <footer class="py-4 mt-5 text-white" style="background-color : #202020; border-radius: 10px">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="container">
-                                <span class="h1" style="color: #aa0000;">GM <label class="h6 text-white">GAMEHUB
-                                        MYANMAR</label></span> <br />
-                                <label>A place where you can shop and download free games. </label>
-                            </div>
+        
+                <div class="col-md-12 col-lg-8 mb-3 mt-3 mt-md-0 mt-lg-0 ">
+                    <div class="accordion accordion-flush" id="accordionFlushExample" style=" overflow-x:hidden">
+                        <div class="row">
+                            <div class="accordion-item col-4">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                  <button class="accordion-button collapsed border-bottom text-center" type="button" aria-controls="panelsStayOpen-collapseOne">
+                                    Category
+                                  </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show d-none d-md-block " aria-labelledby="panelsStayOpen-headingOne">
+                                    <div class="accordion-body">
+                                        <div class=" mt-2 ">
+        
+                                            @foreach ($allCategory as $category )
+                                                <a href="{{ route('productCategory',[$category->slug]) }}" class=" text-white" style="text-decoration: none">
+                                                <p class=" link-hover">- {{$category->name}}</p>
+                                                </a>
+                                            @endforeach
+        
+                                        </div>
+                                    </div>
+                                  </div>
+                              </div>
+        
+                              <div class="accordion-item col-4 ">
+                                <h2 class="accordion-header" id="flush-headingTwo">
+                                  <button class="accordion-button collapsed border-bottom text-center" type="button"  aria-controls="flush-collapseTwo">
+                                    Brand
+                                  </button>
+                                </h2>
+                                <div id="flush-collapseTwo" class="accordion-collapse collapse show d-none d-md-block" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="">
+        
+                                            @foreach ($allBrand as $brand )
+                                            <a href="{{ route('productBrand',[$brand->slug]) }}" class=" text-white" style="text-decoration: none">
+                                                <p class=" link-hover">- {{$brand->name}}  </p>
+                                            </a>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="accordion-item col-4 ">
+                                <h2 class="accordion-header" id="flush-headingThree">
+                                  <button class="accordion-button collapsed border-bottom text-center" type="button"  aria-controls="flush-collapseThree">
+                                    Company
+                                  </button>
+                                </h2>
+                                <div id="flush-collapseThree" class="accordion-collapse collapse show d-none d-md-block" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">
+                                        <div class="">
+        
+                                            <p class=" link-hover">- <a href="{{asset('about/Terms&Conditions.pdf')}}" class="link-light" target="_blank"> Terms & Condition </a> </p>
+                                            {{-- <p class=" link-hover">- Privacy Policy </p>
+                                            <p class=" link-hover">- Supplier Relations </p> --}}
+                                        </div>
+                                    </div>
+                                  </div>
+                              </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="container text-white">
-                                <div class="row">
-                                    <div class="col-md-4 mt-2">
-                                        <p><b>Category</b></p>
+                        <div class=" d-block d-md-none">
+                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                <div class="accordion-body">
+                                    <div class="col-md-4 mt-2 ">
+        
                                         @foreach ($allCategory as $category )
-                                        <a href="{{ route('productCategory',[$category->slug]) }}">
-                                        <p>{{$category->name}}</p> 
+                                        <a href="{{ route('productCategory',[$category->slug]) }}" class=" text-white" style="text-decoration: none">
+                                          <p class=" link-hover">- {{$category->name}}</p>
                                         </a>
                                         @endforeach
-                                    
-                                    </div>
-                                    <div class="col-md-4  mt-2">
-                                        <p><b>Brand</b></p>
-                                        @foreach ($allBrand as $brand )
-                                        <a href="{{ route('productBrand',[$brand->slug]) }}">
-                                            <p> {{$brand->name}}  </p> 
-                                        </a>
-                                        @endforeach
-                                    </div>
-                                    <div class="col-md-4  mt-2">
-                                        <p><b>Company</b></p>
-                                        <a href="{{asset('about/Terms&Conditions.pdf')}}"> Terms & Condition </a>
-                                        
+        
                                     </div>
                                 </div>
-                            </div>
+                              </div>
+                              <div id="flush-collapseTwo" class="accordion-collapse collapse " aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="">
+        
+                                        @foreach ($allBrand as $brand )
+                                        <a href="{{ route('productBrand',[$brand->slug]) }}" class=" text-white" style="text-decoration: none">
+                                            <p class=" link-hover">- {{$brand->name}}  </p>
+                                        </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                              </div>
+                              <div id="flush-collapseThree" class="accordion-collapse collapse " aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <div class="">
+        
+                                        <p class=" link-hover">- Terms & Condition </p>
+                                        <p class=" link-hover">- Privacy Policy </p>
+                                        <p class=" link-hover">- Supplier Relations </p>
+                                    </div>
+                                </div>
+                              </div>
                         </div>
-                    </div>
-                    <div class=" container row mt-10">
-                        <div class="col-md-4">
-                            <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
-                        </div>
-                        <div class="col-md-4 text-center ">
-                            <p><i class="fa fa-phone"></i> Call Us: <a href="tel:09963325033" class="link-light">09963325033</a>,<a href="tel:09403113003" class="link-light">09403113003</a> </p>
-                        </div>
-                        <div class="col-md-4 text-right">
-                            <a><i class="fa fa-envelope"></i> Mail Us: <a href="mailto:care.gamehubmyanmar@gmail.com" class="link-light">care.gamehubmyanmar@gmail.com</a> </p>
-                        </div>
-                    </div>
-                </footer><br>
-                <p class="text-center text-light">Copyright © 2022. All Rights Reserved by Gamehub Myanmar</p>
-
+                      </div>
+                </div>
             </div>
-        </main>
+            <div class=" container row mx-auto mt-10">
+                <div class="col-md-4">
+                    <p><i class="fa fa-clock"></i> Office Hour : 9AM to 5PM </p>
+                </div>
+                <div class="col-md-4 text-start text-sm-start text-md-center ">
+                    <p><i class="fa fa-phone"></i> Call Us: 09963325033,09403113003 </p>
+                </div>
+                <div class="col-md-4 text-sm-start text-right">
+                    <p><i class="fa fa-envelope"></i> Mail Us: care.gamehubmyanmar@gmail.com
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        
     </div>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NEY8XPL5TX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-NEY8XPL5TX');
-    </script>
+
+
+</body>
 
     <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
-    <!-- Default Statcounter code for E-commerce https://gamehubmyanmar.shop -->
-    <script type="text/javascript">
-    var sc_project=12771445; 
-    var sc_invisible=1; 
-    var sc_security="e3a24050"; 
-    </script>
-    <script type="text/javascript"
-    src="https://www.statcounter.com/counter/counter.js" async></script>
-    <noscript><div class="statcounter"><a title="Web Analytics Made Easy -
-    Statcounter" href="https://statcounter.com/" target="_blank"><img
-    class="statcounter" src="https://c.statcounter.com/12771445/0/e3a24050/1/"
-    alt="Web Analytics Made Easy - Statcounter"
-    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-    
-    <!-- Default Statcounter code for E-commerce https://gamehubmyanmar.shop -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js" integrity="sha512-YKxHqn7D0M5knQJO2xKHZpCfZ+/Ta7qpEHgADN+AkY2U2Y4JJtlCEHzKWV5ZE87vZR3ipdzNJ4U/sfjIaoHMfw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
     <script>
-
 
     $("#preloader").css('display','block');
     $("body").css('opacity','0.3');
@@ -714,17 +879,12 @@
 
     });
 
-    $(window).on("scroll", function() {
-        if($(window).scrollTop() > 50) {
-            $("#cart").css("top","right",$(window).scrollTop());
-        }
+    $(window).on('load',function(){
+        $("#preloader").css('display','none');
+        $("body").css('opacity','1');
+
     });
 
-    $('form').submit(function() {
-        $("#preloader").css('display','block');
-        $("body").css('opacity','0.3');    
-    });
-    
     function openModel() {
         $("#myModal").modal('show');
     }
@@ -831,9 +991,10 @@
 
     function removeCart(val)
     {
+
         var id = val.getAttribute('data-id');
 
-         $.ajax({
+        $.ajax({
                 type: "POST",
                 url: '/product/'+id,
                 data: { id: id },
@@ -844,10 +1005,8 @@
             success: function( response ) {
                 location.reload();
             },
-
         });
 
-        
 
     }
     function search(){
@@ -872,15 +1031,12 @@
                 url: '/product/'+id,
                 data: { id: id }
             }).done(function( response ) {
-
                 // var value = JSON.parse(response);
                 // $("#qty").text(value.qty);
                 // $("#total_price").text(value.total_price);
 
             });
         })
-
-    })
 
         $('#city').on('change',function(e) {
             var cat_id = e.target.value;
@@ -905,7 +1061,8 @@
             });
 
         });
-    </script>
 
+    })
+    </script>
 
 </html>

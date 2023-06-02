@@ -31,10 +31,10 @@
                                         width: 50px;
                                         padding: 5px 8px 5px 17px;
                                         cursor: pointer;"></i><br>
-                                        <span class="col-lg-1 ml-2" style="" id="qty_{{$carts['product_id']}}">{{$carts['quantity']}}</span>                       
+                                        <span class="col-lg-3 ml-2" style="" id="qty_{{$carts['product_id']}}">{{$carts['quantity']}}</span>                       
                                         <br>
                                         <i id="product_id" hidden>{{$carts['product_id']}}</i>
-                                        <i class=" fa fa-plus col-md-1 ml-1" id="plus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" 
+                                        <i class="fa fa-plus col-md-1 ml-1" id="plus" onclick="updateCheckout(this)" data-id="{{$carts['product_id']}}" 
                                         style="background: #802012;
                                         width: 50px;
                                         padding: 5px 8px 5px 17px;
@@ -244,7 +244,7 @@
     
         <hr style="margin-top: 20px;color:white;" />
         <div class="mt-3 text-white text-center">
-            <p>Questions about this payment? Contact <a href="https://m.me/gamehubmyanmar/"><u> GameHub Myanmar</u></a></p>
+            <p>Questions about this payment? Contact <a href="https://m.me/gamehubmyanmar/" class="link-light"><u> GameHub Myanmar</u></a></p>
         </div>
     
         @endif

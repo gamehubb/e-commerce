@@ -28,7 +28,7 @@ class FrontProductListController extends Controller
         foreach ($randomActiveProducts as $product) {
             array_push($randomActiveProductId, $product->id);
         }
-        $randomItemProducts  = Product::where('id', 70)->get();
+        $randomItemProducts  = Product::with('productDetail')->inRandomOrder()->limit(3)->get();
         $categories = Category::where('status',1)->get();
         $s_categories = Category::where(['status' => '1', 'is_special' => '1'])->get();
 
