@@ -194,7 +194,9 @@
             <div class="offcanvas-body">
                 <ul class="list-group">
                     @foreach ($allBrand as $brand)
-                    <li class="py-3 brand-item list-group-item" style="background-color: transparent !important;"><a class=" " style="color: #fff;" href="{{ route('productBrand',[$brand->slug]) }}">{{$brand->name}}</a></li>
+                    <a class=" " style="color: #fff;" href="{{ route('productBrand',[$brand->slug]) }}">
+                        <li class="py-3 brand-item list-group-item text-light" style="background-color: transparent !important;">{{$brand->name}}</li>
+                    </a>
                     @endforeach
                 </ul>
             </div>
@@ -608,7 +610,7 @@
                     </div>
                 </div>
         
-                <div class="col-md-12 col-lg-8 mb-3 mt-3 mt-md-0 mt-lg-0 ">
+                <div class="col-md-12 col-lg-8 col-sm-6 mb-3 mt-3 mt-md-0 mt-lg-0 ">
                     <div class="accordion accordion-flush" id="accordionFlushExample" style=" overflow-x:hidden">
                         <div class="row">
                             <div class="accordion-item col-4">

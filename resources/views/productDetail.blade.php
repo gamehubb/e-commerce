@@ -152,7 +152,7 @@
                     @for ($i = 1; $i <= 3; $i++)
                     @if($products->productDetail[$key]['image_'.$i] != "no-img")
                     <div class="carousel-item {{$i ==1 ? 'active' : ''}}" >
-                        <img src="{{Storage::url($products->productDetail[$key]['image_'.$i])}}" class="m-auto p-image" alt="" data-image = "{{$products->productDetail[$key]['image_1']}}" id="productImg{{($products->productDetail[$key]['id']).$i}}"
+                        <img src="{{Storage::url($products->productDetail[$key]['image_'.$i])}}" class="m-auto p-image" alt="" data-image = "{{$products->productDetail[$key]['image_1']}}" id="productImg"
                         style=" height: 200px;border-radius : 25px;">
                     </div>
                     @endif
@@ -280,7 +280,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('.carousel-inner').magnify();
+        $('#productImg').magnify();
 
         $('.slide-2').owlCarousel({
             loop: false,

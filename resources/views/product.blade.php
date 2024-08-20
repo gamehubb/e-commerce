@@ -293,7 +293,7 @@
                             </div>
                             <div class="col-md-6 ml-4 text-center">
                                 <label class="text-white ">Waiting Time</label> <br />
-                                <small class="text-white ">3 weeks</small>
+                                <small class="text-white ">2 to 4 days</small>
                             </div>
                         </div>
                     </div>

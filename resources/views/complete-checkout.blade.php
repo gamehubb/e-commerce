@@ -19,9 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    @notifyCss
-    @include('notify::messages')
-    @notifyJs
+   
 </head>
 <body style="background:black;">
 	<header class="header-box">

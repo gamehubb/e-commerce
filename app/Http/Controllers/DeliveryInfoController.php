@@ -39,7 +39,7 @@ class DeliveryInfoController extends Controller
             }else if($request->city == "ရန်ကုန်တိုင်းဒေသကြီး ရန်ကုန်မြို့"){
                 $delivery_fees = 2500;
             }else if($request->city == "ရန်ကုန်တိုင်းဒေသကြီး အခြားမြို့များ"){
-                $delivery_fees = 3500;
+                $delivery_fees = 3000;
             }else if($request->township == "တပ်ကုန်း" || $request->township == "တောင်ညို"){
                 $delivery_fees = 4900;
             
